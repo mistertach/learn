@@ -33,6 +33,6 @@ capitulos/<place>/
 
 ## Notes
 
-- Progress lives in the browser's `localStorage` (key `aventuras-nico.v3`). Parent voice recordings live in IndexedDB (`aventuras-nico-audio`), keyed `<lang>:<place>:<item>`.
+- Progress lives in the browser's `localStorage` (key `aventuras-nico.v3`). Parent voice recordings live in IndexedDB (`aventuras-nico-audio`), keyed `<lang>:<place>:<item>` (a single syllable is `<word id>:s<n>`). Syllables can be recorded one by one: the computer voice says some lone syllables badly (a Spanish "ro" on its own gets a rolled r).
 - Tapping a phrase (speech bubble, syllable chips, story text, titles) shows its English translation in a small card. It can be turned off in the grown-up corner. If a language's text means something different from `en.js` (the Spanish alfajor vs. the French biscuit), that file overrides it with `ingles: {"text": "english"}`.
-- The grown-up corner opens by pressing and holding the gear for 1.5 seconds.
+- The grown-up corner opens by pressing and holding the gear for 1.5 seconds. A short tap only shows a hint.

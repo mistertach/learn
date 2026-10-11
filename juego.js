@@ -20,7 +20,7 @@ const ICON = {
   close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
   book:'<svg viewBox="0 0 24 24"><path d="M3 5.5C6 4 9 4 12 6c3-2 6-2 9-.5V19c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 6v13.5" stroke="currentColor" stroke-width="2.2"/></svg>',
   talk:'<svg viewBox="0 0 24 24"><path d="M4 5h16a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 17h-8l-5 4v-4H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 5z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#fff"/><circle cx="12" cy="11" r="1.4" fill="#fff"/><circle cx="16" cy="11" r="1.4" fill="#fff"/></svg>',
-  gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><g fill="currentColor"><rect x="10.3" y="1.8" width="3.4" height="4.4" rx="1"/><rect x="10.3" y="17.8" width="3.4" height="4.4" rx="1"/><rect x="1.8" y="10.3" width="4.4" height="3.4" rx="1"/><rect x="17.8" y="10.3" width="4.4" height="3.4" rx="1"/><rect x="10.3" y="1.8" width="3.4" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="10.3" y="17.8" width="3.4" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="1.8" y="10.3" width="4.4" height="3.4" rx="1" transform="rotate(45 12 12)"/><rect x="17.8" y="10.3" width="4.4" height="3.4" rx="1" transform="rotate(45 12 12)"/></g><circle cx="12" cy="12" r="6.6" fill="currentColor"/><circle cx="12" cy="12" r="2.6" fill="#fff"/></svg>',
   check:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   del:'<svg viewBox="0 0 24 24"><path d="M9 5h11a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 20 19H9l-6.5-7z" fill="currentColor"/><path d="M11.5 9.5l5 5M16.5 9.5l-5 5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>',
   bag:'<svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12.5H6.2z" fill="currentColor"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
@@ -760,13 +760,15 @@ function mark(idx){ card.querySelectorAll('.chip').forEach((c,i)=>c.classList.to
 const pausaPara = txt => (save.pausa||1) * (1100 + txt.length*95);
 async function waitTurn(txt, my){ turno(true); await sleep(pausaPara(txt)); if(my===seqTok) turno(false); return my===seqTok; }
 
+/* cada sílaba se puede grabar aparte en el rincón de los grandes (la voz de la compu dice mal algunas sueltas) */
+const silabaId = (w,i) => `${w.id}:s${i}`;
 /* sílaba por sílaba, después la palabra entera */
 async function silabear(w, intro=[T.repeti]){
   const my=++seqTok; const ok=()=>my===seqTok;
   if(intro.length && !(await sayAll(intro))) return false;
   for(let i=0;i<w.silabas.length;i++){
     if(!ok()) return false; mark([i]); sfx.tick();
-    await sayAll([{t:sonido(w.silabas[i]), lento:true}]); if(!ok()) return false;
+    await sayAll([{t:sonido(w.silabas[i]), id:silabaId(w,i), lento:true}]); if(!ok()) return false;
     if(!(await waitTurn(w.silabas[i]+'  ', my))) return false;
   }
   mark('all'); await sayAll([{t:w.texto, id:w.id}]); if(!ok()) return false;
@@ -1249,8 +1251,8 @@ async function runPractice(item, isWord){
 function recRows(){
   const rows=[];
   CAP_LIST.forEach(c=>{
-    rows.push({group:`Semana ${c.num} · ${c.titulo} · palabras (${PACKS[langCode()].nombre})`});
-    c.palabras.forEach(p=>rows.push(p));
+    rows.push({group:`Semana ${c.num} · ${c.titulo} · palabras y sílabas (${PACKS[langCode()].nombre})`});
+    c.palabras.forEach(p=>{ rows.push(p); p.silabas.forEach((sl,i)=>rows.push({id:silabaId(p,i), texto:sl, silaba:true})); });
     rows.push({group:`Semana ${c.num} · ${c.titulo} · frases (${PACKS[langCode()].nombre})`});
     c.frases.forEach(p=>rows.push(p));
   });
@@ -1259,7 +1261,7 @@ function recRows(){
 function recRowHtml(r){
   if(r.group) return `<tr><td class="grp" colspan="3">${esc(r.group)}</td></tr>`;
   const mine=clips.ids.has(r.id);
-  return `<tr data-id="${esc(r.id)}"><td><b>${esc(r.texto)}</b></td><td><span class="pill ${mine?'mine':''}">${mine?'Tu voz':'Voz de la compu'}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
+  return `<tr data-id="${esc(r.id)}" class="${r.silaba?'syl':''}"><td>${r.silaba?`<span class="sylmark">sílaba</span> `:''}<b>${esc(r.texto)}</b></td><td><span class="pill ${mine?'mine':''}">${mine?'Tu voz':'Voz de la compu'}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
 }
 function armConfirm(btn, fn){ btn.addEventListener('click',()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; fn(); return; } btn.dataset.armed='1'; const old=btn.textContent; btn.textContent='Tocá otra vez para confirmar'; setTimeout(()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent=old; } },3500); }); }
 function resetProgress(){
@@ -1291,7 +1293,7 @@ function openParent(){
     <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> Traducción al inglés: al tocar una frase (el globo, las sílabas, el cuento) aparece en inglés. Solo se lee, el relator no la dice.</label>
     <div class="prow"><button class="pbtn" id="p-char">Elegir otro personaje</button><button class="pbtn" id="p-fish">Regalar 5 pececitos</button><span class="note" id="p-fishn">Tiene ${save.puntos||0}.</span></div>
     <h3>Grabar tu voz (${esc(PACKS[code].nombre)})</h3>
-    <p class="note">Tu grabación reemplaza la voz de la compu en la palabra o frase entera (las sílabas y las partes las sigue diciendo la compu). Hablá despacio. Se guarda solo en este navegador.</p>
+    <p class="note">Tu grabación reemplaza la voz de la compu. Podés grabar la palabra entera, cada sílaba por separado (sirve cuando la compu dice mal una sílaba suelta, como la «ro» de aeropuerto) y las frases enteras (las partes de la frase las sigue diciendo la compu). Hablá despacio. Se guarda solo en este navegador.</p>
     <p class="note warn" id="p-micnote" ${micOK===false?'':'hidden'}>Acá no hay micrófono. Usá «Subir» con un audio del teléfono, o abrí el juego desde los archivos en Chrome o Edge para grabar directo.</p>
     <div class="tablewrap"><table><tbody>${recRows().map(recRowHtml).join('')}</tbody></table></div>
     <div class="prow"><button class="pbtn danger" id="p-clips">Borrar todas mis grabaciones</button></div>`,'parent');
@@ -1311,11 +1313,11 @@ function openParent(){
   armConfirm($('#p-reset'),resetProgress);
   armConfirm($('#p-clips'),async()=>{ await clips.clear(); card.querySelector('tbody').innerHTML=recRows().map(recRowHtml).join(''); });
   const tbody=card.querySelector('tbody');
-  const findRow=id=>CAP_LIST.flatMap(c=>[...c.palabras,...c.frases]).find(x=>x.id===id);
+  const findRow=id=>recRows().find(x=>x.id===id);
   const refreshRow=id=>{ const tr=[...tbody.querySelectorAll('tr[data-id]')].find(t=>t.dataset.id===id); const r=findRow(id); if(tr&&r) tr.outerHTML=recRowHtml(r); };
   tbody.addEventListener('click',async e=>{
     const b=e.target.closest('button[data-r]'); if(!b) return; const id=b.closest('tr').dataset.id, r=findRow(id), kind=b.dataset.r;
-    if(kind==='play'){ hush(); sayAll([{t:r.texto,id}]); }
+    if(kind==='play'){ hush(); sayAll([{t:r.silaba?sonido(r.texto):r.texto, id, lento:r.silaba}]); }
     if(kind==='del'){ await clips.del(id); refreshRow(id); }
     if(kind==='rec'){
       if(curRec){ curRec.stop(); return; }
@@ -1453,8 +1455,9 @@ const SHOPKEEPER={kind:'dog', fur:'#F2C46B', fur2:'#FFF3D6', ear:'#C9913C', seed
 const enTip=document.createElement('div'); enTip.id='enTip'; enTip.hidden=true; enTip.setAttribute('lang','en'); document.body.appendChild(enTip);
 let enTm=0;
 function hideEn(){ enTip.hidden=true; clearTimeout(enTm); }
-function showEn(el){
-  enTip.innerHTML=`<b>EN</b><span>${esc(el.dataset.en)}</span>`; enTip.hidden=false;
+function showEn(el){ showTip(el, el.dataset.en, 'EN'); }
+function showTip(el, txt, tag){
+  enTip.innerHTML=`<b>${esc(tag)}</b><span>${esc(txt)}</span>`; enTip.lang=tag==='EN'?'en':'es'; enTip.hidden=false;
   const r=el.getBoundingClientRect(), tr=enTip.getBoundingClientRect();
   const x=Math.max(8,Math.min(innerWidth-tr.width-8, r.left+r.width/2-tr.width/2));
   let y=r.top-tr.height-10; if(y<8) y=Math.min(innerHeight-tr.height-8, r.bottom+10);
@@ -1463,6 +1466,7 @@ function showEn(el){
 }
 document.addEventListener('click',e=>{
   const el=e.target.closest && e.target.closest('[data-en]');
+  if(e.target.closest && e.target.closest('.holdable')) return;
   if(!el || el.closest('button') || save.ingles===false || !el.dataset.en){ hideEn(); return; }
   if(!enTip.hidden && enTip.dataset.src===el.dataset.en){ hideEn(); enTip.dataset.src=''; return; }
   enTip.dataset.src=el.dataset.en; showEn(el);
@@ -1516,6 +1520,8 @@ $('#btnCuentos').addEventListener('click',()=>goLib('cuentos'));
 $('#btnPracticar').addEventListener('click',()=>goLib('practicar'));
 $('#btnTienda').addEventListener('click',goShop);
 holdify($('#gearHome'),1500,openParent);
+/* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
+['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget,'Rincón de los grandes: mantené apretado este botón para entrar.', 'ℹ'); }));
 holdify($('#gearGame'),1500,()=>{ if(!modal.hidden) closeModal(); openParent(); });
 live($('#shopCv'),(c,w,h,t)=>{
   const it=(window.TIENDA||[]).find(x=>x.id===shopSel);
