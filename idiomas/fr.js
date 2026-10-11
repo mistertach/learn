@@ -7,7 +7,7 @@ registrarIdioma({
   sonido: {'é':'et', 'è':'est', 'ê':'est', 'à':'a', 'â':'a', 'o':'oh', 'ô':'oh'},
   letras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   t: {
-    titulo: 'Les aventures de', jugar: 'Jouer !', tag: 'Avec le son · flèches ou souris pour marcher',
+    aventuras: 'Aventures !', titulo: 'Les aventures de', jugar: 'Jouer !', tag: 'Avec le son · flèches ou souris pour marcher',
     nombreQ: "Comment tu t'appelles ?", nombreOk: "C'est bon !",
     quien: 'Qui es-tu ?', quienSub: 'Choisis un ami', quienDi: 'Qui es-tu ? Choisis un ami !',
     holaX: n => `Bonjour, ${n} !`, holaSub: "On va où aujourd'hui ?", holaDi: n => `Bonjour, ${n} ! On va où ?`,

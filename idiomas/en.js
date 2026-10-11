@@ -3,7 +3,7 @@
    las de cada lugar están en capitulos/<lugar>/en.js. */
 window.INGLES = {
   t: {
-    hola: 'Hello!', donde: w => `Where is ${w}?`, ups: w => `Oops! Try again. Where is ${w}?`,
+    aventuras: 'Adventures!', hola: 'Hello!', donde: w => `Where is ${w}?`, ups: w => `Oops! Try again. Where is ${w}?`,
     repeti: 'Repeat with me!', todoJunto: 'Now all together!', teToca: 'Your turn!',
     todaviaNo: 'Not yet!', aQuePiso: 'Which floor?', queDecimos: 'What do we say?',
     cualEs: w => `Which one is ${w}?`, color: c => `Which one is ${c}?`, cuantos: 'How many little fish are there?',

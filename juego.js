@@ -714,8 +714,10 @@ function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='ga
 const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>`;
 function updateNames(){
   const n=save.name||'', el=$('#startName');
-  el.textContent = n || '?';
-  const len=Math.max(4,n.length); el.style.fontSize=`clamp(48px, ${Math.min(17, 78/len).toFixed(1)}vw, ${Math.min(156, Math.round(760/len))}px)`;
+  // sin nombre todavía: en vez de "Las aventuras de ?", solo "¡Aventuras!" (y va cambiando de idioma como el resto del inicio)
+  $('#scr-start .kicker').hidden=!n;
+  if(n){ delete el.dataset.t; el.removeAttribute('lang'); el.textContent=n; } else { el.dataset.t='aventuras'; el.textContent=T.aventuras; }
+  const len=Math.max(4,(el.textContent||'').length); el.style.fontSize=`clamp(48px, ${Math.min(17, 78/len).toFixed(1)}vw, ${Math.min(156, Math.round(760/len))}px)`;
   $('#hello').innerHTML=`${esc(T.holaX(n))}<small>${esc(T.holaSub)}</small>`;
   ['#homePts','#shopPts'].forEach(id=>{ const e=$(id); if(e) e.innerHTML=ptsHtml(); });
   document.title = n ? `${T.titulo} ${n}` : 'Las Aventuras';

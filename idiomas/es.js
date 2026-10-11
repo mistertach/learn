@@ -9,7 +9,7 @@ registrarIdioma({
   sonido: {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u', 'to':'tó', 'do':'dó', 'so':'só', 'no':'nó', 'go':'gó', 'me':'mé', 'he':'hé', 'be':'bé'},
   letras: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
   t: {
-    titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
+    aventuras: '¡Aventuras!', titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
     nombreQ: '¿Cómo te llamás?', nombreOk: '¡Listo!',
     quien: '¿Quién sos?', quienSub: 'Elegí un amigo', quienDi: '¿Quién sos? ¡Elegí un amigo!',
     holaX: n => `¡Hola, ${n}!`, holaSub: '¿A dónde vamos hoy?', holaDi: n => `¡Hola, ${n}! ¿A dónde vamos?`,
