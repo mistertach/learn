@@ -142,8 +142,21 @@ function setLang(code, guardar=true){
   CAP_LIST=(window.CAPITULOS||[]).map(id=>buildCap(id,code)).filter(Boolean);
   applyLang();
 }
+/* la primera vez (todavía sin idioma), la pantalla de inicio va pasando por todos los idiomas */
+let rotTm=0;
+function rotarInicio(){
+  clearInterval(rotTm);
+  const langs=idiomasDisponibles(); if(save.lang || langs.length<2) return;
+  let i=Math.max(0, langs.indexOf(langCode()));
+  rotTm=setInterval(()=>{
+    if(save.lang || scr.start.hidden){ clearInterval(rotTm); if(save.lang) applyLang(); return; }
+    i=(i+1)%langs.length; const code=langs[i], t=PACKS[code].t, els=scr.start.querySelectorAll('[data-t]');
+    els.forEach(el=>el.classList.add('swap'));
+    setTimeout(()=>els.forEach(el=>{ const v=t[el.dataset.t]; if(typeof v==='string') el.textContent=v; el.lang=code; el.classList.remove('swap'); }), 280);
+  }, 3000);
+}
 function applyLang(){
-  document.querySelectorAll('[data-t]').forEach(el=>{ const v=T[el.dataset.t]; if(typeof v==='string') el.textContent=v; });
+  document.querySelectorAll('[data-t]').forEach(el=>{ const v=T[el.dataset.t]; if(typeof v==='string') el.textContent=v; el.removeAttribute('lang'); });
   updateNames();
   const lb=$('#langBtn'); if(lb && LANG) lb.innerHTML=`<img src="${svgUri(LANG.bandera)}" alt="">`;
 }
@@ -244,7 +257,9 @@ function voiceFor(code){
   const list=voicesFor(code);
   if(pref){ const v=list.find(v=>v.voiceURI===pref); if(v) return v; }
   const nice=v=>/natural|neural|online|premium|enhanced|google/i.test(v.name)?0:1;
-  list.sort((a,b)=>((pack?pack.rankVoz(normLang(a.lang)):0)-(pack?pack.rankVoz(normLang(b.lang)):0)) || nice(a)-nice(b));
+  // las voces "Multilingual" adivinan el idioma de cada frase: una sílaba suelta como "to" la leen en inglés
+  const multi=v=>/multilingual|multilingüe/i.test(v.name)?1:0;
+  list.sort((a,b)=>multi(a)-multi(b) || ((pack?pack.rankVoz(normLang(a.lang)):0)-(pack?pack.rankVoz(normLang(b.lang)):0)) || nice(a)-nice(b));
   return list[0]||null;
 }
 async function speak(text, rate=.85, code=langCode()){
@@ -1318,7 +1333,7 @@ function resetProgress(){
   const keep={grownup:save.grownup, pausa:save.pausa, voces:save.voces, lang:save.lang};
   save=Object.assign(defaultSave(), keep, NUBE.alumno?{name:NUBE.alumno.nombre}:{}); persist();
   CAP=null; cs=null; modal.hidden=true; card.innerHTML=''; busy=false; flowTok++; hush();
-  setLang(save.lang||'es', false); show('start'); setTimeout(()=>$('#playBtn').focus(),60);
+  setLang(save.lang||'es', false); show('start'); rotarInicio(); setTimeout(()=>$('#playBtn').focus(),60);
 }
 function openParent(){
   if(!modal.hidden && card.classList.contains('parent')) return;
@@ -1723,7 +1738,7 @@ clips.init();
 Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
   if(NUBE.usuario){ const id=+lsGet(ALUMNO_KEY); const a=NUBE.alumnos.find(x=>x.id===id); if(a) usarAlumno(a); }
   await clips.cargarNube();
-  setLang(save.lang || 'es', false);
+  setLang(save.lang || 'es', false); rotarInicio();
   $('#playBtn').disabled=false; setTimeout(()=>$('#playBtn').focus(),60);
 });
 requestAnimationFrame(frame);
