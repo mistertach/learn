@@ -108,15 +108,16 @@ function zipEn(map, t, en){
   for(const k in t){ if(k==='silabas'||k==='partes'||k==='numTexto'||k==='ingles') continue; zipEn(map, t[k], en[k]); }
 }
 function armarIngles(){
-  ENT=(window.INGLES||{}).t||{};
+  ENT=(PACKS.en||{}).t||{};
   for(const l of (window.IDIOMAS||['es'])){
+    if(l==='en') continue;   // quien aprende inglés no necesita la traducción al inglés
     const m=EN[l]={};
     for(const id in TEXTOS){ const t=TEXTOS[id][l]; if(!t) continue; Object.assign(m, t.ingles||{}); zipEn(m, t, TEXTOS[id].en); }
     const P=PACKS[l]; if(P) zipEn(m, P.t, ENT);
   }
 }
-const enDe = s => { const m=EN[langCode()]||{}; return m[s] || m[String(s||'').trim()] || ''; };
-const enT = (k,...a) => { const v=ENT[k]; return typeof v==='function' ? v(...a) : (v||''); };
+const enDe = s => { if(langCode()==='en') return ''; const m=EN[langCode()]||{}; return m[s] || m[String(s||'').trim()] || ''; };
+const enT = (k,...a) => { if(langCode()==='en') return ''; const v=ENT[k]; return typeof v==='function' ? v(...a) : (v||''); };
 const enAttr = en => en ? ` data-en="${esc(en)}"` : '';
 /* una sílaba sola (una vocal, a veces con acento) se lee como letra: le decimos a la voz cómo suena */
 const sonido = sl => { const m=(LANG&&LANG.sonido)||{}; return m[sl.trim().toLowerCase()] || sl; };
@@ -126,13 +127,12 @@ function cargarScript(src){ return new Promise(res=>{ const s=document.createEle
 async function cargarTodo(){
   const langs=window.IDIOMAS||['es'], ids=window.CAPITULOS||[];
   await Promise.all([
-    ...langs.map(l=>cargarScript(`idiomas/${l}.js`)),
+    ...[...new Set([...langs,'en'])].map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
-    cargarScript('idiomas/en.js'),
     cargarScript('idiomas/grandes.js'),
-    ...ids.map(id=>cargarScript(`capitulos/${id}/en.js`))
+    ...(langs.includes('en') ? [] : ids.map(id=>cargarScript(`capitulos/${id}/en.js`)))
   ]);
   armarIngles();
 }

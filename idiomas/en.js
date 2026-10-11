@@ -1,16 +1,55 @@
-/* Inglés: NO es un idioma para aprender. Son las traducciones que ven los grandes al tocar
-   un texto (el relator nunca habla en inglés). Las claves son las mismas que en idiomas/es.js;
-   las de cada lugar están en capitulos/<lugar>/en.js. */
-window.INGLES = {
+/* Language: English. Everything the narrator says and every button in the game.
+   It is also where the English translations of the engine lines come from: the cards a grown-up sees
+   when tapping a phrase while the child learns another language (see armarIngles() in juego.js). */
+registrarIdioma({
+  codigo: 'en', nombre: 'English', tag: 'en-US',
+  // which browser voices to prefer (lower = better)
+  rankVoz: l => l==='en-us'?0 : l==='en-gb'?1 : (l==='en-au'||l==='en-ca')?2 : 3,
+  bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg>`,
+  // how to hand a lone syllable to the voice when it would read it as a letter name
+  sonido: {'a':'uh', 'e':'eh', 'i':'ih', 'o':'oh', 'u':'uh'},
+  letras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   t: {
-    aventuras: 'Adventures!', hola: 'Hello!', donde: w => `Where is ${w}?`, ups: w => `Oops! Try again. Where is ${w}?`,
-    repeti: 'Repeat with me!', todoJunto: 'Now all together!', teToca: 'Your turn!',
-    todaviaNo: 'Not yet!', aQuePiso: 'Which floor?', queDecimos: 'What do we say?',
-    cualEs: w => `Which one is ${w}?`, color: c => `Which one is ${c}?`, cuantos: 'How many little fish are there?',
+    aventuras: 'Adventures!', titulo: 'The adventures of', jugar: 'Play!', tag: 'With sound · arrows or mouse to walk',
+    nombreQ: "What's your name?", nombreOk: 'Done!',
+    quien: 'Who are you?', quienSub: 'Pick a friend', quienDi: 'Who are you? Pick a friend!',
+    holaX: n => `Hello, ${n}!`, holaSub: 'Where are we going today?', holaDi: n => `Hello, ${n}! Where are we going?`,
+    semana: 'Week', pronto: 'Soon!', prontoDi: 'Soon! This place opens next week.',
+    cuentos: 'Stories', practicar: "Let's practice!", tienda: 'The shop',
+    cuentosDi: 'The stories. Which one shall we read?', practicarDi: "Let's practice! Pick a word or a phrase.",
+    palabras: 'Words', frases: 'Phrases',
+    cerrado: 'This story is closed.', abrirCuento: w => `To open this story, get the stamp for ${w}.`,
+    piso: (n, nombre) => `Floor ${n}. ${nombre}.`,
+    intro1: 'Walk with the arrows, or tap where you want to go. Follow the yellow arrow!',
+    repeti: 'Repeat after me!', todoJunto: 'Now all together!', teToca: 'Your turn!',
+    hola: 'Hello!', mira: w => `Look: ${w}.`, donde: w => `Where is ${w}?`, ups: w => `Oops! Try again. Where is ${w}?`,
+    fraseAhora: "Now let's say the phrase.", estrella: 'When you say it, tap the star.', estrellaGrande: 'When you say it, mom or dad gives you the star.',
+    todos: 'You have all the stamps! Find the green door. Off we fly!', cuentoQ: 'Do you want to hear a story? Tap the book.',
+    ascensor: 'The elevator! Which floor?', aQuePiso: 'Which floor?',
+    pasaporte: 'My passport', ppFinal: 'Collect all the stamps, and then off we fly!', ppFalta: "You don't have this stamp yet.",
+    todaviaNo: 'Not yet!', faltan: (h, n) => `First collect all the stamps. You have ${h}, and there are ${n}. Follow the yellow arrow!`,
+    queDecimos: 'What do we say?', lograste: 'You did it! You flew on a real plane!', otroViaje: 'Another trip! Collect the stamps again.',
+    conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,
+    seguir: 'Next', otraVez: 'Again', loDije: 'I said it!', apretado: 'Press and hold', unCuento: 'A story!', atras: 'Back',
+    fin: 'The end!', bueno: 'OK', otroViajeB: 'Another trip', inicio: 'Home', vamos: "Let's go!", listo: 'Done!',
+    peces: n => n === 1 ? '1 little fish' : `${n} little fish`,
+    pez: 'Look! A little fish!', pezQ: 'A little fish! To eat it, answer:', casi: 'Almost! Try again.', nam: 'Yum, yum!',
+    premio: s => `You won ${s}!`,
+    cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capCerrado: 'This place is still closed.',
+    juegos: 'Games!', juegosDi: 'The games. What shall we play?', juegoCerrado: w => `To open this game, finish ${w}.`, juegoNuevo: 'And you won a new game!', aJugar: "Let's play!", juegoGratis: 'This time it’s free!',
+    tenesPeces: s => `You have ${s}.`, escapo: 'Oh! The little fish swam away. Another one will come!',
+    cualEs: w => `Show me ${w}!`, si: w => `Yes! ${w}.`, color: c => `Which one is ${c}?`, cuantos: 'How many little fish are there?',
     colores: {rojo:'red', azul:'blue', amarillo:'yellow', verde:'green', violeta:'purple', naranja:'orange', rosa:'pink', negro:'black', blanco:'white'},
-    pez: 'Look! A little fish!', pezQ: 'A little fish! To eat it, answer:',
-    pasaporte: 'My passport', cuentos: 'Stories', practicar: "Let's practice!", tienda: 'The shop',
-    palabras: 'Words', frases: 'Phrases', nombreQ: "What's your name?", quien: 'Who are you?', quienSub: 'Pick a friend',
-    holaSub: 'Where are we going today?', cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capCerrado: 'This place is still closed.', tag: 'With sound · arrows or mouse to walk'
+    numeros: ['zero','one','two','three','four','five','six'],
+    elogios: ['Very good','Great','Awesome','Excellent','Well done'], elogio: (x, n) => n ? `${x}, ${n}!` : `${x}!`,
+    animales: {cat:{f:'the cat', m:'the cat'}, dog:{m:'the dog'}, bunny:{m:'the bunny'}, bear:{m:'the bear'}},
+    objetos: {'#':'the wall', b:'the bench', p:'the plant', '~':'the door'},
+    // shop
+    tiendaHola: 'Hello! This is the shop. What would you like to buy?', quiero: i => `I would like ${i}, please.`,
+    cuesta: s => `That's ${s}.`, noAlcanza: s => `You need ${s} more. Go find more fish!`, comprado: i => `There you go! Now you have ${i}.`,
+    queda: 'It looks great on you!', comprar: 'Buy', ponerme: 'Put on', sacarme: 'Take off',
+    ropa: {remera_roja:'the red T-shirt', remera_rayas:'the striped T-shirt', remera_estrella:'the star T-shirt', camiseta:'the soccer shirt',
+           short:'the shorts', pantalon:'the pants', gorra:'the cap', gorro:'the wool hat', corona:'the crown',
+           anteojos:'the sunglasses', mono:'the bow tie', bufanda:'the scarf', capa:'the cape'}
   }
-};
+});

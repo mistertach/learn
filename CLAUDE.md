@@ -7,9 +7,10 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - The narrator speaks **only the target language**. No English and no mixing.
 - **All child-facing strings live in `idiomas/<lang>.js` (`T.*`) or in `capitulos/<place>/<lang>.js`.** Never hard-code a phrase in `juego.js`. If you add a string, add it to every language file.
 - The grown-up corner (`openParent()` in `juego.js`) is for the parent and is written in Rioplatense Spanish, without translation.
+- Languages to learn: es, fr, it, en (`IDIOMAS` in `capitulos.js`).
 - Spanish is Rioplatense (vos, "tenés", "valija", "pasaje", "remera", "acá").
 - Buttons stay disabled while the narrator talks. Wrap narration in `narrar(async () => ...)` inside modals.
-- English is never spoken. `capitulos/<place>/en.js` (same shape as the text files) and `idiomas/en.js` hold English translations that a grown-up sees when tapping a phrase (`data-en`). Add English for every new string.
+- English is one of the languages to learn (`idiomas/en.js`, `capitulos/<place>/en.js`), and those same files are the English translations a grown-up sees when tapping a phrase (`data-en`) while the child learns another language. They are matched by position, so `en.js` must keep exactly the shape of the other text files. Never speak English while the child learns another language. Add English for every new string.
 - Words need `silabas` (pronounced one by one, slowly) and phrases need `partes` (built up cumulatively). Syllables must be spelled so the target-language voice pronounces them correctly. A syllable that is a lone vowel gets read as a letter name ("é accent aigu"), and one that is also an English word ("to") gets read in English, so each `idiomas/<lang>.js` has a `sonido` map that tells the voice how to say it. `voiceFor` avoids Edge's "Multilingual" voices, which guess the language of each utterance.
 - Child-proof: big targets, arrow keys + mouse/touch, nothing destructive without the grown-up corner, ✕ buttons excluded from arrow navigation (`tabindex="-1"`).
 

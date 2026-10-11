@@ -1,12 +1,12 @@
 # Las aventuras de…
 
-A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French or Italian), types their name, picks an animal friend and walks around a place (week 1: an airport; week 2: a restaurant where the child becomes the waiter). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish).
+A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French, Italian or English), types their name, picks an animal friend and walks around a place (week 1: an airport; week 2: a restaurant where the child becomes the waiter). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish).
 
 The game itself is plain static files with no build step. It works on its own (open `index.html`), and when it is hosted with the small API in `api/` it also has accounts: progress saved online, shared voice recordings and an admin page.
 
 ## Run it
 
-**Without accounts:** open `index.html` in Microsoft Edge or Chrome. Edge is best because it ships voices for all three languages. Everything is saved in that browser only.
+**Without accounts:** open `index.html` in Microsoft Edge or Chrome. Edge is best because it ships voices for all four languages. Everything is saved in that browser only.
 
 **With accounts, on your computer:** you need Node 20+ and a Postgres database (a free Neon database works).
 
@@ -36,7 +36,6 @@ juego.js                the engine (screens, map, movement, narration, fish, sho
 capitulos.js            the index: which languages and which places are enabled
 tienda.js               shop catalogue (items, slot, style, colours, price in fish)
 idiomas/<lang>.js       everything the narrator says and every button label, per language
-idiomas/en.js           English translations of the engine lines (shown to grown-ups only, never spoken)
 api/                    Vercel functions: sesion (sign up / sign in), alumnos (children + progress), grabaciones (voice recordings), admin
 servidor/               code shared by api/: database (Neon in production, any Postgres locally), sessions, passwords
 admin.html, admin.js    the admin page
@@ -44,12 +43,12 @@ scripts/dev.js          local server that serves the game and api/ like Vercel d
 capitulos/<place>/
   base.js               map, drawings (inline SVG), characters, story scenes, quiz answers — same for every language
   es.js / fr.js / it.js texts for that place in each language (words + syllables, phrases + parts, stories, quiz questions)
-  en.js                 English translation, same shape as the text files (no syllables/parts); matched by position
+  en.js                 the English texts; they are also the translation grown-ups see in the other languages (matched by position)
 ```
 
 ## Adding things
 
-- **A new place (week):** create `capitulos/<id>/base.js` plus one text file per language and an `en.js`, following `capitulos/aeropuerto/`. Then add the id to `CAPITULOS` in `capitulos.js`.
+- **A new place (week):** create `capitulos/<id>/base.js` plus one text file per language (including `en.js`), following `capitulos/aeropuerto/`. Then add the id to `CAPITULOS` in `capitulos.js`.
 - **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`.
 - **A new shop item:** add it to `tienda.js` and add its name to the `ropa` block of every `idiomas/*.js`.
 
