@@ -3,6 +3,8 @@ registrarIdioma({
   codigo: 'fr', nombre: 'Français', tag: 'fr-FR',
   rankVoz: l => l==='fr-fr'?0 : l==='fr-ca'?2 : 1,
   bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="30" height="60" fill="#0055A4"/><rect x="30" width="30" height="60" fill="#fff"/><rect x="60" width="30" height="60" fill="#EF4135"/></svg>`,
+  // comment lire une syllabe qui est une voyelle seule (sinon la voix dit le nom de la lettre)
+  sonido: {'é':'et', 'è':'est', 'ê':'est', 'à':'a', 'â':'a', 'o':'oh', 'ô':'oh'},
   letras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   t: {
     titulo: 'Les aventures de', jugar: 'Jouer !', tag: 'Avec le son · flèches ou souris pour marcher',
@@ -29,6 +31,7 @@ registrarIdioma({
     fin: 'Fin !', bueno: "D'accord", otroViajeB: 'Encore un voyage', inicio: 'Accueil', vamos: 'On y va !', listo: 'Fini !',
     peces: n => n === 1 ? '1 petit poisson' : `${n} petits poissons`,
     pez: 'Regarde ! Un petit poisson !', pezQ: 'Un petit poisson ! Pour le manger, réponds :', casi: 'Presque ! Essaie encore.', nam: 'Miam, miam !',
+    premio: s => `Tu gagnes ${s} !`,
     tenesPeces: s => `Tu as ${s}.`, escapo: "Oh ! Le petit poisson s'est sauvé. Un autre va arriver !",
     cualEs: w => `Montre-moi ${w} !`, si: w => `Oui ! ${w}.`, color: c => `Montre-moi le ${c} !`, cuantos: "Combien de petits poissons il y a ?",
     colores: {rojo:'rouge', azul:'bleu', amarillo:'jaune', verde:'vert', violeta:'violet', naranja:'orange', rosa:'rose', negro:'noir', blanco:'blanc'},

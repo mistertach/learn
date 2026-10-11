@@ -4,6 +4,8 @@ registrarIdioma({
   // orden de preferencia de las voces del navegador (menor = mejor)
   rankVoz: l => l==='es-ar'?0 : (l==='es-uy'||l==='es-419')?1 : (l==='es-us'||l==='es-mx')?2 : l==='es-es'?4 : 3,
   bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="90" height="60" fill="#74ACDF"/><rect y="20" width="90" height="20" fill="#fff"/><circle cx="45" cy="30" r="6.5" fill="#F6B40E" stroke="#85340A" stroke-width="1"/></svg>`,
+  // cómo se lee una sílaba que es una vocal sola (si no, la voz dice el nombre de la letra)
+  sonido: {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u'},
   letras: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
   t: {
     titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
@@ -30,6 +32,7 @@ registrarIdioma({
     fin: '¡Fin!', bueno: 'Bueno', otroViajeB: 'Otro viaje', inicio: 'Inicio', vamos: '¡Vamos!', listo: '¡Listo!',
     peces: n => n === 1 ? '1 pececito' : `${n} pececitos`,
     pez: '¡Mirá! ¡Un pececito!', pezQ: '¡Un pececito! Para comerlo, contestá:', casi: '¡Casi! Probá otra vez.', nam: '¡Ñam, ñam!',
+    premio: s => `¡Ganaste ${s}!`,
     tenesPeces: s => `Tenés ${s}.`, escapo: '¡Uy! El pececito se escapó. ¡Ya va a venir otro!',
     cualEs: w => `¿Cuál es ${w}?`, si: w => `¡Sí! ${w}.`, color: c => `¿Cuál es el color ${c}?`, cuantos: '¿Cuántos pececitos hay?',
     colores: {rojo:'rojo', azul:'azul', amarillo:'amarillo', verde:'verde', violeta:'violeta', naranja:'naranja', rosa:'rosa', negro:'negro', blanco:'blanco'},

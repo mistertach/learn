@@ -151,5 +151,16 @@ registrarTextos('aeropuerto', 'es', {
     {p:"¿Qué vuela entre las nubes?", r:"¡El avión!"},
     {p:"¿A dónde vamos cuando tenemos ganas de hacer pis?", r:"¡Al baño!"}
   ],
-  objetos: {"#":"la pared", b:"el banco", p:"la planta", "~":"la puerta"}
+  objetos: {"#":"la pared", b:"el banco", p:"la planta", "~":"la puerta"},
+  // traducciones al inglés que no salen de en.js (el alfajor es solo de acá)
+  ingles: {
+    "el alfajor": "the alfajor (a sweet cookie sandwich)",
+    "Un alfajor, por favor.": "An alfajor, please.",
+    "En el kiosco había *un alfajor* gigante.": "At the snack stand there was *a giant alfajor*.",
+    "—¡Un alfajor, por favor! —pidió {N}.": "\"An alfajor, please!\" asked {N}.",
+    "Pero el alfajor dio un salto y dijo: —¡Yo también quiero viajar!": "But the alfajor jumped and said: \"I want to travel too!\"",
+    "Así que el alfajor se metió en *la mochila*, listo para volar.": "So the alfajor hopped into *the backpack*, ready to fly.",
+    "¡El alfajor! ¡Qué rico!": "The alfajor! Yummy!",
+    "El alfajor viajero": "The traveling alfajor"
+  }
 });
