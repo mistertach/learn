@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Children's language-learning game for a 5-year-old who can't read. Plain static HTML/JS: no framework, no build, no dependencies. Open `index.html` directly to run it.
+Children's language-learning game for a 5-year-old who can't read. The game is plain static HTML/JS: no framework, no build, no dependencies. Open `index.html` directly to run it. Optional accounts run on Vercel functions (`api/`, Node, CommonJS) with a Postgres database (Neon in production); see the README.
 
 ## Ground rules
 - The child can't read, so **everything must be spoken**. Any new on-screen text the child needs gets narrated with `sayAll([...])` in the target language. On-screen text is a support for the grown-up, not the main channel.
@@ -21,6 +21,12 @@ Children's language-learning game for a 5-year-old who can't read. Plain static 
 - Rendering: canvas for the world/stories/flight (`drawWorld`, `drawScene`, `drawFlight`). `drawAnimal` draws all characters, and `drawHero` adds the outfit from the shop.
 - Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`.
 
+## Accounts (api/, servidor/, the NUBE section of juego.js)
+- The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.
+- Account screens, the admin page and server error messages are for grown-ups, in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.
+- `persist()` also uploads the child's `save` (debounced, plus `sendBeacon` on page hide). Tables are created by `servidor/db.js` on first use; change the schema there with `IF NOT EXISTS`/`ALTER ... IF NOT EXISTS` so existing databases upgrade themselves.
+- Local check: `npm install`, a Postgres in `.env`, `npm run dev`.
+
 ## Checking changes
-- `node --check juego.js` and `node --check` on any edited data file.
+- `node scripts/check.js` (runs `node --check` on every .js file).
 - Load `index.html` in a browser and play through: language → name → character → place intro → a station → fish → shop.

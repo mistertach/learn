@@ -11,6 +11,6 @@ window.INGLES = {
     pez: 'Look! A little fish!', pezQ: 'A little fish! To eat it, answer:',
     pasaporte: 'My passport', cuentos: 'Stories', practicar: "Let's practice!", tienda: 'The shop',
     palabras: 'Words', frases: 'Phrases', nombreQ: "What's your name?", quien: 'Who are you?', quienSub: 'Pick a friend',
-    holaSub: 'Where are we going today?', tag: 'With sound · arrows or mouse to walk'
+    holaSub: 'Where are we going today?', cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capCerrado: 'This place is still closed.', tag: 'With sound · arrows or mouse to walk'
   }
 };

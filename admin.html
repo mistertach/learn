@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administración · Las aventuras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22314F;--ink2:#5C6A86;--mist:#EEF2F8;--sun:#FFC93C;--mint:#2FBF8F;--coral:#FF6F59}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;color:var(--ink);background:#F5F8FC;padding:24px 16px}
+main{max-width:1000px;margin:0 auto}
+h1{margin:0 0 4px;font-size:34px}
+.sub{margin:0 0 20px;color:var(--ink2)}
+.familia{background:#fff;border-radius:20px;padding:16px 18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(34,49,79,.08)}
+.familia h2{margin:0;font-size:20px}
+.familia .mail{color:var(--ink2);font-size:14px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+th,td{text-align:left;padding:8px 6px;border-top:1px solid #E3E9F2;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.prog{font-size:13px;color:var(--ink2)}
+.prog b{color:var(--ink)}
+label.cap{display:inline-flex;align-items:center;gap:6px;margin-right:12px;white-space:nowrap;cursor:pointer}
+.ok{color:var(--mint);font-weight:800;font-size:13px}
+.vacio{color:var(--ink2);font-style:italic}
+.aviso{background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 14px rgba(34,49,79,.08)}
+input[type=search]{font:inherit;font-size:16px;padding:8px 12px;border:2px solid #DCE3EE;border-radius:12px;width:min(360px,100%);margin-bottom:16px}
+a{color:#2E6BD9}
+</style>
+</head>
+<body>
+<main>
+  <h1>Administración</h1>
+  <p class="sub">Las familias registradas, sus chicos y qué lugares tiene abiertos cada uno. Los cambios se guardan solos. <a href="./">Volver al juego</a></p>
+  <div id="app"><p class="vacio">Cargando…</p></div>
+</main>
+<script src="capitulos.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

@@ -310,6 +310,9 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .parent .reset div{display:flex;flex-direction:column;min-width:0;flex:1 1 260px}
 .parent .reset b{font-size:18px}
 .parent .reset span{font-size:14px;color:var(--ink2);font-weight:600}
+.parent .reset.acct{background:#EAF4FC;margin-bottom:12px}
+.parent .acctbtns{margin:0;display:flex;gap:8px;flex-wrap:wrap}
+.cuenta h2 small{font-size:17px;margin-top:6px}
 .parent label.up{display:inline-block}
 #world{cursor:pointer}
 .play:disabled{opacity:.6}
@@ -317,9 +320,35 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 #enTip{position:fixed;z-index:40;max-width:min(440px,calc(100vw - 16px));background:#22314F;color:#fff;border-radius:14px;padding:10px 14px;font-size:18px;line-height:1.3;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);pointer-events:none;display:flex;gap:10px;align-items:flex-start;box-sizing:border-box}
 #enTip[hidden]{display:none}
 #enTip b{flex:none;background:var(--sun);color:#22314F;border-radius:6px;padding:1px 6px;font-size:13px;font-weight:800;margin-top:2px}
+
+.cuenta{align-items:center}
+.cuenta-box{width:min(440px,100%);background:#fff;border-radius:26px;padding:22px;box-shadow:0 10px 30px rgba(34,49,79,.12);display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cuenta-box .tabs{display:flex;gap:6px;background:var(--mist);border-radius:14px;padding:4px}
+.cuenta-box .tab{flex:1;border:0;border-radius:11px;padding:10px;font:inherit;font-weight:800;background:transparent;color:var(--ink2);cursor:pointer}
+.cuenta-box .tab.on{background:#fff;color:var(--ink);box-shadow:0 2px 6px rgba(34,49,79,.12)}
+.cform{display:flex;flex-direction:column;gap:12px}
+.cform label,.addkid{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:15px}
+.cform input,.addkid input{font:inherit;font-size:18px;padding:10px 12px;border:2px solid #DCE3EE;border-radius:12px}
+.cform .mbtn{align-self:stretch;justify-content:center}
+.cmsg{margin:0;color:#C0392B;font-weight:700}
+.linkbtn{border:0;background:none;color:var(--ink2);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer}
+.addkid{background:#fff;border-radius:22px;padding:16px;min-width:200px;box-shadow:0 6px 18px rgba(34,49,79,.1);gap:10px}
+.addkid .mbtn{justify-content:center}
+.cform .mbtn,.addkid .mbtn{height:60px;flex-direction:row;gap:8px;box-shadow:0 5px 0 rgba(34,49,79,.25)}
+a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 </style>
 
 <div id="app">
+  <section id="scr-cuenta" class="screen cuenta" hidden>
+    <h2>Las aventuras<small>Para los grandes: entrá con tu cuenta para guardar el progreso online.</small></h2>
+    <div class="cuenta-box" id="cuentaBox"></div>
+  </section>
+
+  <section id="scr-alumnos" class="screen pick" hidden>
+    <h2><span data-t="quienJuega"></span><small>Cada chico guarda su propio progreso.</small></h2>
+    <div class="chars" id="alumnosBox"></div>
+  </section>
+
   <section id="scr-start" class="screen start">
     <div class="start-in">
       <p class="kicker" data-t="titulo">Las aventuras de</p>

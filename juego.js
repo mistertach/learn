@@ -159,7 +159,14 @@ function loadSave(){
     if(o.voice) s.voces.es=o.voice; for(const k in (o.caps||{})) s.caps['es:'+k]=o.caps[k]; return s; } }catch(e){}
   return defaultSave();
 }
-function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(save)); }catch(e){} }
+function mezclarSave(d){ const s=defaultSave(); return Object.assign(s, d||{}, {armario:Object.assign(s.armario, (d&&d.armario)||{})}); }
+/* con cuenta, cada chico tiene su copia local (por si se corta internet) y la del servidor */
+const storeKey = () => NUBE.alumno ? `${STORE_KEY}:alumno:${NUBE.alumno.id}` : STORE_KEY;
+function persist(){
+  save._t=Date.now();
+  try{ localStorage.setItem(storeKey(), JSON.stringify(save)); }catch(e){}
+  if(NUBE.alumno) nubeGuardarLuego();
+}
 let save = loadSave();
 function capSave(id){ const k=`${langCode()}:${id}`; if(!save.caps[k]) save.caps[k]={sellos:{}, final:false, pos:null}; return save.caps[k]; }
 const char = () => CHARACTERS.find(c=>c.id===save.charId) || CHARACTERS[0];
@@ -169,6 +176,21 @@ function idb(){ if(dbp) return dbp; dbp=new Promise((res,rej)=>{ try{ const r=in
 async function idbOp(mode, fn){ const db=await idb(); return new Promise((res,rej)=>{ const tx=db.transaction('clips',mode); const r=fn(tx.objectStore('clips')); tx.oncomplete=()=>res(r && r.result); tx.onerror=()=>rej(tx.error); }); }
 const clips = {
   ids:new Set(), cache:new Map(),
+  nube:new Set(), global:new Set(),   // grabaciones en el servidor: las de esta cuenta y las del administrador (para todos)
+  has(id){ return this.ids.has(id) || this.nube.has(id) || this.global.has(id); },
+  mia(id){ return this.ids.has(id) || this.nube.has(id) || (!!NUBE.usuario && NUBE.usuario.admin && this.global.has(id)); },
+  async cargarNube(){
+    this.nube.clear(); this.global.clear(); this.cache.clear();
+    if(!NUBE.on) return;
+    try{ const j=await api('grabaciones'); (j.mias||[]).forEach(k=>this.nube.add(k)); (j.globales||[]).forEach(k=>this.global.add(k)); }catch(e){}
+  },
+  async bajar(id){
+    for(const de of ['mia','global']){
+      if(!(de==='mia' ? this.nube.has(id) : this.global.has(id))) continue;
+      try{ const j=await api(`grabaciones?clave=${encodeURIComponent(id)}&de=${de}`); return base64ABlob(j.audio, j.tipo); }catch(e){}
+    }
+    return null;
+  },
   async init(){
     try{
       const keys=(await idbOp('readonly',s=>s.getAllKeys()))||[], langs=window.IDIOMAS||['es'];
@@ -179,10 +201,29 @@ const clips = {
       }
     }catch(e){}
   },
-  async get(id){ if(this.cache.has(id)) return this.cache.get(id); try{ const b=await idbOp('readonly',s=>s.get(id)); if(b) this.cache.set(id,b); return b||null; }catch(e){ return null; } },
-  async put(id,b){ this.cache.set(id,b); this.ids.add(id); try{ await idbOp('readwrite',s=>s.put(b,id)); }catch(e){} },
-  async del(id){ this.cache.delete(id); this.ids.delete(id); try{ await idbOp('readwrite',s=>s.delete(id)); }catch(e){} },
-  async clear(){ for(const id of [...this.ids]) await this.del(id); }
+  async get(id){
+    if(this.cache.has(id)) return this.cache.get(id);
+    let b=null;
+    if(this.ids.has(id)){ try{ b=await idbOp('readonly',s=>s.get(id)); }catch(e){} }
+    if(!b) b=await this.bajar(id);
+    if(b) this.cache.set(id,b); return b;
+  },
+  /* con cuenta, la grabación también se sube: así no se pierde y (si sos el administrador) la escuchan todos */
+  async put(id,b){
+    this.cache.set(id,b);
+    if(NUBE.usuario){
+      const j=await api('grabaciones',{method:'PUT', body:{clave:id, tipo:b.type||'audio/webm', audio:await blobABase64(b)}});
+      (j.global ? this.global : this.nube).add(id);
+      return;
+    }
+    this.ids.add(id); try{ await idbOp('readwrite',s=>s.put(b,id)); }catch(e){}
+  },
+  async del(id){
+    this.cache.delete(id);
+    if(this.ids.has(id)){ this.ids.delete(id); try{ await idbOp('readwrite',s=>s.delete(id)); }catch(e){} }
+    if(NUBE.usuario && this.mia(id)){ try{ await api(`grabaciones?clave=${encodeURIComponent(id)}`,{method:'DELETE'}); }catch(e){} this.nube.delete(id); if(NUBE.usuario.admin) this.global.delete(id); }
+  },
+  async clear(){ for(const id of [...this.ids, ...this.nube, ...(NUBE.usuario&&NUBE.usuario.admin?this.global:[])]) await this.del(id); }
 };
 
 /* ---------- voz ----------
@@ -229,7 +270,7 @@ async function sayAll(parts){
   for(let p of parts){
     if(my!==sayTok) return false;
     if(typeof p==='string') p={t:p};
-    const b=(p.id && clips.ids.has(p.id)) ? await clips.get(p.id) : null;
+    const b=(p.id && clips.has(p.id)) ? await clips.get(p.id) : null;
     if(my!==sayTok) return false;
     if(b) await playBlob(b); else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
   }
@@ -653,7 +694,7 @@ async function goFloor(n, arriveAt){
 /* =========================================================
    PANTALLAS
    ========================================================= */
-const scr={start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
+const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
 const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>`;
 function updateNames(){
@@ -682,10 +723,18 @@ function buildPicker(){
   });
 }
 function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>$('#chars button')?.focus(),50); sayAll([T.quienDi]); }
+const capAbierto = c => !(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id));
 function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
   CAP_LIST.forEach(c=>{
+    if(!capAbierto(c)){
+      const b=document.createElement('button'); b.className='week locked';
+      b.innerHTML=`<span class="art">${ICON.lock}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${esc(c.titulo)}</b>`;
+      b.addEventListener('focus',()=>sayAll([c.titulo]));
+      b.addEventListener('click',()=>sayAll([T.capCerrado]));
+      box.appendChild(b); return;
+    }
     const s=capSave(c.id);
     const b=document.createElement('button'); b.className='week';
     b.innerHTML=`<span class="art">${img(c.arteTapa)}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${c.titulo}</b><span class="dots">${c.orden.map(k=>`<i class="${s.sellos[k]?'on':''}"></i>`).join('')}<i class="${s.final?'gold':''}"></i></span>`;
@@ -1205,7 +1254,7 @@ function goLib(mode){
   hush(); show('lib');
   const body=$('#libBody'); body.innerHTML='';
   $('#libTitle').textContent = mode==='cuentos' ? T.cuentos : T.practicar;
-  CAP_LIST.forEach(c=>{
+  CAP_LIST.filter(capAbierto).forEach(c=>{
     const s=capSave(c.id);
     const sec=document.createElement('section'); sec.className='shelf';
     if(mode==='cuentos'){
@@ -1260,13 +1309,14 @@ function recRows(){
 }
 function recRowHtml(r){
   if(r.group) return `<tr><td class="grp" colspan="3">${esc(r.group)}</td></tr>`;
-  const mine=clips.ids.has(r.id);
-  return `<tr data-id="${esc(r.id)}" class="${r.silaba?'syl':''}"><td>${r.silaba?`<span class="sylmark">sílaba</span> `:''}<b>${esc(r.texto)}</b></td><td><span class="pill ${mine?'mine':''}">${mine?'Tu voz':'Voz de la compu'}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
+  const mine=clips.mia(r.id), shared=!mine && clips.global.has(r.id);
+  const pill = mine ? (NUBE.usuario&&NUBE.usuario.admin&&clips.global.has(r.id) ? 'Tu voz · para todos' : 'Tu voz') : shared ? 'Voz compartida' : 'Voz de la compu';
+  return `<tr data-id="${esc(r.id)}" class="${r.silaba?'syl':''}"><td>${r.silaba?`<span class="sylmark">sílaba</span> `:''}<b>${esc(r.texto)}</b></td><td><span class="pill ${mine||shared?'mine':''}">${pill}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
 }
 function armConfirm(btn, fn){ btn.addEventListener('click',()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; fn(); return; } btn.dataset.armed='1'; const old=btn.textContent; btn.textContent='Tocá otra vez para confirmar'; setTimeout(()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent=old; } },3500); }); }
 function resetProgress(){
   const keep={grownup:save.grownup, pausa:save.pausa, voces:save.voces, lang:save.lang};
-  save=Object.assign(defaultSave(), keep); persist();
+  save=Object.assign(defaultSave(), keep, NUBE.alumno?{name:NUBE.alumno.nombre}:{}); persist();
   CAP=null; cs=null; modal.hidden=true; card.innerHTML=''; busy=false; flowTok++; hush();
   setLang(save.lang||'es', false); show('start'); setTimeout(()=>$('#playBtn').focus(),60);
 }
@@ -1277,6 +1327,7 @@ function openParent(){
   const langOpts=idiomasDisponibles().map(l=>`<option value="${l}" ${l===code?'selected':''}>${esc(PACKS[l].nombre)}</option>`).join('');
   openModal(`<button class="xbtn" data-act="pclose" aria-label="Cerrar">${ICON.close}</button>
     <h2>Rincón de los grandes</h2>
+    ${cuentaHtml()}
     <div class="reset">
       <div><b>Empezar de cero</b><span>Borra el nombre, el personaje, los sellos, los cuentos abiertos, los pececitos y la ropa. Se guardan las voces y tus grabaciones.</span></div>
       <button class="pbtn danger" id="p-reset">Empezar de cero</button>
@@ -1293,12 +1344,12 @@ function openParent(){
     <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> Traducción al inglés: al tocar una frase (el globo, las sílabas, el cuento) aparece en inglés. Solo se lee, el relator no la dice.</label>
     <div class="prow"><button class="pbtn" id="p-char">Elegir otro personaje</button><button class="pbtn" id="p-fish">Regalar 5 pececitos</button><span class="note" id="p-fishn">Tiene ${save.puntos||0}.</span></div>
     <h3>Grabar tu voz (${esc(PACKS[code].nombre)})</h3>
-    <p class="note">Tu grabación reemplaza la voz de la compu. Podés grabar la palabra entera, cada sílaba por separado (sirve cuando la compu dice mal una sílaba suelta, como la «ro» de aeropuerto) y las frases enteras (las partes de la frase las sigue diciendo la compu). Hablá despacio. Se guarda solo en este navegador.</p>
+    <p class="note">Tu grabación reemplaza la voz de la compu. Podés grabar la palabra entera, cada sílaba por separado (sirve cuando la compu dice mal una sílaba suelta, como la «ro» de aeropuerto) y las frases enteras (las partes de la frase las sigue diciendo la compu). Hablá despacio. ${NUBE.usuario ? (NUBE.usuario.admin ? 'Como sos el administrador, tus grabaciones se guardan online y las escuchan todos los chicos.' : 'Se guardan online en tu cuenta.') : 'Se guarda solo en este navegador.'}</p>
     <p class="note warn" id="p-micnote" ${micOK===false?'':'hidden'}>Acá no hay micrófono. Usá «Subir» con un audio del teléfono, o abrí el juego desde los archivos en Chrome o Edge para grabar directo.</p>
     <div class="tablewrap"><table><tbody>${recRows().map(recRowHtml).join('')}</tbody></table></div>
     <div class="prow"><button class="pbtn danger" id="p-clips">Borrar todas mis grabaciones</button></div>`,'parent');
   onAct('pclose',()=>{ closeModal(); if(!scr.home.hidden) goHome(); else if(!scr.start.hidden) applyLang(); });
-  $('#p-name').addEventListener('input',e=>{ save.name=fmtName(e.target.value); persist(); updateNames(); });
+  $('#p-name').addEventListener('input',e=>{ save.name=fmtName(e.target.value); persist(); updateNames(); if(NUBE.alumno && save.name){ NUBE.alumno.nombre=save.name; nubeRenombrar(); } });
   $('#p-lang').addEventListener('change',e=>{
     setLang(e.target.value); const inGame=!scr.game.hidden || !scr.lib.hidden || !scr.shop.hidden;
     closeModal(); if(inGame || !scr.home.hidden) goHome(); openParent();
@@ -1311,6 +1362,7 @@ function openParent(){
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
   armConfirm($('#p-reset'),resetProgress);
+  conectarCuentaParent();
   armConfirm($('#p-clips'),async()=>{ await clips.clear(); card.querySelector('tbody').innerHTML=recRows().map(recRowHtml).join(''); });
   const tbody=card.querySelector('tbody');
   const findRow=id=>recRows().find(x=>x.id===id);
@@ -1330,9 +1382,137 @@ function openParent(){
 }
 
 /* =========================================================
+   LA NUBE: cuentas, progreso y grabaciones en el servidor (api/)
+   Si el juego se abre como archivo o el sitio no tiene api/, todo sigue
+   funcionando como antes, guardado solo en este navegador.
+   Las pantallas de la cuenta son para los grandes (en castellano).
+   ========================================================= */
+const NUBE = {on:false, usuario:null, alumnos:[], alumno:null, sinCuenta:false};
+const ALUMNO_KEY='aventuras.alumno', SIN_CUENTA_KEY='aventuras.sinCuenta';
+const lsGet = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const lsSet = (k,v) => { try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v); }catch(e){} };
+async function api(ruta, {method='GET', body}={}){
+  const r=await fetch('/api/'+ruta, {method, credentials:'same-origin', headers: body?{'Content-Type':'application/json'}:{}, body: body?JSON.stringify(body):undefined});
+  let j=null; try{ j=await r.json(); }catch(e){}
+  if(!j) throw Object.assign(new Error('Sin servidor'), {status:r.status, sinServidor:true});
+  if(!r.ok) throw Object.assign(new Error(j.error||'Error'), {status:r.status});
+  return j;
+}
+function blobABase64(b){ return new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(',')[1]||''); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(b); }); }
+function base64ABlob(b64, tipo){ const bin=atob(b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new Blob([u],{type:tipo||'audio/webm'}); }
+async function nubeInit(){
+  if(location.protocol==='file:') return;
+  try{ const j=await api('sesion'); NUBE.on=true; NUBE.usuario=j.usuario; NUBE.alumnos=j.alumnos||[]; NUBE.sinCuenta=!j.usuario && lsGet(SIN_CUENTA_KEY)==='1'; }
+  catch(e){ NUBE.on=false; }
+}
+/* elegir un chico: su progreso es el del servidor, salvo que la copia de este navegador sea más nueva (se cortó internet) */
+function usarAlumno(a){
+  NUBE.alumno=a; lsSet(ALUMNO_KEY, String(a.id));
+  let local=null; try{ local=JSON.parse(localStorage.getItem(storeKey())); }catch(e){}
+  const remoto=a.datos||{};
+  const d = (local && (local._t||0) > (remoto._t||0)) ? local : remoto;
+  const dev={grownup:save.grownup, voces:save.voces, pausa:save.pausa, ingles:save.ingles};   // preferencias de este aparato
+  save=mezclarSave({...dev, ...d}); if(!save.name) save.name=a.nombre;
+  try{ localStorage.setItem(storeKey(), JSON.stringify(save)); }catch(e){}
+  if(d===local) nubeGuardarLuego(0);
+  if(save.lang) setLang(save.lang, false);
+}
+let nubeTm=0, nubePend=false;
+function nubeGuardarLuego(ms=1500){ nubePend=true; clearTimeout(nubeTm); nubeTm=setTimeout(nubeGuardar, ms); }
+async function nubeGuardar(){
+  const a=NUBE.alumno; if(!a || !nubePend) return;
+  nubePend=false;
+  try{ await api(`alumnos?id=${a.id}`,{method:'PUT', body:{datos:save}}); a.datos=save; }
+  catch(e){ nubePend=true; if(e.status!==401 && e.status!==404){ clearTimeout(nubeTm); nubeTm=setTimeout(nubeGuardar, 20000); } }
+}
+/* al cerrar o esconder la página, lo que falte subir se manda igual */
+function nubeUltimo(){ const a=NUBE.alumno; if(!a || !nubePend || !navigator.sendBeacon) return; nubePend=false; navigator.sendBeacon(`/api/alumnos?id=${a.id}&guardar=1`, new Blob([JSON.stringify({datos:save})],{type:'application/json'})); }
+addEventListener('pagehide', nubeUltimo);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') nubeUltimo(); });
+let renTm=0;
+function nubeRenombrar(){ clearTimeout(renTm); const a=NUBE.alumno; renTm=setTimeout(()=>api(`alumnos?id=${a.id}`,{method:'PATCH', body:{nombre:a.nombre}}).catch(()=>{}),800); }
+
+/* pantalla de la cuenta (para los grandes) */
+let cuentaModo='entrar';
+function goCuenta(){
+  hush(); show('cuenta'); renderCuenta();
+  sayAll([T.cuentaDi]);
+}
+function renderCuenta(msg=''){
+  const reg=cuentaModo==='registro';
+  $('#cuentaBox').innerHTML=`
+    <div class="tabs"><button class="tab ${reg?'':'on'}" data-m="entrar">Entrar</button><button class="tab ${reg?'on':''}" data-m="registro">Crear cuenta</button></div>
+    <form id="cuentaForm" class="cform">
+      ${reg?'<label>Tu nombre<input name="nombre" autocomplete="name" maxlength="60"></label>':''}
+      <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label>Contraseña${reg?' (mínimo 8 letras o números)':''}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>
+      <p class="cmsg" ${msg?'':'hidden'}>${esc(msg)}</p>
+      <button class="mbtn go" type="submit">${ICON.check}<span>${reg?'Crear cuenta':'Entrar'}</span></button>
+    </form>
+    <p class="note">${reg?'Con una cuenta, el progreso de cada chico queda guardado online y lo pueden seguir desde cualquier compu, tablet o teléfono.':'¿Primera vez? Tocá «Crear cuenta».'}</p>
+    <button class="linkbtn" id="sinCuenta">Jugar sin cuenta (se guarda solo en este navegador)</button>`;
+  $('#cuentaBox').querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ cuentaModo=b.dataset.m; renderCuenta(); }));
+  $('#sinCuenta').addEventListener('click',()=>{ NUBE.sinCuenta=true; lsSet(SIN_CUENTA_KEY,'1'); nextStep(); });
+  $('#cuentaForm').addEventListener('submit',async e=>{
+    e.preventDefault(); const f=new FormData(e.target), btn=e.target.querySelector('button'); btn.disabled=true;
+    try{
+      const j=await api('sesion',{method:'POST', body:{accion:cuentaModo, email:f.get('email'), clave:f.get('clave'), nombre:f.get('nombre')||''}});
+      NUBE.usuario=j.usuario; NUBE.alumnos=j.alumnos||[]; NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null);
+      await clips.cargarNube(); sfx.yay(); nextStep();
+    }catch(err){ btn.disabled=false; renderCuenta(err.sinServidor?'No hay conexión con el servidor.':err.message); }
+  });
+  setTimeout(()=>$('#cuentaBox input')?.focus(),60);
+}
+/* ¿quién juega? — los chicos de la cuenta */
+function goAlumnos(){
+  hush(); show('alumnos');
+  const box=$('#alumnosBox'); box.innerHTML='';
+  NUBE.alumnos.forEach(a=>{
+    const ch=CHARACTERS.find(c=>c.id===(a.datos||{}).charId);
+    const b=document.createElement('button'); b.className='char';
+    b.innerHTML=`<canvas></canvas><b>${esc(a.nombre)}</b>`;
+    b.addEventListener('focus',()=>sayAll([a.nombre]));
+    b.addEventListener('mouseenter',()=>b.focus());
+    b.addEventListener('click',()=>{ usarAlumno(a); sfx.yay(); nextStep(); });
+    live(b.querySelector('canvas'),(c,w,h,t)=>{ if(ch) drawAnimal(c,ch,w/2,h*.94,h*.86,{t,wave:document.activeElement===b,backpack:true}); else { c.fillStyle='#E3E9F2'; ell(c,w/2,h*.55,h*.3,h*.3,'#E3E9F2'); c.fillStyle='#9AA6B8'; c.font=`800 ${Math.round(h*.3)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(a.nombre.charAt(0),w/2,h*.56); } });
+    box.appendChild(b);
+  });
+  const add=document.createElement('form'); add.className='addkid';
+  add.innerHTML=`<b>Agregar un chico</b><input name="nombre" maxlength="14" placeholder="Nombre" required><button class="mbtn go" type="submit">${ICON.check}<span>Agregar</span></button><p class="cmsg" hidden></p>`;
+  add.addEventListener('submit',async e=>{
+    e.preventDefault(); const nombre=fmtName(add.nombre.value).trim(); if(!nombre) return;
+    try{ const a=await api('alumnos',{method:'POST', body:{nombre}}); NUBE.alumnos.push(a); usarAlumno(a); sfx.yay(); nextStep(); }
+    catch(err){ const m=add.querySelector('.cmsg'); m.hidden=false; m.textContent=err.message; }
+  });
+  box.appendChild(add);
+  setTimeout(()=>box.querySelector('button')?.focus(),60);
+  sayAll([T.quienJuega]);
+}
+/* en el rincón de los grandes */
+function cuentaHtml(){
+  if(!NUBE.on) return '';
+  if(!NUBE.usuario) return `<div class="reset acct"><div><b>Sin cuenta</b><span>El progreso se guarda solo en este navegador. Con una cuenta queda guardado online.</span></div><button class="pbtn" id="p-login">Entrar o crear cuenta</button></div>`;
+  const u=NUBE.usuario;
+  return `<div class="reset acct"><div><b>Cuenta: ${esc(u.nombre||u.email)}</b><span>${esc(u.email)}${NUBE.alumno?` · Juega: ${esc(NUBE.alumno.nombre)}`:''}. El progreso se guarda online.</span></div>
+    <div class="prow acctbtns">${u.admin?'<a class="pbtn" href="admin.html" target="_blank" rel="noopener">Administrar</a>':''}<button class="pbtn" id="p-kids">Cambiar de chico</button><button class="pbtn" id="p-logout">Salir</button></div></div>`;
+}
+function conectarCuentaParent(){
+  $('#p-login')?.addEventListener('click',()=>{ NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null); closeModal(); goCuenta(); });
+  $('#p-kids')?.addEventListener('click',async()=>{ await nubeGuardar(); NUBE.alumno=null; lsSet(ALUMNO_KEY,null); closeModal(); goAlumnos(); });
+  $('#p-logout')?.addEventListener('click',async()=>{
+    await nubeGuardar();
+    try{ await api('sesion',{method:'POST', body:{accion:'salir'}}); }catch(e){}
+    NUBE.usuario=null; NUBE.alumno=null; NUBE.alumnos=[]; lsSet(ALUMNO_KEY,null);
+    save=loadSave(); await clips.cargarNube(); closeModal(); setLang(save.lang||'es', false); goCuenta();
+  });
+}
+
+/* =========================================================
    PRIMEROS PASOS: idioma → nombre → personaje
    ========================================================= */
 function nextStep(){
+  if(NUBE.on && !NUBE.usuario && !NUBE.sinCuenta) return goCuenta();
+  if(NUBE.usuario && !NUBE.alumno) return goAlumnos();
   if(!save.lang) return goLangScreen();
   if(!save.name) return goName();
   if(!save.charId) return goPicker();
@@ -1497,6 +1677,7 @@ window.addEventListener('keydown',e=>{
     if(e.key.length===1 && /\p{L}/u.test(e.key) && !e.ctrlKey && !e.metaKey){ e.preventDefault(); nameKey(e.key.toLocaleUpperCase()); return; }
   }
   const vis=Object.values(scr).find(s=>!s.hidden);
+  if(e.target && (e.target.tagName==='INPUT' || e.target.tagName==='SELECT')) return;   // dejar mover el cursor en los formularios
   if(d && vis){ e.preventDefault(); navFocus(vis,d); }
 });
 window.addEventListener('keyup',e=>{ keys=keys.filter(k=>k!==e.key); if(!keys.length) inputLock=false; });
@@ -1539,7 +1720,9 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 clips.init();
-cargarTodo().then(()=>{
+Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
+  if(NUBE.usuario){ const id=+lsGet(ALUMNO_KEY); const a=NUBE.alumnos.find(x=>x.id===id); if(a) usarAlumno(a); }
+  await clips.cargarNube();
   setLang(save.lang || 'es', false);
   $('#playBtn').disabled=false; setTimeout(()=>$('#playBtn').focus(),60);
 });
