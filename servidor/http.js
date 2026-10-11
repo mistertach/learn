@@ -8,7 +8,8 @@ function responder(res, status, datos){
   res.setHeader('Cache-Control', 'no-store');
   res.end(JSON.stringify(datos));
 }
-const error = (status, mensaje) => Object.assign(new Error(mensaje), {status});
+/* codigo: para que el juego muestre el error en el idioma que eligió el grande (idiomas/grandes.js → err_<codigo>) */
+const error = (status, mensaje, codigo) => Object.assign(new Error(mensaje), {status, codigo});
 
 async function cuerpo(req){
   if(req.body !== undefined && req.body !== null && typeof req.body === 'object') return req.body;
@@ -28,7 +29,7 @@ async function usuarioDe(req){
   const filas = await q('SELECT id, email, nombre, es_admin FROM usuarios WHERE id=$1', [s.uid]);
   return filas[0] || null;
 }
-async function exigirUsuario(req){ const u = await usuarioDe(req); if(!u) throw error(401, 'Tenés que entrar con tu cuenta'); return u; }
+async function exigirUsuario(req){ const u = await usuarioDe(req); if(!u) throw error(401, 'Tenés que entrar con tu cuenta', 'sin_sesion'); return u; }
 
 /* envuelve un manejador: métodos permitidos + errores prolijos */
 function manejar(metodos){
@@ -40,7 +41,7 @@ function manejar(metodos){
       if(!res.writableEnded) responder(res, 200, r === undefined ? {ok:true} : r);
     }catch(e){
       if(!e.status) console.error(e);
-      responder(res, e.status || 500, {error: e.status ? e.message : 'Error del servidor'});
+      responder(res, e.status || 500, {error: e.status ? e.message : 'Error del servidor', codigo: e.codigo});
     }
   };
 }

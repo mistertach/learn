@@ -338,16 +338,21 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .start [data-t]{transition:opacity .28s}
 .start [data-t].swap{opacity:0}
+.uilangs{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px}
+.uilang{display:flex;flex-direction:column;align-items:center;gap:3px;border:2px solid #DCE3EE;background:#fff;border-radius:12px;padding:6px 4px;font:inherit;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer}
+.uilang img{width:34px;height:23px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px rgba(34,49,79,.12)}
+.uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
+#alumnosBox .addkid:only-child{grid-column:2}
 </style>
 
 <div id="app">
   <section id="scr-cuenta" class="screen cuenta" hidden>
-    <h2>Las aventuras<small>Para los grandes: entrá con tu cuenta para guardar el progreso online.</small></h2>
+    <h2><span id="cuentaTit">The Adventures</span><small id="cuentaSub"></small></h2>
     <div class="cuenta-box" id="cuentaBox"></div>
   </section>
 
   <section id="scr-alumnos" class="screen pick" hidden>
-    <h2><span data-t="quienJuega"></span><small>Cada chico guarda su propio progreso.</small></h2>
+    <h2><span id="alumnosTit"></span><small id="alumnosSub"></small></h2>
     <div class="chars" id="alumnosBox"></div>
   </section>
 
@@ -362,7 +367,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
   </section>
 
   <section id="scr-lang" class="screen langscr" hidden>
-    <h2>¿Qué idioma?<small>Quelle langue ? · Che lingua?</small></h2>
+    <h2>¿Qué idioma?<small>Which language? · Quelle langue ? · Che lingua?</small></h2>
     <div class="langs" id="langs"></div>
   </section>
 

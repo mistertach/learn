@@ -23,7 +23,7 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 
 ## Accounts (api/, servidor/, the NUBE section of juego.js)
 - The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.
-- Account screens, the admin page and server error messages are for grown-ups, in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.
+- The account screens (sign in / create account, "who's playing", the account part of the grown-up corner) are for grown-ups in the language they pick with the flags, English by default. Their texts live in `idiomas/grandes.js` (`G.*`, en/es/fr/it); add new ones to every language there. The server sends an error `codigo` and the client shows `G.err_<codigo>`. The rest of the grown-up corner and the admin page stay in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.
 - `persist()` also uploads the child's `save` (debounced, plus `sendBeacon` on page hide). Tables are created by `servidor/db.js` on first use; change the schema there with `IF NOT EXISTS`/`ALTER ... IF NOT EXISTS` so existing databases upgrade themselves.
 - Local check: `npm install`, a Postgres in `.env`, `npm run dev`.
 

@@ -130,6 +130,7 @@ async function cargarTodo(){
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
     cargarScript('idiomas/en.js'),
+    cargarScript('idiomas/grandes.js'),
     ...ids.map(id=>cargarScript(`capitulos/${id}/en.js`))
   ]);
   armarIngles();
@@ -1412,11 +1413,22 @@ async function api(ruta, {method='GET', body}={}){
   const r=await fetch('/api/'+ruta, {method, credentials:'same-origin', headers: body?{'Content-Type':'application/json'}:{}, body: body?JSON.stringify(body):undefined});
   let j=null; try{ j=await r.json(); }catch(e){}
   if(!j) throw Object.assign(new Error('Sin servidor'), {status:r.status, sinServidor:true});
-  if(!r.ok) throw Object.assign(new Error(j.error||'Error'), {status:r.status});
+  if(!r.ok) throw Object.assign(new Error(j.error||'Error'), {status:r.status, codigo:j.codigo});
   return j;
 }
 function blobABase64(b){ return new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(',')[1]||''); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(b); }); }
 function base64ABlob(b64, tipo){ const bin=atob(b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new Blob([u],{type:tipo||'audio/webm'}); }
+/* idioma de los textos para los grandes en las pantallas de la cuenta (no el que aprende el chico). Por defecto, inglés. */
+const UI_KEY='aventuras.grandes';
+let uiLang = lsGet(UI_KEY) || 'en';
+const G = new Proxy({}, {get:(_,k)=>{ const g=window.GRANDES||{}; const v=(g[uiLang]||{})[k]; return v!==undefined ? v : ((g.en||{})[k] ?? ''); }});
+const errTxt = e => e.sinServidor ? G.sinServidor : (e.codigo && G['err_'+e.codigo]) || e.message;
+const idiomasGrandes = () => Object.keys(window.GRANDES||{en:1});
+const banderaDe = code => code==='en' ? (window.BANDERA_EN||'') : (PACKS[code] ? PACKS[code].bandera : '');
+function elegirUi(code){
+  uiLang=code; lsSet(UI_KEY, code);
+  if(PACKS[code] && !save.lang) setLang(code, false);   // si ese idioma también se puede aprender, el relator lo usa hasta que el chico elija
+}
 async function nubeInit(){
   if(location.protocol==='file:') return;
   try{ const j=await api('sesion'); NUBE.on=true; NUBE.usuario=j.usuario; NUBE.alumnos=j.alumnos||[]; NUBE.sinCuenta=!j.usuario && lsGet(SIN_CUENTA_KEY)==='1'; }
@@ -1453,22 +1465,25 @@ function nubeRenombrar(){ clearTimeout(renTm); const a=NUBE.alumno; renTm=setTim
 let cuentaModo='entrar';
 function goCuenta(){
   hush(); show('cuenta'); renderCuenta();
-  sayAll([T.cuentaDi]);
+  if(PACKS[uiLang] || save.lang) sayAll([T.cuentaDi]);   // en inglés no se habla: el relator solo dice idiomas que se aprenden
 }
 function renderCuenta(msg=''){
-  const reg=cuentaModo==='registro';
+  const reg=cuentaModo==='registro', f0=$('#cuentaForm'), prev=f0 ? Object.fromEntries(new FormData(f0)) : {};
+  $('#scr-cuenta').lang=uiLang; $('#cuentaTit').textContent=G.titulo; $('#cuentaSub').textContent=G.sub;
   $('#cuentaBox').innerHTML=`
-    <div class="tabs"><button class="tab ${reg?'':'on'}" data-m="entrar">Entrar</button><button class="tab ${reg?'on':''}" data-m="registro">Crear cuenta</button></div>
+    <div class="uilangs" role="group" aria-label="${esc(G.idiomaGrandes)}">${idiomasGrandes().map(c=>`<button type="button" class="uilang ${c===uiLang?'on':''}" data-l="${c}" lang="${c}" aria-pressed="${c===uiLang}"><img src="${svgUri(banderaDe(c))}" alt=""><span>${esc(window.GRANDES[c].nombre)}</span></button>`).join('')}</div>
+    <div class="tabs"><button class="tab ${reg?'':'on'}" data-m="entrar">${esc(G.entrar)}</button><button class="tab ${reg?'on':''}" data-m="registro">${esc(G.crear)}</button></div>
     <form id="cuentaForm" class="cform">
-      ${reg?'<label>Tu nombre<input name="nombre" autocomplete="name" maxlength="60"></label>':''}
-      <label>Email<input name="email" type="email" autocomplete="email" required></label>
-      <label>Contraseña${reg?' (mínimo 8 letras o números)':''}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>
+      ${reg?`<label>${esc(G.tuNombre)}<input name="nombre" autocomplete="name" maxlength="60" value="${esc(prev.nombre||'')}"></label>`:''}
+      <label>${esc(G.email)}<input name="email" type="email" autocomplete="email" required value="${esc(prev.email||'')}"></label>
+      <label>${esc(reg?G.claveMin:G.clave)}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>
       <p class="cmsg" ${msg?'':'hidden'}>${esc(msg)}</p>
-      <button class="mbtn go" type="submit">${ICON.check}<span>${reg?'Crear cuenta':'Entrar'}</span></button>
+      <button class="mbtn go" type="submit">${ICON.check}<span>${esc(reg?G.crear:G.entrar)}</span></button>
     </form>
-    <p class="note">${reg?'Con una cuenta, el progreso de cada chico queda guardado online y lo pueden seguir desde cualquier compu, tablet o teléfono.':'¿Primera vez? Tocá «Crear cuenta».'}</p>
-    <button class="linkbtn" id="sinCuenta">Jugar sin cuenta (se guarda solo en este navegador)</button>`;
+    <p class="note">${esc(reg?G.notaCrear:G.notaEntrar)}</p>
+    <button class="linkbtn" id="sinCuenta">${esc(G.sinCuenta)}</button>`;
   $('#cuentaBox').querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ cuentaModo=b.dataset.m; renderCuenta(); }));
+  $('#cuentaBox').querySelectorAll('.uilang').forEach(b=>b.addEventListener('click',()=>{ elegirUi(b.dataset.l); renderCuenta(); }));
   $('#sinCuenta').addEventListener('click',()=>{ NUBE.sinCuenta=true; lsSet(SIN_CUENTA_KEY,'1'); nextStep(); });
   $('#cuentaForm').addEventListener('submit',async e=>{
     e.preventDefault(); const f=new FormData(e.target), btn=e.target.querySelector('button'); btn.disabled=true;
@@ -1476,13 +1491,14 @@ function renderCuenta(msg=''){
       const j=await api('sesion',{method:'POST', body:{accion:cuentaModo, email:f.get('email'), clave:f.get('clave'), nombre:f.get('nombre')||''}});
       NUBE.usuario=j.usuario; NUBE.alumnos=j.alumnos||[]; NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null);
       await clips.cargarNube(); sfx.yay(); nextStep();
-    }catch(err){ btn.disabled=false; renderCuenta(err.sinServidor?'No hay conexión con el servidor.':err.message); }
+    }catch(err){ btn.disabled=false; renderCuenta(errTxt(err)); }
   });
-  setTimeout(()=>$('#cuentaBox input')?.focus(),60);
+  setTimeout(()=>$('#cuentaBox input[name=email]')?.focus(),60);
 }
 /* ¿quién juega? — los chicos de la cuenta */
 function goAlumnos(){
   hush(); show('alumnos');
+  $('#scr-alumnos').lang=uiLang; $('#alumnosTit').textContent=G.quienJuega; $('#alumnosSub').textContent=G.quienSub;
   const box=$('#alumnosBox'); box.innerHTML='';
   NUBE.alumnos.forEach(a=>{
     const ch=CHARACTERS.find(c=>c.id===(a.datos||{}).charId);
@@ -1495,23 +1511,23 @@ function goAlumnos(){
     box.appendChild(b);
   });
   const add=document.createElement('form'); add.className='addkid';
-  add.innerHTML=`<b>Agregar un chico</b><input name="nombre" maxlength="14" placeholder="Nombre" required><button class="mbtn go" type="submit">${ICON.check}<span>Agregar</span></button><p class="cmsg" hidden></p>`;
+  add.innerHTML=`<b>${esc(G.agregar)}</b><input name="nombre" maxlength="14" placeholder="${esc(G.nombreChico)}" required><button class="mbtn go" type="submit">${ICON.check}<span>${esc(G.agregarBtn)}</span></button><p class="cmsg" hidden></p>`;
   add.addEventListener('submit',async e=>{
     e.preventDefault(); const nombre=fmtName(add.nombre.value).trim(); if(!nombre) return;
     try{ const a=await api('alumnos',{method:'POST', body:{nombre}}); NUBE.alumnos.push(a); usarAlumno(a); sfx.yay(); nextStep(); }
-    catch(err){ const m=add.querySelector('.cmsg'); m.hidden=false; m.textContent=err.message; }
+    catch(err){ const m=add.querySelector('.cmsg'); m.hidden=false; m.textContent=errTxt(err); }
   });
   box.appendChild(add);
   setTimeout(()=>box.querySelector('button')?.focus(),60);
-  sayAll([T.quienJuega]);
+  if(PACKS[uiLang] || save.lang) sayAll([T.quienJuega]);
 }
 /* en el rincón de los grandes */
 function cuentaHtml(){
   if(!NUBE.on) return '';
-  if(!NUBE.usuario) return `<div class="reset acct"><div><b>Sin cuenta</b><span>El progreso se guarda solo en este navegador. Con una cuenta queda guardado online.</span></div><button class="pbtn" id="p-login">Entrar o crear cuenta</button></div>`;
+  if(!NUBE.usuario) return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuentaSin)}</b><span>${esc(G.cuentaSinTxt)}</span></div><button class="pbtn" id="p-login">${esc(G.cuentaEntrar)}</button></div>`;
   const u=NUBE.usuario;
-  return `<div class="reset acct"><div><b>Cuenta: ${esc(u.nombre||u.email)}</b><span>${esc(u.email)}${NUBE.alumno?` · Juega: ${esc(NUBE.alumno.nombre)}`:''}. El progreso se guarda online.</span></div>
-    <div class="prow acctbtns">${u.admin?'<a class="pbtn" href="admin.html" target="_blank" rel="noopener">Administrar</a>':''}<button class="pbtn" id="p-kids">Cambiar de chico</button><button class="pbtn" id="p-logout">Salir</button></div></div>`;
+  return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuenta(u.nombre||u.email))}</b><span>${esc(u.email)}${NUBE.alumno?` · ${esc(G.juega(NUBE.alumno.nombre))}`:''}. ${esc(G.online)}</span></div>
+    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div></div>`;
 }
 function conectarCuentaParent(){
   $('#p-login')?.addEventListener('click',()=>{ NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null); closeModal(); goCuenta(); });
@@ -1719,7 +1735,7 @@ $('#btnPracticar').addEventListener('click',()=>goLib('practicar'));
 $('#btnTienda').addEventListener('click',goShop);
 holdify($('#gearHome'),1500,openParent);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
-['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget,'Rincón de los grandes: mantené apretado este botón para entrar.', 'ℹ'); }));
+['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));
 holdify($('#gearGame'),1500,()=>{ if(!modal.hidden) closeModal(); openParent(); });
 live($('#shopCv'),(c,w,h,t)=>{
   const it=(window.TIENDA||[]).find(x=>x.id===shopSel);
