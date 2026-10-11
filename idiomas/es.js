@@ -1,0 +1,48 @@
+/* Idioma: castellano (Argentina). Todo lo que dice el relator y los botones del juego. */
+registrarIdioma({
+  codigo: 'es', nombre: 'Castellano', tag: 'es-AR',
+  // orden de preferencia de las voces del navegador (menor = mejor)
+  rankVoz: l => l==='es-ar'?0 : (l==='es-uy'||l==='es-419')?1 : (l==='es-us'||l==='es-mx')?2 : l==='es-es'?4 : 3,
+  bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="90" height="60" fill="#74ACDF"/><rect y="20" width="90" height="20" fill="#fff"/><circle cx="45" cy="30" r="6.5" fill="#F6B40E" stroke="#85340A" stroke-width="1"/></svg>`,
+  letras: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
+  t: {
+    titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
+    nombreQ: '¿Cómo te llamás?', nombreOk: '¡Listo!',
+    quien: '¿Quién sos?', quienSub: 'Elegí un amigo', quienDi: '¿Quién sos? ¡Elegí un amigo!',
+    holaX: n => `¡Hola, ${n}!`, holaSub: '¿A dónde vamos hoy?', holaDi: n => `¡Hola, ${n}! ¿A dónde vamos?`,
+    semana: 'Semana', pronto: '¡Pronto!', prontoDi: '¡Pronto! Este lugar se abre la semana que viene.',
+    cuentos: 'Los cuentos', practicar: '¡A practicar!', tienda: 'La tienda',
+    cuentosDi: 'Los cuentos. ¿Cuál leemos?', practicarDi: '¡A practicar! Elegí una palabra o una frase.',
+    palabras: 'Palabras', frases: 'Frases',
+    cerrado: 'Este cuento está cerrado.', abrirCuento: w => `Para abrir este cuento, conseguí el sello de ${w}.`,
+    piso: (n, nombre) => `Piso ${n}. ${nombre}.`,
+    intro1: 'Caminá con las flechas, o tocá donde querés ir. ¡Seguí la flecha amarilla!',
+    repeti: '¡Repetí conmigo!', todoJunto: '¡Ahora todo junto!', teToca: '¡Te toca!',
+    hola: '¡Hola!', mira: w => `Mirá: ${w}.`, donde: w => `¿Dónde está ${w}?`, ups: w => `¡Ups! Probá otra vez. ¿Dónde está ${w}?`,
+    fraseAhora: 'Ahora decimos la frase.', estrella: 'Cuando lo digas, tocá la estrella.', estrellaGrande: 'Cuando lo digas, papá o mamá te dan la estrella.',
+    todos: '¡Tenés todos los sellos! Buscá la puerta verde. ¡A volar!', cuentoQ: '¿Querés escuchar un cuento? Tocá el libro.',
+    ascensor: '¡El ascensor! ¿A qué piso?', aQuePiso: '¿A qué piso?',
+    pasaporte: 'Mi pasaporte', ppFinal: 'Juntá todos los sellos y después, ¡a volar!', ppFalta: 'Este sello todavía no lo tenés.',
+    todaviaNo: '¡Todavía no!', faltan: (h, n) => `Primero juntá todos los sellos. Tenés ${h}, y son ${n}. ¡Seguí la flecha amarilla!`,
+    queDecimos: '¿Qué le decimos?', lograste: '¡Lo lograste! ¡Volaste en un avión de verdad!', otroViaje: '¡Otro viaje! Juntá los sellos otra vez.',
+    conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,
+    seguir: 'Seguir', otraVez: 'Otra vez', loDije: '¡Lo dije!', apretado: 'Mantené apretado', unCuento: '¡Un cuento!', atras: 'Atrás',
+    fin: '¡Fin!', bueno: 'Bueno', otroViajeB: 'Otro viaje', inicio: 'Inicio', vamos: '¡Vamos!', listo: '¡Listo!',
+    peces: n => n === 1 ? '1 pececito' : `${n} pececitos`,
+    pez: '¡Mirá! ¡Un pececito!', pezQ: '¡Un pececito! Para comerlo, contestá:', casi: '¡Casi! Probá otra vez.', nam: '¡Ñam, ñam!',
+    tenesPeces: s => `Tenés ${s}.`, escapo: '¡Uy! El pececito se escapó. ¡Ya va a venir otro!',
+    cualEs: w => `¿Cuál es ${w}?`, si: w => `¡Sí! ${w}.`, color: c => `¿Cuál es el color ${c}?`, cuantos: '¿Cuántos pececitos hay?',
+    colores: {rojo:'rojo', azul:'azul', amarillo:'amarillo', verde:'verde', violeta:'violeta', naranja:'naranja', rosa:'rosa', negro:'negro', blanco:'blanco'},
+    numeros: ['cero','uno','dos','tres','cuatro','cinco','seis'],
+    elogios: ['Muy bien','Genial','Bárbaro','Excelente','Qué bien'], elogio: (x, n) => n ? `¡${x}, ${n}!` : `¡${x}!`,
+    animales: {cat:{f:'la gata', m:'el gato'}, dog:{m:'el perro'}, bunny:{m:'el conejo'}, bear:{m:'el oso'}},
+    objetos: {'#':'la pared', b:'el banco', p:'la planta', '~':'la puerta'},
+    // tienda
+    tiendaHola: '¡Hola! Esta es la tienda. ¿Qué querés comprar?', quiero: i => `Quiero ${i}, por favor.`,
+    cuesta: s => `Son ${s}.`, noAlcanza: s => `Te faltan ${s}. ¡Buscá más peces!`, comprado: i => `¡Listo! Ya tenés ${i}.`,
+    queda: '¡Te queda bárbaro!', comprar: 'Comprar', ponerme: 'Ponerme', sacarme: 'Sacarme',
+    ropa: {remera_roja:'la remera roja', remera_rayas:'la remera a rayas', remera_estrella:'la remera con estrella', camiseta:'la camiseta de fútbol',
+           short:'el short', pantalon:'el pantalón', gorra:'la gorra', gorro:'el gorro de lana', corona:'la corona',
+           anteojos:'los anteojos de sol', mono:'el moño', bufanda:'la bufanda', capa:'la capa'}
+  }
+});
