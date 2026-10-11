@@ -124,6 +124,8 @@ registrarTextos('aeropuerto', 'it', {
     despedida: "Buon viaggio!",
     chau: "Ciao, aeroporto!"
   },
+  // el microjuego que se abre al terminar el lugar ({n} = cuántas estrellas juntó)
+  microjuego: {titulo:"Volo arcobaleno", intro:"Muovi l'aereo su e giù, e prendi le stelle colorate!", fin:"Hai preso {n} stelle!"},
   palabrasExtra: [
     {texto:"l'ascensore", silabas:["l'a", "scen", "so", "re"]},
     {texto:"la scala mobile", silabas:["la", "sca", "la", "mo", "bi", "le"]},

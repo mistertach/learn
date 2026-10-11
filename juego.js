@@ -75,6 +75,7 @@ function buildCap(id, lang){
     estaciones:{}, objetos:{...(t.objetos||{})},
     final:{npc:b.final.npc, anim:b.final.anim||'vuelo', propina:b.final.propina||0, ...t.final, frase:{...t.final.frase, arte:b.final.arte}},
     uniforme:b.uniforme||null,
+    microjuego: b.microjuego ? {...b.microjuego, ...(t.microjuego||{}), ingredientes:(b.microjuego.ingredientes||[]).map((k,i)=>({k, ...(((t.microjuego||{}).ingredientes||[])[i]||{})}))} : null,
     palabrasExtra:(b.palabrasExtra||[]).map((a,i)=>({...t.palabrasExtra[i], arte:a})),
     frasesExtra:(b.frasesExtra||[]).map((a,i)=>({...t.frasesExtra[i], arte:a})),
     preguntas:(b.preguntas||[]).map((q,i)=>({...q, ...t.preguntas[i]}))
@@ -164,7 +165,7 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, armario:{tiene:{}, puesto:{}}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, armario:{tiene:{}, puesto:{}}, juegos:{}});
 function loadSave(){
   try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
@@ -1213,14 +1214,19 @@ async function runGate(){
   }
   await sayAll([F.chau||F.despedida]); if(!alive()) return;
   await sleep(Math.max(0,5200-(performance.now()/1000-t0)*1000)); if(!alive()) return;
+  const nuevoJuego = CAP.microjuego && !juegoAbierto(CAP);
   cs.final=true;
   if(F.propina) save.puntos=(save.puntos||0)+F.propina;
+  if(CAP.microjuego){ save.juegos=save.juegos||{}; const g=save.juegos[CAP.id]=save.juegos[CAP.id]||{}; g.gratis=(g.gratis||0)+1; }   // terminar el lugar regala una partida
   persist(); updateHud(); sfx.yay();
   card.querySelector('[data-end]').hidden=false; setTimeout(()=>card.querySelector('.go')?.focus(),30);
-  sayAll([T.conNombre(F.despedida, save.name), F.lograste||T.lograste, ...(F.propina?[T.premio(T.peces(F.propina))]:[])]);
-  const {act}=await waitAct(['again','home']); if(!alive()) return;
+  if(CAP.microjuego) card.querySelector('[data-end]').insertAdjacentHTML('afterbegin', B('jugar','star',T.aJugar,'go'));
+  setTimeout(()=>card.querySelector('.go')?.focus(),30);
+  sayAll([T.conNombre(F.despedida, save.name), F.lograste||T.lograste, ...(F.propina?[T.premio(T.peces(F.propina))]:[]), ...(nuevoJuego?[T.juegoNuevo]:[])]);
+  const {act}=await waitAct(['again','home','jugar']); if(!alive()) return;
   closeModal();
   if(act==='home'){ goHome(); return; }
+  if(act==='jugar'){ runMicro(CAP); return; }
   cs.sellos={}; cur=0; const p=findTile(0,'P'); placePlayer(p.x,p.y); savePos(); updateHud();
   sayAll([F.otraVez||T.otroViaje]);
 }
@@ -1269,7 +1275,7 @@ function drawFlight(c,w,h,u,t,conf,bye){
    BIBLIOTECAS: cuentos y práctica (todos los lugares)
    ========================================================= */
 function goLib(mode){
-  hush(); show('lib');
+  hush(); show('lib'); libMode=mode;
   const body=$('#libBody'); body.innerHTML='';
   $('#libTitle').textContent = mode==='cuentos' ? T.cuentos : T.practicar;
   CAP_LIST.filter(capAbierto).forEach(c=>{
@@ -1591,6 +1597,55 @@ function confirmName(){
 }
 
 /* =========================================================
+   MICROJUEGOS — uno por lugar (microjuegos.js). Se abren al terminar el lugar
+   (con una partida gratis) y después cada partida cuesta pececitos.
+   ========================================================= */
+const juegoAbierto = c => Object.keys(save.caps||{}).some(k=>k.split(':')[1]===c.id && save.caps[k].final);
+const juegoGratis = c => ((save.juegos||{})[c.id]||{}).gratis||0;
+/* paga la partida (o usa una gratis); false si no alcanzan los peces */
+function pagarJuego(c){
+  const mj=c.microjuego, g=juegoGratis(c);
+  if(g>0){ save.juegos[c.id].gratis=g-1; persist(); return {gratis:true}; }
+  const p=save.puntos||0;
+  if(p<mj.precio){ sfx.oops(); sayAll([T.noAlcanza(T.peces(mj.precio-p))]); return null; }
+  save.puntos=p-mj.precio; persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud();
+  return {gratis:false};
+}
+async function runMicro(c){
+  const mj=c.microjuego, juego=(window.MICROJUEGOS||{})[mj && mj.id]; if(!juego) return;
+  const pago=pagarJuego(c); if(!pago){ busy=false; return; }
+  const tok=++flowTok; busy=true;
+  openModal(`${X_BTN}<h3 class="stitle"${enAttr(enDe(mj.titulo))}>${esc(mj.titulo)}</h3>
+    <canvas class="mj" data-mj></canvas><div class="actions" data-mjact></div>`,'wide');
+  sfx.stamp();
+  const M={canvas:card.querySelector('[data-mj]'), actions:card.querySelector('[data-mjact]'), alive:()=>tok===flowTok,
+    aviso: pago.gratis ? T.juegoGratis : T.cuesta(T.peces(mj.precio))};
+  const fin=await juego(c, M); if(!M.alive()) return;
+  // al terminar: otra partida (paga) o volver
+  M.actions.innerHTML = B('again','replay',`${esc(T.otraVez)} <i class="mjprecio">${juegoGratis(c)>0?'★':img('pez')+mj.precio}</i>`,'soft') + B('back','back',T.atras,'go');
+  setTimeout(()=>M.actions.querySelector('.go')?.focus(),30);
+  const {act}=await waitAct(['again','back']); if(!M.alive()) return;
+  if(act==='again'){ runMicro(c); return; }
+  closeModal(); if(!scr.lib.hidden && libMode==='juegos') goJuegos();
+}
+let libMode='';
+function goJuegos(){
+  hush(); show('lib'); libMode='juegos';
+  const body=$('#libBody'); body.innerHTML='';
+  $('#libTitle').textContent=T.juegos;
+  const lista=CAP_LIST.filter(c=>c.microjuego && capAbierto(c));
+  body.innerHTML=`<div class="books games">${lista.map(c=>{ const mj=c.microjuego, open=juegoAbierto(c), g=juegoGratis(c);
+    return `<button class="book ${open?'':'locked'}" style="--bc:${mj.color||'#FFB13C'}" data-c="${c.id}">${img(mj.arte)}<b>${open?esc(mj.titulo):''}</b>${open?`<span class="precio">${g>0?'★':`${img('pez')}${mj.precio}`}</span>`:ICON.lock}</button>`; }).join('')}</div>`;
+  body.querySelectorAll('.book').forEach(b=>{
+    const c=CAP_LIST.find(x=>x.id===b.dataset.c);
+    b.addEventListener('focus',()=>sayAll([juegoAbierto(c) ? c.microjuego.titulo : T.juegoCerrado(c.lugar.texto)]));
+    b.addEventListener('click',()=>{ if(!juegoAbierto(c)){ sayAll([T.juegoCerrado(c.lugar.texto)]); return; } runMicro(c); });
+  });
+  setTimeout(()=>body.querySelector('button')?.focus(),60);
+  sayAll([T.juegosDi]);
+}
+
+/* =========================================================
    LA TIENDA
    ========================================================= */
 let shopSel=null;
@@ -1733,6 +1788,7 @@ $('#libBack').addEventListener('click',goHome);
 $('#btnCuentos').addEventListener('click',()=>goLib('cuentos'));
 $('#btnPracticar').addEventListener('click',()=>goLib('practicar'));
 $('#btnTienda').addEventListener('click',goShop);
+$('#btnJuegos').addEventListener('click',goJuegos);
 holdify($('#gearHome'),1500,openParent);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
 ['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));

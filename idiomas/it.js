@@ -34,6 +34,7 @@ registrarIdioma({
     pez: 'Guarda! Un pesciolino!', pezQ: 'Un pesciolino! Per mangiarlo, rispondi:', casi: 'Quasi! Prova ancora.', nam: 'Gnam, gnam!',
     premio: s => `Hai vinto ${s}!`,
     cuentaDi: 'Chiedi a un adulto di entrare con il suo account.', quienJuega: 'Chi gioca?', capCerrado: 'Questo posto è ancora chiuso.',
+    juegos: 'Giochi!', juegosDi: 'I giochi. A cosa giochiamo?', juegoCerrado: w => `Per aprire questo gioco, finisci ${w}.`, juegoNuevo: 'E hai vinto un gioco nuovo!', aJugar: 'Giochiamo!', juegoGratis: 'Questa volta è gratis!',
     tenesPeces: s => `Hai ${s}.`, escapo: 'Oh! Il pesciolino è scappato. Ne arriverà un altro!',
     cualEs: w => `Dov'è ${w}?`, si: w => `Sì! ${w}.`, color: c => `Qual è il ${c}?`, cuantos: 'Quanti pesciolini ci sono?',
     colores: {rojo:'rosso', azul:'blu', amarillo:'giallo', verde:'verde', violeta:'viola', naranja:'arancione', rosa:'rosa', negro:'nero', blanco:'bianco'},

@@ -124,6 +124,8 @@ registrarTextos('aeropuerto', 'es', {
     despedida: "¡Buen viaje!",
     chau: "¡Chau, aeropuerto!"
   },
+  // el microjuego que se abre al terminar el lugar ({n} = cuántas estrellas juntó)
+  microjuego: {titulo:"Vuelo arcoíris", intro:"¡Mové el avión para arriba y para abajo, y juntá las estrellas de colores!", fin:"¡Juntaste {n} estrellas!"},
   palabrasExtra: [
     {texto:"el ascensor", silabas:["el", "as", "cen", "sor"]},
     {texto:"la escalera", silabas:["la", "es", "ca", "le", "ra"]},

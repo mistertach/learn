@@ -21,6 +21,11 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Rendering: canvas for the world/stories/flight (`drawWorld`, `drawScene`, `drawFlight`). `drawAnimal` draws all characters, and `drawHero` adds the outfit from the shop.
 - Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`.
 
+## Microgames (microjuegos.js)
+- One per place, declared in `base.js` as `microjuego: {id, arte, precio, color}` with its texts in each `<lang>.js` (and `en.js`) under `microjuego`. `MICROJUEGOS[id](cap, M)` draws on `M.canvas`, puts buttons in `M.actions` and resolves when the round ends.
+- Finishing a place (in any language) unlocks its game and gives one free play (`save.juegos[id].gratis`); after that each play costs `precio` fish. They are listed under the home screen's Games button.
+- Keep them teaching something in the target language (the plane game says the color of each star, the pizza game names each ingredient), with no way to lose.
+
 ## Accounts (api/, servidor/, the NUBE section of juego.js)
 - The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.
 - The account screens (sign in / create account, "who's playing", the account part of the grown-up corner) are for grown-ups in the language they pick with the flags, English by default. Their texts live in `idiomas/grandes.js` (`G.*`, en/es/fr/it); add new ones to every language there. The server sends an error `codigo` and the client shows `G.err_<codigo>`. The rest of the grown-up corner and the admin page stay in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.

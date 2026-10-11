@@ -35,6 +35,7 @@ registrarIdioma({
     pez: '¡Mirá! ¡Un pececito!', pezQ: '¡Un pececito! Para comerlo, contestá:', casi: '¡Casi! Probá otra vez.', nam: '¡Ñam, ñam!',
     premio: s => `¡Ganaste ${s}!`,
     cuentaDi: 'Pedile a un grande que entre con su cuenta.', quienJuega: '¿Quién juega?', capCerrado: 'Este lugar todavía está cerrado.',
+    juegos: '¡Juegos!', juegosDi: 'Los juegos. ¿A qué jugamos?', juegoCerrado: w => `Para abrir este juego, terminá ${w}.`, juegoNuevo: '¡Y ganaste un juego nuevo!', aJugar: '¡A jugar!', juegoGratis: '¡Esta vez es gratis!',
     tenesPeces: s => `Tenés ${s}.`, escapo: '¡Uy! El pececito se escapó. ¡Ya va a venir otro!',
     cualEs: w => `¿Cuál es ${w}?`, si: w => `¡Sí! ${w}.`, color: c => `¿Cuál es el color ${c}?`, cuantos: '¿Cuántos pececitos hay?',
     colores: {rojo:'rojo', azul:'azul', amarillo:'amarillo', verde:'verde', violeta:'violeta', naranja:'naranja', rosa:'rosa', negro:'negro', blanco:'blanco'},

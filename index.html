@@ -343,6 +343,19 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .uilang img{width:34px;height:23px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px rgba(34,49,79,.12)}
 .uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
 #alumnosBox .addkid:only-child{grid-column:2}
+.xcard.juegos{background:#F2A007}
+.extras .xcard{flex-basis:180px}
+.mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
+.book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
+.book .precio img{width:24px;padding:0;background:none}
+.mjprecio{display:inline-flex;align-items:center;gap:1px;font-style:normal}
+.mjprecio img{width:24px;vertical-align:middle}
+.mjprecio{font-style:normal}
+.ings{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.ing{width:84px;height:84px;border-radius:50%;border:4px solid #fff;background:#FFF4E0;box-shadow:0 5px 0 rgba(34,49,79,.18);display:grid;place-items:center;padding:8px;box-sizing:border-box;transition:transform .12s}
+.ing img{width:100%}
+.ing.on{border-color:var(--sun);transform:translateY(-4px) scale(1.06)}
+.ing:focus-visible{outline:5px solid var(--sun);outline-offset:2px}
 </style>
 
 <div id="app">
@@ -399,6 +412,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
       <button class="xcard cuentos" id="btnCuentos"><span data-ico="book"></span><span data-t="cuentos"></span></button>
       <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
       <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
+      <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
     </div>
     <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
   </section>
@@ -447,6 +461,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 
 <script src="capitulos.js"></script>
 <script src="juego.js"></script>
+<script src="microjuegos.js"></script>
 
 </body>
 </html>

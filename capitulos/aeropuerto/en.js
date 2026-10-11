@@ -123,6 +123,8 @@ registrarTextos('aeropuerto', 'en', {
     despedida: "Have a good trip!",
     chau: "Bye-bye, airport!"
   },
+  // el microjuego que se abre al terminar el lugar ({n} = cuántas estrellas juntó)
+  microjuego: {titulo:"Rainbow flight", intro:"Move the plane up and down, and catch the colored stars!", fin:"You caught {n} stars!"},
   palabrasExtra: [
     {texto:"the elevator"},
     {texto:"the escalator"},

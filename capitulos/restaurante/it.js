@@ -129,6 +129,9 @@ registrarTextos('restaurante', 'it', {
     otraVez: "Un altro giorno di lavoro! Prendi di nuovo i timbri.",
     otraVezB: "Un altro giorno"
   },
+  // el microjuego que se abre al terminar el lugar (los ingredientes van en el orden de base.js)
+  microjuego: {titulo:"Facciamo la pizza!", intro:"Fai la tua pizza! Tocca un ingrediente e poi tocca la pizza.", horno:"In forno!", mas:"Metti ancora qualcosa!", listo:"Mmm, che buona pizza! Grazie, chef!",
+    ingredientes: [{texto:"il sugo"}, {texto:"la mozzarella"}, {texto:"il pomodoro"}, {texto:"l'oliva"}, {texto:"il basilico"}, {texto:"il fungo"}]},
   palabrasExtra: [
     {texto:"la pizza", silabas:["la", "piz", "za"]},
     {texto:"la zuppa", silabas:["la", "zup", "pa"]},

@@ -124,6 +124,8 @@ registrarTextos('aeropuerto', 'fr', {
     despedida: "Bon voyage !",
     chau: "Au revoir, l'aéroport !"
   },
+  // el microjuego que se abre al terminar el lugar ({n} = cuántas estrellas juntó)
+  microjuego: {titulo:"Vol arc-en-ciel", intro:"Fais monter et descendre l'avion, et attrape les étoiles de couleur !", fin:"Tu as attrapé {n} étoiles !"},
   palabrasExtra: [
     {texto:"l'ascenseur", silabas:["l'as", "cen", "seur"]},
     {texto:"l'escalator", silabas:["l'es", "ca", "la", "tor"]},
