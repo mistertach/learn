@@ -4,9 +4,12 @@ registrarIdioma({
   // orden de preferencia de las voces del navegador (menor = mejor)
   rankVoz: l => l==='es-ar'?0 : (l==='es-uy'||l==='es-419')?1 : (l==='es-us'||l==='es-mx')?2 : l==='es-es'?4 : 3,
   bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="90" height="60" fill="#74ACDF"/><rect y="20" width="90" height="20" fill="#fff"/><circle cx="45" cy="30" r="6.5" fill="#F6B40E" stroke="#85340A" stroke-width="1"/></svg>`,
+  // cómo se le pasa a la voz una sílaba suelta que lee mal: una vocal sola (diría el nombre de la letra)
+  // o una sílaba que también es palabra en inglés ("to" sonaba "tu"; con tilde la voz la lee en castellano)
+  sonido: {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u', 'to':'tó', 'do':'dó', 'so':'só', 'no':'nó', 'go':'gó', 'me':'mé', 'he':'hé', 'be':'bé'},
   letras: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
   t: {
-    titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
+    aventuras: '¡Aventuras!', titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',
     nombreQ: '¿Cómo te llamás?', nombreOk: '¡Listo!',
     quien: '¿Quién sos?', quienSub: 'Elegí un amigo', quienDi: '¿Quién sos? ¡Elegí un amigo!',
     holaX: n => `¡Hola, ${n}!`, holaSub: '¿A dónde vamos hoy?', holaDi: n => `¡Hola, ${n}! ¿A dónde vamos?`,
@@ -30,6 +33,8 @@ registrarIdioma({
     fin: '¡Fin!', bueno: 'Bueno', otroViajeB: 'Otro viaje', inicio: 'Inicio', vamos: '¡Vamos!', listo: '¡Listo!',
     peces: n => n === 1 ? '1 pececito' : `${n} pececitos`,
     pez: '¡Mirá! ¡Un pececito!', pezQ: '¡Un pececito! Para comerlo, contestá:', casi: '¡Casi! Probá otra vez.', nam: '¡Ñam, ñam!',
+    premio: s => `¡Ganaste ${s}!`,
+    cuentaDi: 'Pedile a un grande que entre con su cuenta.', quienJuega: '¿Quién juega?', capCerrado: 'Este lugar todavía está cerrado.',
     tenesPeces: s => `Tenés ${s}.`, escapo: '¡Uy! El pececito se escapó. ¡Ya va a venir otro!',
     cualEs: w => `¿Cuál es ${w}?`, si: w => `¡Sí! ${w}.`, color: c => `¿Cuál es el color ${c}?`, cuantos: '¿Cuántos pececitos hay?',
     colores: {rojo:'rojo', azul:'azul', amarillo:'amarillo', verde:'verde', violeta:'violeta', naranja:'naranja', rosa:'rosa', negro:'negro', blanco:'blanco'},

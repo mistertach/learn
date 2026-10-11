@@ -3,9 +3,12 @@ registrarIdioma({
   codigo: 'it', nombre: 'Italiano', tag: 'it-IT',
   rankVoz: l => l==='it-it'?0 : 1,
   bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="30" height="60" fill="#009246"/><rect x="30" width="30" height="60" fill="#fff"/><rect x="60" width="30" height="60" fill="#CE2B37"/></svg>`,
+  // come leggere una sillaba che è una vocale da sola (se no, la voce dice il nome della lettera)
+  // anche una sillaba che è una parola inglese ("to" suonava come "tu")
+  sonido: {'à':'a', 'è':'e', 'é':'e', 'ì':'i', 'ò':'o', 'ó':'o', 'ù':'u', 'to':'tò'},
   letras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   t: {
-    titulo: 'Le avventure di', jugar: 'Gioca!', tag: "Con l'audio · frecce o mouse per camminare",
+    aventuras: 'Avventure!', titulo: 'Le avventure di', jugar: 'Gioca!', tag: "Con l'audio · frecce o mouse per camminare",
     nombreQ: 'Come ti chiami?', nombreOk: 'Fatto!',
     quien: 'Chi sei?', quienSub: 'Scegli un amico', quienDi: 'Chi sei? Scegli un amico!',
     holaX: n => `Ciao, ${n}!`, holaSub: 'Dove andiamo oggi?', holaDi: n => `Ciao, ${n}! Dove andiamo?`,
@@ -29,6 +32,8 @@ registrarIdioma({
     fin: 'Fine!', bueno: 'Va bene', otroViajeB: 'Un altro viaggio', inicio: 'Inizio', vamos: 'Andiamo!', listo: 'Fatto!',
     peces: n => n === 1 ? '1 pesciolino' : `${n} pesciolini`,
     pez: 'Guarda! Un pesciolino!', pezQ: 'Un pesciolino! Per mangiarlo, rispondi:', casi: 'Quasi! Prova ancora.', nam: 'Gnam, gnam!',
+    premio: s => `Hai vinto ${s}!`,
+    cuentaDi: 'Chiedi a un adulto di entrare con il suo account.', quienJuega: 'Chi gioca?', capCerrado: 'Questo posto è ancora chiuso.',
     tenesPeces: s => `Hai ${s}.`, escapo: 'Oh! Il pesciolino è scappato. Ne arriverà un altro!',
     cualEs: w => `Dov'è ${w}?`, si: w => `Sì! ${w}.`, color: c => `Qual è il ${c}?`, cuantos: 'Quanti pesciolini ci sono?',
     colores: {rojo:'rosso', azul:'blu', amarillo:'giallo', verde:'verde', violeta:'viola', naranja:'arancione', rosa:'rosa', negro:'nero', blanco:'bianco'},
