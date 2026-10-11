@@ -75,6 +75,7 @@ function buildCap(id, lang){
     estaciones:{}, objetos:{...(t.objetos||{})},
     final:{npc:b.final.npc, anim:b.final.anim||'vuelo', propina:b.final.propina||0, ...t.final, frase:{...t.final.frase, arte:b.final.arte}},
     uniforme:b.uniforme||null,
+    numeros:t.numeros||null,
     microjuego: b.microjuego ? {...b.microjuego, ...(t.microjuego||{}), ingredientes:(b.microjuego.ingredientes||[]).map((k,i)=>({k, ...(((t.microjuego||{}).ingredientes||[])[i]||{})}))} : null,
     palabrasExtra:(b.palabrasExtra||[]).map((a,i)=>({...t.palabrasExtra[i], arte:a})),
     frasesExtra:(b.frasesExtra||[]).map((a,i)=>({...t.frasesExtra[i], arte:a})),
@@ -528,6 +529,7 @@ function drawTileObj(ch,x,y,t){
   if(ch==='b'){ c.fillStyle='#5A8BEA'; rr(c,X+T*.1,Y+T*.22,T*.8,T*.24,T*.08); c.fill(); c.fillStyle='#3D6FD9'; rr(c,X+T*.08,Y+T*.44,T*.84,T*.26,T*.08); c.fill(); c.fillStyle='#2A4FA8'; c.fillRect(X+T*.16,Y+T*.7,T*.07,T*.18); c.fillRect(X+T*.77,Y+T*.7,T*.07,T*.18); return; }
   if(ch==='p'){ poly(c,[X+T*.28,Y+T*.6, X+T*.72,Y+T*.6, X+T*.64,Y+T*.94, X+T*.36,Y+T*.94],'#D9774A'); ell(c,X+T*.5,Y+T*.42,T*.26,T*.24,'#3CB371'); ell(c,X+T*.36,Y+T*.34,T*.15,T*.15,'#2E9E5E'); ell(c,X+T*.62,Y+T*.28,T*.14,T*.14,'#4FCB83'); return; }
   if(ch==='a'){ drawCar(c,X+T*.5,Y+T*.86,T*.92,t,x+y*3); return; }
+  if(ch==='e'){ drawEngranaje(c,X+T*.5,Y+T*.52,T*.36,(x+y)%2?t*.8:-t*.8,(x+y)%2?'#C9A27A':'#8A96AA'); return; }
   if(ch==='m'){
     c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.9,T*.4,T*.07,'#000'); c.restore();
     c.fillStyle='#8A5636'; c.fillRect(X+T*.22,Y+T*.7,T*.07,T*.2); c.fillRect(X+T*.71,Y+T*.7,T*.07,T*.2);
@@ -579,6 +581,12 @@ function drawTileObj(ch,x,y,t){
     c.fillStyle='rgba(255,255,255,.35)'; rr(c,X+T*.03,Y+T*.48,T*.94,T*.1,T*.05); c.fill();
     drawImg(c,s.item,X+T*.76,Y+T*.5,T*.3);
   }
+}
+function drawEngranaje(c,x,y,r,rot,col){
+  c.save(); c.translate(x,y); c.rotate(rot); c.fillStyle=col;
+  for(let i=0;i<8;i++){ c.save(); c.rotate(i*Math.PI/4); c.fillRect(-r*.16,-r*1.08,r*.32,r*.4); c.restore(); }
+  c.beginPath(); c.arc(0,0,r*.8,0,Math.PI*2); c.fill();
+  ell(c,0,0,r*.32,r*.32,'rgba(0,0,0,.25)'); c.restore();
 }
 const AUTOS=['#E8483B','#2E86DE','#FFC93C','#2FBF8F','#8B6FE8'];
 /* un auto de costado: x = centro, y = piso, s = largo */
@@ -908,6 +916,8 @@ async function runPlaceIntro(){
 async function runStation(key){
   const st=CAP.estaciones[key], tok=++flowTok, alive=()=>tok===flowTok;
   const w=palabraDe(CAP,key), f=fraseDe(CAP,key);
+  // 0 · (el reloj) contar los números de la esfera
+  if(st.contar && CAP.numeros){ await runContar(st, tok); if(!alive()) return; }
   // 1 · mirá y repetí la palabra
   openModal(shell({steps:4,step:0,npc:st.npc,bubble:esc(T.hola),sub:st.intro,en:[enT('hola'),enDe(st.intro)].filter(Boolean).join(' '),
     center:`<div class="hero-item small">${img(st.item)}</div><div class="stack">${chipsWord(w)}${turnHtml()}</div>`,
@@ -918,17 +928,19 @@ async function runStation(key){
   await waitAct('next'); if(!alive()) return;
   // 2 · buscá
   const opts=shuffle([key,...shuffle(CAP.orden.filter(k=>k!==key)).slice(0,2)]);
-  openModal(shell({steps:4,step:1,npc:st.npc,bubble:esc(T.donde(w.texto)),en:enDe(w.texto)&&enT('donde',enDe(w.texto)),
+  // cada estación puede traer su propia pregunta ("¿Qué reloj dice las cinco y media?")
+  const pregunta = st.buscar || T.donde(w.texto), preguntaEn = st.buscar ? enDe(st.buscar) : (enDe(w.texto)&&enT('donde',enDe(w.texto)));
+  openModal(shell({steps:4,step:1,npc:st.npc,bubble:esc(pregunta),en:preguntaEn,
     center:opts.map(k=>`<button class="choice" data-act="pick" data-k="${k}" aria-label="${esc(palabraDe(CAP,k).texto)}">${img(CAP.estaciones[k].item)}</button>`).join(''),
     actions:B('again','speaker',T.otraVez)}));
   liveNpc(st.npc);
-  onAct('again',()=>narrar(()=>sayAll([T.donde(w.texto)])));
-  narrar(()=>sayAll([T.donde(w.texto)]));
+  onAct('again',()=>narrar(()=>sayAll([pregunta])));
+  narrar(()=>sayAll([pregunta]));
   for(;;){
     const {btn}=await waitAct('pick'); if(!alive()) return;
     if(btn.dataset.k===key){ btn.classList.add('right'); sfx.yay(); await sayAll([praise()]); if(!alive()) return; break; }
     btn.classList.add('wrong'); sfx.oops(); setTimeout(()=>btn.classList.remove('wrong'),500);
-    sayAll([T.ups(w.texto)]);
+    sayAll(st.buscar ? [T.casi, st.buscar] : [T.ups(w.texto)]);
   }
   // 3 · decí la frase en partes
   openModal(shell({steps:4,step:2,npc:st.npc,bubble:esc(f.texto),en:enDe(f.texto),
@@ -955,6 +967,51 @@ async function runStation(key){
   narrar(()=>sayAll(msg));
   const {act}=await waitAct(['map','story']); if(!alive()) return;
   if(act==='story') runStory(CAP,key); else closeModal();
+}
+
+/* =========================================================
+   RELOJES — una esfera con números y agujas (la torre del reloj, su microjuego, el final)
+   ========================================================= */
+/* h y m pueden tener decimales (las agujas se mueven suave). o.marca = número resaltado */
+function drawReloj(c,x,y,r,h,m,o={}){
+  c.save(); c.globalAlpha=.16; ell(c,x+r*.04,y+r*.08,r*1.04,r*1.04,'#000'); c.restore();
+  ell(c,x,y,r*1.08,r*1.08,o.borde||'#8B6FE8'); ell(c,x,y,r,r,o.fondo||'#FFFDF8');
+  for(let i=0;i<60;i++){ const a=i*Math.PI/30, big=i%5===0, r1=r*(big?.86:.9), r2=r*.95; c.strokeStyle=big?'#22314F':'#B7C3D4'; c.lineWidth=r*(big?.03:.012); c.beginPath(); c.moveTo(x+Math.sin(a)*r1,y-Math.cos(a)*r1); c.lineTo(x+Math.sin(a)*r2,y-Math.cos(a)*r2); c.stroke(); }
+  if(o.numeros!==false){
+    c.textAlign='center'; c.textBaseline='middle';
+    for(let n=1;n<=12;n++){
+      const a=n*Math.PI/6, nx=x+Math.sin(a)*r*.7, ny=y-Math.cos(a)*r*.7;
+      if(o.marca===n){ ell(c,nx,ny,r*.15,r*.15,'#FFC93C'); }
+      c.fillStyle=o.marca===n?'#22314F':'#3A4A6B'; c.font=`800 ${Math.round(r*(o.marca===n?.22:.18))}px 'Baloo 2',sans-serif`; c.fillText(String(n),nx,ny+r*.015);
+    }
+  }
+  const mano=(ang,len,wd,col)=>{ c.save(); c.translate(x,y); c.rotate(ang); c.strokeStyle=col; c.lineWidth=wd; c.lineCap='round'; c.beginPath(); c.moveTo(0,len*.18); c.lineTo(0,-len); c.stroke(); c.restore(); };
+  if(o.chica!==false) mano(((h%12)+m/60)*Math.PI/6, r*.5, r*.1, o.chica||'#22314F');
+  if(o.grande!==false) mano(m*Math.PI/30, r*.78, r*.055, o.grande||'#22314F');
+  ell(c,x,y,r*.07,r*.07,'#E8483B');
+}
+/* paso extra de la estación del reloj: contar del 1 al 12 en la esfera, y repetir cada número */
+async function runContar(st, tok){
+  const nums=CAP.numeros; let marca=0;
+  openModal(shell({npc:st.npc,bubble:esc(st.contar),en:enDe(st.contar),
+    center:`<div class="stack"><canvas class="contar" data-reloj></canvas>${turnHtml()}</div>`,
+    actions:B('again','replay',T.otraVez)+B('next','next',T.seguir,'go')}));
+  liveNpc(st.npc); liveMe();
+  live(card.querySelector('[data-reloj]'),(c,w,h,t)=>{ const r=Math.min(w,h)*.42; drawReloj(c,w/2,h/2,r,marca||12,0,{marca, grande: marca?'#22314F':'#22314F'}); });
+  const contar=async(intro)=>{
+    const my=++seqTok; const ok=()=>my===seqTok;
+    if(intro && !(await sayAll([st.contar]))) return;
+    for(let i=1;i<=12;i++){
+      if(!ok()) return; marca=i; sfx.tick();
+      await sayAll([{t:sonido(nums[i-1]), lento:true}]); if(!ok()) return;
+      if(!(await waitTurn(nums[i-1], my))) return;
+    }
+    marca=0;
+  };
+  onAct('again',()=>narrar(()=>contar(false)));
+  narrar(()=>contar(true));
+  await waitAct('next'); if(tok!==flowTok) return;
+  hush();
 }
 
 /* =========================================================
@@ -1045,6 +1102,14 @@ function bgSalon(c,w,h){
   c.fillStyle='#C96A4A'; c.fillRect(0,h*.52,w,h*.04);
   const cw=w/10, ch=h/7; for(let i=0;i<10;i++) for(let j=0;j<4;j++){ c.fillStyle=(i+j)%2?'#2B2B36':'#F4F1EA'; c.fillRect(i*cw,h*.56+j*ch,cw+1,ch+1); }
 }
+function bgRelojes(c,w,h,t){
+  c.fillStyle='#6A50C4'; c.fillRect(0,0,w,h*.58);
+  c.fillStyle='rgba(255,255,255,.06)'; for(let x=0;x<w;x+=w*.08) c.fillRect(x,0,w*.04,h*.58);
+  const rel=[[.12,.2,.08,3,0],[.3,.3,.06,9,15],[.5,.17,.09,(t*.5)%12,(t*30)%60],[.7,.3,.065,6,30],[.88,.2,.08,10,45]];
+  for(const [x,y,r,hh,mm] of rel) drawReloj(c,w*x,h*y,h*r*1.6,hh,mm,{numeros:false,borde:'#FFC93C'});
+  c.fillStyle='#4E3A99'; c.fillRect(0,h*.55,w,h*.04);
+  const cw=w/10, ch=h/7; for(let i=0;i<10;i++) for(let j=0;j<3;j++){ c.fillStyle=(i+j)%2?'#C98B4E':'#B5753A'; c.fillRect(i*cw,h*.59+j*ch,cw+1,ch+1); }
+}
 function bgCocina(c,w,h){
   c.fillStyle='#EAF4FA'; c.fillRect(0,0,w,h*.6);
   c.strokeStyle='#CFE2EE'; c.lineWidth=2; const tl=h*.08; for(let y=0;y<h*.6;y+=tl){ c.beginPath(); c.moveTo(0,y); c.lineTo(w,y); c.stroke(); } for(let x=0;x<w;x+=tl){ c.beginPath(); c.moveTo(x,0); c.lineTo(x,h*.6); c.stroke(); }
@@ -1068,6 +1133,7 @@ function heart(c,x,y,s){ c.fillStyle='#FF6F8F'; c.beginPath(); c.moveTo(x,y+s*.9
 function drawScene(c,w,h,cap,esc2,t){
   const fondo=esc2.fondo||'terminal', gy=h*.92, S=h*.52;
   if(fondo==='cielo') bgSky(c,w,h,t); else if(fondo==='ventana') bgWindow(c,w,h,t);
+  else if(fondo==='relojes') bgRelojes(c,w,h,t);
   else if(fondo==='salon') bgSalon(c,w,h); else if(fondo==='cocina') bgCocina(c,w,h); else if(fondo==='calle') bgCalle(c,w,h,t);
   else bgTerminal(c,w,h);
   const escY=(p)=>gy+p*(h*.24-gy);
@@ -1205,7 +1271,10 @@ async function runGate(){
   await starPress(); if(!alive()) return;
   openModal(`<canvas class="fly" data-fly></canvas><div class="actions" data-end hidden>${B('again','replay',F.otraVezB||T.otroViajeB,'soft')}${B('home','home',T.inicio,'go')}</div>`,'wide');
   const t0=performance.now()/1000, conf=Array.from({length:70},(_,i)=>({x:Math.random(),s:.6+Math.random()*.8,c:['#FF6F59','#FFC93C','#2FBF8F','#2E86DE','#8B6FE8'][i%5],r:Math.random()*6}));
-  if(F.anim==='propina'){
+  if(F.anim==='campanas'){
+    live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawCampanas(c,w,h,t-t0,t,conf,F));
+    [3.1,3.8,4.5,5.2].forEach(s=>setTimeout(()=>{ if(alive()){ tone(196,1.4,'sine',.16); tone(392,1.1,'triangle',.05); } }, s*1000));
+  } else if(F.anim==='propina'){
     live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawTip(c,w,h,t-t0,t,conf,F,CAP.uniforme));
     setTimeout(()=>alive()&&sfx.ding(),1500); setTimeout(()=>alive()&&noise(2,.07,120,500),2400);
   } else {
@@ -1229,6 +1298,22 @@ async function runGate(){
   if(act==='jugar'){ runMicro(CAP); return; }
   cs.sellos={}; cur=0; const p=findTile(0,'P'); placePlayer(p.x,p.y); savePos(); updateHud();
   sayAll([F.otraVez||T.otroViaje]);
+}
+/* final de la torre del reloj: las agujas giran hasta las doce y suenan las campanas */
+function drawCampanas(c,w,h,u,t,conf,F){
+  const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#5DB8F0'); g.addColorStop(1,'#D8F0FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+  cloud(c,w*.15+Math.sin(t*.3)*10,h*.2,h*.05); cloud(c,w*.85,h*.3,h*.045);
+  c.fillStyle='#7FC46A'; c.fillRect(0,h*.88,w,h*.12);
+  const tx=w*.5, tw=h*.5;
+  c.fillStyle='#C98B4E'; c.fillRect(tx-tw/2,h*.3,tw,h*.6); c.fillStyle='#B5753A'; c.fillRect(tx-tw/2,h*.3,tw*.12,h*.6);
+  poly(c,[tx-tw*.62,h*.31, tx+tw*.62,h*.31, tx,h*.02],'#8B6FE8');
+  c.fillStyle='#8A5636'; rr(c,tx-tw*.16,h*.72,tw*.32,h*.18,tw*.16); c.fill();
+  // las agujas giran rápido y frenan justo en las doce
+  const k=Math.min(1,u/3), mins=(1-Math.pow(1-k,3))*180;   // de las 9 a las 12: tres vueltas de la aguja grande
+  drawReloj(c,tx,h*.46,tw*.36,9+Math.floor(mins/60),mins%60,{borde:'#FFC93C'});
+  if(u>3){ for(const sd of [-1,1]){ const sw=Math.sin((u-3)*7)*.4; c.save(); c.translate(tx+sd*tw*.85,h*.28); c.rotate(sw*sd); c.fillStyle='#FFC93C'; c.beginPath(); c.moveTo(-h*.06,h*.12); c.quadraticCurveTo(-h*.06,0,0,0); c.quadraticCurveTo(h*.06,0,h*.06,h*.12); c.closePath(); c.fill(); ell(c,0,h*.13,h*.02,h*.02,'#D99A00'); c.restore(); } }
+  if(u>4.4){ const kk=u-4.4; conf.forEach(p=>{ const y=((p.x*h*1.3 + kk*p.s*h*.35) % (h+40))-20; const x=p.x*w+Math.sin(kk*2+p.r)*14; c.save(); c.translate(x,y); c.rotate(kk*3*p.s+p.r); c.fillStyle=p.c; c.fillRect(-5,-3,10,6); c.restore(); }); }
+  if(u>4.6){ c.save(); c.globalAlpha=Math.min(1,(u-4.6)*2); c.font=`800 ${Math.round(h*.12)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.025; c.strokeStyle='#22314F'; c.strokeText(F.despedida,w/2,h*.16); c.fillStyle='#FFC93C'; c.fillText(F.despedida,w/2,h*.16); c.restore(); }
 }
 /* final del restaurante: la clienta se va en su auto y le tira una propina al mozo */
 function drawTip(c,w,h,u,t,conf,F,uni){

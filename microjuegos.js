@@ -184,3 +184,66 @@ MICROJUEGOS.pizza = (cap, M) => new Promise(resolve=>{
   });
   sayAll([M.aviso, tx.intro]);
 });
+
+/* ---------------------------------------------------------
+   TORRE DEL RELOJ · Poné el reloj en hora: el relator dice una hora,
+   el chico toca el número de la hora y elige en punto / y cuarto / y media / menos cuarto.
+   --------------------------------------------------------- */
+MICROJUEGOS.hora = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, nums=cap.numeros, cv=M.canvas, RONDAS=5;
+  const TIPOS=['punto','cuarto','media','menos'], MIN={punto:0, cuarto:15, media:30, menos:45};
+  // "menos cuarto" se dice con la hora que viene: las siete menos cuarto son las 6:45
+  const real=(n,t)=> t==='menos' ? {h:(n+10)%12+1, m:45} : {h:n, m:MIN[t]};
+  const total=(n,t)=>{ const r=real(n,t); return (r.h%12)*60+r.m; };
+  let ronda=0, bien=0, meta=null, selH=12, selT='punto', visto=total(12,'punto'), listo=false, prev=null;
+  const geo=(w,h)=>({x:w*.5, y:h*.5, r:h*.42});
+  let G0={x:0,y:0,r:1};
+
+  M.actions.innerHTML=`<div class="tipos">${B('menos1','left','','soft hourbtn')}${B('mas1','right','','soft hourbtn')}
+    ${TIPOS.map(t=>`<button class="tipo" data-t="${t}"${enAttr(enDe(tx.tipos[t]))}>${img('m'+String(MIN[t]).padStart(2,'0'))}<span>${esc(tx.tipos[t])}</span></button>`).join('')}</div>`
+    + B('listo','check',T.listo,'go');
+  const tipos=[...M.actions.querySelectorAll('.tipo')];
+  const marcarTipo=()=>tipos.forEach(b=>b.classList.toggle('on',b.dataset.t===selT));
+  const ponerHora=n=>{ if(!listo) return; selH=n; tone(700,.06,'triangle',.07); sayAll([sonido(nums[n-1])]); };
+  onAct('menos1',()=>ponerHora(selH===1?12:selH-1));
+  onAct('mas1',()=>ponerHora(selH===12?1:selH+1));
+  tipos.forEach(b=>b.addEventListener('click',()=>{ if(!listo) return; selT=b.dataset.t; marcarTipo(); sayAll([tx.tipos[selT]]); }));
+  cv.addEventListener('pointerdown',e=>{
+    const r=cv.getBoundingClientRect(), dx=e.clientX-r.left-G0.x, dy=e.clientY-r.top-G0.y;
+    if(Math.hypot(dx,dy)>G0.r*1.1) return;
+    let n=Math.round(((Math.atan2(dx,-dy)+Math.PI*2)%(Math.PI*2))/(Math.PI/6)); if(n===0) n=12;
+    ponerHora(n);
+  });
+  marcarTipo();
+
+  live(cv,(c,w,h,t)=>{
+    const dt=prev==null?0:Math.min(.05,t-prev); prev=t; if(!M.alive()) return;
+    c.fillStyle='#EDE6FF'; c.fillRect(0,0,w,h);
+    for(let i=0;i<6;i++) drawEngranaje(c,w*(i%2?.06:.94),h*(.15+i*.15),h*.07,(i%2?1:-1)*t*.6,'rgba(139,111,232,.25)');
+    // las agujas van suave hacia lo elegido (por el camino más corto)
+    let d=total(selH,selT)-visto; d=((d%720)+1080)%720-360; visto+=d*Math.min(1,dt*7);
+    const g=G0=geo(w,h), v=((visto%720)+720)%720;
+    drawReloj(c,g.x,g.y,g.r,Math.floor(v/60),v%60,{marca:selH, borde:'#8B6FE8'});
+    // estrellas ganadas
+    for(let i=0;i<RONDAS;i++) star5(c,w*.84+(i%3)*h*.09,h*(.12+Math.floor(i/3)*.1),h*.035,i<bien?'#FFC93C':'rgba(34,49,79,.15)');
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ sfx.yay(); await sayAll([textoN(tx.fin,bien), praise(true)]); if(M.alive()) resolve(bien); return; }
+    ronda++;
+    let n; do{ n=2+Math.floor(Math.random()*11); }while(meta && n===meta.n);
+    meta={n, t:TIPOS[Math.floor(Math.random()*4)]};
+    listo=false;
+    await sayAll([tx.pon, tx.hora(nums[n-1], meta.t)]);
+    listo=true;
+  }
+  onAct('listo',async()=>{
+    if(!listo || !M.alive()) return; listo=false;
+    const frase=tx.hora(nums[meta.n-1], meta.t);
+    if(selH===meta.n && selT===meta.t){ bien++; sfx.yay(); await sayAll([praise(), frase]); }
+    else { sfx.oops(); selH=meta.n; selT=meta.t; marcarTipo(); await sayAll([tx.asi, frase]); }
+    await sleep(400); nuevaRonda();
+  });
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
