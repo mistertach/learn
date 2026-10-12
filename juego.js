@@ -1663,15 +1663,16 @@ function drawFlight(c,w,h,u,t,conf,bye){
 /* =========================================================
    BIBLIOTECAS: cuentos y práctica (todos los lugares)
    ========================================================= */
+/* un cuento se abre al ganar el sello de su estación (o si el administrador le abrió todo al chico) */
+const cuentoAbierto = (c,k) => pruebaTodo() || !!capSave(c.id).sellos[k];
 function goLib(mode){
   hush(); show('lib'); libMode=mode;
   const body=$('#libBody'); body.innerHTML='';
   $('#libTitle').textContent = mode==='cuentos' ? T.cuentos : T.practicar;
   CAP_LIST.filter(capAbierto).forEach(c=>{
-    const s=capSave(c.id);
     const sec=document.createElement('section'); sec.className='shelf';
     if(mode==='cuentos'){
-      sec.innerHTML=`<h3${enAttr(enDe(c.titulo))}>${esc(c.titulo)}</h3><div class="books">${c.orden.filter(k=>c.estaciones[k].cuento).map(k=>{ const st=c.estaciones[k], open=s.sellos[k]; return `<button class="book ${open?'':'locked'}" style="--bc:${st.mostrador||'#4A90E2'}" data-c="${c.id}" data-k="${k}">${img(st.item)}<b>${open?esc(st.cuento.titulo):''}</b>${open?'':ICON.lock}</button>`; }).join('')}</div>`;
+      sec.innerHTML=`<h3${enAttr(enDe(c.titulo))}>${esc(c.titulo)}</h3><div class="books">${c.orden.filter(k=>c.estaciones[k].cuento).map(k=>{ const st=c.estaciones[k], open=cuentoAbierto(c,k); return `<button class="book ${open?'':'locked'}" style="--bc:${st.mostrador||'#4A90E2'}" data-c="${c.id}" data-k="${k}">${img(st.item)}<b>${open?esc(st.cuento.titulo):''}</b>${open?'':ICON.lock}</button>`; }).join('')}</div>`;
     } else {
       sec.innerHTML=`<h3${enAttr(enDe(c.titulo))}>${esc(c.titulo)}</h3>
         <h4>${esc(T.palabras)}</h4><div class="cards">${c.palabras.map(p=>`<button class="pcard" data-c="${c.id}" data-w="${esc(p.id)}">${img(p.arte)}<b>${esc(p.texto)}</b></button>`).join('')}</div>
@@ -1681,8 +1682,8 @@ function goLib(mode){
   });
   body.querySelectorAll('.book').forEach(b=>{
     const c=CAP_LIST.find(x=>x.id===b.dataset.c), k=b.dataset.k;
-    b.addEventListener('focus',()=>sayAll([capSave(c.id).sellos[k] ? c.estaciones[k].cuento.titulo : T.cerrado]));
-    b.addEventListener('click',()=>{ if(!capSave(c.id).sellos[k]){ sayAll([T.abrirCuento(palabraDe(c,k).texto)]); return; } runStory(c,k,true); });
+    b.addEventListener('focus',()=>sayAll([cuentoAbierto(c,k) ? c.estaciones[k].cuento.titulo : T.cerrado]));
+    b.addEventListener('click',()=>{ if(!cuentoAbierto(c,k)){ sayAll([T.abrirCuento(palabraDe(c,k).texto)]); return; } runStory(c,k,true); });
   });
   body.querySelectorAll('.pcard').forEach(b=>{
     const c=CAP_LIST.find(x=>x.id===b.dataset.c);

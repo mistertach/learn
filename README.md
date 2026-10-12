@@ -27,7 +27,7 @@ The tables are created automatically on the first request.
    - `SESSION_SECRET`: a long random string (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`).
    - `ADMIN_EMAIL`: your email. Whoever registers with it is the admin.
    - Optional, for "Forgot your password?" emails: `RESEND_API_KEY` (from [Resend](https://resend.com)), `MAIL_FROM` (a sender on a domain you verified in Resend, e.g. `Las aventuras <hola@yourdomain.com>`) and `APP_URL` (the site's address, e.g. `https://yourgame.vercel.app`, used in the link). Without them, the game tells the grown-up to ask you for a new password. On your computer, the link is printed in the terminal instead.
-4. Deploy, open the site and create your account with that email. `/admin.html` lists every family and child and shows their progress. It lets you lock or unlock places per child, tick **Abrir todo** to open every place and game (free) for a child (handy for testing), and give anyone who forgot their password a temporary one with **Nueva contraseña**. Grown-ups can change their own password in the grown-up corner.
+4. Deploy, open the site and create your account with that email. `/admin.html` lists every family and child and shows their progress. It lets you lock or unlock places per child, tick **Abrir todo** to open every place, game (free) and story for a child (handy for testing), and give anyone who forgot their password a temporary one with **Nueva contraseña**. Grown-ups can change their own password in the grown-up corner.
 
 ## Structure
 
