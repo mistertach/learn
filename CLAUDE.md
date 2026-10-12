@@ -11,7 +11,7 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Spanish is Rioplatense (vos, "tenés", "valija", "pasaje", "remera", "acá").
 - Buttons stay disabled while the narrator talks. Wrap narration in `narrar(async () => ...)` inside modals.
 - English is one of the languages to learn (`idiomas/en.js`, `capitulos/<place>/en.js`), and those same files are the English translations a grown-up sees when tapping a phrase (`data-en`) while the child learns another language. They are matched by position, so `en.js` must keep exactly the shape of the other text files. Never speak English while the child learns another language. Add English for every new string.
-- Words need `silabas` (pronounced one by one, slowly) and phrases need `partes` (built up cumulatively). Syllables must be spelled so the target-language voice pronounces them correctly. A syllable that is a lone vowel gets read as a letter name ("é accent aigu"), and one that is also an English word ("to") gets read in English, so each `idiomas/<lang>.js` has a `sonido` map that tells the voice how to say it. `voiceFor` avoids Edge's "Multilingual" voices, which guess the language of each utterance.
+- Words need `silabas` (pronounced one by one, slowly) and phrases need `partes` (built up cumulatively). Syllables must be spelled so the target-language voice pronounces them correctly. A syllable that is a lone vowel gets read as a letter name ("é accent aigu"), and some voices spell out odd ones ("loj", "je") or anything with an accent added ("tó"), so each `idiomas/<lang>.js` has a `sonido` map that tells the voice how to say it. `voiceFor` avoids Edge's "Multilingual" voices, which guess the language of each utterance.
 - Child-proof: big targets, arrow keys + mouse/touch, nothing destructive without the grown-up corner, ✕ buttons excluded from arrow navigation (`tabindex="-1"`).
 
 ## Architecture (juego.js)
@@ -23,6 +23,8 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Maps: each floor has its own size and shape (a space is outside the building; walls are drawn tile by tile), kept close to square so they fit a phone either way up. Below every U, D and L there must be floor. `resizeWorld()` leaves room for the touch arrows (below the map when upright, beside it when sideways).
 - Phones: under 640px wide the stamp row becomes a counter, and under 520px tall the windows shrink so their buttons always fit. Check new screens at 390×844 and 844×390.
 - Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`, and the clock ones (gear tile, `contar`, `buscar`, `numeros`, bells ending, `relojSVG`) at the top of `capitulos/reloj/base.js`. `drawReloj()` in `juego.js` draws a clock face on canvas.
+
+- Places open in order: a place unlocks when the previous one is finished in the language being learned (`capPorOrden`), unless a grown-up ticks "open all places" in the grown-up corner (`save.todoAbierto`). The admin can also lock places per child (`capAbierto`).
 
 ## Microgames (microjuegos.js)
 - One per place, declared in `base.js` as `microjuego: {id, arte, precio, color}` with its texts in each `<lang>.js` (and `en.js`) under `microjuego`. `MICROJUEGOS[id](cap, M)` draws on `M.canvas`, puts buttons in `M.actions` and resolves when the round ends.

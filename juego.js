@@ -776,7 +776,11 @@ function buildPicker(){
   });
 }
 function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>$('#chars button')?.focus(),50); sayAll([T.quienDi]); }
-const capAbierto = c => !(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id));
+/* un lugar se abre cuando se terminó el anterior (en el idioma que está aprendiendo), salvo que un grande
+   los abra todos desde el rincón; además, el administrador puede cerrar lugares a un chico */
+const capPrevio = c => { const i=CAP_LIST.indexOf(c); return i>0 ? CAP_LIST[i-1] : null; };
+const capPorOrden = c => { const p=capPrevio(c); return !p || save.todoAbierto || capSave(p.id).final; };
+const capAbierto = c => !(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id)) && capPorOrden(c);
 function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
@@ -785,7 +789,7 @@ function goHome(){
       const b=document.createElement('button'); b.className='week locked';
       b.innerHTML=`<span class="art">${ICON.lock}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${esc(c.titulo)}</b>`;
       b.addEventListener('focus',()=>sayAll([c.titulo]));
-      b.addEventListener('click',()=>sayAll([T.capCerrado]));
+      b.addEventListener('click',()=>sayAll([capPorOrden(c) ? T.capCerrado : T.capPrimero(capPrevio(c).lugar.texto)]));
       box.appendChild(b); return;
     }
     const s=capSave(c.id);
@@ -1476,6 +1480,7 @@ function openParent(){
     </div>
     ${vs.length?'':`<p class="note warn">Este navegador no tiene ninguna voz en ${esc(PACKS[code].nombre.toLowerCase())}, así que la pronunciación va a salir mal (con acento inglés). Abrí el juego en Microsoft Edge, que trae voces de todos estos idiomas, o grabá tu voz abajo.</p>`}
     <label class="chk"><input type="checkbox" id="p-grown" ${save.grownup?'checked':''}> Yo controlo cuando habla: la estrella se mantiene apretada un segundo para dar el sello.</label>
+    <label class="chk"><input type="checkbox" id="p-todo" ${save.todoAbierto?'checked':''}> Abrir todos los lugares (si no, cada lugar se abre al terminar el anterior).</label>
     <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> Traducción al inglés: al tocar una frase (el globo, las sílabas, el cuento) aparece en inglés. Solo se lee, el relator no la dice.</label>
     <div class="prow"><button class="pbtn" id="p-char">Elegir otro personaje</button><button class="pbtn" id="p-fish">Regalar 5 pececitos</button><span class="note" id="p-fishn">Tiene ${save.puntos||0}.</span></div>
     <h3>Grabar tu voz (${esc(PACKS[code].nombre)})</h3>
@@ -1494,6 +1499,7 @@ function openParent(){
   $('#p-test').addEventListener('click',()=>{ const c=CAP_LIST[0]; sayAll([T.holaX(save.name||char().name), ...(c?[c.palabras[0].silabas.join(' '), c.palabras[0].texto]:[])]); });
   $('#p-grown').addEventListener('change',e=>{ save.grownup=e.target.checked; persist(); });
   $('#p-ingles').addEventListener('change',e=>{ save.ingles=e.target.checked; persist(); });
+  $('#p-todo').addEventListener('change',e=>{ save.todoAbierto=e.target.checked; persist(); });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
   armConfirm($('#p-reset'),resetProgress);
