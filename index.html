@@ -338,16 +338,41 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .start [data-t]{transition:opacity .28s}
 .start [data-t].swap{opacity:0}
+.uilangs{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px}
+.uilang{display:flex;flex-direction:column;align-items:center;gap:3px;border:2px solid #DCE3EE;background:#fff;border-radius:12px;padding:6px 4px;font:inherit;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer}
+.uilang img{width:34px;height:23px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px rgba(34,49,79,.12)}
+.uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
+#alumnosBox .addkid:only-child{grid-column:2}
+.xcard.juegos{background:#F2A007}
+.extras .xcard{flex-basis:180px}
+.mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
+.book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
+.book .precio img{width:24px;padding:0;background:none}
+.mjprecio{display:inline-flex;align-items:center;gap:1px;font-style:normal}
+.mjprecio img{width:24px;vertical-align:middle}
+.mjprecio{font-style:normal}
+.ings{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.ing{width:84px;height:84px;border-radius:50%;border:4px solid #fff;background:#FFF4E0;box-shadow:0 5px 0 rgba(34,49,79,.18);display:grid;place-items:center;padding:8px;box-sizing:border-box;transition:transform .12s}
+.ing img{width:100%}
+.ing.on{border-color:var(--sun);transform:translateY(-4px) scale(1.06)}
+.ing:focus-visible{outline:5px solid var(--sun);outline-offset:2px}
+.contar{width:min(340px,70vw);aspect-ratio:1;display:block}
+.hourbtn{min-width:74px}
+.tipos{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.tipo{display:flex;flex-direction:column;align-items:center;gap:2px;border:4px solid #fff;background:#F3EEFF;border-radius:20px;padding:6px 10px;font:inherit;font-weight:800;font-size:15px;color:var(--ink);box-shadow:0 5px 0 rgba(34,49,79,.15)}
+.tipo img{width:58px}
+.tipo.on{border-color:var(--sun);transform:translateY(-3px)}
+.tipo:focus-visible{outline:5px solid var(--sun)}
 </style>
 
 <div id="app">
   <section id="scr-cuenta" class="screen cuenta" hidden>
-    <h2>Las aventuras<small>Para los grandes: entrá con tu cuenta para guardar el progreso online.</small></h2>
+    <h2><span id="cuentaTit">The Adventures</span><small id="cuentaSub"></small></h2>
     <div class="cuenta-box" id="cuentaBox"></div>
   </section>
 
   <section id="scr-alumnos" class="screen pick" hidden>
-    <h2><span data-t="quienJuega"></span><small>Cada chico guarda su propio progreso.</small></h2>
+    <h2><span id="alumnosTit"></span><small id="alumnosSub"></small></h2>
     <div class="chars" id="alumnosBox"></div>
   </section>
 
@@ -362,7 +387,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
   </section>
 
   <section id="scr-lang" class="screen langscr" hidden>
-    <h2>¿Qué idioma?<small>Quelle langue ? · Che lingua?</small></h2>
+    <h2>¿Qué idioma?<small>Which language? · Quelle langue ? · Che lingua?</small></h2>
     <div class="langs" id="langs"></div>
   </section>
 
@@ -394,6 +419,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
       <button class="xcard cuentos" id="btnCuentos"><span data-ico="book"></span><span data-t="cuentos"></span></button>
       <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
       <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
+      <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
     </div>
     <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
   </section>
@@ -442,6 +468,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 
 <script src="capitulos.js"></script>
 <script src="juego.js"></script>
+<script src="microjuegos.js"></script>
 
 </body>
 </html>

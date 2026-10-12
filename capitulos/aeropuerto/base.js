@@ -318,6 +318,7 @@ registrarCapitulo({
     }
   },
   final: {npc:{kind:"bunny", fur:"#D9C4AE", fur2:"#FFF6EC", inner:"#FFB3C7", hat:"#2FBF8F", seed:1.9}, arte:"pasaje"},
+  microjuego: {id:"vuelo", arte:"avion", precio:3, color:"#2E86DE"},
   palabrasExtra: ["ascensor", "escalera", "puerta", "gorra", "mochila"],
   frasesExtra: ["globo", "corazon", "globo", "puerta", "ascensor", "avion"],
   preguntas: [

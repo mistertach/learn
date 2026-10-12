@@ -28,9 +28,9 @@ module.exports = manejar({
     if(parametros(req).guardar) return guardar(req);
     const u = await exigirUsuario(req), b = await cuerpo(req);
     const nombre = String(b.nombre||'').trim().slice(0, 14);
-    if(!nombre) throw error(400, 'Falta el nombre');
+    if(!nombre) throw error(400, 'Falta el nombre', 'falta_nombre');
     const [{n}] = await q('SELECT COUNT(*)::int AS n FROM alumnos WHERE usuario_id=$1', [u.id]);
-    if(n >= 30) throw error(400, 'Ya hay muchos chicos en esta cuenta');
+    if(n >= 30) throw error(400, 'Ya hay muchos chicos en esta cuenta', 'muchos_chicos');
     const [a] = await q(`INSERT INTO alumnos (usuario_id, nombre, datos) VALUES ($1,$2,$3::jsonb)
       RETURNING id, nombre, datos, bloqueados, actualizado`, [u.id, nombre, JSON.stringify({name:nombre})]);
     return a;
@@ -38,7 +38,7 @@ module.exports = manejar({
   PUT: guardar,
   async PATCH(req){
     const id = await propio(req), b = await cuerpo(req);
-    const nombre = String(b.nombre||'').trim().slice(0, 14); if(!nombre) throw error(400, 'Falta el nombre');
+    const nombre = String(b.nombre||'').trim().slice(0, 14); if(!nombre) throw error(400, 'Falta el nombre', 'falta_nombre');
     await q('UPDATE alumnos SET nombre=$2 WHERE id=$1', [id, nombre]);
   },
   async DELETE(req){

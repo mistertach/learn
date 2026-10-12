@@ -19,12 +19,12 @@ module.exports = manejar({
     const b = await cuerpo(req);
     if(b.accion === 'salir'){ borrarSesion(res); return {ok:true}; }
     const email = String(b.email||'').trim().toLowerCase(), clave = String(b.clave||'');
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw error(400, 'Ese email no parece válido');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw error(400, 'Ese email no parece válido', 'email_invalido');
     if(b.accion === 'registro'){
-      if(clave.length < 8) throw error(400, 'La contraseña tiene que tener al menos 8 caracteres');
+      if(clave.length < 8) throw error(400, 'La contraseña tiene que tener al menos 8 caracteres', 'clave_corta');
       const nombre = String(b.nombre||'').trim().slice(0, 60);
       const ya = await q('SELECT 1 FROM usuarios WHERE email=$1', [email]);
-      if(ya.length) throw error(409, 'Ya hay una cuenta con ese email. Probá entrar.');
+      if(ya.length) throw error(409, 'Ya hay una cuenta con ese email. Probá entrar.', 'email_existe');
       const [u] = await q('INSERT INTO usuarios (email, nombre, hash, es_admin) VALUES ($1,$2,$3,$4) RETURNING id, email, nombre, es_admin',
         [email, nombre, hashClave(clave), esAdminEmail(email)]);
       ponerSesion(res, u.id);
@@ -32,7 +32,7 @@ module.exports = manejar({
     }
     if(b.accion === 'entrar'){
       const [u] = await q('SELECT id, email, nombre, hash, es_admin FROM usuarios WHERE email=$1', [email]);
-      if(!u || !claveOk(clave, u.hash)) throw error(401, 'El email o la contraseña no coinciden');
+      if(!u || !claveOk(clave, u.hash)) throw error(401, 'El email o la contraseña no coinciden', 'credenciales');
       if(esAdminEmail(email) && !u.es_admin){ await q('UPDATE usuarios SET es_admin=TRUE WHERE id=$1', [u.id]); u.es_admin = true; }
       ponerSesion(res, u.id);
       return {usuario: publico(u), alumnos: await alumnosDe(u.id)};

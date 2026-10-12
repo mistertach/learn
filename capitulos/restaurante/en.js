@@ -1,18 +1,19 @@
 /* =========================================================
-   CAPÍTULO 2 · EL RESTAURANTE — traducción al inglés (solo para los grandes)
-   Misma forma que es.js / fr.js / it.js: cada texto se empareja por su lugar.
-   No hace falta silabas ni partes. El relator nunca lee esto.
+   CAPÍTULO 2 · EL RESTAURANTE — textos en inglés
+   Sirve para dos cosas: es el idioma inglés para aprender (como es.js, fr.js, it.js),
+   y es la traducción que ven los grandes al tocar una frase en los otros idiomas
+   (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('restaurante', 'en', {
   titulo: "The restaurant",
-  lugar: {texto:"the restaurant"},
+  lugar: {texto:"the restaurant", silabas:["the", "rest", "uh", "ront"]},
   bienvenida: "We're at the restaurant!",
-  niveles: [{nombre:"Parking lot"}, {nombre:"Buffet"}, {nombre:"À la carte"}],
+  niveles: [{nombre:"Parking lot", numTexto:"zero"}, {nombre:"Buffet", numTexto:"one"}, {nombre:"À la carte", numTexto:"two"}],
   estaciones: {
     E: {
-      palabra: {texto:"the car"},
+      palabra: {texto:"the car", silabas:["the", "car"]},
       intro: "This is the parking lot. We leave the car here!",
-      frase: {texto:"We came by car!"},
+      frase: {texto:"We came by car!", partes:["We came", "by car!"]},
       respuesta: "Welcome! I'll look after your car.",
       cuento: {
         titulo: "The hungry car",
@@ -25,9 +26,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     R: {
-      palabra: {texto:"the table"},
+      palabra: {texto:"the table", silabas:["the", "tay", "bull"]},
       intro: "This is the entrance. Here they give us a table.",
-      frase: {texto:"A table, please."},
+      frase: {texto:"A table, please.", partes:["A table,", "please."]},
       respuesta: "Oh no! A waiter is missing today. Will you help us?",
       despues: "Put on the apron! Now you work at the restaurant!",
       cuento: {
@@ -41,9 +42,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     B: {
-      palabra: {texto:"the plate"},
+      palabra: {texto:"the plate", silabas:["the", "plate"]},
       intro: "This is the buffet. Everyone serves themselves whatever they want!",
-      frase: {texto:"Here is a plate for you."},
+      frase: {texto:"Here is a plate for you.", partes:["Here is", "a plate", "for you."]},
       respuesta: "Thank you very much!",
       cuento: {
         titulo: "The mountain of plates",
@@ -56,9 +57,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     K: {
-      palabra: {texto:"the pot"},
+      palabra: {texto:"the pot", silabas:["the", "pot"]},
       intro: "This is the kitchen! The chef cat cooks here.",
-      frase: {texto:"It smells so good!"},
+      frase: {texto:"It smells so good!", partes:["It smells", "so good!"]},
       respuesta: "It's tomato soup!",
       cuento: {
         titulo: "The dancing pot",
@@ -71,9 +72,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     M: {
-      palabra: {texto:"the menu"},
+      palabra: {texto:"the menu", silabas:["the", "men", "you"]},
       intro: "This is the upstairs floor. Here people choose their food from the menu.",
-      frase: {texto:"What would you like to eat?"},
+      frase: {texto:"What would you like to eat?", partes:["What would you like", "to eat?"]},
       respuesta: "A pizza, please.",
       cuento: {
         titulo: "The giant pizza",
@@ -86,9 +87,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     H: {
-      palabra: {texto:"the ice cream"},
+      palabra: {texto:"the ice cream", silabas:["the", "ice", "cream"]},
       intro: "It's time for dessert!",
-      frase: {texto:"Would you like dessert?"},
+      frase: {texto:"Would you like dessert?", partes:["Would you like", "dessert?"]},
       respuesta: "Yes! An ice cream, please.",
       cuento: {
         titulo: "The ice cream in a hurry",
@@ -101,9 +102,9 @@ registrarTextos('restaurante', 'en', {
       }
     },
     C: {
-      palabra: {texto:"the bill"},
+      palabra: {texto:"the bill", silabas:["the", "bill"]},
       intro: "This is the cash register. Here we pay for the food.",
-      frase: {texto:"Here is the bill."},
+      frase: {texto:"Here is the bill.", partes:["Here is", "the bill."]},
       respuesta: "Thank you! Everything was delicious.",
       cuento: {
         titulo: "The flying bill",
@@ -118,7 +119,7 @@ registrarTextos('restaurante', 'en', {
   },
   final: {
     pregunta: "Everything was delicious! This is for you: a tip!",
-    frase: {texto:"Thank you very much! Come back soon!"},
+    frase: {texto:"Thank you very much! Come back soon!", partes:["Thank you very much!", "Come back", "soon!"]},
     despedida: "Good job!",
     chau: "Bye-bye! See you next time!",
     lograste: "You did it! You served everyone really well!",
@@ -127,20 +128,23 @@ registrarTextos('restaurante', 'en', {
     otraVez: "Another work day! Collect the stamps again.",
     otraVezB: "Another day"
   },
+  // el microjuego que se abre al terminar el lugar (los ingredientes van en el orden de base.js)
+  microjuego: {titulo:"Let's make pizza!", intro:"Make your pizza! Tap an ingredient, then tap the pizza.", horno:"Into the oven!", mas:"Add a few more things!", listo:"Yum, what a tasty pizza! Thank you, chef!",
+    ingredientes: [{texto:"the tomato sauce"}, {texto:"the cheese"}, {texto:"the tomato"}, {texto:"the olive"}, {texto:"the basil"}, {texto:"the mushroom"}]},
   palabrasExtra: [
-    {texto:"the pizza"},
-    {texto:"the soup"},
-    {texto:"the glass"},
-    {texto:"the fork"},
-    {texto:"the apron"}
+    {texto:"the pizza", silabas:["the", "peet", "suh"]},
+    {texto:"the soup", silabas:["the", "soup"]},
+    {texto:"the glass", silabas:["the", "glass"]},
+    {texto:"the fork", silabas:["the", "fork"]},
+    {texto:"the apron", silabas:["the", "ay", "prun"]}
   ],
   frasesExtra: [
-    {texto:"Welcome!"},
-    {texto:"Enjoy your meal!"},
-    {texto:"What would you like to drink?"},
-    {texto:"A glass of water, please."},
-    {texto:"Thank you very much!"},
-    {texto:"Yummy!"}
+    {texto:"Welcome!", partes:["Welcome!"]},
+    {texto:"Enjoy your meal!", partes:["Enjoy", "your meal!"]},
+    {texto:"What would you like to drink?", partes:["What would you like", "to drink?"]},
+    {texto:"A glass of water, please.", partes:["A glass of water,", "please."]},
+    {texto:"Thank you very much!", partes:["Thank you", "very much!"]},
+    {texto:"Yummy!", partes:["Yummy!"]}
   ],
   preguntas: [
     {p:"What did the dog order upstairs?", r:"A pizza!"},

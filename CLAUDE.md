@@ -7,9 +7,10 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - The narrator speaks **only the target language**. No English and no mixing.
 - **All child-facing strings live in `idiomas/<lang>.js` (`T.*`) or in `capitulos/<place>/<lang>.js`.** Never hard-code a phrase in `juego.js`. If you add a string, add it to every language file.
 - The grown-up corner (`openParent()` in `juego.js`) is for the parent and is written in Rioplatense Spanish, without translation.
+- Languages to learn: es, fr, it, en (`IDIOMAS` in `capitulos.js`).
 - Spanish is Rioplatense (vos, "tenés", "valija", "pasaje", "remera", "acá").
 - Buttons stay disabled while the narrator talks. Wrap narration in `narrar(async () => ...)` inside modals.
-- English is never spoken. `capitulos/<place>/en.js` (same shape as the text files) and `idiomas/en.js` hold English translations that a grown-up sees when tapping a phrase (`data-en`). Add English for every new string.
+- English is one of the languages to learn (`idiomas/en.js`, `capitulos/<place>/en.js`), and those same files are the English translations a grown-up sees when tapping a phrase (`data-en`) while the child learns another language. They are matched by position, so `en.js` must keep exactly the shape of the other text files. Never speak English while the child learns another language. Add English for every new string.
 - Words need `silabas` (pronounced one by one, slowly) and phrases need `partes` (built up cumulatively). Syllables must be spelled so the target-language voice pronounces them correctly. A syllable that is a lone vowel gets read as a letter name ("é accent aigu"), and one that is also an English word ("to") gets read in English, so each `idiomas/<lang>.js` has a `sonido` map that tells the voice how to say it. `voiceFor` avoids Edge's "Multilingual" voices, which guess the language of each utterance.
 - Child-proof: big targets, arrow keys + mouse/touch, nothing destructive without the grown-up corner, ✕ buttons excluded from arrow navigation (`tabindex="-1"`).
 
@@ -19,11 +20,16 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Voices: `voiceFor(code)` always picks a voice of that language and `speak()` waits for voices to load. Otherwise the browser falls back to English and mispronounces syllables.
 - Save: `save` in localStorage key `aventuras-nico.v3`. Per-language chapter progress lives under `save.caps["<lang>:<place>"]`. Fish (`puntos`) and clothes (`armario`) are shared across languages.
 - Rendering: canvas for the world/stories/flight (`drawWorld`, `drawScene`, `drawFlight`). `drawAnimal` draws all characters, and `drawHero` adds the outfit from the shop.
-- Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`.
+- Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`, and the clock ones (gear tile, `contar`, `buscar`, `numeros`, bells ending, `relojSVG`) at the top of `capitulos/reloj/base.js`. `drawReloj()` in `juego.js` draws a clock face on canvas.
+
+## Microgames (microjuegos.js)
+- One per place, declared in `base.js` as `microjuego: {id, arte, precio, color}` with its texts in each `<lang>.js` (and `en.js`) under `microjuego`. `MICROJUEGOS[id](cap, M)` draws on `M.canvas`, puts buttons in `M.actions` and resolves when the round ends.
+- Finishing a place (in any language) unlocks its game and gives one free play (`save.juegos[id].gratis`); after that each play costs `precio` fish. They are listed under the home screen's Games button.
+- Keep them teaching something in the target language (the plane game says the color of each star, the pizza game names each ingredient), with no way to lose.
 
 ## Accounts (api/, servidor/, the NUBE section of juego.js)
 - The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.
-- Account screens, the admin page and server error messages are for grown-ups, in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.
+- The account screens (sign in / create account, "who's playing", the account part of the grown-up corner) are for grown-ups in the language they pick with the flags, English by default. Their texts live in `idiomas/grandes.js` (`G.*`, en/es/fr/it); add new ones to every language there. The server sends an error `codigo` and the client shows `G.err_<codigo>`. The rest of the grown-up corner and the admin page stay in Rioplatense Spanish. Child-facing lines (`T.cuentaDi`, `T.quienJuega`, `T.capCerrado`) live in the language files like everything else.
 - `persist()` also uploads the child's `save` (debounced, plus `sendBeacon` on page hide). Tables are created by `servidor/db.js` on first use; change the schema there with `IF NOT EXISTS`/`ALTER ... IF NOT EXISTS` so existing databases upgrade themselves.
 - Local check: `npm install`, a Postgres in `.env`, `npm run dev`.
 
