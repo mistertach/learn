@@ -150,6 +150,7 @@ function setLang(code, guardar=true){
   LANG=PACKS[code]; if(guardar){ save.lang=code; persist(); }
   document.documentElement.lang=code;
   CAP_LIST=(window.CAPITULOS||[]).map(id=>buildCap(id,code)).filter(Boolean);
+  CAP_LIST.forEach((c,i)=>c.num=i+1);   // el número de semana sale del orden de capitulos.js
   applyLang();
 }
 /* la primera vez (todavía sin idioma), la pantalla de inicio va pasando por todos los idiomas */
@@ -821,7 +822,10 @@ function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>$('#cha
 /* un lugar se abre cuando se terminó el anterior (en el idioma que está aprendiendo), salvo que un grande
    los abra todos desde el rincón; además, el administrador puede cerrar lugares a un chico */
 const capPrevio = c => { const i=CAP_LIST.indexOf(c); return i>0 ? CAP_LIST[i-1] : null; };
-const capPorOrden = c => { const p=capPrevio(c); return !p || save.todoAbierto || capSave(p.id).final; };
+/* si ya lo había empezado (con otro orden de lugares), se queda abierto */
+const capEmpezado = c => { const k=`${langCode()}:${c.id}`, s=save.caps[k]; return !!s && (s.final || Object.values(s.sellos||{}).some(Boolean)); };
+/* se abre cuando todos los lugares de antes están terminados (así, cambiar el orden no salta lugares) */
+const capPorOrden = c => { const i=CAP_LIST.indexOf(c); return i<=0 || save.todoAbierto || capEmpezado(c) || CAP_LIST.slice(0,i).every(x=>capSave(x.id).final); };
 /* el administrador le puede abrir todo a un chico (lugares y juegos, gratis) para probar */
 const pruebaTodo = () => !!(NUBE.alumno && NUBE.alumno.todo_abierto);
 const capAbierto = c => pruebaTodo() || (!(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id)) && capPorOrden(c));
@@ -833,7 +837,7 @@ function goHome(){
       const b=document.createElement('button'); b.className='week locked';
       b.innerHTML=`<span class="art">${ICON.lock}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${esc(c.titulo)}</b>`;
       b.addEventListener('focus',()=>sayAll([c.titulo]));
-      b.addEventListener('click',()=>sayAll([capPorOrden(c) ? T.capCerrado : T.capPrimero(capPrevio(c).lugar.texto)]));
+      b.addEventListener('click',()=>sayAll([capPorOrden(c) ? T.capCerrado : T.capPrimero((CAP_LIST.find(x=>!capSave(x.id).final)||capPrevio(c)).lugar.texto)]));
       box.appendChild(b); return;
     }
     const s=capSave(c.id);
@@ -1425,6 +1429,11 @@ async function runGate(){
     live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawSemana(c,w,h,t-t0,t,conf,F,S));
     for(let i=0;i<(F.dias||[]).length;i++){ S.n=i+1; tone(440+i*60,.12,'triangle',.1); await sayAll([F.dias[i]]); if(!alive()) return; await sleep(350); if(!alive()) return; }
     S.fin=performance.now()/1000; sfx.yay();
+  } else if(F.anim==='saludo'){
+    const S={n:0, texto:'', fin:0}, amigos=CAP.orden.map(k=>CAP.estaciones[k].npc);
+    live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawSaludo(c,w,h,t,conf,F,S,amigos));
+    for(let i=0;i<amigos.length;i++){ S.n=i+1; S.texto=(F.palabras||[])[i]||''; tone(520+i*80,.12,'triangle',.1); await sayAll([S.texto]); if(!alive()) return; await sleep(350); if(!alive()) return; }
+    S.fin=performance.now()/1000; sfx.yay();
   } else if(F.anim==='desfile'){
     const S={n:0, texto:'', fin:0};
     live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawDesfile(c,w,h,t-t0,t,conf,F,S,CAP.uniforme));
@@ -1561,6 +1570,18 @@ function bgGranja(c,w,h,t,noche){
   c.fillStyle='#AEB8C8'; c.fillRect(w*.8,h*.22,w*.015,h*.36); c.save(); c.translate(w*.807,h*.22); c.rotate(t*.8); c.fillStyle='#E3E8F0'; for(let k=0;k<4;k++){ c.rotate(Math.PI/2); c.fillRect(0,-h*.012,h*.12,h*.024); } c.restore();
   c.fillStyle='#fff'; for(let x=w*.36;x<w;x+=w*.05) c.fillRect(x,h*.46,w*.012,h*.14); c.fillRect(w*.36,h*.49,w*.64,h*.018); c.fillRect(w*.36,h*.55,w*.64,h*.018);
   c.fillStyle='#86CC6E'; c.fillRect(0,h*.6,w,h*.4); c.fillStyle='#74BC5C'; for(let i=0;i<16;i++){ const x=(i*89)%w, y=h*(.66+((i*41)%30)/100); c.fillRect(x,y,3,8); c.fillRect(x+5,y+2,3,6); }
+}
+/* final de las primeras palabras: los amigos de cada estación aparecen uno por uno y dicen su palabra */
+function drawSaludo(c,w,h,t,conf,F,S,amigos){
+  bgJardin(c,w,h,t);
+  const gy=h*.97;
+  drawHero(c,w*.1,gy,h*.42,{t,facing:1,wave:!S.fin,accion:S.fin?'saltar':null});
+  drawAnimal(c,F.npc,w*.92,gy,h*.42,{t,hat:F.npc.hat,facing:-1,wave:!!S.fin});
+  for(let i=0;i<S.n;i++){ const n=amigos[i], x=w*(.22+i*(.56/Math.max(1,amigos.length-1))), ult=i===S.n-1&&!S.fin, sal=(ult||S.fin)?Math.abs(Math.sin(t*(S.fin?4:6)+i))*h*.05:0;
+    drawAnimal(c,n,x,gy-h*.08-sal,h*(ult?.34:.28),{t:t+i,hat:n.hat,facing:x<w/2?1:-1,wave:ult,accion:S.fin?'bailar':null,mood:ult?'talk':null}); }
+  if(S.texto && !S.fin){ c.save(); c.font=`800 ${Math.round(h*.11)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.02; c.strokeStyle='#22314F'; c.strokeText(S.texto,w/2,h*.2); c.fillStyle='#fff'; c.fillText(S.texto,w/2,h*.2); c.restore(); }
+  if(S.fin){ const kk=t-S.fin; conf.forEach(p=>{ const y=((p.x*h*1.3 + kk*p.s*h*.35) % (h+40))-20; const x=p.x*w+Math.sin(kk*2+p.r)*14; c.save(); c.translate(x,y); c.rotate(kk*3*p.s+p.r); c.fillStyle=p.c; c.fillRect(-5,-3,10,6); c.restore(); });
+    c.save(); c.globalAlpha=Math.min(1,kk*2); c.font=`800 ${Math.round(h*.11)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.025; c.strokeStyle='#22314F'; c.strokeText(F.despedida,w/2,h*.2); c.fillStyle='#FFC93C'; c.fillText(F.despedida,w/2,h*.2); c.restore(); }
 }
 /* final de la granja: cae la tarde y los animales aparecen uno por uno, cada uno con su sonido */
 function drawDesfile(c,w,h,u,t,conf,F,S,uni){

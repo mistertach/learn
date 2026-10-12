@@ -1016,3 +1016,56 @@ MICROJUEGOS.velas = (cap, M) => new Promise(resolve=>{
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   PRIMERAS PALABRAS · Burbujas de colores: suben burbujas de colores;
+   el relator pide un color y el chico revienta una de ese color. Si revienta
+   otra, también explota (¡es divertido!) y el relator dice de qué color era.
+   Al final, burbujas libres: cada una que explota dice su color.
+   --------------------------------------------------------- */
+MICROJUEGOS.burbujitas = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cv=M.canvas, RONDAS=8;
+  const cols=COLORES.filter(c=>!['blanco','negro'].includes(c.k)).slice(0,6);
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, modo='pedidos', t=0, prev=null, prox=0, ultDicho=0;
+  const burbujas=[], gotas=particulas();
+  const nombre=k=>T.colores[k];
+  cv.addEventListener('pointerdown',e=>{
+    const r=cv.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    const b=burbujas.find(o=>!o.pum && o.px!=null && Math.hypot(o.px-x,o.py-y)<o.r*r.height*1.15); if(b) reventar(b,r);
+  });
+  function reventar(b,r){
+    b.pum=true; tone(700+Math.random()*400,.07,'sine',.1,0,1400); noise(.08,.06,3000,1500);
+    for(let i=0;i<10;i++){ const a=i*Math.PI/5; gotas.agregar({x:b.px,y:b.py,vx:Math.cos(a)*r.height*.5,vy:Math.sin(a)*r.height*.5,g:.4,vida:.5,vida0:.5,dibujar:(c,p,k)=>ell(c,p.x,p.y,r.height*.012*k+1,r.height*.012*k+1,b.c.c)}); }
+    if(modo==='libre'){ n++; if(t-ultDicho>.7){ ultDicho=t; sayAll([nombre(b.c.k)]); } return; }
+    if(!listo) return;
+    if(b.c.k!==meta.k){ sayAll([tx.esa(nombre(b.c.k)), tx.pide(nombre(meta.k))]); return; }
+    listo=false; n++; sfx.yay();
+    (async()=>{ await sayAll([praise(), nombre(meta.k)]); if(!M.alive()) return; await sleep(300); nuevaRonda(); })();
+  }
+  live(cv,(c,w,h,tt)=>{
+    t=tt; const dt=prev==null?0:Math.min(.05,t-prev); prev=t; if(!M.alive()) return;
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#BDE6FF'); g.addColorStop(1,'#EAF7FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    cloud(c,w*.2,h*.15,h*.04); cloud(c,w*.8,h*.1,h*.035); c.fillStyle='#8CCB6B'; c.fillRect(0,h*.9,w,h*.1);
+    // nuevas burbujas (siempre hay del color que se pide)
+    if(t>=prox && modo!=='fin'){ prox=t+(modo==='libre'?.25:.5); const pocas=meta && burbujas.filter(o=>!o.pum&&o.c.k===meta.k).length<2;
+      const col=pocas && Math.random()<.6 ? cols.find(x=>x.k===meta.k) : cols[Math.floor(Math.random()*cols.length)];
+      burbujas.push({c:col, x:.08+Math.random()*.84, y:1.1, r:.06+Math.random()*.04, v:.12+Math.random()*.1, fase:Math.random()*6}); }
+    for(let i=burbujas.length-1;i>=0;i--){ const b=burbujas[i]; b.y-=b.v*dt; const x=(b.x+Math.sin(t*1.5+b.fase)*.02)*w, y=b.y*h, R=b.r*h;
+      if(b.pum || b.y<-.15){ burbujas.splice(i,1); continue; } b.px=x; b.py=y;
+      c.save(); c.globalAlpha=.85; ell(c,x,y,R,R,b.c.c); c.restore(); c.strokeStyle='rgba(255,255,255,.8)'; c.lineWidth=2; c.beginPath(); c.arc(x,y,R,0,Math.PI*2); c.stroke(); ell(c,x-R*.35,y-R*.35,R*.2,R*.14,'rgba(255,255,255,.7)'); }
+    gotas.paso(c,dt,h);
+    if(meta && modo==='pedidos'){ c.fillStyle='rgba(255,255,255,.9)'; rr(c,w*.03,h*.04,h*.18,h*.18,14); c.fill(); const col=cols.find(x=>x.k===meta.k); ell(c,w*.03+h*.09,h*.13,h*.06,h*.06,col.c); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.97,h*.09); c.restore();
+  });
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){
+      meta=null; modo='libre'; await sayAll([tx.libre]);
+      await new Promise(r=>setTimeout(r,12000)); if(!M.alive()) return;
+      modo='fin'; await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return;
+    }
+    ronda++; let k; do{ k=cols[Math.floor(Math.random()*cols.length)].k; }while(k===ultimo);
+    meta={k}; ultimo=k; await sayAll([tx.pide(nombre(k))]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
