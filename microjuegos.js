@@ -409,7 +409,7 @@ MICROJUEGOS.barrilete = (cap, M) => new Promise(resolve=>{
     ox=CENTRO.x; oy=CENTRO.y; await sleep(600); nuevaRonda();
   };
   M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',()=>elegir(+b.dataset.d)));
-  const T2=teclasJuego(M, k=>{ const i=DIRS.findIndex(d=>d.k===k); if(i>=0){ elegir(i); return false; } });
+  const T2=teclasJuego(M, k=>{ const i=DIRS.findIndex(d=>d.k===k); if(i>=0) elegir(i); });
   cv.addEventListener('pointerdown',e=>{ const r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
     let mejor=0, dist=9; DIRS.forEach((d,i)=>{ const dd=Math.hypot(d.x-x,(d.y-y)*.6); if(dd<dist){ dist=dd; mejor=i; } }); elegir(mejor); });
 
@@ -444,6 +444,61 @@ MICROJUEGOS.barrilete = (cap, M) => new Promise(resolve=>{
     if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
     ronda++; let d; do{ d=Math.floor(Math.random()*4); }while(d===ultimo);
     meta=ultimo=d; await sayAll([tx.dirs[d]]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   EL CONSULTORIO · ¿Dónde está la nariz? El relator pregunta por una parte
+   del cuerpo del osito y el chico la toca (o la elige con las flechas y Enter).
+   Si toca otra, el relator le dice cuál tocó y vuelve a preguntar.
+   --------------------------------------------------------- */
+MICROJUEGOS.cuerpo = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, partes=tx.ingredientes, cv=M.canvas, osito=cap.final.npc, RONDAS=8;
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, sel=-1, brillo=null;
+  const chispas=[];
+  // dónde está cada parte, en unidades del alto del osito (x desde los pies, y hacia arriba es negativo)
+  const hr=.26, fx=hr*.14, hy=-.6;
+  const LUGAR={cabeza:[[fx,hy-hr*.78]], ojos:[[fx-hr*.34,hy],[fx+hr*.36,hy]], nariz:[[fx,hy+hr*.22]], boca:[[fx,hy+hr*.44]],
+    orejas:[[-hr*.72,hy-hr*.72],[hr*.72,hy-hr*.72]], panza:[[.03,-.2]], pies:[[-.09,-.03],[.1,-.03]]};
+  const RADIO={cabeza:.07, ojos:.045, nariz:.035, boca:.035, orejas:.06, panza:.09, pies:.05};
+  let geo={x:0,y:0,s:1};
+  const puntos=k=>(LUGAR[k]||[]).map(([x,y])=>({x:geo.x+x*geo.s, y:geo.y+y*geo.s}));
+  const tocar=g=>{
+    if(!listo || !M.alive() || !g) return;
+    if(g.k!==meta.k){ sfx.oops(); sayAll([g.texto, meta.p]); return; }
+    listo=false; n++; brillo={k:g.k, t:performance.now()/1000};
+    tone(660+n%6*90,.12,'triangle',.11); tone(990+n%6*90,.15,'sine',.07,.06);
+    for(const p of puntos(g.k)) for(let k=0;k<8;k++) chispas.push({x:p.x,y:p.y,a:k*Math.PI/4,vida:.6});
+    (async()=>{ await sayAll([praise(), g.texto]); if(!M.alive()) return; await sleep(400); nuevaRonda(); })();
+  };
+  cv.addEventListener('pointerdown',e=>{ const r=cv.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    let mejor=null, dist=1e9; for(const g of partes) for(const p of puntos(g.k)){ const d=Math.hypot(p.x-x,p.y-y)/((RADIO[g.k]||.05)*geo.s); if(d<dist){ dist=d; mejor=g; } }
+    if(dist<2) tocar(mejor); else if(listo) sayAll([meta.p]); });
+  const T2=teclasJuego(M, k=>{
+    if(k==='ArrowRight'||k==='ArrowDown'){ sel=(sel+1)%partes.length; sayAll([partes[sel].texto]); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'){ sel=(sel-1+partes.length)%partes.length; sayAll([partes[sel].texto]); }
+    else if((k==='Enter'||k===' ') && sel>=0) tocar(partes[sel]);
+  });
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()){ T2.limpiar(); return; }
+    bgConsultorio(c,w,h);
+    geo={x:w*.42, y:h*.98, s:h*.92};
+    drawAnimal(c,osito,geo.x,geo.y,geo.s,{t:0,facing:1,mood:brillo&&t-brillo.t<1.2?'wow':null});
+    if(sel>=0) for(const p of puntos(partes[sel].k)){ c.strokeStyle='#FFC93C'; c.lineWidth=5; c.beginPath(); c.arc(p.x,p.y,(RADIO[partes[sel].k]||.05)*geo.s*1.3+Math.sin(t*6)*3,0,Math.PI*2); c.stroke(); }
+    if(brillo && t-brillo.t<1.2) for(const p of puntos(brillo.k)){ c.save(); c.globalAlpha=1-(t-brillo.t)/1.2; ell(c,p.x,p.y,(RADIO[brillo.k]||.05)*geo.s*1.4,(RADIO[brillo.k]||.05)*geo.s*1.4,'rgba(255,201,60,.55)'); c.restore(); }
+    for(let i=chispas.length-1;i>=0;i--){ const p=chispas[i]; p.vida-=1/60; if(p.vida<=0){ chispas.splice(i,1); continue; } const k=.6-p.vida; star5(c,p.x+Math.cos(p.a)*h*.3*k,p.y+Math.sin(p.a)*h*.3*k,h*.02*p.vida*2,'#FFC93C'); }
+    // la parte que hay que buscar, con su dibujo, arriba a la derecha
+    if(meta){ c.fillStyle='rgba(255,255,255,.85)'; rr(c,w*.74,h*.06,w*.22,h*.24,14); c.fill(); drawImg(c,meta.k,w*.85,h*.18,h*.18); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='left'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.04,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ meta=null; await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; let g; do{ g=partes[Math.floor(Math.random()*partes.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.p]); listo=true;
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
