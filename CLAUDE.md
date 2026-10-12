@@ -20,6 +20,8 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Voices: `voiceFor(code)` always picks a voice of that language and `speak()` waits for voices to load. Otherwise the browser falls back to English and mispronounces syllables.
 - Save: `save` in localStorage key `aventuras-nico.v3`. Per-language chapter progress lives under `save.caps["<lang>:<place>"]`. Fish (`puntos`) and clothes (`armario`) are shared across languages.
 - Rendering: canvas for the world/stories/flight (`drawWorld`, `drawScene`, `drawFlight`). `drawAnimal` draws all characters, and `drawHero` adds the outfit from the shop.
+- Maps: each floor has its own size and shape (a space is outside the building; walls are drawn tile by tile), kept close to square so they fit a phone either way up. Below every U, D and L there must be floor. `resizeWorld()` leaves room for the touch arrows (below the map when upright, beside it when sideways).
+- Phones: under 640px wide the stamp row becomes a counter, and under 520px tall the windows shrink so their buttons always fit. Check new screens at 390×844 and 844×390.
 - Map legend and story-scene actor schema are documented at the top of `capitulos/aeropuerto/base.js`, with the extras (car/table tiles, restaurant backgrounds, `uniforme`, tip ending) at the top of `capitulos/restaurante/base.js`, and the clock ones (gear tile, `contar`, `buscar`, `numeros`, bells ending, `relojSVG`) at the top of `capitulos/reloj/base.js`. `drawReloj()` in `juego.js` draws a clock face on canvas.
 
 ## Microgames (microjuegos.js)

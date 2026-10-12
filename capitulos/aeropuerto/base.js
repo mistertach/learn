@@ -3,7 +3,9 @@
    (mapa, dibujos, personajes, escenas de los cuentos, respuestas de las preguntas)
    Los textos de cada idioma están en es.js, fr.js, it.js de esta misma carpeta.
 
-   Mapa:  # pared · . piso · P inicio · U escalera que sube · D escalera que baja
+   Mapa:  cada piso puede tener otro tamaño y otra forma (mejor casi cuadrado, así entra en el teléfono)
+          (espacio) afuera del edificio · # pared · . piso · P inicio · U escalera que sube · D escalera que baja
+          debajo de U, D y L tiene que haber piso (ahí aparece el personaje al llegar)
           L ascensor · b banco · p planta · ~ puertas de vidrio · G puerta final (en una pared)
           Cualquier otra letra = una estación.
    Escenas: fondo 'terminal' | 'ventana' | 'cielo'
@@ -41,15 +43,17 @@ registrarCapitulo({
       pared: "#4FA3D1",
       paredOscura: "#2F7BAA",
       mapa: [
-        "###############",
-        "#.I....B.L..U.#",
-        "#.............#",
-        "#..b.......p..#",
-        "#.............#",
-        "#K............#",
-        "#.....P.......#",
-        "#p...........p#",
-        "######~~#######"
+        "############",
+        "#.I..B..L.U#",
+        "#..........#",
+        "#.b......p.#",
+        "#K.........#",
+        "#...#..#...#",
+        "#..........#",
+        "#p........p#",
+        "####....####",
+        "   #.P..#   ",
+        "   ##~~##   "
       ]
     },
     {
@@ -58,15 +62,15 @@ registrarCapitulo({
       pared: "#F28F6B",
       paredOscura: "#C96A4A",
       mapa: [
-        "###############",
-        "#p.T...C.L.D.U#",
-        "#.............#",
-        "#.............#",
-        "#...b.....b...#",
-        "#S............#",
-        "#.............#",
-        "#p...........p#",
-        "###############"
+        "#########   ",
+        "#p.T..C.#   ",
+        "#.......#   ",
+        "#..b....####",
+        "#S.....#LDU#",
+        "#..........#",
+        "#.....b....#",
+        "#p........p#",
+        "############"
       ]
     },
     {
@@ -75,15 +79,16 @@ registrarCapitulo({
       pared: "#4DB58A",
       paredOscura: "#348E68",
       mapa: [
-        "###############",
-        "#.WWWW...L.D..#",
-        "#.............#",
-        "#.............#",
-        "#.b.b.........G",
-        "#.........bb..#",
-        "#.............#",
-        "#p...........p#",
-        "###############"
+        "  ########  ",
+        "  #WWWW.L#  ",
+        "###......###",
+        "#..........#",
+        "#.b.b......G",
+        "#.......bb.#",
+        "###......###",
+        "  #..D...#  ",
+        "  #p....p#  ",
+        "  ########  "
       ]
     }
   ],
