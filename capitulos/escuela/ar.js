@@ -3,7 +3,7 @@
    Cada texto: "latino|عربي" (lo que lee el grande | lo que dice la voz).
    Cuentos: {N} = nombre del personaje · *palabra* = palabra resaltada (en las dos caras).
    La seño es "ablah" (أبلة), como le dicen a la maestra en el Golfo.
-   microjuego.fin: textoN() reemplaza solo el primer {n}, así que va solo en la cara árabe.
+   microjuego.fin: {n} va en las dos caras (textoN reemplaza todos).
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('escuela', 'ar', {
@@ -135,7 +135,7 @@ registrarTextos('escuela', 'ar', {
     maneja: "al-heen sooq al-gitar! idhghat w khallak 'ashan yisri'.|الحين سوق القطار! اضغط وخلّك عشان يسرع.", vamos: "yalla!|يلا!", bocina: "toot toot!|توت توت!", llegamos: "wasalna! ahsant!|وصلنا! أحسنت!",
     titulo: "gitar al-ashkal!|قطار الأشكال!",
     intro: "isma' ay shakl yrooh fil-gitar, w ilmisah.|اسمع أي شكل يروح في القطار، والمسه.",
-    fin: "hammalt ashkal fil-gitar!|حمّلت {n} أشكال في القطار!",
+    fin: "hammalt {n} ashkal fil-gitar!|حمّلت {n} أشكال في القطار!",
     chu: "toot toot! al-gitar mashi!|توت توت! القطار ماشي!",
     ingredientes: [
       {texto:"ad-da'ira|الدائرة", pon:"hutt ad-da'ira fil-gitar.|حط الدائرة في القطار.", est:"mahattat ad-da'ira!|محطة الدائرة!"},
