@@ -7,6 +7,7 @@
 /* ---------- arte común + íconos ---------- */
 const ART = {
   globo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 16h60a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12H46L28 86V70h-8A12 12 0 0 1 8 58V28a12 12 0 0 1 12-12z" fill="#8B6FE8"/><circle cx="34" cy="43" r="6" fill="#fff"/><circle cx="50" cy="43" r="6" fill="#fff"/><circle cx="66" cy="43" r="6" fill="#fff"/></svg>`,
+  caballito:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M46 14c14-4 26 6 24 20-1 6-6 10-12 11 6 6 10 14 8 24-2 12-12 20-22 18-8-2-10-10-6-14 4-3 9-1 9 3 0 3-3 4-5 3 6 3 14-4 13-12-1-10-10-14-16-20-6-6-8-16-2-24-6 0-10-2-12-6 6 1 12-1 21-3z" fill="#FF8FB8"/><path d="M58 18c4 2 6 6 5 10" fill="none" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><path d="M44 52c-6-2-10 2-10 6 4-1 8 0 10-2z" fill="#FFC93C"/><path d="M52 30l-6-12M58 26l-2-12M64 30l4-10" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="27" r="3.5" fill="#22314F"/><circle cx="61" cy="26" r="1.2" fill="#fff"/><path d="M70 34l12 3-12 4z" fill="#FF8FB8"/><path d="M50 60q6 4 4 10M48 72q4 2 2 6" fill="none" stroke="#E86A9A" stroke-width="2.5" stroke-linecap="round"/></svg>`,
   pez:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M72 50l22-18v36z" fill="#FF7A1A"/><path d="M42 30l12-14 8 16z" fill="#FF7A1A"/><ellipse cx="44" cy="50" rx="33" ry="22" fill="#FF9B3D"/><path d="M50 31c-4 6-4 32 0 38M62 34c-3 6-3 26 0 32" stroke="#FFC27A" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="25" cy="45" r="6.5" fill="#fff"/><circle cx="24" cy="45" r="3.4" fill="#22314F"/><path d="M13 55q5 4 10 1" stroke="#22314F" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
   corazon:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 86C20 64 10 48 10 34a20 20 0 0 1 40-6 20 20 0 0 1 40 6c0 14-10 30-40 52z" fill="#FF6F8F"/><ellipse cx="32" cy="34" rx="7" ry="5" fill="#fff" opacity=".6"/></svg>`
 };
@@ -63,7 +64,11 @@ const langCode = () => (LANG && LANG.codigo) || 'es';
 /* ---------- capítulos: base común + textos por idioma ---------- */
 const BASES = {}, TEXTOS = {};
 let CAP_LIST = [];
-function registrarCapitulo(c){ BASES[c.id]=c; Object.assign(ART, c.arte||{}); }
+function registrarCapitulo(c){
+  // los dibujos de todos los lugares comparten nombres: si uno pisa a otro, se ve el dibujo equivocado en otro lugar
+  for(const k in c.arte||{}) if(ART[k]) console.warn(`El dibujo "${k}" de ${c.id} pisa otro con el mismo nombre`);
+  BASES[c.id]=c; Object.assign(ART, c.arte||{});
+}
 function registrarTextos(id, lang, t){ (TEXTOS[id] || (TEXTOS[id]={}))[lang]=t; }
 window.registrarCapitulo = registrarCapitulo; window.registrarTextos = registrarTextos;
 function buildCap(id, lang){
@@ -168,7 +173,7 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, armario:{tiene:{}, puesto:{}}, juegos:{}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, cuenta:{}, armario:{tiene:{}, puesto:{}}, juegos:{}});
 function loadSave(){
   try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
@@ -773,7 +778,15 @@ async function goFloor(n, arriveAt){
    ========================================================= */
 const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
-const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>`;
+const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}`;
+/* lo que tiene para gastar: cada caballito de mar vale 2 pececitos */
+const riqueza = () => (save.puntos||0) + 2*(save.caballitos||0);
+/* paga n: primero con pececitos; si no alcanzan, cambia caballitos por 2 pececitos cada uno */
+function gastar(n){
+  if(riqueza()<n) return false;
+  while((save.puntos||0)<n){ save.caballitos--; save.puntos=(save.puntos||0)+2; }
+  save.puntos-=n; return true;
+}
 function updateNames(){
   const n=save.name||'', el=$('#startName');
   // sin nombre todavía: en vez de "Las aventuras de ?", solo "¡Aventuras!" (y va cambiando de idioma como el resto del inicio)
@@ -1709,6 +1722,87 @@ async function runPractice(item, isWord){
 }
 
 /* =========================================================
+   REPASO (fuera de los lugares)
+   · palabras: un juego de "¿cuál es…?" que mezcla las palabras de todos los lugares
+     que ya jugó (las de las estaciones con sello); al final gana un caballito de mar.
+   · frases: una frase al azar entre las menos practicadas (save.cuenta[id] = cuántas
+     veces la dijo), así se reparten parejo; cada frase da un pececito y cada 3, un caballito.
+   Un caballito de mar vale 2 pececitos (riqueza/gastar).
+   ========================================================= */
+function repasoPool(){
+  const todo=pruebaTodo(), pal=[], fra=[];
+  for(const c of CAP_LIST){
+    const s=capSave(c.id), alguno=s.final || Object.values(s.sellos||{}).some(Boolean);
+    const vale = p => todo || (p.est ? !!s.sellos[p.est] : p.id.endsWith(':lugar') ? alguno : !!s.final);
+    c.palabras.forEach(p=>{ if(vale(p) && ART[p.arte]) pal.push(p); });
+    c.frases.forEach(f=>{ if(vale(f)) fra.push(f); });
+  }
+  return {pal, fra};
+}
+async function goRepaso(){
+  hush(); const tok=++flowTok; busy=true;
+  openModal(`${X_BTN}<h3 class="stitle">${esc(T.repasar)}</h3>
+    <div class="center"><div class="hero-item small">${img('caballito')}</div></div>
+    <div class="actions repaso-ops">${B('pal','book',T.repasoPalabras,'go')}${B('fra','talk',T.repasoFrases,'go')}</div>`);
+  narrar(()=>sayAll([T.repasoDi]));
+  const {act}=await waitAct(['pal','fra']); if(tok!==flowTok) return;
+  act==='pal' ? runRepasoPalabras() : runRepasoFrases();
+}
+async function sinRepaso(){ const tok=flowTok; await sayAll([T.repasoVacio]); if(tok===flowTok) closeModal(); }
+async function runRepasoPalabras(){
+  const {pal}=repasoPool();
+  if(pal.length<3) return sinRepaso();
+  const tok=++flowTok, alive=()=>tok===flowTok, RONDAS=6, orden=shuffle(pal); busy=true;
+  for(let r=0;r<RONDAS;r++){
+    const w=orden[r%orden.length], otros=shuffle(pal.filter(x=>x.arte!==w.arte)).slice(0,2);
+    const ops=shuffle([{w,ok:true}, ...otros.map(o=>({w:o,ok:false}))]);
+    const pregunta=T.cualEs(w.texto);
+    openModal(shell({steps:RONDAS, step:r, center:`<div class="scene"><div class="fishpic">${img('caballito')}</div><div class="bubble"${enAttr(enDe(w.texto)&&enT('cualEs',enDe(w.texto)))}><b>${esc(pregunta)}</b></div></div>`,
+      actions:B('again','speaker',T.otraVez)}).replace('<div class="actions">', `<div class="center">${ops.map((o,i)=>`<button class="choice" data-act="pick" data-i="${i}">${img(o.w.arte)}</button>`).join('')}</div><div class="actions">`));
+    onAct('again',()=>narrar(()=>sayAll([pregunta])));
+    narrar(()=>sayAll(r?[pregunta]:[T.repasoPalabrasDi, pregunta]));
+    for(;;){
+      const {btn}=await waitAct('pick'); if(!alive()) return;
+      const o=ops[+btn.dataset.i];
+      if(o.ok){ btn.classList.add('right'); sfx.yay(); setWait(true); await sayAll([praise(), {t:w.texto, id:w.id}]); if(!alive()) return; break; }
+      btn.classList.add('wrong'); btn.disabled=true; sfx.oops();
+      narrar(()=>sayAll([{t:o.w.texto, id:o.w.id}, pregunta])).then(()=>{ btn.disabled=true; });
+    }
+  }
+  save.caballitos=(save.caballitos||0)+1; persist(); updateNames();
+  premioCaballito(runRepasoPalabras);
+}
+async function runRepasoFrases(n=0){
+  const {fra}=repasoPool();
+  if(!fra.length) return sinRepaso();
+  const tok=++flowTok, C=save.cuenta||(save.cuenta={}); busy=true;
+  const menos=Math.min(...fra.map(f=>C[f.id]||0)), cand=fra.filter(f=>(C[f.id]||0)===menos);
+  const f=cand[Math.floor(Math.random()*cand.length)];
+  openModal(shell({steps:3, step:n%3,
+    center:`<div class="stack"><div class="center"><div class="hero-item small">${img(f.arte)}</div><span class="tally">${ICON.check}${C[f.id]||0}</span></div>${chipsPhrase(f)}${turnHtml()}</div>`,
+    actions:B('again','replay',T.otraVez)+B('star','star',T.loDije,'star go')}));
+  liveMe();
+  onAct('again',()=>narrar(()=>construirFrase(f,[])));
+  narrar(()=>construirFrase(f, n?[]:[T.repasoFrasesDi]));
+  await starPress(); if(tok!==flowTok) return;
+  C[f.id]=(C[f.id]||0)+1; save.puntos=(save.puntos||0)+1; n++;
+  const caballito = n%3===0; if(caballito) save.caballitos=(save.caballitos||0)+1;
+  persist(); updateNames(); sfx.yay();
+  if(caballito) return premioCaballito(()=>runRepasoFrases(n));
+  setWait(true); await sayAll([praise(), T.unPececito]); if(tok!==flowTok) return;
+  runRepasoFrases(n);
+}
+async function premioCaballito(otra){
+  const tok=++flowTok; busy=true;
+  openModal(`${X_BTN}<div class="center"><div class="premio">${img('caballito')}</div></div>
+    <div class="actions">${B('again','replay',T.otraVez,'soft')}${B('home','home',T.inicio,'go')}</div>`);
+  sfx.stamp(); setTimeout(()=>sfx.yay(),300);
+  narrar(()=>sayAll([T.ganasteCaballito, T.valeDos]));
+  const {act}=await waitAct(['again','home']); if(tok!==flowTok) return;
+  if(act==='again') otra(); else closeModal();
+}
+
+/* =========================================================
    RINCÓN DE LOS GRANDES
    ========================================================= */
 function recRows(){
@@ -2026,9 +2120,9 @@ function pagarJuego(c){
   const mj=c.microjuego, g=juegoGratis(c);
   if(pruebaTodo()) return {gratis:true};
   if(g>0){ save.juegos[c.id].gratis=g-1; persist(); return {gratis:true}; }
-  const p=save.puntos||0;
+  const p=riqueza();
   if(p<mj.precio){ sfx.oops(); sayAll([T.noAlcanza(T.peces(mj.precio-p))]); return null; }
-  save.puntos=p-mj.precio; persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud();
+  gastar(mj.precio); persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud();
   return {gratis:false};
 }
 async function runMicro(c){
@@ -2109,7 +2203,7 @@ function renderShop(){
   });
   const box=$('#shopSel'), it=list.find(x=>x.id===shopSel);
   if(!it){ box.innerHTML=''; return; }
-  const own=!!A.tiene[it.id], worn=A.puesto[it.lugar]===it.id, can=(save.puntos||0)>=it.precio;
+  const own=!!A.tiene[it.id], worn=A.puesto[it.lugar]===it.id, can=riqueza()>=it.precio;
   box.innerHTML=`<b class="iname">${esc(ropaNombre(it))}</b>
     ${!own?`<button class="mbtn go buy ${can?'':'cant'}" id="shopAct">${img('pez')}<span>${esc(T.comprar)} · ${it.precio}</span></button>`
          :`<button class="mbtn ${worn?'soft':'go'}" id="shopAct">${worn?ICON.close:ICON.check}<span>${esc(worn?T.sacarme:T.ponerme)}</span></button>`}`;
@@ -2124,9 +2218,9 @@ function selectItem(it){
 function shopAction(it){
   const A=save.armario, name=ropaNombre(it);
   if(!A.tiene[it.id]){
-    const p=save.puntos||0;
+    const p=riqueza();
     if(p<it.precio){ sfx.oops(); const b=$('#shopAct'); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([T.noAlcanza(T.peces(it.precio-p))]); return; }
-    save.puntos=p-it.precio; A.tiene[it.id]=true; A.puesto[it.lugar]=it.id; persist();
+    gastar(it.precio); A.tiene[it.id]=true; A.puesto[it.lugar]=it.id; persist();
     sfx.stamp(); setTimeout(()=>sfx.yay(),300); renderShop(); setTimeout(()=>$('#shopAct')?.focus(),20);
     sayAll([T.quiero(name), T.comprado(name), T.queda]);
     return;
@@ -2209,6 +2303,7 @@ $('#btnCuentos').addEventListener('click',()=>goLib('cuentos'));
 $('#btnPracticar').addEventListener('click',()=>goLib('practicar'));
 $('#btnTienda').addEventListener('click',goShop);
 $('#btnJuegos').addEventListener('click',goJuegos);
+$('#btnRepaso').addEventListener('click',goRepaso);
 holdify($('#gearHome'),1500,openParent);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
 ['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));

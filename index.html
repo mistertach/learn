@@ -349,6 +349,14 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
+.xcard.repaso{background:#2E86DE}
+.pts .cab{display:inline-flex;align-items:center;gap:2px;font-style:normal;margin-left:6px}
+.premio{width:min(220px,46vw);animation:nada 2.2s ease-in-out infinite}
+.premio img{width:100%;display:block}
+@keyframes nada{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+.tally{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--ink2);font-size:20px;align-self:flex-end}
+.tally svg{width:22px;height:22px}
+.repaso-ops .mbtn{min-width:160px}
 .extras .xcard{flex-basis:180px}
 .mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
 .book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
@@ -465,6 +473,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
       <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
       <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
       <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
+      <button class="xcard repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
     </div>
     <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
   </section>
