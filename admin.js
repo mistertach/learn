@@ -35,23 +35,45 @@ function render(filtro = ''){
   const familias = DATOS.usuarios.filter(u => !f || u.email.includes(f) || (u.nombre || '').toLowerCase().includes(f) || u.alumnos.some(a => a.nombre.toLowerCase().includes(f)));
   $('#lista').innerHTML = familias.map(u => `
     <section class="familia">
-      <h2>${esc(u.nombre || u.email)}${u.es_admin ? ' · administrador' : ''}</h2>
-      <div class="mail">${esc(u.email)} · se registró el ${esc(fecha(u.creado))}</div>
+      <div class="cabeza"><div><h2>${esc(u.nombre || u.email)}${u.es_admin ? ' · administrador' : ''}</h2>
+      <div class="mail">${esc(u.email)} · se registró el ${esc(fecha(u.creado))}</div></div>
+      ${u.id === DATOS.yo ? '' : `<button class="btn" data-clave="${u.id}">Nueva contraseña</button>`}</div>
+      <div class="clave" data-claveres="${u.id}" hidden></div>
       ${u.alumnos.length ? `<table><thead><tr><th>Chico</th><th>Progreso</th><th>Lugares abiertos</th></tr></thead><tbody>
         ${u.alumnos.map(a => `<tr>
           <td><b>${esc(a.nombre)}</b><div class="prog">Jugó por última vez: ${esc(fecha(a.actualizado))}</div></td>
           <td class="prog">${progreso(a.datos)}</td>
-          <td>${caps.map(id => `<label class="cap"><input type="checkbox" data-a="${a.id}" data-c="${esc(id)}" ${(a.bloqueados || []).includes(id) ? '' : 'checked'}> ${esc(TITULOS[id] || id)}</label>`).join('')}<span class="ok" data-ok="${a.id}" hidden>Guardado</span></td>
+          <td><label class="cap todo"><input type="checkbox" data-todo="${a.id}" ${a.todo_abierto ? 'checked' : ''}> <b>Abrir todo</b> (todos los lugares y los juegos, gratis: para probar)</label>
+            <div class="caps" ${a.todo_abierto ? 'data-off' : ''}>${caps.map(id => `<label class="cap"><input type="checkbox" data-a="${a.id}" data-c="${esc(id)}" ${(a.bloqueados || []).includes(id) ? '' : 'checked'}> ${esc(TITULOS[id] || id)}</label>`).join('')}</div><span class="ok" data-ok="${a.id}" hidden>Guardado</span></td>
         </tr>`).join('')}
       </tbody></table>` : '<p class="vacio">Todavía no agregó chicos.</p>'}
     </section>`).join('') || '<p class="vacio">No hay nada que coincida.</p>';
 }
 
+function avisarGuardado(alumnoId){ const ok = document.querySelector(`[data-ok="${alumnoId}"]`); if(ok){ ok.hidden = false; setTimeout(() => ok.hidden = true, 1500); } }
+const alumno = id => { for(const u of DATOS.usuarios) for(const a of u.alumnos) if(a.id === id) return a; };
+async function guardarTodo(alumnoId, si){
+  await api(`admin?alumno=${alumnoId}`, {method: 'PUT', body: {todoAbierto: si}});
+  alumno(alumnoId).todo_abierto = si;
+  const caps = document.querySelector(`input[data-todo="${alumnoId}"]`).closest('td').querySelector('.caps');
+  if(si) caps.setAttribute('data-off', ''); else caps.removeAttribute('data-off');
+  avisarGuardado(alumnoId);
+}
+async function nuevaClave(uid){
+  const u = DATOS.usuarios.find(x => x.id === uid);
+  if(!confirm(`¿Le ponemos una contraseña nueva a ${u.email}? La que tiene deja de funcionar y se cierran sus sesiones.`)) return;
+  const box = document.querySelector(`[data-claveres="${uid}"]`);
+  try{
+    const {clave} = await api(`admin?usuario=${uid}`, {method: 'POST', body: {accion: 'clave'}});
+    box.innerHTML = `Contraseña provisoria: <code>${esc(clave)}</code> — pasásela a ${esc(u.nombre || u.email)}. Después la puede cambiar en el rincón de los grandes del juego («Cambiar contraseña»). No se vuelve a mostrar.`;
+  }catch(e){ box.textContent = 'No se pudo: ' + e.message; }
+  box.hidden = false;
+}
 async function guardar(alumnoId){
   const bloqueados = [...document.querySelectorAll(`input[data-a="${alumnoId}"]`)].filter(i => !i.checked).map(i => i.dataset.c);
   await api(`admin?alumno=${alumnoId}`, {method: 'PUT', body: {bloqueados}});
-  for(const u of DATOS.usuarios) for(const a of u.alumnos) if(a.id === alumnoId) a.bloqueados = bloqueados;
-  const ok = document.querySelector(`[data-ok="${alumnoId}"]`); if(ok){ ok.hidden = false; setTimeout(() => ok.hidden = true, 1500); }
+  alumno(alumnoId).bloqueados = bloqueados;
+  avisarGuardado(alumnoId);
 }
 
 (async () => {
@@ -67,7 +89,10 @@ async function guardar(alumnoId){
   render();
   $('#buscar').addEventListener('input', e => render(e.target.value));
   $('#lista').addEventListener('change', async e => {
+    const t = e.target.closest('input[data-todo]');
+    if(t){ try{ await guardarTodo(+t.dataset.todo, t.checked); }catch(err){ t.checked = !t.checked; alert('No se pudo guardar: ' + err.message); } return; }
     const i = e.target.closest('input[data-a]'); if(!i) return;
     try{ await guardar(+i.dataset.a); }catch(err){ i.checked = !i.checked; alert('No se pudo guardar: ' + err.message); }
   });
+  $('#lista').addEventListener('click', e => { const b = e.target.closest('[data-clave]'); if(b) nuevaClave(+b.dataset.clave); });
 })();

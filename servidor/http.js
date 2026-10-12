@@ -26,8 +26,9 @@ function parametros(req){
 /* el usuario de la sesión (o null) */
 async function usuarioDe(req){
   const s = leerSesion(req); if(!s) return null;
-  const filas = await q('SELECT id, email, nombre, es_admin FROM usuarios WHERE id=$1', [s.uid]);
-  return filas[0] || null;
+  const filas = await q('SELECT id, email, nombre, es_admin, clave_ver FROM usuarios WHERE id=$1', [s.uid]);
+  const u = filas[0];
+  return u && (s.v||0) === u.clave_ver ? u : null;   // si cambió la contraseña, las sesiones viejas no valen
 }
 async function exigirUsuario(req){ const u = await usuarioDe(req); if(!u) throw error(401, 'Tenés que entrar con tu cuenta', 'sin_sesion'); return u; }
 
