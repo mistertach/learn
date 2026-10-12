@@ -58,8 +58,71 @@ const PACKS = {};
 function registrarIdioma(l){ PACKS[l.codigo]=l; }
 window.registrarIdioma = registrarIdioma;
 let LANG = null;     // paquete del idioma actual
-const T = new Proxy({}, {get:(_,k)=>{ const p=LANG||PACKS.es; return p && p.t[k]!==undefined ? p.t[k] : (PACKS.es && PACKS.es.t[k]); }});
+const T = new Proxy({}, {get:(_,k)=>{
+  const p=LANG||PACKS.es; const v = p && p.t[k]!==undefined ? p.t[k] : (PACKS.es && PACKS.es.t[k]);
+  // con idioma de ayuda, las frases que se arman con una función también guardan su traducción
+  const a=ayuda(), hv=a && PACKS[a].t[k];
+  return (typeof v==='function' && typeof hv==='function') ? conTraduccion(v, ()=>hv) : v;
+}});
 const langCode = () => (LANG && LANG.codigo) || 'es';
+
+/* ---------- idioma de ayuda ----------
+   Para aprender desde cero: cada cosa que dice el relator en el idioma que se aprende va seguida
+   de su traducción en el idioma de la familia (save.ayuda). Las traducciones salen de los otros
+   archivos de textos, emparejados por posición (como el inglés de los grandes). Las sílabas y las
+   partes de una frase no se traducen. Un paquete con `ayudaPorDefecto` (el árabe) la trae prendida. */
+function ayudaSugerida(){
+  const nav=String((navigator.languages&&navigator.languages[0])||navigator.language||'').slice(0,2);
+  return [nav,'en','es'].find(c=>PACKS[c] && c!==langCode()) || null;
+}
+function ayuda(){
+  if(!LANG || typeof save==='undefined' || !save) return null;
+  let a=save.ayuda; if(a===undefined) a = LANG.ayudaPorDefecto ? ayudaSugerida() : null;
+  return a && a!==LANG.codigo && PACKS[a] ? a : null;
+}
+let TRAD=null, TRADpar='';
+const sinMarcas = s => String(s).replace(/\*/g,'');
+function zipTrad(map, t, h){
+  if(typeof t==='string'){ if(typeof h==='string' && t!==h && !map.has(t)) map.set(t,h); return; }
+  if(!t || !h || typeof t!=='object') return;
+  for(const k in t){ if(k==='silabas'||k==='partes'||k==='numTexto'||k==='ingles') continue; zipTrad(map, t[k], h[k]); }
+}
+function mapaTrad(){
+  const a=ayuda(), par=`${langCode()}>${a}`;
+  if(TRAD && TRADpar===par) return TRAD;
+  const m=new Map();
+  for(const id in TEXTOS){ const t=TEXTOS[id][langCode()], h=TEXTOS[id][a]; if(t && h) zipTrad(m,t,h); }
+  if(PACKS[a]) zipTrad(m, LANG.t, PACKS[a].t);
+  // también sin las marcas *así* (los cuentos se dicen sin ellas)
+  for(const [k,v] of [...m]) if(k.includes('*')) m.set(sinMarcas(k), v);
+  TRAD=m; TRADpar=par; return m;
+}
+/* la traducción de lo que se va a decir (o null) */
+function traducir(s){
+  if(!ayuda() || !s) return null;
+  const M=mapaTrad(), n=save.name||'';
+  let r=M.get(s);
+  if(r==null){ let k=sinMarcas(s); if(n) k=k.split(n).join('{N}'); r=M.get(k); }
+  if(r==null) return null;
+  r=sinMarcas(r); if(n) r=r.split('{N}').join(n);
+  return r;
+}
+/* para traducir lo que reciben las funciones: palabras, números escritos y objetos con texto */
+function trArg(x){
+  if(typeof x==='string') return traducir(x) ?? x;
+  if(Array.isArray(x)) return x.map(trArg);
+  if(x && typeof x==='object'){ const o={...x}; for(const k in o) if(typeof o[k]==='string') o[k]=traducir(o[k]) ?? o[k]; return o; }
+  return x;
+}
+/* envuelve una función de textos: devuelve lo mismo, y anota la traducción de lo que armó.
+   dameAyuda() da la misma función en el idioma de ayuda (o nada). */
+function conTraduccion(f, dameAyuda){
+  return (...args)=>{
+    const r=f(...args), g=ayuda() && dameAyuda();
+    if(typeof r==='string' && typeof g==='function'){ try{ const tr=g(...args.map(trArg)); if(typeof tr==='string' && tr!==r) mapaTrad().set(r, tr); }catch(e){} }
+    return r;
+  };
+}
 
 /* ---------- capítulos: base común + textos por idioma ---------- */
 const BASES = {}, TEXTOS = {};
@@ -71,6 +134,12 @@ function registrarCapitulo(c){
 }
 function registrarTextos(id, lang, t){ (TEXTOS[id] || (TEXTOS[id]={}))[lang]=t; }
 window.registrarCapitulo = registrarCapitulo; window.registrarTextos = registrarTextos;
+/* las funciones de los textos de un microjuego ("Poné tres manzanas…") anotan su traducción */
+function envolverMj(id, mj){
+  const o={...(mj||{})};
+  for(const k in o) if(typeof o[k]==='function') o[k]=conTraduccion(o[k], ()=>{ const a=ayuda(); return a && ((TEXTOS[id][a]||{}).microjuego||{})[k]; });
+  return o;
+}
 function buildCap(id, lang){
   const b=BASES[id], t=TEXTOS[id] && TEXTOS[id][lang]; if(!b || !t) return null;
   const c={
@@ -81,7 +150,7 @@ function buildCap(id, lang){
     final:{npc:b.final.npc, anim:b.final.anim||'vuelo', propina:b.final.propina||0, icono:b.final.icono||'puerta', desfile:b.final.desfile||null, ...t.final, frase:{...t.final.frase, arte:b.final.arte}, ordenes:(b.final.ordenes||[]).map((a,i)=>({accion:a, texto:(t.final.ordenes||[])[i]||''}))},
     uniforme:b.uniforme||null,
     numeros:t.numeros||null, meses:t.meses||null,
-    microjuego: b.microjuego ? {...b.microjuego, ...(t.microjuego||{}), ingredientes:(b.microjuego.ingredientes||[]).map((k,i)=>({k, ...(((t.microjuego||{}).ingredientes||[])[i]||{})}))} : null,
+    microjuego: b.microjuego ? {...b.microjuego, ...envolverMj(id, t.microjuego), ingredientes:(b.microjuego.ingredientes||[]).map((k,i)=>({k, ...(((t.microjuego||{}).ingredientes||[])[i]||{})}))} : null,
     palabrasExtra:(b.palabrasExtra||[]).map((a,i)=>({...t.palabrasExtra[i], arte:a})),
     frasesExtra:(b.frasesExtra||[]).map((a,i)=>({...t.frasesExtra[i], arte:a})),
     preguntas:(b.preguntas||[]).map((q,i)=>({...q, ...t.preguntas[i]}))
@@ -299,6 +368,8 @@ async function sayAll(parts){
     const b=(p.id && clips.has(p.id)) ? await clips.get(p.id) : null;
     if(my!==sayTok) return false;
     if(b) await playBlob(b); else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
+    // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
+    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; await speak(tr, .9, ayuda()); } }
   }
   return my===sayTok;
 }
@@ -917,36 +988,40 @@ async function waitTurn(txt, my){ turno(true); await sleep(pausaPara(txt)); if(m
 /* cada sílaba se puede grabar aparte en el rincón de los grandes (la voz de la compu dice mal algunas sueltas) */
 const silabaId = (w,i) => `${w.id}:s${i}`;
 /* sílaba por sílaba, después la palabra entera */
+/* con idioma de ayuda, antes de repetir se dice una vez la palabra con su traducción (si la introducción no la dijo) */
+const conPresentacion = (intro, item) => (intro.length && ayuda() && !intro.some(x=>String(x&&x.t||x).includes(item.texto))) ? [...intro, {t:item.texto, id:item.id}] : intro;
 async function silabear(w, intro=[T.repeti]){
   const my=++seqTok; const ok=()=>my===seqTok;
+  intro=conPresentacion(intro, w);
   if(intro.length && !(await sayAll(intro))) return false;
   for(let i=0;i<w.silabas.length;i++){
     if(!ok()) return false; mark([i]); sfx.tick();
     await sayAll([{t:sonido(w.silabas[i]), id:silabaId(w,i), lento:true}]); if(!ok()) return false;
     if(!(await waitTurn(w.silabas[i]+'  ', my))) return false;
   }
-  mark('all'); await sayAll([{t:w.texto, id:w.id}]); if(!ok()) return false;
+  mark('all'); await sayAll([{t:w.texto, id:w.id, sinTrad:true}]); if(!ok()) return false;
   if(!(await waitTurn(w.texto, my))) return false;
   mark('none'); return true;
 }
 /* la frase en partes: cada parte, y se va juntando */
 async function construirFrase(f, intro=[T.repeti]){
   const my=++seqTok; const ok=()=>my===seqTok, P=f.partes;
+  intro=conPresentacion(intro, f);
   if(intro.length && !(await sayAll(intro))) return false;
   if(P.length===1){
-    for(let r=0;r<2;r++){ mark('all'); await sayAll([{t:f.texto,id:f.id}]); if(!ok()) return false; if(!(await waitTurn(f.texto,my))) return false; }
+    for(let r=0;r<2;r++){ mark('all'); await sayAll([{t:f.texto,id:f.id,sinTrad:true}]); if(!ok()) return false; if(!(await waitTurn(f.texto,my))) return false; }
     mark('none'); return true;
   }
   for(let i=0;i<P.length;i++){
     if(!ok()) return false; mark([i]); sfx.tick();
-    await sayAll([P[i]]); if(!ok()) return false;
+    await sayAll([{t:P[i], sinTrad:true}]); if(!ok()) return false;
     if(!(await waitTurn(P[i],my))) return false;
     if(i>0){
       const last=i===P.length-1;
       if(last){ await sayAll([T.todoJunto]); if(!ok()) return false; }
       mark(Array.from({length:i+1},(_,j)=>j));
       const txt = last ? f.texto : P.slice(0,i+1).join(' ');
-      await sayAll([last ? {t:txt,id:f.id} : txt]); if(!ok()) return false;
+      await sayAll([last ? {t:txt,id:f.id,sinTrad:true} : {t:txt,sinTrad:true}]); if(!ok()) return false;
       if(!(await waitTurn(txt,my))) return false;
     }
   }
@@ -1871,6 +1946,8 @@ function openParent(){
     ${vs.length?'':`<p class="note warn">Este navegador no tiene ninguna voz en ${esc(PACKS[code].nombre.toLowerCase())}, así que la pronunciación va a salir mal (con acento inglés). Abrí el juego en Microsoft Edge, que trae voces de todos estos idiomas, o grabá tu voz abajo.</p>`}
     <label class="chk"><input type="checkbox" id="p-grown" ${save.grownup?'checked':''}> Yo controlo cuando habla: la estrella se mantiene apretada un segundo para dar el sello.</label>
     <label class="chk"><input type="checkbox" id="p-todo" ${save.todoAbierto?'checked':''}> Abrir todos los lugares (si no, cada lugar se abre al terminar el anterior).</label>
+    <label class="chk ayuda">Idioma de ayuda: <select id="p-ayuda"><option value="">Sin ayuda</option>${idiomasDisponibles().filter(c=>c!==langCode()).map(c=>`<option value="${c}" ${ayuda()===c?'selected':''}>${esc(PACKS[c].nombre)}</option>`).join('')}</select>
+      <span class="note">Para empezar de cero: el relator dice todo en ${esc(PACKS[langCode()].nombre)} y enseguida lo traduce a este idioma (menos las sílabas, que se repiten tal cual).</span></label>
     <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> Traducción al inglés: al tocar una frase (el globo, las sílabas, el cuento) aparece en inglés. Solo se lee, el relator no la dice.</label>
     <div class="prow"><button class="pbtn" id="p-char">Elegir otro personaje</button><button class="pbtn" id="p-fish">Regalar 5 pececitos</button><span class="note" id="p-fishn">Tiene ${save.puntos||0}.</span></div>
     <h3>Grabar tu voz (${esc(PACKS[code].nombre)})</h3>
@@ -1890,6 +1967,7 @@ function openParent(){
   $('#p-grown').addEventListener('change',e=>{ save.grownup=e.target.checked; persist(); });
   $('#p-ingles').addEventListener('change',e=>{ save.ingles=e.target.checked; persist(); });
   $('#p-todo').addEventListener('change',e=>{ save.todoAbierto=e.target.checked; persist(); });
+  $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a) sayAll([{t:PACKS[a].nombre, lang:a}]); });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
   armConfirm($('#p-reset'),resetProgress);

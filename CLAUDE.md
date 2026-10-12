@@ -4,7 +4,7 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 
 ## Ground rules
 - The child can't read, so **everything must be spoken**. Any new on-screen text the child needs gets narrated with `sayAll([...])` in the target language. On-screen text is a support for the grown-up, not the main channel.
-- The narrator speaks **only the target language**. No English and no mixing.
+- The narrator speaks **only the target language**, with one exception: the optional helper language (`save.ayuda`, set in the grown-up corner, on by default for a pack with `ayudaPorDefecto`). With it, `sayAll` follows each line with its spoken translation, taken from the other language files matched by position (`mapaTrad`/`traducir`). Text functions (`T.*`, microgame texts) record their translation as they run (`conTraduccion`). Syllables, phrase parts and anything marked `sinTrad` or `lento` aren't translated, so the child always repeats the target language. Never mix languages inside one string.
 - **All child-facing strings live in `idiomas/<lang>.js` (`T.*`) or in `capitulos/<place>/<lang>.js`.** Never hard-code a phrase in `juego.js`. If you add a string, add it to every language file.
 - The grown-up corner (`openParent()` in `juego.js`) is for the parent and is written in Rioplatense Spanish, without translation.
 - Languages to learn: es, fr, it, en (`IDIOMAS` in `capitulos.js`).
