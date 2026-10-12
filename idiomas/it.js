@@ -5,6 +5,7 @@ registrarIdioma({
   bandera: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60"><rect width="30" height="60" fill="#009246"/><rect x="30" width="30" height="60" fill="#fff"/><rect x="60" width="30" height="60" fill="#CE2B37"/></svg>`,
   // come leggere una sillaba che è una vocale da sola (se no, la voce dice il nome della lettera)
   sonido: {'à':'a', 'è':'e', 'é':'e', 'ì':'i', 'ò':'o', 'ó':'o', 'ù':'u'},
+  sinTilde: true,
   letras: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   t: {
     aventuras: 'Avventure!', titulo: 'Le avventure di', jugar: 'Gioca!', tag: "Con l'audio · frecce o mouse per camminare",

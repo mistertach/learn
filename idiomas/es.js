@@ -7,6 +7,7 @@ registrarIdioma({
   // cómo se le pasa a la voz una sílaba suelta que lee mal. Ojo: con tilde ("tó") algunas voces deletrean
   // ("t, o con acento"); mejor una forma que suene igual: "je" → "ge", "loj" → "lo" (como se dice "reloj").
   sonido: {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u', 'y':'i', 'je':'ge', 'ji':'gi', 'loj':'lo'},
+  sinTilde: true,
   letras: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
   t: {
     aventuras: '¡Aventuras!', titulo: 'Las aventuras de', jugar: '¡Jugar!', tag: 'Con sonido · flechas o mouse para caminar',

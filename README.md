@@ -1,6 +1,6 @@
 # Las aventuras de…
 
-A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French, Italian or English), types their name, picks an animal friend and walks around a place (week 1: an airport; week 2: a restaurant where the child becomes the waiter; week 3: a clock tower that teaches telling the time). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish).
+A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French, Italian or English), types their name, picks an animal friend and walks around a place (week 1: an airport; week 2: a restaurant where the child becomes the waiter; week 3: a clock tower that teaches telling the time; week 4: our house, with the family and greetings). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish).
 
 The game itself is plain static files with no build step. It works on its own (open `index.html`), and when it is hosted with the small API in `api/` it also has accounts: progress saved online, shared voice recordings and an admin page.
 
