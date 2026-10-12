@@ -50,7 +50,7 @@ capitulos/<place>/
 ## Adding things
 
 - **A new place (week):** create `capitulos/<id>/base.js` plus one text file per language (including `en.js`), following `capitulos/aeropuerto/`. Then add the id to `CAPITULOS` in `capitulos.js`.
-- **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`.
+- **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`. Arabic (`ar`) shows how a language in another script works: each string is `"latin|arabic"` (see CLAUDE.md).
 - **A new shop item:** add it to `tienda.js` and add its name to the `ropa` block of every `idiomas/*.js`.
 
 ## Notes
