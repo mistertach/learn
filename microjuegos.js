@@ -385,3 +385,65 @@ MICROJUEGOS.canasta = (cap, M) => new Promise(resolve=>{
   });
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   LA PLAZA · El barrilete: el relator dice "¡Arriba!", "¡Abajo!",
+   "¡A la izquierda!" o "¡A la derecha!" y el chico lleva el barrilete
+   hasta la estrella (flechas del teclado, los botones o tocando el cielo).
+   --------------------------------------------------------- */
+MICROJUEGOS.barrilete = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cv=M.canvas, RONDAS=8, CENTRO={x:.5,y:.36};
+  const DIRS=[{k:'ArrowUp',ico:'up',x:.5,y:.12},{k:'ArrowDown',ico:'down',x:.5,y:.6},{k:'ArrowLeft',ico:'left',x:.17,y:.36},{k:'ArrowRight',ico:'right',x:.83,y:.36}];
+  const COL=['#E8483B','#FFC93C','#2FBF8F','#2E86DE','#8B6FE8','#FF9B3D'];
+  let ronda=0, meta=-1, ultimo=-1, listo=false, n=0, kx=CENTRO.x, ky=CENTRO.y, ox=CENTRO.x, oy=CENTRO.y, prev=null, mueca=0;
+  const cola=[], chispas=[], nubes=Array.from({length:5},(_,i)=>({x:i/5+Math.random()*.1, y:.06+Math.random()*.4, r:.035+Math.random()*.03}));
+  M.actions.innerHTML=`<div class="ings">${DIRS.map((d,i)=>`<button class="ing" data-d="${i}" aria-label="${esc(tx.dirs[i])}"${enAttr(enDe(tx.dirs[i]))}>${ICON[d.ico]}</button>`).join('')}</div>`;
+  const elegir=async i=>{
+    if(!listo || !M.alive()) return;
+    if(i!==meta){ sfx.oops(); mueca=.5; const d=DIRS[i]; ox=CENTRO.x+(d.x-CENTRO.x)*.15; oy=CENTRO.y+(d.y-CENTRO.y)*.15; setTimeout(()=>{ ox=CENTRO.x; oy=CENTRO.y; },350); sayAll([tx.dirs[meta]]); return; }
+    listo=false; const d=DIRS[i]; ox=d.x; oy=d.y;
+    await sleep(700); if(!M.alive()) return;
+    n++; tone(660+n%6*90,.12,'triangle',.11); tone(990+n%6*90,.15,'sine',.07,.06);
+    for(let k=0;k<10;k++) chispas.push({x:d.x,y:d.y,a:k*Math.PI/5,vida:.6,col:COL[k%COL.length]});
+    meta=-1; await sayAll([praise()]); if(!M.alive()) return;
+    ox=CENTRO.x; oy=CENTRO.y; await sleep(600); nuevaRonda();
+  };
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',()=>elegir(+b.dataset.d)));
+  const T2=teclasJuego(M, k=>{ const i=DIRS.findIndex(d=>d.k===k); if(i>=0){ elegir(i); return false; } });
+  cv.addEventListener('pointerdown',e=>{ const r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+    let mejor=0, dist=9; DIRS.forEach((d,i)=>{ const dd=Math.hypot(d.x-x,(d.y-y)*.6); if(dd<dist){ dist=dd; mejor=i; } }); elegir(mejor); });
+
+  live(cv,(c,w,h,t)=>{
+    const dt=prev==null?0:Math.min(.05,t-prev); prev=t;
+    if(!M.alive()){ T2.limpiar(); return; }
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#5DB8F0'); g.addColorStop(1,'#D8F0FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    for(const nb of nubes){ nb.x-=dt*.02; if(nb.x<-.15) nb.x=1.15; cloud(c,nb.x*w,nb.y*h,nb.r*h); }
+    c.fillStyle='#86CC6E'; c.fillRect(0,h*.8,w,h*.2);
+    // la estrella que hay que buscar
+    if(meta>=0){ const d=DIRS[meta], R=h*.06*(1+.12*Math.sin(t*6)); star5(c,d.x*w,d.y*h,R*1.3,'rgba(255,255,255,.6)'); star5(c,d.x*w,d.y*h,R,'#FFC93C'); }
+    // el barrilete va hacia donde le dicen, con un poco de viento
+    kx+=(ox-kx)*Math.min(1,dt*5); ky+=(oy-ky)*Math.min(1,dt*5); if(mueca>0) mueca-=dt;
+    const px=kx*w+Math.sin(t*1.7)*h*.012, py=ky*h+Math.cos(t*1.3)*h*.01, rot=Math.sin(t*2)*.08+(ox-kx)*1.2+(mueca>0?Math.sin(t*40)*.15:0);
+    cola.push({x:px,y:py}); if(cola.length>21) cola.shift();
+    // el hilo, hasta las manos del personaje
+    const hx=w*.5, hy=h*.97;
+    c.strokeStyle='rgba(34,49,79,.5)'; c.lineWidth=1.5; c.beginPath(); c.moveTo(hx+h*.04,hy-h*.16); c.quadraticCurveTo((px+hx)/2,py+h*.25,px,py+h*.06); c.stroke();
+    // la cola: moñitos de colores que siguen al barrilete
+    for(let i=cola.length-1, j=0; i>=0; i-=3, j++){ const p=cola[i], x=p.x+Math.sin(t*4+j)*h*.015, y=p.y+h*.09+j*h*.024; c.fillStyle=COL[j%COL.length]; poly(c,[x-h*.02,y-h*.012, x+h*.02,y+h*.012, x+h*.02,y-h*.012, x-h*.02,y+h*.012],COL[j%COL.length]); }
+    c.save(); c.translate(px,py); c.rotate(rot); const K=h*.09;
+    poly(c,[0,-K, K*.75,0, 0,0],'#E8483B'); poly(c,[0,-K, -K*.75,0, 0,0],'#FFC93C'); poly(c,[0,K*1.1, K*.75,0, 0,0],'#2E86DE'); poly(c,[0,K*1.1, -K*.75,0, 0,0],'#2FBF8F');
+    c.strokeStyle='#8A5636'; c.lineWidth=2; c.beginPath(); c.moveTo(0,-K); c.lineTo(0,K*1.1); c.moveTo(-K*.75,0); c.lineTo(K*.75,0); c.stroke();
+    c.restore();
+    drawHero(c,hx,hy,h*.26,{t,facing:1,wave:true,mood:meta<0&&n?'wow':null});
+    for(let i=chispas.length-1;i>=0;i--){ const p=chispas[i]; p.vida-=dt; if(p.vida<=0){ chispas.splice(i,1); continue; } const k=.6-p.vida; star5(c,p.x*w+Math.cos(p.a)*h*.4*k,p.y*h+Math.sin(p.a)*h*.4*k,h*.02*p.vida*2,p.col); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; let d; do{ d=Math.floor(Math.random()*4); }while(d===ultimo);
+    meta=ultimo=d; await sayAll([tx.dirs[d]]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
