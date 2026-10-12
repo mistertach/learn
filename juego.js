@@ -1516,7 +1516,7 @@ async function runGate(){
     live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawFiesta(c,w,h,t-t0,t,conf,F,S,invitados,CAP.uniforme));
     const melodia=[[392,392,440,392,523,494],[392,392,440,392,587,523],[392,392,784,659,523,494,440],[698,698,659,523,587,523]];
     for(let i=0;i<(F.cancion||[]).length;i++){
-      S.linea=i+1; S.texto=F.cancion[i].replace('{N}', save.name||'');
+      S.linea=i+1; S.texto=F.cancion[i].replaceAll('{N}', save.name||'');
       (melodia[i]||[]).forEach((f,j)=>setTimeout(()=>alive()&&tone(f,.28,'triangle',.07),j*260));
       await sayAll([S.texto]); if(!alive()) return; await sleep(300); if(!alive()) return;
     }

@@ -19,7 +19,7 @@ function teclasJuego(M, onKey){
   window.addEventListener('keydown',kd,true); window.addEventListener('keyup',ku,true);
   return {abajo, limpiar};
 }
-const textoN = (txt, n) => String(txt||'').replace('{n}', n);
+const textoN = (txt, n) => String(txt||'').replaceAll('{n}', n);
 /* pedacitos que saltan (relojes rotos, jugo de fruta, migas…): {x,y,vx,vy,vida,dibujar(c,p,k)} en px */
 function particulas(){
   const ps=[];
