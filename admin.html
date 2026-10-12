@@ -27,12 +27,19 @@ label.cap{display:inline-flex;align-items:center;gap:6px;margin-right:12px;white
 .aviso{background:#fff;border-radius:20px;padding:20px;box-shadow:0 4px 14px rgba(34,49,79,.08)}
 input[type=search]{font:inherit;font-size:16px;padding:8px 12px;border:2px solid #DCE3EE;border-radius:12px;width:min(360px,100%);margin-bottom:16px}
 a{color:#2E6BD9}
+.cabeza{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:700;font-size:14px;border:2px solid #DCE3EE;background:#fff;color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink2)}
+.clave{margin-top:10px;background:#FFF6DC;border-radius:12px;padding:10px 12px;font-size:15px}
+.clave code{font-size:18px;font-weight:800;background:#fff;border-radius:8px;padding:2px 8px;user-select:all}
+label.todo{display:flex;margin-bottom:6px;white-space:normal}
+.caps[data-off]{opacity:.4;pointer-events:none}
 </style>
 </head>
 <body>
 <main>
   <h1>Administración</h1>
-  <p class="sub">Las familias registradas, sus chicos y qué lugares tiene abiertos cada uno. Los cambios se guardan solos. <a href="./">Volver al juego</a></p>
+  <p class="sub">Las familias registradas, sus chicos y qué lugares tiene abiertos cada uno. Los cambios se guardan solos. Si alguien se olvidó la contraseña, tocá «Nueva contraseña» y pasale la provisoria. <a href="./">Volver al juego</a></p>
   <div id="app"><p class="vacio">Cargando…</p></div>
 </main>
 <script src="capitulos.js"></script>

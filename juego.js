@@ -809,7 +809,9 @@ function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>$('#cha
    los abra todos desde el rincón; además, el administrador puede cerrar lugares a un chico */
 const capPrevio = c => { const i=CAP_LIST.indexOf(c); return i>0 ? CAP_LIST[i-1] : null; };
 const capPorOrden = c => { const p=capPrevio(c); return !p || save.todoAbierto || capSave(p.id).final; };
-const capAbierto = c => !(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id)) && capPorOrden(c);
+/* el administrador le puede abrir todo a un chico (lugares y juegos, gratis) para probar */
+const pruebaTodo = () => !!(NUBE.alumno && NUBE.alumno.todo_abierto);
+const capAbierto = c => pruebaTodo() || (!(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id)) && capPorOrden(c));
 function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
@@ -1862,34 +1864,51 @@ function goCuenta(){
   hush(); show('cuenta'); renderCuenta();
   if(PACKS[uiLang] || save.lang) sayAll([T.cuentaDi]);   // en inglés no se habla: el relator solo dice idiomas que se aprenden
 }
-function renderCuenta(msg=''){
-  const reg=cuentaModo==='registro', f0=$('#cuentaForm'), prev=f0 ? Object.fromEntries(new FormData(f0)) : {};
-  $('#scr-cuenta').lang=uiLang; $('#cuentaTit').textContent=G.titulo; $('#cuentaSub').textContent=G.sub;
+/* modos: entrar · registro · olvide (pedir el link por email) · nueva (llegó con el link: elegir otra contraseña) */
+function renderCuenta(msg='', bien=false){
+  const m=cuentaModo, reg=m==='registro', f0=$('#cuentaForm'), prev=f0 ? Object.fromEntries(new FormData(f0)) : {};
+  $('#scr-cuenta').lang=uiLang; $('#cuentaTit').textContent=G.titulo; $('#cuentaSub').textContent=m==='nueva'?G.nuevaClave:G.sub;
+  const campoEmail=`<label>${esc(G.email)}<input name="email" type="email" autocomplete="email" required value="${esc(prev.email||'')}"></label>`;
+  const campos = m==='olvide' ? campoEmail
+    : m==='nueva' ? `<label>${esc(G.claveNueva)}<input name="clave" type="password" autocomplete="new-password" minlength="8" required></label>`
+    : `${reg?`<label>${esc(G.tuNombre)}<input name="nombre" autocomplete="name" maxlength="60" value="${esc(prev.nombre||'')}"></label>`:''}${campoEmail}
+      <label>${esc(reg?G.claveMin:G.clave)}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>`;
+  const boton = m==='olvide' ? G.enviar : m==='nueva' ? G.guardarClave : reg ? G.crear : G.entrar;
   $('#cuentaBox').innerHTML=`
     <div class="uilangs" role="group" aria-label="${esc(G.idiomaGrandes)}">${idiomasGrandes().map(c=>`<button type="button" class="uilang ${c===uiLang?'on':''}" data-l="${c}" lang="${c}" aria-pressed="${c===uiLang}"><img src="${svgUri(banderaDe(c))}" alt=""><span>${esc(window.GRANDES[c].nombre)}</span></button>`).join('')}</div>
-    <div class="tabs"><button class="tab ${reg?'':'on'}" data-m="entrar">${esc(G.entrar)}</button><button class="tab ${reg?'on':''}" data-m="registro">${esc(G.crear)}</button></div>
+    ${m==='entrar'||reg ? `<div class="tabs"><button class="tab ${reg?'':'on'}" data-m="entrar">${esc(G.entrar)}</button><button class="tab ${reg?'on':''}" data-m="registro">${esc(G.crear)}</button></div>` : ''}
+    ${m==='olvide' ? `<p class="note">${esc(G.olvideNota)}</p>` : ''}
     <form id="cuentaForm" class="cform">
-      ${reg?`<label>${esc(G.tuNombre)}<input name="nombre" autocomplete="name" maxlength="60" value="${esc(prev.nombre||'')}"></label>`:''}
-      <label>${esc(G.email)}<input name="email" type="email" autocomplete="email" required value="${esc(prev.email||'')}"></label>
-      <label>${esc(reg?G.claveMin:G.clave)}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>
-      <p class="cmsg" ${msg?'':'hidden'}>${esc(msg)}</p>
-      <button class="mbtn go" type="submit">${ICON.check}<span>${esc(reg?G.crear:G.entrar)}</span></button>
+      ${campos}
+      <p class="cmsg ${bien?'bien':''}" ${msg?'':'hidden'}>${esc(msg)}</p>
+      <button class="mbtn go" type="submit">${ICON.check}<span>${esc(boton)}</span></button>
     </form>
-    <p class="note">${esc(reg?G.notaCrear:G.notaEntrar)}</p>
+    ${m==='entrar' ? `<button class="linkbtn" data-m="olvide">${esc(G.olvide)}</button>` : ''}
+    ${m==='olvide'||m==='nueva' ? `<button class="linkbtn" data-m="entrar">${esc(G.volverEntrar)}</button>` : `<p class="note">${esc(reg?G.notaCrear:G.notaEntrar)}</p>`}
     <button class="linkbtn" id="sinCuenta">${esc(G.sinCuenta)}</button>`;
-  $('#cuentaBox').querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ cuentaModo=b.dataset.m; renderCuenta(); }));
+  $('#cuentaBox').querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>{ cuentaModo=b.dataset.m; renderCuenta(); }));
   $('#cuentaBox').querySelectorAll('.uilang').forEach(b=>b.addEventListener('click',()=>{ elegirUi(b.dataset.l); renderCuenta(); }));
   $('#sinCuenta').addEventListener('click',()=>{ NUBE.sinCuenta=true; lsSet(SIN_CUENTA_KEY,'1'); nextStep(); });
   $('#cuentaForm').addEventListener('submit',async e=>{
     e.preventDefault(); const f=new FormData(e.target), btn=e.target.querySelector('button'); btn.disabled=true;
     try{
-      const j=await api('sesion',{method:'POST', body:{accion:cuentaModo, email:f.get('email'), clave:f.get('clave'), nombre:f.get('nombre')||''}});
+      if(m==='olvide'){
+        await api('sesion',{method:'POST', body:{accion:'olvide', email:f.get('email'), idioma:uiLang}});
+        renderCuenta(G.olvideEnviado, true); return;
+      }
+      const body = m==='nueva' ? {accion:'nueva_clave', token:tokenClave, clave:f.get('clave')}
+        : {accion:m, email:f.get('email'), clave:f.get('clave'), nombre:f.get('nombre')||''};
+      const j=await api('sesion',{method:'POST', body});
+      if(m==='nueva'){ tokenClave=null; cuentaModo='entrar'; }
       NUBE.usuario=j.usuario; NUBE.alumnos=j.alumnos||[]; NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null);
       await clips.cargarNube(); sfx.yay(); nextStep();
     }catch(err){ btn.disabled=false; renderCuenta(errTxt(err)); }
   });
-  setTimeout(()=>$('#cuentaBox input[name=email]')?.focus(),60);
+  setTimeout(()=>$('#cuentaBox input')?.focus(),60);
 }
+/* el link del email de "olvidé mi contraseña" trae ?clave=<token>: se guarda y se saca de la barra de direcciones */
+let tokenClave = new URLSearchParams(location.search).get('clave');
+if(tokenClave){ try{ history.replaceState(null, '', location.pathname); }catch(e){} }
 /* ¿quién juega? — los chicos de la cuenta */
 function goAlumnos(){
   hush(); show('alumnos');
@@ -1922,10 +1941,20 @@ function cuentaHtml(){
   if(!NUBE.usuario) return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuentaSin)}</b><span>${esc(G.cuentaSinTxt)}</span></div><button class="pbtn" id="p-login">${esc(G.cuentaEntrar)}</button></div>`;
   const u=NUBE.usuario;
   return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuenta(u.nombre||u.email))}</b><span>${esc(u.email)}${NUBE.alumno?` · ${esc(G.juega(NUBE.alumno.nombre))}`:''}. ${esc(G.online)}</span></div>
-    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div></div>`;
+    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn" id="p-clave">${esc(G.cambiarClave)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div>
+    <form class="cform pclave" id="p-claveForm" hidden><label>${esc(G.claveActual)}<input name="actual" type="password" autocomplete="current-password" required></label>
+      <label>${esc(G.claveNueva)}<input name="clave" type="password" autocomplete="new-password" minlength="8" required></label>
+      <p class="cmsg" hidden></p><button class="pbtn" type="submit">${esc(G.guardarClave)}</button></form></div>`;
 }
 function conectarCuentaParent(){
   $('#p-login')?.addEventListener('click',()=>{ NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null); closeModal(); goCuenta(); });
+  $('#p-clave')?.addEventListener('click',()=>{ const f=$('#p-claveForm'); f.hidden=!f.hidden; if(!f.hidden) f.querySelector('input').focus(); });
+  $('#p-claveForm')?.addEventListener('submit',async e=>{
+    e.preventDefault(); const f=e.target, msg=f.querySelector('.cmsg'), btn=f.querySelector('button'); btn.disabled=true;
+    try{ await api('sesion',{method:'POST', body:{accion:'cambiar_clave', actual:f.actual.value, clave:f.clave.value}}); f.reset(); msg.textContent=G.claveCambiada; msg.classList.add('bien'); }
+    catch(err){ msg.textContent=errTxt(err); msg.classList.remove('bien'); }
+    msg.hidden=false; btn.disabled=false;
+  });
   $('#p-kids')?.addEventListener('click',async()=>{ await nubeGuardar(); NUBE.alumno=null; lsSet(ALUMNO_KEY,null); closeModal(); goAlumnos(); });
   $('#p-logout')?.addEventListener('click',async()=>{
     await nubeGuardar();
@@ -1989,11 +2018,12 @@ function confirmName(){
    MICROJUEGOS — uno por lugar (microjuegos.js). Se abren al terminar el lugar
    (con una partida gratis) y después cada partida cuesta pececitos.
    ========================================================= */
-const juegoAbierto = c => Object.keys(save.caps||{}).some(k=>k.split(':')[1]===c.id && save.caps[k].final);
-const juegoGratis = c => ((save.juegos||{})[c.id]||{}).gratis||0;
+const juegoAbierto = c => pruebaTodo() || Object.keys(save.caps||{}).some(k=>k.split(':')[1]===c.id && save.caps[k].final);
+const juegoGratis = c => pruebaTodo() ? 1 : ((save.juegos||{})[c.id]||{}).gratis||0;
 /* paga la partida (o usa una gratis); false si no alcanzan los peces */
 function pagarJuego(c){
   const mj=c.microjuego, g=juegoGratis(c);
+  if(pruebaTodo()) return {gratis:true};
   if(g>0){ save.juegos[c.id].gratis=g-1; persist(); return {gratis:true}; }
   const p=save.puntos||0;
   if(p<mj.precio){ sfx.oops(); sayAll([T.noAlcanza(T.peces(mj.precio-p))]); return null; }
@@ -2203,5 +2233,6 @@ Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
   await clips.cargarNube();
   setLang(save.lang || 'es', false); rotarInicio();
   $('#playBtn').disabled=false; setTimeout(()=>$('#playBtn').focus(),60);
+  if(tokenClave && NUBE.on){ cuentaModo='nueva'; goCuenta(); }
 });
 requestAnimationFrame(frame);

@@ -43,6 +43,16 @@ const ESQUEMA = [
      actualizado TIMESTAMPTZ NOT NULL DEFAULT NOW(),
      PRIMARY KEY (usuario_id, clave))`,
   `CREATE INDEX IF NOT EXISTS alumnos_usuario ON alumnos(usuario_id)`,
+  // al cambiar la contraseña sube clave_ver y se cierran las sesiones viejas
+  `ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS clave_ver INTEGER NOT NULL DEFAULT 0`,
+  // el administrador puede abrir todo a un chico (lugares y juegos) para probar
+  `ALTER TABLE alumnos ADD COLUMN IF NOT EXISTS todo_abierto BOOLEAN NOT NULL DEFAULT FALSE`,
+  // pedidos de "olvidé mi contraseña": se guarda el hash del token, no el token
+  `CREATE TABLE IF NOT EXISTS recuperos (
+     token TEXT PRIMARY KEY,
+     usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+     creado TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+     vence TIMESTAMPTZ NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS grabaciones_global ON grabaciones(global) WHERE global`
 ];
 

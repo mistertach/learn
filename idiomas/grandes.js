@@ -26,7 +26,15 @@ window.GRANDES = {
     err_credenciales: 'The email or password is wrong.',
     err_sin_sesion: 'You need to sign in first.',
     err_falta_nombre: 'Please type a name.',
-    err_muchos_chicos: 'This account already has a lot of children.'
+    err_muchos_chicos: 'This account already has a lot of children.',
+    olvide: 'Forgot your password?', olvideNota: 'Type your account’s email and we’ll send you a link to choose a new password.',
+    enviar: 'Send link', olvideEnviado: 'If there is an account with that email, we’ve sent it a link. Check your inbox (and spam). The link works for one hour.',
+    nuevaClave: 'Choose a new password', guardarClave: 'Save password', volverEntrar: 'Back to sign in',
+    cambiarClave: 'Change password', claveActual: 'Current password', claveNueva: 'New password (at least 8 characters)', claveCambiada: 'Your password has been changed.',
+    err_sin_correo: 'Password emails aren’t set up yet. Ask the person who runs the game to give you a new password.',
+    err_correo_fallo: 'We couldn’t send the email. Try again in a few minutes.',
+    err_token: 'This link has expired or was already used. Ask for a new one.',
+    err_clave_actual: 'The current password is wrong.'
   },
   es: {
     titulo: 'Las aventuras', quienJuega: '¿Quién juega?',
@@ -51,7 +59,15 @@ window.GRANDES = {
     err_credenciales: 'El email o la contraseña no coinciden.',
     err_sin_sesion: 'Tenés que entrar con tu cuenta.',
     err_falta_nombre: 'Falta el nombre.',
-    err_muchos_chicos: 'Ya hay muchos chicos en esta cuenta.'
+    err_muchos_chicos: 'Ya hay muchos chicos en esta cuenta.',
+    olvide: '¿Te olvidaste la contraseña?', olvideNota: 'Escribí el email de tu cuenta y te mandamos un link para elegir una contraseña nueva.',
+    enviar: 'Mandar el link', olvideEnviado: 'Si hay una cuenta con ese email, le mandamos un link. Fijate en tu correo (y en spam). El link sirve por una hora.',
+    nuevaClave: 'Elegí una contraseña nueva', guardarClave: 'Guardar la contraseña', volverEntrar: 'Volver a entrar',
+    cambiarClave: 'Cambiar contraseña', claveActual: 'Contraseña actual', claveNueva: 'Contraseña nueva (mínimo 8 letras o números)', claveCambiada: 'Listo, cambiaste la contraseña.',
+    err_sin_correo: 'Todavía no está configurado el envío de emails. Pedile una contraseña nueva a quien administra el juego.',
+    err_correo_fallo: 'No se pudo mandar el email. Probá de nuevo en unos minutos.',
+    err_token: 'El link venció o ya se usó. Pedí uno nuevo.',
+    err_clave_actual: 'La contraseña actual no coincide.'
   },
   fr: {
     titulo: 'Les aventures', quienJuega: 'Qui joue ?',
@@ -76,7 +92,15 @@ window.GRANDES = {
     err_credenciales: 'L’e-mail ou le mot de passe est incorrect.',
     err_sin_sesion: 'Vous devez d’abord vous connecter.',
     err_falta_nombre: 'Écrivez un prénom.',
-    err_muchos_chicos: 'Ce compte a déjà beaucoup d’enfants.'
+    err_muchos_chicos: 'Ce compte a déjà beaucoup d’enfants.',
+    olvide: 'Mot de passe oublié ?', olvideNota: 'Écrivez l’email de votre compte et nous vous enverrons un lien pour choisir un nouveau mot de passe.',
+    enviar: 'Envoyer le lien', olvideEnviado: 'S’il existe un compte avec cet email, nous lui avons envoyé un lien. Regardez votre boîte (et les spams). Le lien est valable une heure.',
+    nuevaClave: 'Choisissez un nouveau mot de passe', guardarClave: 'Enregistrer le mot de passe', volverEntrar: 'Retour à la connexion',
+    cambiarClave: 'Changer le mot de passe', claveActual: 'Mot de passe actuel', claveNueva: 'Nouveau mot de passe (8 caractères minimum)', claveCambiada: 'Votre mot de passe a été changé.',
+    err_sin_correo: 'L’envoi d’emails n’est pas encore configuré. Demandez un nouveau mot de passe à la personne qui gère le jeu.',
+    err_correo_fallo: 'Impossible d’envoyer l’email. Réessayez dans quelques minutes.',
+    err_token: 'Ce lien a expiré ou a déjà été utilisé. Demandez-en un nouveau.',
+    err_clave_actual: 'Le mot de passe actuel est incorrect.'
   },
   it: {
     titulo: 'Le avventure', quienJuega: 'Chi gioca?',
@@ -101,7 +125,15 @@ window.GRANDES = {
     err_credenciales: 'Email o password sbagliate.',
     err_sin_sesion: 'Devi prima accedere.',
     err_falta_nombre: 'Scrivi un nome.',
-    err_muchos_chicos: 'Questo account ha già molti bambini.'
+    err_muchos_chicos: 'Questo account ha già molti bambini.',
+    olvide: 'Password dimenticata?', olvideNota: 'Scrivi l’email del tuo account e ti mandiamo un link per scegliere una nuova password.',
+    enviar: 'Manda il link', olvideEnviado: 'Se c’è un account con questa email, gli abbiamo mandato un link. Controlla la posta (e lo spam). Il link vale per un’ora.',
+    nuevaClave: 'Scegli una nuova password', guardarClave: 'Salva la password', volverEntrar: 'Torna all’accesso',
+    cambiarClave: 'Cambia password', claveActual: 'Password attuale', claveNueva: 'Nuova password (almeno 8 caratteri)', claveCambiada: 'La password è stata cambiata.',
+    err_sin_correo: 'L’invio di email non è ancora configurato. Chiedi una nuova password a chi gestisce il gioco.',
+    err_correo_fallo: 'Non è stato possibile mandare l’email. Riprova tra qualche minuto.',
+    err_token: 'Il link è scaduto o è già stato usato. Chiedine uno nuovo.',
+    err_clave_actual: 'La password attuale non è corretta.'
   }
 };
 /* bandera para el inglés (los otros idiomas usan la de su paquete) */
