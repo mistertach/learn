@@ -502,3 +502,51 @@ MICROJUEGOS.cuerpo = (cap, M) => new Promise(resolve=>{
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   LA GRANJA · ¡A dar de comer! El relator dice "Dale de comer a la vaca"
+   y el chico toca la vaca; la comida vuela hasta ella y la vaca hace "¡Muuu!".
+   Si toca otro animal, el relator le dice cuál tocó y vuelve a pedir.
+   --------------------------------------------------------- */
+MICROJUEGOS.comida = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, ans=tx.ingredientes, cv=M.canvas, RONDAS=8;
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, come=null;
+  M.actions.innerHTML=`<div class="ings">${ans.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=ans.find(x=>x.k===b.dataset.k);
+    if(g!==meta){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([g.texto, meta.dale]); return; }
+    listo=false; n++; come={k:g.k, t:performance.now()/1000, sonido:g.sonido};
+    tone(520,.1,'triangle',.1); setTimeout(()=>M.alive()&&sfx.yay(),700);
+    await sleep(700); if(!M.alive()) return;
+    await sayAll([g.sonido, praise()]); if(!M.alive()) return;
+    await sleep(500); nuevaRonda();
+  }));
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    bgGranja(c,w,h,t);
+    const hx=w*.3, gy=h*.97;
+    drawHero(c,hx,gy,h*.5,{t,facing:1,uniforme:cap.uniforme?cap.uniforme.ropa:null,wave:!!come&&t-come.t>.7});
+    // el balde de comida
+    c.fillStyle='#B5753A'; rr(c,hx+h*.1,h*.74,h*.14,h*.14,8); c.fill(); ell(c,hx+h*.17,h*.74,h*.07,h*.025,'#E8C66A');
+    if(come){
+      const u=t-come.t, ax=w*.68, k=Math.min(1,u/.7);
+      // la comida vuela del balde al animal
+      if(k<1) for(let i=0;i<5;i++){ const kk=Math.max(0,Math.min(1,k*1.3-i*.06)); ell(c,hx+h*.17+(ax-hx-h*.17)*kk,h*.74-Math.sin(kk*Math.PI)*h*.25+(h*.1)*kk,h*.018,h*.014,'#E8C66A'); }
+      const sal=u>.7&&u<2.2?Math.abs(Math.sin(u*8))*h*.05:0;
+      drawImg(c,come.k,ax,h*.66-sal,h*.42);
+      if(u>.7 && u<2.6){ c.save(); c.font=`800 ${Math.round(h*.09)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.02; c.strokeStyle='#22314F'; c.strokeText(come.sonido,ax,h*.24); c.fillStyle='#fff'; c.fillText(come.sonido,ax,h*.24); c.restore(); }
+      if(u>.7 && u<1.8) for(let i=0;i<5;i++){ const p=((u-.7)*.6+i/5)%1; c.save(); c.globalAlpha=1-p; heart(c,ax+(i-2)*h*.05,h*.4-p*h*.2,h*.025); c.restore(); }
+    } else { c.save(); c.font=`800 ${Math.round(h*.18)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.fillStyle='rgba(34,49,79,.25)'; c.fillText('?',w*.68,h*.62); c.restore(); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; come=null; let g; do{ g=ans[Math.floor(Math.random()*ans.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.dale]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
