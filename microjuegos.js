@@ -247,3 +247,435 @@ MICROJUEGOS.hora = (cap, M) => new Promise(resolve=>{
   });
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   NUESTRA CASA · La torta de la familia: tocá algo rico (se dice su nombre)
+   y después tocá la torta para ponerlo. Al final se soplan las velas.
+   --------------------------------------------------------- */
+MICROJUEGOS.torta = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, ings=tx.ingredientes, cv=M.canvas;
+  const piezas=[]; let sel=null, fase='armar', tSop=0, t=0;
+  const familia=(cap.estaciones.M||{}).npc;
+  let G0={cx:0,cy:0,rx:1,ry:1};
+  const conf=Array.from({length:60},(_,i)=>({x:Math.random(),s:.6+Math.random()*.8,c:['#FF6F59','#FFC93C','#2FBF8F','#2E86DE','#8B6FE8'][i%5],r:Math.random()*6}));
+  const COLS=['#E8483B','#FFC93C','#2E86DE','#2FBF8F','#8B6FE8','#FF8FB8'];
+
+  function poner(k, x, y){
+    if(fase!=='armar') return;
+    if(x==null){ const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*.8; x=Math.cos(a)*d; y=Math.sin(a)*d; }
+    if(k==='confites'){ for(let i=0;i<7;i++) piezas.push({k, x:x+(Math.random()-.5)*.3, y:y+(Math.random()-.5)*.3, col:COLS[i%6], t}); }
+    else piezas.push({k, x, y, rot:(Math.random()-.5)*.6, col:COLS[Math.floor(Math.random()*6)], t});
+    piezas.sort((a,b)=>a.y-b.y);
+    tone(560+Math.random()*200,.08,'triangle',.08);
+  }
+  M.actions.innerHTML=`<div class="ings">${ings.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`
+    + B('soplar','star',tx.soplar,'go');
+  const botones=[...M.actions.querySelectorAll('.ing')], soplar=M.actions.querySelector('[data-act=soplar]');
+  botones.forEach(b=>b.addEventListener('click',()=>{
+    if(fase!=='armar') return;
+    sel=b.dataset.k; botones.forEach(x=>x.classList.toggle('on',x===b));
+    poner(sel); sayAll([ings.find(x=>x.k===sel).texto]);
+  }));
+  cv.addEventListener('pointerdown',e=>{
+    if(fase!=='armar' || !sel) return;
+    const r=cv.getBoundingClientRect(), x=(e.clientX-r.left-G0.cx)/G0.rx, y=(e.clientY-r.top-G0.cy)/G0.ry;
+    if(x*x+y*y<.9) poner(sel,x,y);
+  });
+  onAct('soplar',async()=>{
+    if(fase!=='armar') return;
+    if(piezas.length<3){ sfx.oops(); sayAll([tx.mas]); return; }
+    if(!piezas.some(p=>p.k==='vela')) for(const x of [-.4,0,.4]) poner('vela',x,-.1);
+    fase='soplar'; tSop=t; soplar.disabled=true; botones.forEach(b=>b.disabled=true);
+    await sayAll([tx.soplar]); if(!M.alive()) return;
+    sfx.whoosh();
+    setTimeout(async()=>{
+      if(!M.alive()) return; fase='lista'; sfx.yay();
+      await sayAll([tx.listo, praise(true)]);
+      if(M.alive()) resolve(piezas.length);
+    }, 1200);
+  });
+
+  function pieza(c,p,x,y,s,apagada){
+    switch(p.k){
+      case 'crema': ell(c,x,y,s*.1,s*.06,'#FFFFFF'); ell(c,x,y-s*.05,s*.07,s*.045,'#FFFFFF'); ell(c,x,y-s*.09,s*.035,s*.03,'#FFFFFF'); c.strokeStyle='rgba(34,49,79,.12)'; c.lineWidth=1; c.beginPath(); c.ellipse(x,y,s*.1,s*.06,0,0,Math.PI); c.stroke(); break;
+      case 'frutilla': poly(c,[x-s*.06,y-s*.03, x+s*.06,y-s*.03, x,y+s*.08],'#E8483B'); ell(c,x,y-s*.03,s*.06,s*.035,'#E8483B'); poly(c,[x-s*.045,y-s*.05, x+s*.045,y-s*.05, x,y-s*.02],'#2E9E5E'); for(const [dx,dy] of [[-.02,0],[.02,.01],[0,.035]]) ell(c,x+s*dx,y+s*dy,s*.006,s*.008,'#FFE0A3'); break;
+      case 'chocolate': c.save(); c.translate(x,y); c.rotate(p.rot); c.fillStyle='#6B3A1E'; rr(c,-s*.05,-s*.03,s*.1,s*.06,s*.01); c.fill(); c.fillStyle='#8A5030'; c.fillRect(-s*.045,-s*.025,s*.04,s*.022); c.restore(); break;
+      case 'confites': c.save(); c.translate(x,y); c.rotate(p.x*7); c.fillStyle=p.col; rr(c,-s*.018,-s*.006,s*.036,s*.012,s*.006); c.fill(); c.restore(); break;
+      case 'cereza': c.strokeStyle='#2E9E5E'; c.lineWidth=s*.012; c.beginPath(); c.moveTo(x,y-s*.04); c.quadraticCurveTo(x+s*.02,y-s*.1,x+s*.05,y-s*.11); c.stroke(); ell(c,x,y,s*.045,s*.045,'#C9302C'); ell(c,x-s*.015,y-s*.015,s*.012,s*.012,'#FF8A75'); break;
+      case 'vela': { c.fillStyle=p.col; rr(c,x-s*.018,y-s*.16,s*.036,s*.16,s*.008); c.fill(); c.fillStyle='rgba(255,255,255,.5)'; for(let k=0;k<3;k++) c.fillRect(x-s*.018,y-s*.14+k*s*.05,s*.036,s*.012);
+        if(!apagada){ const f=1+.15*Math.sin(t*14+p.x*9); ell(c,x,y-s*.2,s*.022*f,s*.04*f,'#FFC93C'); ell(c,x,y-s*.19,s*.01,s*.02,'#FFF59A'); }
+        else { c.save(); c.globalAlpha=Math.max(0,1-(t-tSop-1)*.5); c.strokeStyle='#AEB8C8'; c.lineWidth=s*.008; c.beginPath(); c.moveTo(x,y-s*.17); c.quadraticCurveTo(x+s*.03,y-s*.24,x,y-s*.3); c.stroke(); c.restore(); }
+        break; }
+    }
+  }
+  live(cv,(c,w,h,tt)=>{
+    t=tt; if(!M.alive()) return;
+    c.fillStyle='#FFE3C2'; c.fillRect(0,0,w,h);
+    c.fillStyle='rgba(232,132,107,.15)'; for(let x=0;x<w;x+=w*.06) c.fillRect(x,0,w*.03,h*.62);
+    for(let i=0;i<8;i++){ const x=w*(.04+i*.13), y=h*(.06+Math.abs(Math.sin(i*1.7))*.05); c.strokeStyle='#C4664F'; c.lineWidth=1.5; c.beginPath(); c.moveTo(x,y); c.lineTo(x+w*.065,y+h*.02); c.stroke(); poly(c,[x,y, x+w*.03,y+h*.01, x+w*.012,y+h*.07],COLS[i%6]); }
+    c.fillStyle='#C98B4E'; c.fillRect(0,h*.78,w,h*.22);
+    const cx=w*.42, cy=h*.46, rx=h*.36, ry=h*.12, alto=h*.24;
+    G0={cx,cy,rx,ry};
+    ell(c,cx,h*.8,rx*1.25,ry*.9,'#E3E8F0'); ell(c,cx,h*.79,rx*1.15,ry*.75,'#FFFFFF');
+    c.fillStyle='#F6C6D6'; c.fillRect(cx-rx,cy,rx*2,alto); ell(c,cx,cy+alto,rx,ry,'#F6C6D6');
+    c.fillStyle='#FF8FB8'; c.fillRect(cx-rx,cy+alto*.45,rx*2,alto*.12);
+    for(let i=0;i<9;i++){ const a=Math.PI*(i/8); ell(c,cx-Math.cos(a)*rx*.98,cy+Math.sin(a)*ry*.6+h*.02,h*.03,h*.035,'#FFFFFF'); }
+    ell(c,cx,cy,rx,ry,'#FFF6FA');
+    const apagadas = fase==='soplar' && t-tSop>1 || fase==='lista';
+    for(const p of piezas){ const pop=Math.min(1,(t-p.t)*6); c.save(); const x=cx+p.x*rx, y=cy+p.y*ry; c.translate(x,y); c.scale(pop,pop); c.translate(-x,-y); pieza(c,p,x,y,h,apagadas); c.restore(); }
+    if(fase==='soplar' && t-tSop<1.2){ const k=(t-tSop)/1.2; c.save(); c.globalAlpha=.5*(1-k); for(let i=0;i<4;i++){ c.strokeStyle='#AEDCF5'; c.lineWidth=h*.012; c.beginPath(); c.moveTo(w*.95-k*w*.3,h*(.3+i*.06)); c.quadraticCurveTo(w*.85-k*w*.3,h*(.28+i*.06),w*.75-k*w*.3,h*(.3+i*.06)); c.stroke(); } c.restore(); }
+    if(fase==='lista'){
+      if(familia){ drawAnimal(c,familia,w*.82,h*.97,h*.48,{t,facing:-1,wave:true,mood:'talk'}); }
+      const k=t-tSop-1.2; conf.forEach(p=>{ const y=((p.x*h*1.3 + k*p.s*h*.35) % (h+40))-20; const x=p.x*w+Math.sin(k*2+p.r)*14; c.save(); c.translate(x,y); c.rotate(k*3*p.s+p.r); c.fillStyle=p.c; c.fillRect(-4,-2.5,8,5); c.restore(); });
+    }
+  });
+  sayAll([M.aviso, tx.intro]);
+});
+
+/* ---------------------------------------------------------
+   LA FERIA · Llená la canasta: el relator pide "tres manzanas" y el chico toca
+   esa fruta; cada fruta que cae se cuenta en voz alta. Arriba, unos círculos
+   muestran cuántas faltan (para contar mirando).
+   --------------------------------------------------------- */
+MICROJUEGOS.canasta = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, ings=tx.ingredientes, nums=cap.numeros||T.numeros.slice(1), cv=M.canvas, RONDAS=5;
+  let ronda=0, meta=null, dentro=[], vuelan=[], total=0, listo=false, t=0;
+  M.actions.innerHTML=`<div class="ings">${ings.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  const botones=[...M.actions.querySelectorAll('.ing')];
+  const pedir=()=>tx.pon(nums[meta.n-1], ings.find(g=>g.k===meta.k));
+  botones.forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=ings.find(x=>x.k===b.dataset.k);
+    if(b.dataset.k!==meta.k){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([tx.esa(ings.find(x=>x.k===meta.k))]); return; }
+    const n=dentro.length+1; dentro.push({k:g.k, x:(Math.random()-.5)*.6, t}); vuelan.push({k:g.k, t}); total++;
+    tone(500+n*80,.12,'triangle',.1);
+    if(n<meta.n){ sayAll([nums[n-1]]); return; }
+    listo=false; sfx.yay();
+    await sayAll([nums[n-1], praise(), tx.son(nums[n-1], g)]); if(!M.alive()) return;
+    await sleep(500); nuevaRonda();
+  }));
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,total), praise(true)]); if(M.alive()) resolve(total); return; }
+    ronda++; dentro=[];
+    let k; do{ k=ings[Math.floor(Math.random()*ings.length)].k; }while(meta && k===meta.k);
+    meta={k, n:1+Math.floor(Math.random()*5)};
+    await sayAll([pedir()]); listo=true;
+  }
+  live(cv,(c,w,h,tt)=>{
+    t=tt; if(!M.alive()) return;
+    bgFeria(c,w,h,t);
+    c.fillStyle='#C98B4E'; c.fillRect(0,h*.78,w,h*.22);
+    const bx=w*.5, by=h*.78;
+    // lo que hay que poner: la fruta y un círculo por cada una
+    if(meta){
+      c.fillStyle='rgba(255,255,255,.92)'; rr(c,bx-h*(.12+meta.n*.07),h*.04,h*(.24+meta.n*.14),h*.17,h*.06); c.fill();
+      drawImg(c,meta.k,bx-h*(meta.n*.07)-h*.02,h*.125,h*.13);
+      for(let i=0;i<meta.n;i++){ const x=bx-h*(meta.n*.07)+h*.1+i*h*.14, y=h*.125, ok=i<dentro.length; ell(c,x,y,h*.05,h*.05,ok?'#2FBF8F':'#E3E8F0'); if(ok){ c.strokeStyle='#fff'; c.lineWidth=h*.012; c.lineCap='round'; c.beginPath(); c.moveTo(x-h*.02,y); c.lineTo(x-h*.005,y+h*.017); c.lineTo(x+h*.025,y-h*.017); c.stroke(); } }
+    }
+    // la canasta
+    c.fillStyle='#B5753A'; c.beginPath(); c.moveTo(bx-h*.3,by-h*.26); c.lineTo(bx+h*.3,by-h*.26); c.lineTo(bx+h*.24,by); c.lineTo(bx-h*.24,by); c.closePath(); c.fill();
+    c.strokeStyle='#8A5636'; c.lineWidth=h*.016; c.beginPath(); c.ellipse(bx,by-h*.26,h*.3,h*.05,0,Math.PI,0); c.stroke();
+    c.strokeStyle='rgba(0,0,0,.12)'; c.lineWidth=2; for(let i=1;i<5;i++){ c.beginPath(); c.moveTo(bx-h*.3+i*h*.12,by-h*.26); c.lineTo(bx-h*.24+i*h*.096,by); c.stroke(); } for(let j=1;j<4;j++){ const y=by-h*.26+j*h*.065; c.beginPath(); c.moveTo(bx-h*(.3-j*.015),y); c.lineTo(bx+h*(.3-j*.015),y); c.stroke(); }
+    dentro.forEach((d,i)=>{ const k=Math.min(1,(t-d.t)/.45); const y=h*.2+(by-h*.3-h*.2)*k*k - (i%2)*h*.03; drawImg(c,d.k,bx+d.x*h*.4,y,h*.13); });
+    c.strokeStyle='#8A5636'; c.lineWidth=h*.025; c.beginPath(); c.ellipse(bx,by-h*.26,h*.3,h*.05,0,0,Math.PI); c.stroke();
+    c.beginPath(); c.lineWidth=h*.02; c.arc(bx,by-h*.26,h*.24,Math.PI*1.05,Math.PI*1.95); c.stroke();
+    if(cap.final && cap.final.npc) drawAnimal(c,cap.final.npc,w*.86,h*.98,h*.42,{t,hat:cap.final.npc.hat,facing:-1,mood:listo?null:'talk'});
+  });
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   LA PLAZA · El barrilete: el relator dice "¡Arriba!", "¡Abajo!",
+   "¡A la izquierda!" o "¡A la derecha!" y el chico lleva el barrilete
+   hasta la estrella (flechas del teclado, los botones o tocando el cielo).
+   --------------------------------------------------------- */
+MICROJUEGOS.barrilete = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cv=M.canvas, RONDAS=8, CENTRO={x:.5,y:.36};
+  const DIRS=[{k:'ArrowUp',ico:'up',x:.5,y:.12},{k:'ArrowDown',ico:'down',x:.5,y:.6},{k:'ArrowLeft',ico:'left',x:.17,y:.36},{k:'ArrowRight',ico:'right',x:.83,y:.36}];
+  const COL=['#E8483B','#FFC93C','#2FBF8F','#2E86DE','#8B6FE8','#FF9B3D'];
+  let ronda=0, meta=-1, ultimo=-1, listo=false, n=0, kx=CENTRO.x, ky=CENTRO.y, ox=CENTRO.x, oy=CENTRO.y, prev=null, mueca=0;
+  const cola=[], chispas=[], nubes=Array.from({length:5},(_,i)=>({x:i/5+Math.random()*.1, y:.06+Math.random()*.4, r:.035+Math.random()*.03}));
+  M.actions.innerHTML=`<div class="ings">${DIRS.map((d,i)=>`<button class="ing" data-d="${i}" aria-label="${esc(tx.dirs[i])}"${enAttr(enDe(tx.dirs[i]))}>${ICON[d.ico]}</button>`).join('')}</div>`;
+  const elegir=async i=>{
+    if(!listo || !M.alive()) return;
+    if(i!==meta){ sfx.oops(); mueca=.5; const d=DIRS[i]; ox=CENTRO.x+(d.x-CENTRO.x)*.15; oy=CENTRO.y+(d.y-CENTRO.y)*.15; setTimeout(()=>{ ox=CENTRO.x; oy=CENTRO.y; },350); sayAll([tx.dirs[meta]]); return; }
+    listo=false; const d=DIRS[i]; ox=d.x; oy=d.y;
+    await sleep(700); if(!M.alive()) return;
+    n++; tone(660+n%6*90,.12,'triangle',.11); tone(990+n%6*90,.15,'sine',.07,.06);
+    for(let k=0;k<10;k++) chispas.push({x:d.x,y:d.y,a:k*Math.PI/5,vida:.6,col:COL[k%COL.length]});
+    meta=-1; await sayAll([praise()]); if(!M.alive()) return;
+    ox=CENTRO.x; oy=CENTRO.y; await sleep(600); nuevaRonda();
+  };
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',()=>elegir(+b.dataset.d)));
+  const T2=teclasJuego(M, k=>{ const i=DIRS.findIndex(d=>d.k===k); if(i>=0) elegir(i); });
+  cv.addEventListener('pointerdown',e=>{ const r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+    let mejor=0, dist=9; DIRS.forEach((d,i)=>{ const dd=Math.hypot(d.x-x,(d.y-y)*.6); if(dd<dist){ dist=dd; mejor=i; } }); elegir(mejor); });
+
+  live(cv,(c,w,h,t)=>{
+    const dt=prev==null?0:Math.min(.05,t-prev); prev=t;
+    if(!M.alive()){ T2.limpiar(); return; }
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#5DB8F0'); g.addColorStop(1,'#D8F0FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    for(const nb of nubes){ nb.x-=dt*.02; if(nb.x<-.15) nb.x=1.15; cloud(c,nb.x*w,nb.y*h,nb.r*h); }
+    c.fillStyle='#86CC6E'; c.fillRect(0,h*.8,w,h*.2);
+    // la estrella que hay que buscar
+    if(meta>=0){ const d=DIRS[meta], R=h*.06*(1+.12*Math.sin(t*6)); star5(c,d.x*w,d.y*h,R*1.3,'rgba(255,255,255,.6)'); star5(c,d.x*w,d.y*h,R,'#FFC93C'); }
+    // el barrilete va hacia donde le dicen, con un poco de viento
+    kx+=(ox-kx)*Math.min(1,dt*5); ky+=(oy-ky)*Math.min(1,dt*5); if(mueca>0) mueca-=dt;
+    const px=kx*w+Math.sin(t*1.7)*h*.012, py=ky*h+Math.cos(t*1.3)*h*.01, rot=Math.sin(t*2)*.08+(ox-kx)*1.2+(mueca>0?Math.sin(t*40)*.15:0);
+    cola.push({x:px,y:py}); if(cola.length>21) cola.shift();
+    // el hilo, hasta las manos del personaje
+    const hx=w*.5, hy=h*.97;
+    c.strokeStyle='rgba(34,49,79,.5)'; c.lineWidth=1.5; c.beginPath(); c.moveTo(hx+h*.04,hy-h*.16); c.quadraticCurveTo((px+hx)/2,py+h*.25,px,py+h*.06); c.stroke();
+    // la cola: moñitos de colores que siguen al barrilete
+    for(let i=cola.length-1, j=0; i>=0; i-=3, j++){ const p=cola[i], x=p.x+Math.sin(t*4+j)*h*.015, y=p.y+h*.09+j*h*.024; c.fillStyle=COL[j%COL.length]; poly(c,[x-h*.02,y-h*.012, x+h*.02,y+h*.012, x+h*.02,y-h*.012, x-h*.02,y+h*.012],COL[j%COL.length]); }
+    c.save(); c.translate(px,py); c.rotate(rot); const K=h*.09;
+    poly(c,[0,-K, K*.75,0, 0,0],'#E8483B'); poly(c,[0,-K, -K*.75,0, 0,0],'#FFC93C'); poly(c,[0,K*1.1, K*.75,0, 0,0],'#2E86DE'); poly(c,[0,K*1.1, -K*.75,0, 0,0],'#2FBF8F');
+    c.strokeStyle='#8A5636'; c.lineWidth=2; c.beginPath(); c.moveTo(0,-K); c.lineTo(0,K*1.1); c.moveTo(-K*.75,0); c.lineTo(K*.75,0); c.stroke();
+    c.restore();
+    drawHero(c,hx,hy,h*.26,{t,facing:1,wave:true,mood:meta<0&&n?'wow':null});
+    for(let i=chispas.length-1;i>=0;i--){ const p=chispas[i]; p.vida-=dt; if(p.vida<=0){ chispas.splice(i,1); continue; } const k=.6-p.vida; star5(c,p.x*w+Math.cos(p.a)*h*.4*k,p.y*h+Math.sin(p.a)*h*.4*k,h*.02*p.vida*2,p.col); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; let d; do{ d=Math.floor(Math.random()*4); }while(d===ultimo);
+    meta=ultimo=d; await sayAll([tx.dirs[d]]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   EL CONSULTORIO · ¿Dónde está la nariz? El relator pregunta por una parte
+   del cuerpo del osito y el chico la toca (o la elige con las flechas y Enter).
+   Si toca otra, el relator le dice cuál tocó y vuelve a preguntar.
+   --------------------------------------------------------- */
+MICROJUEGOS.cuerpo = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, partes=tx.ingredientes, cv=M.canvas, osito=cap.final.npc, RONDAS=8;
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, sel=-1, brillo=null;
+  const chispas=[];
+  // dónde está cada parte, en unidades del alto del osito (x desde los pies, y hacia arriba es negativo)
+  const hr=.26, fx=hr*.14, hy=-.6;
+  const LUGAR={cabeza:[[fx,hy-hr*.78]], ojos:[[fx-hr*.34,hy],[fx+hr*.36,hy]], nariz:[[fx,hy+hr*.22]], boca:[[fx,hy+hr*.44]],
+    orejas:[[-hr*.72,hy-hr*.72],[hr*.72,hy-hr*.72]], panza:[[.03,-.2]], pies:[[-.09,-.03],[.1,-.03]]};
+  const RADIO={cabeza:.07, ojos:.045, nariz:.035, boca:.035, orejas:.06, panza:.09, pies:.05};
+  let geo={x:0,y:0,s:1};
+  const puntos=k=>(LUGAR[k]||[]).map(([x,y])=>({x:geo.x+x*geo.s, y:geo.y+y*geo.s}));
+  const tocar=g=>{
+    if(!listo || !M.alive() || !g) return;
+    if(g.k!==meta.k){ sfx.oops(); sayAll([g.texto, meta.p]); return; }
+    listo=false; n++; brillo={k:g.k, t:performance.now()/1000};
+    tone(660+n%6*90,.12,'triangle',.11); tone(990+n%6*90,.15,'sine',.07,.06);
+    for(const p of puntos(g.k)) for(let k=0;k<8;k++) chispas.push({x:p.x,y:p.y,a:k*Math.PI/4,vida:.6});
+    (async()=>{ await sayAll([praise(), g.texto]); if(!M.alive()) return; await sleep(400); nuevaRonda(); })();
+  };
+  cv.addEventListener('pointerdown',e=>{ const r=cv.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    let mejor=null, dist=1e9; for(const g of partes) for(const p of puntos(g.k)){ const d=Math.hypot(p.x-x,p.y-y)/((RADIO[g.k]||.05)*geo.s); if(d<dist){ dist=d; mejor=g; } }
+    if(dist<2) tocar(mejor); else if(listo) sayAll([meta.p]); });
+  const T2=teclasJuego(M, k=>{
+    if(k==='ArrowRight'||k==='ArrowDown'){ sel=(sel+1)%partes.length; sayAll([partes[sel].texto]); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'){ sel=(sel-1+partes.length)%partes.length; sayAll([partes[sel].texto]); }
+    else if((k==='Enter'||k===' ') && sel>=0) tocar(partes[sel]);
+  });
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()){ T2.limpiar(); return; }
+    bgConsultorio(c,w,h);
+    geo={x:w*.42, y:h*.98, s:h*.92};
+    drawAnimal(c,osito,geo.x,geo.y,geo.s,{t:0,facing:1,mood:brillo&&t-brillo.t<1.2?'wow':null});
+    if(sel>=0) for(const p of puntos(partes[sel].k)){ c.strokeStyle='#FFC93C'; c.lineWidth=5; c.beginPath(); c.arc(p.x,p.y,(RADIO[partes[sel].k]||.05)*geo.s*1.3+Math.sin(t*6)*3,0,Math.PI*2); c.stroke(); }
+    if(brillo && t-brillo.t<1.2) for(const p of puntos(brillo.k)){ c.save(); c.globalAlpha=1-(t-brillo.t)/1.2; ell(c,p.x,p.y,(RADIO[brillo.k]||.05)*geo.s*1.4,(RADIO[brillo.k]||.05)*geo.s*1.4,'rgba(255,201,60,.55)'); c.restore(); }
+    for(let i=chispas.length-1;i>=0;i--){ const p=chispas[i]; p.vida-=1/60; if(p.vida<=0){ chispas.splice(i,1); continue; } const k=.6-p.vida; star5(c,p.x+Math.cos(p.a)*h*.3*k,p.y+Math.sin(p.a)*h*.3*k,h*.02*p.vida*2,'#FFC93C'); }
+    // la parte que hay que buscar, con su dibujo, arriba a la derecha
+    if(meta){ c.fillStyle='rgba(255,255,255,.85)'; rr(c,w*.74,h*.06,w*.22,h*.24,14); c.fill(); drawImg(c,meta.k,w*.85,h*.18,h*.18); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='left'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.04,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ meta=null; await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; let g; do{ g=partes[Math.floor(Math.random()*partes.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.p]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   LA GRANJA · ¡A dar de comer! El relator dice "Dale de comer a la vaca"
+   y el chico toca la vaca; la comida vuela hasta ella y la vaca hace "¡Muuu!".
+   Si toca otro animal, el relator le dice cuál tocó y vuelve a pedir.
+   --------------------------------------------------------- */
+MICROJUEGOS.comida = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, ans=tx.ingredientes, cv=M.canvas, RONDAS=8;
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, come=null;
+  M.actions.innerHTML=`<div class="ings">${ans.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=ans.find(x=>x.k===b.dataset.k);
+    if(g!==meta){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([g.texto, meta.dale]); return; }
+    listo=false; n++; come={k:g.k, t:performance.now()/1000, sonido:g.sonido};
+    tone(520,.1,'triangle',.1); setTimeout(()=>M.alive()&&sfx.yay(),700);
+    await sleep(700); if(!M.alive()) return;
+    await sayAll([g.sonido, praise()]); if(!M.alive()) return;
+    await sleep(500); nuevaRonda();
+  }));
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    bgGranja(c,w,h,t);
+    const hx=w*.3, gy=h*.97;
+    drawHero(c,hx,gy,h*.5,{t,facing:1,uniforme:cap.uniforme?cap.uniforme.ropa:null,wave:!!come&&t-come.t>.7});
+    // el balde de comida
+    c.fillStyle='#B5753A'; rr(c,hx+h*.1,h*.74,h*.14,h*.14,8); c.fill(); ell(c,hx+h*.17,h*.74,h*.07,h*.025,'#E8C66A');
+    if(come){
+      const u=t-come.t, ax=w*.68, k=Math.min(1,u/.7);
+      // la comida vuela del balde al animal
+      if(k<1) for(let i=0;i<5;i++){ const kk=Math.max(0,Math.min(1,k*1.3-i*.06)); ell(c,hx+h*.17+(ax-hx-h*.17)*kk,h*.74-Math.sin(kk*Math.PI)*h*.25+(h*.1)*kk,h*.018,h*.014,'#E8C66A'); }
+      const sal=u>.7&&u<2.2?Math.abs(Math.sin(u*8))*h*.05:0;
+      drawImg(c,come.k,ax,h*.66-sal,h*.42);
+      if(u>.7 && u<2.6){ c.save(); c.font=`800 ${Math.round(h*.09)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.02; c.strokeStyle='#22314F'; c.strokeText(come.sonido,ax,h*.24); c.fillStyle='#fff'; c.fillText(come.sonido,ax,h*.24); c.restore(); }
+      if(u>.7 && u<1.8) for(let i=0;i<5;i++){ const p=((u-.7)*.6+i/5)%1; c.save(); c.globalAlpha=1-p; heart(c,ax+(i-2)*h*.05,h*.4-p*h*.2,h*.025); c.restore(); }
+    } else { c.save(); c.font=`800 ${Math.round(h*.18)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.fillStyle='rgba(34,49,79,.25)'; c.fillText('?',w*.68,h*.62); c.restore(); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; come=null; let g; do{ g=ans[Math.floor(Math.random()*ans.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.dale]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   LA ESCUELA · El tren de las formas: el relator pide "Poné el triángulo
+   en el tren" y el chico toca esa forma; va al vagón que sigue. Con los
+   vagones llenos, el tren se va (¡chu, chu!) y llega otro.
+   --------------------------------------------------------- */
+MICROJUEGOS.tren = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, formas=tx.ingredientes, cv=M.canvas, VAGONES=4, TRENES=2;
+  let tren=0, cargados=[], meta=null, ultimo=null, listo=false, n=0, sale=0, vuela=null;
+  M.actions.innerHTML=`<div class="ings">${formas.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=formas.find(x=>x.k===b.dataset.k);
+    if(g!==meta){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([g.texto, meta.pon]); return; }
+    listo=false; n++; vuela={k:g.k, t:performance.now()/1000, i:cargados.length};
+    tone(600+cargados.length*90,.12,'triangle',.1);
+    await sleep(600); if(!M.alive()) return;
+    cargados.push(g.k); vuela=null;
+    await sayAll([praise(), g.texto]); if(!M.alive()) return;
+    if(cargados.length>=VAGONES){
+      sale=performance.now()/1000; tone(330,.3,'square',.06); setTimeout(()=>M.alive()&&tone(392,.3,'square',.06),350);
+      await sayAll([tx.chu]); if(!M.alive()) return; await sleep(1500); if(!M.alive()) return;
+      tren++; cargados=[]; sale=0;
+    }
+    nuevaRonda();
+  }));
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#7FC8F5'); g.addColorStop(1,'#D8F0FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    cloud(c,w*.2+Math.sin(t*.3)*8,h*.14,h*.04); cloud(c,w*.75,h*.1,h*.035);
+    ell(c,w*.3,h*.78,w*.4,h*.2,'#9ED67E'); ell(c,w*.8,h*.8,w*.4,h*.18,'#8CCB6B'); c.fillStyle='#86CC6E'; c.fillRect(0,h*.78,w,h*.22);
+    // las vías
+    c.fillStyle='#8A5636'; for(let x=0;x<w;x+=h*.06) c.fillRect(x,h*.8,h*.03,h*.03); c.fillStyle='#5C6A86'; c.fillRect(0,h*.79,w,h*.012);
+    // el tren (si se va, se mueve a la derecha; si llega, entra desde la izquierda)
+    const llegada=Math.max(0,1-(t-(tren0||t))*1.2);
+    let dx = sale ? (t-sale)*w*.6 : -llegada*w;
+    const VW=h*.2, base=h*.79, x0=w*.12+dx;
+    // la locomotora
+    c.fillStyle='#E8483B'; rr(c,x0+VW*4.3,base-h*.2,VW*1.2,h*.17,8); c.fill(); c.fillStyle='#22314F'; rr(c,x0+VW*4.3,base-h*.3,VW*.6,h*.12,6); c.fill();
+    c.fillStyle='#CDEBFF'; rr(c,x0+VW*4.38,base-h*.27,VW*.44,h*.07,4); c.fill(); c.fillStyle='#22314F'; c.fillRect(x0+VW*5.1,base-h*.32,VW*.16,h*.14);
+    for(let k=0;k<3;k++){ const p=((t*.8)+k/3)%1; c.save(); c.globalAlpha=(1-p)*.7; ell(c,x0+VW*5.18-p*VW*.6,base-h*.36-p*h*.18,h*(.025+p*.04),h*(.02+p*.03),'#fff'); c.restore(); }
+    for(const wx of [4.5,5.2]) { ell(c,x0+VW*wx,base,h*.035,h*.035,'#22314F'); ell(c,x0+VW*wx,base,h*.014,h*.014,'#FFC93C'); }
+    // los vagones
+    const colores=['#FFC93C','#2FBF8F','#2E86DE','#8B6FE8'];
+    for(let i=0;i<VAGONES;i++){
+      const vx=x0+i*VW*1.05; c.fillStyle=colores[i]; rr(c,vx,base-h*.13,VW*.95,h*.11,6); c.fill(); c.fillStyle='rgba(0,0,0,.12)'; c.fillRect(vx,base-h*.05,VW*.95,h*.02);
+      for(const wx of [.22,.73]){ ell(c,vx+VW*wx,base,h*.03,h*.03,'#22314F'); ell(c,vx+VW*wx,base,h*.012,h*.012,'#FFC93C'); }
+      if(i<VAGONES) { c.strokeStyle='#22314F'; c.lineWidth=3; c.beginPath(); c.moveTo(vx+VW*.95,base-h*.07); c.lineTo(vx+VW*1.05,base-h*.07); c.stroke(); }
+      if(cargados[i]) drawImg(c,cargados[i],vx+VW*.47,base-h*.2,h*.15);
+      else if(i===cargados.length && listo){ c.save(); c.globalAlpha=.4+.3*Math.sin(t*6); c.strokeStyle='#fff'; c.lineWidth=4; c.setLineDash([6,6]); c.strokeRect(vx+VW*.15,base-h*.29,VW*.65,h*.15); c.restore(); }
+    }
+    // la forma que vuela hasta su vagón
+    if(vuela){ const k=Math.min(1,(t-vuela.t)/.6), vx=x0+vuela.i*VW*1.05+VW*.47, x=w*.5+(vx-w*.5)*k, y=h*.25+(base-h*.2-h*.25)*k-Math.sin(k*Math.PI)*h*.1; drawImg(c,vuela.k,x,y,h*.15,k*6); }
+    // la forma que hay que buscar, grande arriba
+    if(meta && listo){ c.save(); c.globalAlpha=.9; c.fillStyle='rgba(255,255,255,.75)'; ell(c,w*.5,h*.25,h*.13,h*.13,'rgba(255,255,255,.75)'); c.restore(); c.save(); c.font=`800 ${Math.round(h*.14)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillStyle='rgba(34,49,79,.35)'; c.fillText('?',w*.5,h*.26); c.restore(); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+  let tren0=performance.now()/1000;
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(tren>=TRENES){ meta=null; await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    if(!cargados.length) tren0=performance.now()/1000;
+    let g; do{ g=formas[Math.floor(Math.random()*formas.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.pon]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
+
+/* ---------------------------------------------------------
+   LA FIESTA · ¿Cuántas velas? Un amigo cumple años: el relator dice
+   "¡Cumple tres años! Poné tres velas." El chico pone las velas (contando
+   en voz alta) y después las sopla. No se puede perder: si pone de más, no pasa nada.
+   --------------------------------------------------------- */
+MICROJUEGOS.velas = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cv=M.canvas, nums=cap.numeros||T.numeros.slice(1), RONDAS=5;
+  const amigos=cap.orden.map(k=>cap.estaciones[k].npc);
+  let ronda=0, meta=0, puestas=0, amigo=amigos[0], listo=false, soplado=0, total=0, ultimo=0;
+  M.actions.innerHTML=`<div class="ings"><button class="ing" data-act="vela" aria-label="${esc(tx.vela)}"${enAttr(enDe(tx.vela))}>${img('vela')}</button></div>${B('soplar','star',esc(tx.soplarB),'go')}`;
+  const bSoplar=M.actions.querySelector('[data-act=soplar]'); bSoplar.hidden=true;
+  const poner=()=>{
+    if(!listo || !M.alive()) return;
+    if(puestas>=meta){ sayAll([tx.soplar]); return; }
+    puestas++; tone(500+puestas*70,.12,'triangle',.1);
+    if(puestas<meta){ sayAll([nums[puestas-1]]); return; }
+    sayAll([nums[puestas-1], tx.soplar]); bSoplar.hidden=false; setTimeout(()=>bSoplar.focus(),30);
+  };
+  M.actions.querySelector('[data-act=vela]').addEventListener('click',poner);
+  cv.addEventListener('pointerdown',poner);
+  bSoplar.addEventListener('click',async()=>{
+    if(!listo || puestas<meta || !M.alive()) return;
+    listo=false; bSoplar.hidden=true; soplado=performance.now()/1000; total+=meta; noise(.9,.08,300,900);
+    await sleep(700); if(!M.alive()) return; sfx.yay();
+    await sayAll([tx.feliz, praise()]); if(!M.alive()) return;
+    await sleep(400); nuevaRonda();
+  });
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    bgFiesta(c,w,h,t);
+    const fiesta = soplado && t-soplado>.5;
+    drawAnimal(c,amigo,w*.78,h*.97,h*.5,{t,hat:amigo.hat,facing:-1,accion:fiesta?'saltar':null,mood:soplado&&!fiesta?'wow':null});
+    // la torta
+    const cx=w*.42, base=h*.92, tw=h*.62;
+    c.fillStyle='#fff'; rr(c,cx-tw*.62,base-h*.03,tw*1.24,h*.05,8); c.fill();
+    c.fillStyle='#F7C8D8'; rr(c,cx-tw/2,base-h*.24,tw,h*.22,10); c.fill(); c.fillStyle='#FFF3D6'; rr(c,cx-tw*.38,base-h*.4,tw*.76,h*.17,10); c.fill();
+    c.fillStyle='#FF8FB8'; for(let i=0;i<8;i++) ell(c,cx-tw*.44+i*tw*.125,base-h*.24,tw*.06,h*.025,'#FF8FB8');
+    c.fillStyle='#E8483B'; for(let i=0;i<6;i++) ell(c,cx-tw*.3+i*tw*.12,base-h*.4,tw*.025,tw*.025,['#E8483B','#2FBF8F','#2E86DE','#FFC93C'][i%4]);
+    // las velas, repartidas arriba de la torta
+    const cols=['#2E86DE','#FFC93C','#2FBF8F','#E8483B','#8B6FE8','#FF9B3D','#FF8FB8','#7CC6F0','#B9D45C','#C9A27A'];
+    for(let i=0;i<puestas;i++){ const k=meta>1?i/(Math.max(meta,puestas)-1):.5, x=cx-tw*.3+k*tw*.6, y=base-h*.4;
+      c.fillStyle=cols[i%cols.length]; rr(c,x-h*.012,y-h*.12,h*.024,h*.12,3); c.fill(); c.fillStyle='rgba(255,255,255,.5)'; c.fillRect(x-h*.004,y-h*.11,h*.006,h*.1);
+      if(!soplado){ const fl=1+.15*Math.sin(t*14+i); ell(c,x,y-h*.15,h*.016*fl,h*.03*fl,'#FFC93C'); ell(c,x,y-h*.145,h*.008,h*.016,'#fff'); }
+      else { const p=Math.min(1,(t-soplado)/1.5); c.save(); c.globalAlpha=(1-p)*.6; ell(c,x+Math.sin(t*3+i)*6,y-h*(.15+p*.2),h*.015*(1+p),h*.02*(1+p),'#AEB8C8'); c.restore(); } }
+    if(soplado && t-soplado<.6){ c.save(); c.globalAlpha=.5; for(let k=0;k<4;k++){ c.strokeStyle='#CDEBFF'; c.lineWidth=4; c.beginPath(); c.moveTo(w*.08,h*(.32+k*.06)); c.quadraticCurveTo(w*.2,h*(.28+k*.06),cx-tw*.3,h*(.42+k*.02)); c.stroke(); } c.restore(); }
+    // cuántas faltan: puntitos arriba
+    if(meta){ c.fillStyle='rgba(255,255,255,.9)'; rr(c,w*.5-(meta*h*.07)/2-h*.02,h*.05,meta*h*.07+h*.04,h*.1,h*.05); c.fill(); for(let i=0;i<meta;i++){ const x=w*.5+(i-(meta-1)/2)*h*.07; ell(c,x,h*.1,h*.025,h*.025,i<puestas?'#FFC93C':'rgba(34,49,79,.15)'); } }
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ meta=0; await sayAll([textoN(tx.fin,total), praise(true)]); if(M.alive()) resolve(total); return; }
+    ronda++; let n; do{ n=2+Math.floor(Math.random()*6); }while(n===ultimo); ultimo=n;
+    meta=n; puestas=0; soplado=0; amigo=amigos[Math.floor(Math.random()*amigos.length)];
+    await sayAll([tx.pon(nums[n-1])]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});

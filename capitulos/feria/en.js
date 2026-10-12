@@ -1,0 +1,176 @@
+/* =========================================================
+   CAPÍTULO 5 · LA FERIA — textos en inglés
+   Sirve para dos cosas: es el idioma inglés para aprender (como es.js, fr.js, it.js),
+   y es la traducción que ven los grandes al tocar una frase en los otros idiomas
+   (se empareja por posición, así que tiene que tener la misma forma que los demás).
+   ========================================================= */
+(()=>{
+const may = s => s.charAt(0).toUpperCase()+s.slice(1);
+registrarTextos('feria', 'en', {
+  titulo: "The market",
+  lugar: {texto:"the market", silabas:["the", "mar", "ket"]},
+  bienvenida: "Here we are at the market!",
+  niveles: [{nombre:"The entrance", numTexto:"zero"}, {nombre:"The vegetables", numTexto:"one"}, {nombre:"The checkout", numTexto:"two"}],
+  numeros: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"],
+  estaciones: {
+    M: {
+      palabra: {texto:"the apple", silabas:["the", "ap", "pull"]},
+      intro: "This is the market. Look at all the fruit!",
+      frase: {texto:"Three apples, please.", partes:["Three apples,", "please."]},
+      respuesta: "Here you are: one, two, three!",
+      cuento: {
+        titulo: "The runaway apple",
+        paginas: [
+          "At the market there were shiny red *apples*.",
+          "\"Three apples, please,\" said {N}. \"One, two, three!\"",
+          "Oops! One apple fell and rolled across the floor.",
+          "{N} caught it and put it in the basket. Three apples!"
+        ]
+      }
+    },
+    N: {
+      palabra: {texto:"the banana", silabas:["the", "ba", "nah", "na"]},
+      intro: "What yellow bananas!",
+      frase: {texto:"How much is the banana?", partes:["How much is", "the banana?"]},
+      respuesta: "One little fish!",
+      cuento: {
+        titulo: "One little fish",
+        paginas: [
+          "The little dog was selling yellow *bananas*.",
+          "\"How much is the banana?\" asked {N}. \"One little fish!\"",
+          "{N} paid with a little fish, and the banana jumped!",
+          "What a yummy banana! Hooray!"
+        ]
+      }
+    },
+    O: {
+      palabra: {texto:"the orange", silabas:["the", "or", "ange"]},
+      intro: "Here are oranges for making juice.",
+      frase: {texto:"Two oranges, please.", partes:["Two oranges,", "please."]},
+      respuesta: "One, two! So juicy!",
+      cuento: {
+        titulo: "Orange juice",
+        paginas: [
+          "The kitty had round, juicy *oranges*.",
+          "\"Two oranges, please,\" said {N}.",
+          "The kitty squeezed them: a whole glass of juice!",
+          "{N} drank the juice. Mmm, nice and cool!"
+        ]
+      }
+    },
+    Z: {
+      palabra: {texto:"the carrot", silabas:["the", "car", "rot"]},
+      intro: "The bunny loves carrots.",
+      frase: {texto:"The carrot is orange.", partes:["The carrot", "is orange."]},
+      respuesta: "And it's long, long, long!",
+      cuento: {
+        titulo: "The bunny and the carrot",
+        paginas: [
+          "The bunny looked after a stall full of *carrots*.",
+          "{N} saw a huge carrot. \"The carrot is orange,\" said {N}.",
+          "The bunny jumped for joy: it's its favorite food!",
+          "They ate carrots together: crunch, crunch."
+        ]
+      }
+    },
+    F: {
+      palabra: {texto:"the strawberry", silabas:["the", "straw", "ber", "ree"]},
+      intro: "Look at these red strawberries.",
+      frase: {texto:"The strawberry is small.", partes:["The strawberry", "is small."]},
+      respuesta: "Small and very yummy!",
+      cuento: {
+        titulo: "The little strawberries",
+        paginas: [
+          "In a little box there were red *strawberries*.",
+          "\"The strawberry is small!\" said {N} in surprise.",
+          "{N} tasted one: so sweet!",
+          "Small, but very yummy. Thank you!"
+        ]
+      }
+    },
+    S: {
+      palabra: {texto:"the watermelon", silabas:["the", "wa", "ter", "mel", "on"]},
+      intro: "Wow! Did you see that watermelon?",
+      frase: {texto:"The watermelon is big!", partes:["The watermelon", "is big!"]},
+      respuesta: "Yes, huge! It's very heavy!",
+      cuento: {
+        titulo: "The giant watermelon",
+        paginas: [
+          "At the market there was *a watermelon*, a giant one!",
+          "\"The watermelon is big!\" said {N}.",
+          "Oops! The watermelon got away and rolled… run after it!",
+          "At last they caught it. What a big watermelon!"
+        ]
+      }
+    },
+    B: {
+      palabra: {texto:"the scale", silabas:["the", "scale"]},
+      intro: "This is the scale. It's for weighing the fruit.",
+      frase: {texto:"How much does it weigh?", partes:["How much", "does it weigh?"]},
+      respuesta: "It weighs one kilo!",
+      cuento: {
+        titulo: "The scale",
+        paginas: [
+          "The market dog had *a scale*, a red one.",
+          "{N} put a banana on it. \"How much does it weigh?\" Just a little!",
+          "Then they put the watermelon on… the scale jumped!",
+          "\"It's so heavy!\" laughed {N}."
+        ]
+      }
+    }
+  },
+  final: {
+    pregunta: "That's five little fish!",
+    frase: {texto:"Here you are! Thank you!", partes:["Here you are!", "Thank you!"]},
+    despedida: "Happy shopping!",
+    chau: "Bye-bye, market!",
+    lograste: "You did it! You did all the shopping!",
+    todos: "You have all the stamps! Find the green door: let's pay at the checkout!",
+    ppFinal: "Collect all the stamps, and then let's pay at the checkout!",
+    otraVez: "Another market day! Collect the stamps again.",
+    otraVezB: "Another day"
+  },
+  microjuego: {
+    titulo: "Fill the basket!",
+    intro: "Listen to which fruit I want, and how many. Tap it to put it in the basket!",
+    fin: "You put {n} fruits in the basket!",
+    pon: (n,g) => n==='one' ? `Put ${g.uno} in the basket.` : `Put ${n} ${g.plural} in the basket.`,
+    son: (n,g) => n==='one' ? `${may(g.uno)}!` : `${may(n)} ${g.plural}!`,
+    esa: g => `Not that one! Find ${g.texto}.`,
+    ingredientes: [
+      {texto:"the apple", uno:"one apple", plural:"apples"},
+      {texto:"the banana", uno:"one banana", plural:"bananas"},
+      {texto:"the orange", uno:"one orange", plural:"oranges"},
+      {texto:"the strawberry", uno:"one strawberry", plural:"strawberries"},
+      {texto:"the pear", uno:"one pear", plural:"pears"},
+      {texto:"the lemon", uno:"one lemon", plural:"lemons"}
+    ]
+  },
+  palabrasExtra: [
+    {texto:"the pear", silabas:["the", "pear"]},
+    {texto:"the lemon", silabas:["the", "lem", "on"]},
+    {texto:"the basket", silabas:["the", "bas", "ket"]},
+    {texto:"the bag", silabas:["the", "bag"]}
+  ],
+  frasesExtra: [
+    {texto:"How much is it?", partes:["How much", "is it?"]},
+    {texto:"It's big!", partes:["It's big!"]},
+    {texto:"It's small.", partes:["It's small."]},
+    {texto:"A bag, please.", partes:["A bag,", "please."]},
+    {texto:"Yummy!", partes:["Yummy!"]}
+  ],
+  preguntas: [
+    {p:"Which fruit is long and yellow?", r:"The banana!"},
+    {p:"Which fruit do we make juice with?", r:"The orange!"},
+    {p:"Which fruit is big, big, big?", r:"The watermelon!"},
+    {p:"What does the bunny like to eat?", r:"The carrot!"},
+    {p:"Which fruit is red and small?", r:"The strawberry!"},
+    {p:"What do we use to weigh the fruit?", r:"The scale!"},
+    {p:"Which fruit is red and round?", r:"The apple!"},
+    {p:"Which fruit is yellow and sour?", r:"The lemon!"},
+    {p:"Where do we put the fruit?", r:"In the basket!"},
+    {p:"Which fruit is green and shaped like a drop?", r:"The pear!"}
+  ],
+  objetos: {"#":"the wall", p:"the plant", c:"the fruit crate", "~":"the door"}
+});
+})();

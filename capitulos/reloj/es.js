@@ -21,10 +21,10 @@ registrarTextos('reloj', 'es', {
       cuento: {
         titulo: "El reloj dormilón",
         paginas: [
-          "En el taller del relojero había *un reloj* que no hacía tic tac.",
+          "En el taller del relojero había *un reloj* que no hacía tictac.",
           "—¡Está dormido! —dijo el oso relojero.",
           "{N} contó bien fuerte: uno, dos, tres… ¡hasta doce!",
-          "Y el reloj se despertó: ¡tic tac, tic tac!"
+          "Y el reloj se despertó: ¡tictac, tictac!"
         ]
       }
     },
@@ -161,7 +161,7 @@ registrarTextos('reloj', 'es', {
     {texto:"doce", silabas:["do", "ce"]}
   ],
   frasesExtra: [
-    {texto:"¡Tic tac, tic tac!", partes:["¡Tic tac,", "tic tac!"]},
+    {texto:"¡Tictac, tictac!", partes:["¡Tictac,", "tictac!"]},
     {texto:"Es la una.", partes:["Es la una."]},
     {texto:"Son las dos.", partes:["Son las dos."]},
     {texto:"Es la hora de dormir.", partes:["Es la hora", "de dormir."]}

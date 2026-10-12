@@ -6,5 +6,5 @@
    Para agregar un lugar: creá la carpeta con esos archivos y sumá su id acá.
    Si a un lugar le falta el archivo de un idioma, en ese idioma no aparece. */
 window.IDIOMAS = ['es', 'fr', 'it', 'en'];
-window.CAPITULOS = ['aeropuerto', 'restaurante', 'reloj'];
-window.PROXIMOS = [4];   // semanas que se muestran como "¡Pronto!"
+window.CAPITULOS = ['aeropuerto', 'restaurante', 'reloj', 'casa', 'feria', 'plaza', 'doctor', 'granja', 'escuela', 'fiesta'];
+window.PROXIMOS = [];   // semanas que se muestran como "¡Pronto!"

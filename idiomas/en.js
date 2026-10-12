@@ -35,7 +35,7 @@ registrarIdioma({
     peces: n => n === 1 ? '1 little fish' : `${n} little fish`,
     pez: 'Look! A little fish!', pezQ: 'A little fish! To eat it, answer:', casi: 'Almost! Try again.', nam: 'Yum, yum!',
     premio: s => `You won ${s}!`,
-    cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capCerrado: 'This place is still closed.',
+    cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capPrimero: w => `First finish ${w}.`, capCerrado: 'This place is still closed.',
     juegos: 'Games!', juegosDi: 'The games. What shall we play?', juegoCerrado: w => `To open this game, finish ${w}.`, juegoNuevo: 'And you won a new game!', aJugar: "Let's play!", juegoGratis: 'This time it’s free!',
     tenesPeces: s => `You have ${s}.`, escapo: 'Oh! The little fish swam away. Another one will come!',
     cualEs: w => `Show me ${w}!`, si: w => `Yes! ${w}.`, color: c => `Which one is ${c}?`, cuantos: 'How many little fish are there?',

@@ -32,7 +32,7 @@ registrarIdioma({
     peces: n => n === 1 ? '1 petit poisson' : `${n} petits poissons`,
     pez: 'Regarde ! Un petit poisson !', pezQ: 'Un petit poisson ! Pour le manger, réponds :', casi: 'Presque ! Essaie encore.', nam: 'Miam, miam !',
     premio: s => `Tu gagnes ${s} !`,
-    cuentaDi: 'Demande à un adulte de se connecter.', quienJuega: 'Qui joue ?', capCerrado: 'Cet endroit est encore fermé.',
+    cuentaDi: 'Demande à un adulte de se connecter.', quienJuega: 'Qui joue ?', capPrimero: w => `D’abord, termine ${w}.`, capCerrado: 'Cet endroit est encore fermé.',
     juegos: 'Jeux !', juegosDi: 'Les jeux. On joue à quoi ?', juegoCerrado: w => `Pour ouvrir ce jeu, termine ${w}.`, juegoNuevo: 'Et tu as gagné un nouveau jeu !', aJugar: 'On joue !', juegoGratis: 'Cette fois, c’est gratuit !',
     tenesPeces: s => `Tu as ${s}.`, escapo: "Oh ! Le petit poisson s'est sauvé. Un autre va arriver !",
     cualEs: w => `Montre-moi ${w} !`, si: w => `Oui ! ${w}.`, color: c => `Montre-moi le ${c} !`, cuantos: "Combien de petits poissons il y a ?",
