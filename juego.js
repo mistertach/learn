@@ -464,7 +464,11 @@ function drawLive(L,t){ const cv=L.cv; const r=cv.getBoundingClientRect(); if(!r
 /* =========================================================
    MUNDO
    ========================================================= */
-const COLS=15, ROWS=9, T_STEP=170;
+/* cada piso tiene su tamaño y su forma: ' ' en el mapa es afuera del edificio */
+let COLS=15, ROWS=9; const T_STEP=170;
+function medirPiso(){ if(!CAP) return; const m=CAP.niveles[cur].mapa; ROWS=m.length; COLS=Math.max(...m.map(r=>r.length)); }
+const esVacio = ch => ch===' ';
+const esPared = ch => ch==='#' || ch==='~' || ch==='G' || ch==='W';
 const WALK=new Set(['.','P','U','D','L']);
 const PASS=new Set(['.','P']);
 let CAP=null, cs=null, cur=0;
@@ -472,9 +476,19 @@ const player={x:6,y:6,rx:6,ry:6,facing:1,moving:null,path:null,bump:null,goal:nu
 let busy=false, inputLock=false, keys=[], lastBump=0, flowTok=0, seqTok=0;
 const worldCv=$('#world'), wc=worldCv.getContext('2d');
 let view={T:40,ox:0,oy:0,w:0,h:0};
-function resizeWorld(){ const st=$('#stage').getBoundingClientRect(); if(!st.width) return; const dpr=Math.min(2,window.devicePixelRatio||1); worldCv.width=Math.round(st.width*dpr); worldCv.height=Math.round(st.height*dpr); wc.setTransform(dpr,0,0,dpr,0,0); const T=Math.max(16,Math.floor(Math.min(st.width/COLS,(st.height-8)/(ROWS+.45)))); view={T,w:st.width,h:st.height,ox:Math.floor((st.width-T*COLS)/2),oy:Math.max(Math.ceil(T*.42),Math.floor((st.height-T*ROWS)/2+T*.2))}; }
+/* el mapa ocupa lo que queda libre: con pantalla táctil, las flechas van abajo (vertical) o al costado (horizontal) */
+function resizeWorld(){
+  const st=$('#stage').getBoundingClientRect(); if(!st.width) return; medirPiso();
+  const dpr=Math.min(2,window.devicePixelRatio||1); worldCv.width=Math.round(st.width*dpr); worldCv.height=Math.round(st.height*dpr); wc.setTransform(dpr,0,0,dpr,0,0);
+  const pad=$('#dpad'), conPad=pad && getComputedStyle(pad).display!=='none', pr=conPad?pad.getBoundingClientRect():null;
+  const vertical=st.height>st.width;
+  const libreW=st.width-(conPad&&!vertical?pr.width+20:0), libreH=st.height-(conPad&&vertical?pr.height+16:0);
+  const T=Math.max(14,Math.floor(Math.min(libreW/COLS,(libreH-8)/(ROWS+.45))));
+  const oy = conPad&&vertical ? Math.ceil(T*.7) : Math.max(Math.ceil(T*.42),Math.floor((libreH-T*ROWS)/2+T*.2));   // vertical: el mapa arriba, las flechas abajo
+  view={T,w:st.width,h:st.height,ox:Math.floor((libreW-T*COLS)/2),oy};
+}
 new ResizeObserver(resizeWorld).observe($('#stage'));
-const tileAt=(lv,x,y)=>{ const row=CAP.niveles[lv].mapa[y]; return row ? (row[x]||'#') : '#'; };
+const tileAt=(lv,x,y)=>{ const row=CAP.niveles[lv].mapa[y]; return row ? (row[x]||' ') : ' '; };
 function findTile(lv,ch){ const m=CAP.niveles[lv].mapa; for(let y=0;y<m.length;y++){ const x=m[y].indexOf(ch); if(x>=0) return {level:lv,x,y}; } return null; }
 function findAny(ch){ for(let l=0;l<CAP.niveles.length;l++){ const t=findTile(l,ch); if(t) return t; } return null; }
 const allStamped=()=>CAP.orden.every(k=>cs.sellos[k]);
@@ -497,16 +511,25 @@ function drawWorld(t){
   const L=CAP.niveles[cur], T=view.T, c=wc;
   c.clearRect(0,0,view.w,view.h);
   c.save(); c.translate(view.ox,view.oy);
-  c.fillStyle='rgba(34,49,79,.16)'; rr(c,5,9,COLS*T,ROWS*T,T*.3); c.fill();
-  c.save(); rr(c,0,0,COLS*T,ROWS*T,T*.3); c.clip();
-  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){ c.fillStyle=L.piso[(x+y)&1]; c.fillRect(x*T,y*T,T+.5,T+.5); }
-  c.fillStyle=L.pared; c.fillRect(0,0,COLS*T,T);
-  c.fillStyle='rgba(255,255,255,.18)'; c.fillRect(0,0,COLS*T,T*.3);
-  c.fillStyle=L.paredOscura; c.fillRect(0,T*.9,COLS*T,T*.1);
-  c.fillRect(0,0,T,ROWS*T); c.fillRect((COLS-1)*T,0,T,ROWS*T); c.fillRect(0,(ROWS-1)*T,COLS*T,T);
-  c.fillStyle='rgba(255,255,255,.12)'; c.fillRect(T*.84,T,T*.16,(ROWS-2)*T); c.fillRect((COLS-1)*T,T,T*.16,(ROWS-2)*T);
-  c.restore();
-  ell(c,T*.5,T*.5,T*.36,T*.36,'#fff'); c.fillStyle='#22314F'; c.font=`800 ${Math.round(T*.5)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(String(L.num),T*.5,T*.54);
+  // sombra del edificio, después piso y paredes tile por tile (así cada piso puede tener otra forma)
+  c.save(); c.globalAlpha=.16; c.fillStyle='#22314F'; c.beginPath();
+  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++) if(!esVacio(tileAt(cur,x,y))) c.rect(x*T+5,y*T+9,T+.5,T+.5);
+  c.fill('nonzero'); c.restore();
+  let esquina=null;
+  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){
+    const ch=tileAt(cur,x,y); if(esVacio(ch)) continue;
+    const X=x*T, Y=y*T;
+    if(esPared(ch)){
+      if(!esquina) esquina={x,y};
+      c.fillStyle=L.pared; c.fillRect(X,Y,T+.5,T+.5);
+      const arriba=tileAt(cur,x,y-1), abajo=tileAt(cur,x,y+1);
+      if(!esPared(arriba)){ c.fillStyle='rgba(255,255,255,.2)'; c.fillRect(X,Y,T+.5,T*.3); }
+      if(!esPared(abajo) && !esVacio(abajo)){ c.fillStyle=L.paredOscura; c.fillRect(X,Y+T*.86,T+.5,T*.14); }
+      if(!esPared(tileAt(cur,x-1,y)) && !esVacio(tileAt(cur,x-1,y))){ c.fillStyle='rgba(255,255,255,.14)'; c.fillRect(X,Y,T*.12,T); }
+      if(!esPared(tileAt(cur,x+1,y)) && !esVacio(tileAt(cur,x+1,y))){ c.fillStyle='rgba(0,0,0,.1)'; c.fillRect(X+T*.88,Y,T*.12,T); }
+    } else { c.fillStyle=L.piso[(x+y)&1]; c.fillRect(X,Y,T+.5,T+.5); }
+  }
+  if(esquina){ const bx=esquina.x*T+T*.5, by=esquina.y*T+T*.5; ell(c,bx,by,T*.36,T*.36,'#fff'); c.fillStyle='#22314F'; c.font=`800 ${Math.round(T*.5)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(String(L.num),bx,by+T*.04); }
   // destino del clic
   if(player.goal){ const g=player.goal; c.save(); c.globalAlpha=.55+.25*Math.sin(t*8); c.strokeStyle='#FFC93C'; c.lineWidth=T*.08; c.beginPath(); c.ellipse(g.x*T+T*.5,g.y*T+T*.82,T*.32,T*.12,0,0,Math.PI*2); c.stroke(); c.restore(); }
   const pr=Math.round(player.ry);
@@ -733,10 +756,13 @@ function updateNames(){
   document.title = n ? `${T.titulo} ${n}` : 'Las Aventuras';
 }
 function updateHud(){
+  resizeWorld();   // el piso nuevo puede tener otro tamaño
   const L=CAP.niveles[cur], fp=$('#floorPill');
   fp.style.setProperty('--fc',L.pared); fp.innerHTML=`<b>${L.num}</b><span${enAttr(enDe(L.nombre))}>${L.nombre}</span>`;
   $('#pts').innerHTML = ptsHtml();
   $('#slots').innerHTML = CAP.orden.map(k=>`<i class="slot ${cs.sellos[k]?'got':''}">${img(CAP.estaciones[k].item)}</i>`).join('') + `<i class="slot gate ${cs.final?'got':''}">${img('puerta')}</i>`;
+  // en pantallas angostas, en vez de los sellos uno por uno: el pasaporte y cuántos van
+  $('#ppCount').innerHTML = `${ICON.star}<b>${CAP.orden.filter(k=>cs.sellos[k]).length}/${CAP.orden.length}</b>`;
 }
 function buildPicker(){
   const box=$('#chars'); box.innerHTML='';

@@ -363,6 +363,45 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .tipo img{width:58px}
 .tipo.on{border-color:var(--sun);transform:translateY(-3px)}
 .tipo:focus-visible{outline:5px solid var(--sun)}
+.ppcount{display:none;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:20px}
+.ppcount svg{width:26px;height:26px;color:var(--sun)}
+/* ---------- teléfonos ---------- */
+@media (pointer:coarse) and (orientation:portrait){ .dpad{left:50%;right:auto;bottom:8px;transform:translateX(-50%)} }
+@media (pointer:coarse) and (orientation:landscape){ .dpad{top:50%;bottom:auto;right:8px;transform:translateY(-50%)} }
+@media (max-width:640px), (max-height:480px){
+  .dpad{grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,54px);gap:5px}
+  .hud{gap:8px} .hbtn{width:44px;height:44px;border-radius:14px} .hbtn svg{width:24px;height:24px}
+  .floor{padding:3px} .floor span{display:none} .floor b{width:36px;height:36px;font-size:22px}
+  .pts{font-size:18px;padding:3px 10px 3px 4px} .pts img{width:26px;height:26px}
+  .game{padding-block:8px;gap:6px}
+}
+@media (max-width:640px){
+  .slots{display:none} .ppcount{display:flex} .passport{flex:0 1 auto;justify-content:center;padding:6px 14px;margin-inline:auto}
+  .home-top{gap:10px;flex-wrap:wrap} .me{width:72px;height:72px} .home-top h2{font-size:26px} .home-top h2 small{font-size:15px}
+  .gear{width:46px;height:46px} .flagbtn{width:52px;height:38px}
+  .week .art{height:110px} .week .art img{width:104px} .week b{font-size:28px}
+}
+/* pantallas bajitas (teléfono acostado): las ventanas se achican para que los botones siempre entren */
+@media (max-height:520px){
+  #modal{padding:8px}
+  .card{padding:12px 16px 14px;gap:8px;border-radius:26px}
+  .card .xbtn{top:8px;right:8px;width:38px;height:38px}
+  .steps i{width:12px;height:12px}
+  .scene canvas{width:76px;height:82px} .scene{gap:14px}
+  .bubble{padding:8px 16px} .bubble b{font-size:22px} .bubble small{font-size:14px}
+  .hero-item,.hero-item.small{width:min(96px,20vh)}
+  .chip{font-size:26px;padding:2px 12px}
+  .turno canvas{width:54px;height:58px} .turno span{font-size:17px}
+  .mbtn{height:64px;min-width:84px;border-radius:20px;font-size:14px;box-shadow:0 5px 0 rgba(34,49,79,.25)} .mbtn svg{width:30px;height:30px}
+  .choice{width:min(110px,24vh);border-radius:22px;padding:8px}
+  .story canvas,.fly,.mj{width:auto;max-width:100%;height:46vh;margin:0 auto}
+  .stitle,.story h3{font-size:20px} .storytext{font-size:17px;line-height:1.3}
+  .page{padding:8px 24px} .stamp{width:120px;height:120px} .stamp img{width:56px} .stamp em{font-size:16px}
+  .mtitle{font-size:26px}
+  .contar{width:min(240px,46vh)}
+  .floorbtn{width:96px;height:96px}.floorbtn b{font-size:44px}.floorbtn span{font-size:14px}
+  .ing{width:60px;height:60px;padding:5px} .tipo img{width:40px} .tipo{font-size:13px;padding:4px 8px}
+}
 </style>
 
 <div id="app">
@@ -448,7 +487,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
     <header class="hud">
       <button class="hbtn" id="homeBtn" tabindex="-1" aria-label="Inicio"><span data-ico="home"></span></button>
       <div class="floor" id="floorPill"></div>
-      <button class="passport" id="ppBtn" tabindex="-1" aria-label="Pasaporte"><span class="slots" id="slots"></span></button>
+      <button class="passport" id="ppBtn" tabindex="-1" aria-label="Pasaporte"><span class="slots" id="slots"></span><span class="ppcount" id="ppCount"></span></button>
       <div class="pts" id="pts"></div>
       <button class="hbtn holdable" id="gearGame" tabindex="-1" aria-label="Rincón de los grandes (mantener apretado)"><span data-ico="gear"></span></button>
     </header>
