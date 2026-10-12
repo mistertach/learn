@@ -129,6 +129,7 @@ registrarTextos('granja', 'it', {
     otraVezB: "Un altro giorno"
   },
   microjuego: {
+    burp: "Oh! Ha mangiato troppo!", burpCorto: "BURP!", libre: "Adesso lancia il cibo dappertutto!",
     titulo: "Diamo da mangiare!",
     intro: "Gli animali hanno fame. Ascolta e tocca l'animale.",
     fin: "Hai dato da mangiare a {n} animali!",

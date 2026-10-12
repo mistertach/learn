@@ -129,6 +129,7 @@ registrarTextos('plaza', 'it', {
     otraVezB: "Un altro pomeriggio"
   },
   microjuego: {
+    correr: "Corriamo con l'aquilone! Tieni premuto per farlo salire.",
     titulo: "L'aquilone!",
     intro: "C'è vento! Ascolta e porta l'aquilone fino alla stella.",
     fin: "Hai preso {n} stelle!",

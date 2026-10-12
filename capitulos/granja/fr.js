@@ -129,6 +129,7 @@ registrarTextos('granja', 'fr', {
     otraVezB: "Encore une journée"
   },
   microjuego: {
+    burp: "Oh là là ! Il a trop mangé !", burpCorto: "BURP !", libre: "Maintenant, lance de la nourriture partout !",
     titulo: "À table, les animaux !",
     intro: "Les animaux ont faim. Écoute et touche l'animal.",
     fin: "Tu as nourri {n} animaux !",

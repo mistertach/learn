@@ -129,16 +129,17 @@ registrarTextos('escuela', 'fr', {
     otraVezB: "Encore un jour"
   },
   microjuego: {
+    maneja: "Maintenant, conduis le train ! Appuie longtemps pour aller vite.", vamos: "On y va !", bocina: "Tchou, tchou !", llegamos: "On est arrivés ! Bravo !",
     titulo: "Le train des formes !",
     intro: "Écoute quelle forme va dans le train, et touche-la.",
     fin: "Tu as mis {n} formes dans le train !",
     chu: "Tchou, tchou ! Le train s'en va !",
     ingredientes: [
-      {texto:"le rond", pon:"Mets le rond dans le train."},
-      {texto:"le carré", pon:"Mets le carré dans le train."},
-      {texto:"le triangle", pon:"Mets le triangle dans le train."},
-      {texto:"l'étoile", pon:"Mets l'étoile dans le train."},
-      {texto:"le cœur", pon:"Mets le cœur dans le train."}
+      {texto:"le rond", pon:"Mets le rond dans le train.", est:"La gare du rond !"},
+      {texto:"le carré", pon:"Mets le carré dans le train.", est:"La gare du carré !"},
+      {texto:"le triangle", pon:"Mets le triangle dans le train.", est:"La gare du triangle !"},
+      {texto:"l'étoile", pon:"Mets l'étoile dans le train.", est:"La gare de l’étoile !"},
+      {texto:"le cœur", pon:"Mets le cœur dans le train.", est:"La gare du cœur !"}
     ]
   },
   palabrasExtra: [

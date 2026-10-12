@@ -129,6 +129,7 @@ registrarTextos('plaza', 'en', {
     otraVezB: "Another afternoon"
   },
   microjuego: {
+    correr: "Let's run with the kite! Press and hold to make it go up.",
     titulo: "The kite!",
     intro: "It's windy! Listen, and fly the kite to the star.",
     fin: "You caught {n} stars!",

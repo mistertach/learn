@@ -131,6 +131,7 @@ registrarTextos('plaza', 'es', {
   },
   // el microjuego: arriba, abajo, izquierda, derecha ({n} = cuántas estrellas atrapó)
   microjuego: {
+    correr: "¡A correr con el barrilete! Mantené apretado para que suba.",
     titulo: "¡El barrilete!",
     intro: "¡Hay viento! Escuchá y llevá el barrilete hasta la estrella.",
     fin: "¡Atrapaste {n} estrellas!",

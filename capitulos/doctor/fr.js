@@ -128,6 +128,7 @@ registrarTextos('doctor', 'fr', {
     otraVezB: "Encore une journée"
   },
   microjuego: {
+    cosquillas: "Maintenant, des chatouilles ! Touche le nounours où tu veux.",
     titulo: "Où est le nez ?",
     intro: "Écoute et touche cette partie du corps du nounours.",
     fin: "Tu as trouvé {n} parties du corps !",

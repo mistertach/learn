@@ -30,7 +30,15 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 ## Microgames (microjuegos.js)
 - One per place, declared in `base.js` as `microjuego: {id, arte, precio, color}` with its texts in each `<lang>.js` (and `en.js`) under `microjuego`. `MICROJUEGOS[id](cap, M)` draws on `M.canvas`, puts buttons in `M.actions` and resolves when the round ends.
 - Finishing a place (in any language) unlocks its game and gives one free play (`save.juegos[id].gratis`); after that each play costs `precio` fish. They are listed under the home screen's Games button.
-- Keep them teaching something in the target language (the plane game says the color of each star, the pizza game names each ingredient), with no way to lose.
+- Keep them teaching something in the target language (the plane game says the color of each star, the pizza game names each ingredient), with no way to lose. Each one also needs a purely fun part, usually a free-play ending after the learning rounds:
+  - clock: smash bouncing alarm clocks, counted aloud;
+  - market: chop flying fruit, each one named;
+  - kite: run while the kite climbs or drops to stars, with "up/down" called;
+  - doctor: silly reactions per body part, then a tickle round;
+  - farm: full-body animals that get fat and burp, plus free food throwing;
+  - school: drive the train past shape stations;
+  - party: play Happy Birthday note by note, or press ▶, changing speed, pitch and instrument.
+- Shared helpers in microjuegos.js: `particulas()` for flying bits and `cartel()` for big outlined text.
 
 ## Accounts (api/, servidor/, the NUBE section of juego.js)
 - The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.

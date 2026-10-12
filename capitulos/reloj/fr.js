@@ -136,6 +136,7 @@ registrarTextos('reloj', 'fr', {
     otraVezB: "Encore un tour"
   },
   microjuego: {
+    romper: "Maintenant, on casse les réveils ! Touche-les !",
     titulo: "Règle l'horloge !",
     intro: "Écoute l'heure. Touche le nombre, puis choisis : pile, et quart, et demie ou moins le quart.",
     pon: "Mets l'horloge comme ça :",

@@ -136,6 +136,7 @@ registrarTextos('reloj', 'it', {
     otraVezB: "Un altro giro"
   },
   microjuego: {
+    romper: "Adesso rompiamo le sveglie! Toccale!",
     titulo: "Metti l'orologio all'ora giusta!",
     intro: "Ascolta l'ora. Tocca il numero, e poi scegli: in punto, e un quarto, e mezza o meno un quarto.",
     pon: "Metti l'orologio così:",

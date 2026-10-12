@@ -131,6 +131,7 @@ registrarTextos('granja', 'es', {
   },
   // el microjuego: los animales en el orden de base.js (dale = el pedido, sonido = lo que dicen)
   microjuego: {
+    burp: "¡Uy! ¡Comió demasiado!", burpCorto: "¡BURP!", libre: "¡Ahora tirá comida por todos lados!",
     titulo: "¡A dar de comer!",
     intro: "Los animales tienen hambre. Escuchá y tocá el animal.",
     fin: "¡Le diste de comer a {n} animales!",

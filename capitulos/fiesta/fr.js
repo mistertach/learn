@@ -134,6 +134,7 @@ registrarTextos('fiesta', 'fr', {
     otraVezB: "Encore une fête"
   },
   microjuego: {
+    musica: "Maintenant, joue « Joyeux anniversaire » ! Touche le gâteau, une note à la fois.", musicaTodo: "Toute la chanson", lento: "Lentement", rapido: "Vite", grave: "Grave", agudo: "Aigu", linda: "Tu as très bien joué !", instr: {piano:"Le piano", xilofon:"Le xylophone", robot:"Le robot", trompeta:"La trompette"},
     titulo: "Combien de bougies ?",
     intro: "Un ami fête son anniversaire. Écoute combien, et mets les bougies.",
     fin: "Tu as soufflé {n} bougies !",

@@ -129,6 +129,7 @@ registrarTextos('granja', 'en', {
     otraVezB: "Another day"
   },
   microjuego: {
+    burp: "Oops! Too much food!", burpCorto: "BURP!", libre: "Now throw food everywhere!",
     titulo: "Feeding time!",
     intro: "The animals are hungry. Listen, and tap the animal.",
     fin: "You fed {n} animals!",

@@ -134,6 +134,7 @@ registrarTextos('fiesta', 'it', {
     otraVezB: "Un'altra festa"
   },
   microjuego: {
+    musica: "Adesso suona «Tanti auguri»! Tocca la torta, una nota alla volta.", musicaTodo: "Tutta la canzone", lento: "Lento", rapido: "Veloce", grave: "Grave", agudo: "Acuto", linda: "Che bello come hai suonato!", instr: {piano:"Il pianoforte", xilofon:"Lo xilofono", robot:"Il robot", trompeta:"La tromba"},
     titulo: "Quante candeline?",
     intro: "Un amico compie gli anni. Ascolta quanti e metti le candeline.",
     fin: "Hai soffiato {n} candeline!",

@@ -136,6 +136,7 @@ registrarTextos('reloj', 'en', {
     otraVezB: "Another turn"
   },
   microjuego: {
+    romper: "Now let's smash the alarm clocks! Tap them!",
     titulo: "Set the clock!",
     intro: "Listen to the time. Tap the number, then pick: o'clock, quarter past, half past or quarter to.",
     pon: "Set the clock like this:",

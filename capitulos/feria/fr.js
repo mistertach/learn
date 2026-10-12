@@ -131,6 +131,7 @@ registrarTextos('feria', 'fr', {
     otraVezB: "Encore un jour"
   },
   microjuego: {
+    cortar: "Maintenant, on coupe les fruits ! Passe ton doigt dessus.", cortadas: "Tu as coupé {n} fruits !",
     titulo: "Remplis le panier !",
     intro: "Écoute quel fruit je veux, et combien. Touche-le pour le mettre dans le panier !",
     fin: "Tu as mis {n} fruits dans le panier !",

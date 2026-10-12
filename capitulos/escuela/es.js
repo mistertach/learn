@@ -130,16 +130,17 @@ registrarTextos('escuela', 'es', {
   },
   // el microjuego: las formas en el orden de base.js (pon = el pedido)
   microjuego: {
+    maneja: "¡Ahora manejá el tren! Mantené apretado para ir rápido.", vamos: "¡Vamos!", bocina: "¡Chu, chu!", llegamos: "¡Llegamos! ¡Muy bien!",
     titulo: "¡El tren de las formas!",
     intro: "Escuchá qué forma va en el tren y tocala.",
     fin: "¡Cargaste {n} formas en el tren!",
     chu: "¡Chu, chu! ¡El tren se va!",
     ingredientes: [
-      {texto:"el círculo", pon:"Poné el círculo en el tren."},
-      {texto:"el cuadrado", pon:"Poné el cuadrado en el tren."},
-      {texto:"el triángulo", pon:"Poné el triángulo en el tren."},
-      {texto:"la estrella", pon:"Poné la estrella en el tren."},
-      {texto:"el corazón", pon:"Poné el corazón en el tren."}
+      {texto:"el círculo", pon:"Poné el círculo en el tren.", est:"¡La estación del círculo!"},
+      {texto:"el cuadrado", pon:"Poné el cuadrado en el tren.", est:"¡La estación del cuadrado!"},
+      {texto:"el triángulo", pon:"Poné el triángulo en el tren.", est:"¡La estación del triángulo!"},
+      {texto:"la estrella", pon:"Poné la estrella en el tren.", est:"¡La estación de la estrella!"},
+      {texto:"el corazón", pon:"Poné el corazón en el tren.", est:"¡La estación del corazón!"}
     ]
   },
   palabrasExtra: [

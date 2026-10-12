@@ -128,6 +128,7 @@ registrarTextos('doctor', 'en', {
     otraVezB: "Another day"
   },
   microjuego: {
+    cosquillas: "Now, tickles! Tap the teddy anywhere you like.",
     titulo: "Where's the nose?",
     intro: "Listen, and touch that part of the teddy's body.",
     fin: "You found {n} body parts!",

@@ -134,6 +134,7 @@ registrarTextos('feria', 'es', {
   // el microjuego que se abre al terminar el lugar (las frutas van en el orden de base.js)
   // uno = "una manzana", plural = "manzanas"; n es el número ya escrito ("tres")
   microjuego: {
+    cortar: "¡Ahora, a cortar frutas! Pasá el dedo por arriba.", cortadas: "¡Cortaste {n} frutas!",
     titulo: "¡Llená la canasta!",
     intro: "Escuchá qué fruta quiero y cuántas. ¡Tocala para ponerla en la canasta!",
     fin: "¡Pusiste {n} frutas en la canasta!",

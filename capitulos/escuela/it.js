@@ -129,16 +129,17 @@ registrarTextos('escuela', 'it', {
     otraVezB: "Un altro giorno"
   },
   microjuego: {
+    maneja: "Adesso guida il treno! Tieni premuto per andare veloce.", vamos: "Andiamo!", bocina: "Ciuf, ciuf!", llegamos: "Siamo arrivati! Bravissimi!",
     titulo: "Il treno delle forme!",
     intro: "Ascolta quale forma va sul treno e toccala.",
     fin: "Hai caricato {n} forme sul treno!",
     chu: "Ciuf, ciuf! Il treno parte!",
     ingredientes: [
-      {texto:"il cerchio", pon:"Metti il cerchio sul treno."},
-      {texto:"il quadrato", pon:"Metti il quadrato sul treno."},
-      {texto:"il triangolo", pon:"Metti il triangolo sul treno."},
-      {texto:"la stella", pon:"Metti la stella sul treno."},
-      {texto:"il cuore", pon:"Metti il cuore sul treno."}
+      {texto:"il cerchio", pon:"Metti il cerchio sul treno.", est:"La stazione del cerchio!"},
+      {texto:"il quadrato", pon:"Metti il quadrato sul treno.", est:"La stazione del quadrato!"},
+      {texto:"il triangolo", pon:"Metti il triangolo sul treno.", est:"La stazione del triangolo!"},
+      {texto:"la stella", pon:"Metti la stella sul treno.", est:"La stazione della stella!"},
+      {texto:"il cuore", pon:"Metti il cuore sul treno.", est:"La stazione del cuore!"}
     ]
   },
   palabrasExtra: [
