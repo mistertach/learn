@@ -37,6 +37,27 @@ const sleep = ms => new Promise(r=>setTimeout(r,ms));
 const svgUri = s => 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
 const img = id => ART[id] ? `<img src="${svgUri(ART[id])}" alt="">` : '';
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* textos de dos caras (árabe): "marhaba|مرحبا". La voz dice la cara de la derecha (la escritura árabe);
+   en pantalla se ven las letras latinas y abajo, chiquita, la escritura árabe (partirDobles). */
+const caraLatina = s => { s=String(s??''); const i=s.indexOf('|'); return i<0 ? s : s.slice(0,i); };
+const caraHablada = s => { s=String(s??''); const i=s.indexOf('|'); return i<0 ? s : s.slice(i+1); };
+const esDoble = s => typeof s==='string' && s.includes('|') && /[\u0600-\u06FF]/.test(s);
+function partirDobles(raiz){
+  if(!raiz) return;
+  if(raiz.nodeType===3){ if(esDoble(raiz.nodeValue)) partirNodo(raiz); return; }
+  const w=document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, {acceptNode:n=>esDoble(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP});
+  const nodos=[]; while(w.nextNode()) nodos.push(w.currentNode);
+  nodos.forEach(partirNodo);
+}
+function partirNodo(n){
+  if(!n.parentNode || n.parentNode.closest && n.parentNode.closest('title,script,style,option')) return;
+  const v=n.nodeValue, i=v.indexOf('|'), f=document.createDocumentFragment(), sm=document.createElement('small');
+  sm.className='arab'; sm.lang='ar'; sm.dir='rtl'; sm.textContent=v.slice(i+1);
+  f.append(v.slice(0,i), sm); n.replaceWith(f);
+}
+if(typeof MutationObserver!=='undefined') new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') partirDobles(m.target); else m.addedNodes.forEach(partirDobles); } }).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+// en los lienzos, solo la cara latina
+if(typeof CanvasRenderingContext2D!=='undefined') for(const fn of ['fillText','strokeText']){ const o=CanvasRenderingContext2D.prototype[fn]; CanvasRenderingContext2D.prototype[fn]=function(t,...r){ return o.call(this, esDoble(t)?caraLatina(t):t, ...r); }; }
 const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 const IMG = {};
 function imgEl(id){ if(!IMG[id] && ART[id]){ const i=new Image(); i.src=svgUri(ART[id]); IMG[id]=i; } return IMG[id]; }
@@ -347,7 +368,7 @@ async function speak(text, rate=.85, code=langCode()){
   return new Promise(res=>{
     if(!('speechSynthesis' in window)) return setTimeout(res, 400);
     let done=false; const fin=()=>{ if(!done){ done=true; clearTimeout(tm); res(); } };
-    const u=new SpeechSynthesisUtterance(text); const v=voiceFor(code);
+    const u=new SpeechSynthesisUtterance(caraHablada(text)); const v=voiceFor(code);
     u.lang = v ? v.lang : (PACKS[code] ? PACKS[code].tag : code);
     if(v) u.voice=v;
     u.rate=rate; u.pitch=1.05; u.onend=fin; u.onerror=fin;
@@ -867,7 +888,7 @@ function updateNames(){
   const len=Math.max(4,(el.textContent||'').length); el.style.fontSize=`clamp(48px, ${Math.min(17, 78/len).toFixed(1)}vw, ${Math.min(156, Math.round(760/len))}px)`;
   $('#hello').innerHTML=`${esc(T.holaX(n))}<small>${esc(T.holaSub)}</small>`;
   ['#homePts','#shopPts'].forEach(id=>{ const e=$(id); if(e) e.innerHTML=ptsHtml(); });
-  document.title = n ? `${T.titulo} ${n}` : 'Las Aventuras';
+  document.title = n ? `${caraLatina(T.titulo)} ${n}` : 'Las Aventuras';
 }
 function updateHud(){
   resizeWorld();   // el piso nuevo puede tener otro tamaño
@@ -1214,7 +1235,8 @@ function runPassport(){
    CUENTOS
    ========================================================= */
 const storyFill = s => s.replace(/\{N\}/g, char().name);
-const storyHtml = s => esc(storyFill(s)).replace(/\*(.+?)\*/g,'<mark>$1</mark>');
+const marcarCuento = s => esc(s).replace(/\*(.+?)\*/g,'<mark>$1</mark>');
+const storyHtml = s => { const f=storyFill(s); return esDoble(f) ? `${marcarCuento(caraLatina(f))}<small class="arab" lang="ar" dir="rtl">${marcarCuento(caraHablada(f))}</small>` : marcarCuento(f); };
 const storySpeech = s => storyFill(s).replace(/\*/g,'');
 async function runStory(c, key, fromLib=false){
   const tok=++flowTok, S=c.estaciones[key].cuento; busy=true;
