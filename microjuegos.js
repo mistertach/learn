@@ -331,3 +331,57 @@ MICROJUEGOS.torta = (cap, M) => new Promise(resolve=>{
   });
   sayAll([M.aviso, tx.intro]);
 });
+
+/* ---------------------------------------------------------
+   LA FERIA · Llená la canasta: el relator pide "tres manzanas" y el chico toca
+   esa fruta; cada fruta que cae se cuenta en voz alta. Arriba, unos círculos
+   muestran cuántas faltan (para contar mirando).
+   --------------------------------------------------------- */
+MICROJUEGOS.canasta = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, ings=tx.ingredientes, nums=cap.numeros||T.numeros.slice(1), cv=M.canvas, RONDAS=5;
+  let ronda=0, meta=null, dentro=[], vuelan=[], total=0, listo=false, t=0;
+  M.actions.innerHTML=`<div class="ings">${ings.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  const botones=[...M.actions.querySelectorAll('.ing')];
+  const pedir=()=>tx.pon(nums[meta.n-1], ings.find(g=>g.k===meta.k));
+  botones.forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=ings.find(x=>x.k===b.dataset.k);
+    if(b.dataset.k!==meta.k){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([tx.esa(ings.find(x=>x.k===meta.k))]); return; }
+    const n=dentro.length+1; dentro.push({k:g.k, x:(Math.random()-.5)*.6, t}); vuelan.push({k:g.k, t}); total++;
+    tone(500+n*80,.12,'triangle',.1);
+    if(n<meta.n){ sayAll([nums[n-1]]); return; }
+    listo=false; sfx.yay();
+    await sayAll([nums[n-1], praise(), tx.son(nums[n-1], g)]); if(!M.alive()) return;
+    await sleep(500); nuevaRonda();
+  }));
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ await sayAll([textoN(tx.fin,total), praise(true)]); if(M.alive()) resolve(total); return; }
+    ronda++; dentro=[];
+    let k; do{ k=ings[Math.floor(Math.random()*ings.length)].k; }while(meta && k===meta.k);
+    meta={k, n:1+Math.floor(Math.random()*5)};
+    await sayAll([pedir()]); listo=true;
+  }
+  live(cv,(c,w,h,tt)=>{
+    t=tt; if(!M.alive()) return;
+    bgFeria(c,w,h,t);
+    c.fillStyle='#C98B4E'; c.fillRect(0,h*.78,w,h*.22);
+    const bx=w*.5, by=h*.78;
+    // lo que hay que poner: la fruta y un círculo por cada una
+    if(meta){
+      c.fillStyle='rgba(255,255,255,.92)'; rr(c,bx-h*(.12+meta.n*.07),h*.04,h*(.24+meta.n*.14),h*.17,h*.06); c.fill();
+      drawImg(c,meta.k,bx-h*(meta.n*.07)-h*.02,h*.125,h*.13);
+      for(let i=0;i<meta.n;i++){ const x=bx-h*(meta.n*.07)+h*.1+i*h*.14, y=h*.125, ok=i<dentro.length; ell(c,x,y,h*.05,h*.05,ok?'#2FBF8F':'#E3E8F0'); if(ok){ c.strokeStyle='#fff'; c.lineWidth=h*.012; c.lineCap='round'; c.beginPath(); c.moveTo(x-h*.02,y); c.lineTo(x-h*.005,y+h*.017); c.lineTo(x+h*.025,y-h*.017); c.stroke(); } }
+    }
+    // la canasta
+    c.fillStyle='#B5753A'; c.beginPath(); c.moveTo(bx-h*.3,by-h*.26); c.lineTo(bx+h*.3,by-h*.26); c.lineTo(bx+h*.24,by); c.lineTo(bx-h*.24,by); c.closePath(); c.fill();
+    c.strokeStyle='#8A5636'; c.lineWidth=h*.016; c.beginPath(); c.ellipse(bx,by-h*.26,h*.3,h*.05,0,Math.PI,0); c.stroke();
+    c.strokeStyle='rgba(0,0,0,.12)'; c.lineWidth=2; for(let i=1;i<5;i++){ c.beginPath(); c.moveTo(bx-h*.3+i*h*.12,by-h*.26); c.lineTo(bx-h*.24+i*h*.096,by); c.stroke(); } for(let j=1;j<4;j++){ const y=by-h*.26+j*h*.065; c.beginPath(); c.moveTo(bx-h*(.3-j*.015),y); c.lineTo(bx+h*(.3-j*.015),y); c.stroke(); }
+    dentro.forEach((d,i)=>{ const k=Math.min(1,(t-d.t)/.45); const y=h*.2+(by-h*.3-h*.2)*k*k - (i%2)*h*.03; drawImg(c,d.k,bx+d.x*h*.4,y,h*.13); });
+    c.strokeStyle='#8A5636'; c.lineWidth=h*.025; c.beginPath(); c.ellipse(bx,by-h*.26,h*.3,h*.05,0,0,Math.PI); c.stroke();
+    c.beginPath(); c.lineWidth=h*.02; c.arc(bx,by-h*.26,h*.24,Math.PI*1.05,Math.PI*1.95); c.stroke();
+    if(cap.final && cap.final.npc) drawAnimal(c,cap.final.npc,w*.86,h*.98,h*.42,{t,hat:cap.final.npc.hat,facing:-1,mood:listo?null:'talk'});
+  });
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
