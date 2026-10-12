@@ -550,3 +550,72 @@ MICROJUEGOS.comida = (cap, M) => new Promise(resolve=>{
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   LA ESCUELA · El tren de las formas: el relator pide "Poné el triángulo
+   en el tren" y el chico toca esa forma; va al vagón que sigue. Con los
+   vagones llenos, el tren se va (¡chu, chu!) y llega otro.
+   --------------------------------------------------------- */
+MICROJUEGOS.tren = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, formas=tx.ingredientes, cv=M.canvas, VAGONES=4, TRENES=2;
+  let tren=0, cargados=[], meta=null, ultimo=null, listo=false, n=0, sale=0, vuela=null;
+  M.actions.innerHTML=`<div class="ings">${formas.map(g=>`<button class="ing" data-k="${g.k}" aria-label="${esc(g.texto)}"${enAttr(enDe(g.texto))}>${img(g.k)}</button>`).join('')}</div>`;
+  M.actions.querySelectorAll('.ing').forEach(b=>b.addEventListener('click',async()=>{
+    if(!listo || !M.alive()) return;
+    const g=formas.find(x=>x.k===b.dataset.k);
+    if(g!==meta){ sfx.oops(); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),450); sayAll([g.texto, meta.pon]); return; }
+    listo=false; n++; vuela={k:g.k, t:performance.now()/1000, i:cargados.length};
+    tone(600+cargados.length*90,.12,'triangle',.1);
+    await sleep(600); if(!M.alive()) return;
+    cargados.push(g.k); vuela=null;
+    await sayAll([praise(), g.texto]); if(!M.alive()) return;
+    if(cargados.length>=VAGONES){
+      sale=performance.now()/1000; tone(330,.3,'square',.06); setTimeout(()=>M.alive()&&tone(392,.3,'square',.06),350);
+      await sayAll([tx.chu]); if(!M.alive()) return; await sleep(1500); if(!M.alive()) return;
+      tren++; cargados=[]; sale=0;
+    }
+    nuevaRonda();
+  }));
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#7FC8F5'); g.addColorStop(1,'#D8F0FF'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    cloud(c,w*.2+Math.sin(t*.3)*8,h*.14,h*.04); cloud(c,w*.75,h*.1,h*.035);
+    ell(c,w*.3,h*.78,w*.4,h*.2,'#9ED67E'); ell(c,w*.8,h*.8,w*.4,h*.18,'#8CCB6B'); c.fillStyle='#86CC6E'; c.fillRect(0,h*.78,w,h*.22);
+    // las vías
+    c.fillStyle='#8A5636'; for(let x=0;x<w;x+=h*.06) c.fillRect(x,h*.8,h*.03,h*.03); c.fillStyle='#5C6A86'; c.fillRect(0,h*.79,w,h*.012);
+    // el tren (si se va, se mueve a la derecha; si llega, entra desde la izquierda)
+    const llegada=Math.max(0,1-(t-(tren0||t))*1.2);
+    let dx = sale ? (t-sale)*w*.6 : -llegada*w;
+    const VW=h*.2, base=h*.79, x0=w*.12+dx;
+    // la locomotora
+    c.fillStyle='#E8483B'; rr(c,x0+VW*4.3,base-h*.2,VW*1.2,h*.17,8); c.fill(); c.fillStyle='#22314F'; rr(c,x0+VW*4.3,base-h*.3,VW*.6,h*.12,6); c.fill();
+    c.fillStyle='#CDEBFF'; rr(c,x0+VW*4.38,base-h*.27,VW*.44,h*.07,4); c.fill(); c.fillStyle='#22314F'; c.fillRect(x0+VW*5.1,base-h*.32,VW*.16,h*.14);
+    for(let k=0;k<3;k++){ const p=((t*.8)+k/3)%1; c.save(); c.globalAlpha=(1-p)*.7; ell(c,x0+VW*5.18-p*VW*.6,base-h*.36-p*h*.18,h*(.025+p*.04),h*(.02+p*.03),'#fff'); c.restore(); }
+    for(const wx of [4.5,5.2]) { ell(c,x0+VW*wx,base,h*.035,h*.035,'#22314F'); ell(c,x0+VW*wx,base,h*.014,h*.014,'#FFC93C'); }
+    // los vagones
+    const colores=['#FFC93C','#2FBF8F','#2E86DE','#8B6FE8'];
+    for(let i=0;i<VAGONES;i++){
+      const vx=x0+i*VW*1.05; c.fillStyle=colores[i]; rr(c,vx,base-h*.13,VW*.95,h*.11,6); c.fill(); c.fillStyle='rgba(0,0,0,.12)'; c.fillRect(vx,base-h*.05,VW*.95,h*.02);
+      for(const wx of [.22,.73]){ ell(c,vx+VW*wx,base,h*.03,h*.03,'#22314F'); ell(c,vx+VW*wx,base,h*.012,h*.012,'#FFC93C'); }
+      if(i<VAGONES) { c.strokeStyle='#22314F'; c.lineWidth=3; c.beginPath(); c.moveTo(vx+VW*.95,base-h*.07); c.lineTo(vx+VW*1.05,base-h*.07); c.stroke(); }
+      if(cargados[i]) drawImg(c,cargados[i],vx+VW*.47,base-h*.2,h*.15);
+      else if(i===cargados.length && listo){ c.save(); c.globalAlpha=.4+.3*Math.sin(t*6); c.strokeStyle='#fff'; c.lineWidth=4; c.setLineDash([6,6]); c.strokeRect(vx+VW*.15,base-h*.29,VW*.65,h*.15); c.restore(); }
+    }
+    // la forma que vuela hasta su vagón
+    if(vuela){ const k=Math.min(1,(t-vuela.t)/.6), vx=x0+vuela.i*VW*1.05+VW*.47, x=w*.5+(vx-w*.5)*k, y=h*.25+(base-h*.2-h*.25)*k-Math.sin(k*Math.PI)*h*.1; drawImg(c,vuela.k,x,y,h*.15,k*6); }
+    // la forma que hay que buscar, grande arriba
+    if(meta && listo){ c.save(); c.globalAlpha=.9; c.fillStyle='rgba(255,255,255,.75)'; ell(c,w*.5,h*.25,h*.13,h*.13,'rgba(255,255,255,.75)'); c.restore(); c.save(); c.font=`800 ${Math.round(h*.14)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillStyle='rgba(34,49,79,.35)'; c.fillText('?',w*.5,h*.26); c.restore(); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='right'; c.fillStyle='#22314F'; c.fillText(`★ ${n}`,w*.96,h*.09); c.restore();
+  });
+  let tren0=performance.now()/1000;
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(tren>=TRENES){ meta=null; await sayAll([textoN(tx.fin,n), praise(true)]); if(M.alive()) resolve(n); return; }
+    if(!cargados.length) tren0=performance.now()/1000;
+    let g; do{ g=formas[Math.floor(Math.random()*formas.length)]; }while(g===ultimo);
+    meta=ultimo=g; await sayAll([g.pon]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
