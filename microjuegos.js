@@ -619,3 +619,63 @@ MICROJUEGOS.tren = (cap, M) => new Promise(resolve=>{
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   LA FIESTA · ¿Cuántas velas? Un amigo cumple años: el relator dice
+   "¡Cumple tres años! Poné tres velas." El chico pone las velas (contando
+   en voz alta) y después las sopla. No se puede perder: si pone de más, no pasa nada.
+   --------------------------------------------------------- */
+MICROJUEGOS.velas = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cv=M.canvas, nums=cap.numeros||T.numeros.slice(1), RONDAS=5;
+  const amigos=cap.orden.map(k=>cap.estaciones[k].npc);
+  let ronda=0, meta=0, puestas=0, amigo=amigos[0], listo=false, soplado=0, total=0, ultimo=0;
+  M.actions.innerHTML=`<div class="ings"><button class="ing" data-act="vela" aria-label="${esc(tx.vela)}"${enAttr(enDe(tx.vela))}>${img('vela')}</button></div>${B('soplar','star',esc(tx.soplarB),'go')}`;
+  const bSoplar=M.actions.querySelector('[data-act=soplar]'); bSoplar.hidden=true;
+  const poner=()=>{
+    if(!listo || !M.alive()) return;
+    if(puestas>=meta){ sayAll([tx.soplar]); return; }
+    puestas++; tone(500+puestas*70,.12,'triangle',.1);
+    if(puestas<meta){ sayAll([nums[puestas-1]]); return; }
+    sayAll([nums[puestas-1], tx.soplar]); bSoplar.hidden=false; setTimeout(()=>bSoplar.focus(),30);
+  };
+  M.actions.querySelector('[data-act=vela]').addEventListener('click',poner);
+  cv.addEventListener('pointerdown',poner);
+  bSoplar.addEventListener('click',async()=>{
+    if(!listo || puestas<meta || !M.alive()) return;
+    listo=false; bSoplar.hidden=true; soplado=performance.now()/1000; total+=meta; noise(.9,.08,300,900);
+    await sleep(700); if(!M.alive()) return; sfx.yay();
+    await sayAll([tx.feliz, praise()]); if(!M.alive()) return;
+    await sleep(400); nuevaRonda();
+  });
+
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()) return;
+    bgFiesta(c,w,h,t);
+    const fiesta = soplado && t-soplado>.5;
+    drawAnimal(c,amigo,w*.78,h*.97,h*.5,{t,hat:amigo.hat,facing:-1,accion:fiesta?'saltar':null,mood:soplado&&!fiesta?'wow':null});
+    // la torta
+    const cx=w*.42, base=h*.92, tw=h*.62;
+    c.fillStyle='#fff'; rr(c,cx-tw*.62,base-h*.03,tw*1.24,h*.05,8); c.fill();
+    c.fillStyle='#F7C8D8'; rr(c,cx-tw/2,base-h*.24,tw,h*.22,10); c.fill(); c.fillStyle='#FFF3D6'; rr(c,cx-tw*.38,base-h*.4,tw*.76,h*.17,10); c.fill();
+    c.fillStyle='#FF8FB8'; for(let i=0;i<8;i++) ell(c,cx-tw*.44+i*tw*.125,base-h*.24,tw*.06,h*.025,'#FF8FB8');
+    c.fillStyle='#E8483B'; for(let i=0;i<6;i++) ell(c,cx-tw*.3+i*tw*.12,base-h*.4,tw*.025,tw*.025,['#E8483B','#2FBF8F','#2E86DE','#FFC93C'][i%4]);
+    // las velas, repartidas arriba de la torta
+    const cols=['#2E86DE','#FFC93C','#2FBF8F','#E8483B','#8B6FE8','#FF9B3D','#FF8FB8','#7CC6F0','#B9D45C','#C9A27A'];
+    for(let i=0;i<puestas;i++){ const k=meta>1?i/(Math.max(meta,puestas)-1):.5, x=cx-tw*.3+k*tw*.6, y=base-h*.4;
+      c.fillStyle=cols[i%cols.length]; rr(c,x-h*.012,y-h*.12,h*.024,h*.12,3); c.fill(); c.fillStyle='rgba(255,255,255,.5)'; c.fillRect(x-h*.004,y-h*.11,h*.006,h*.1);
+      if(!soplado){ const fl=1+.15*Math.sin(t*14+i); ell(c,x,y-h*.15,h*.016*fl,h*.03*fl,'#FFC93C'); ell(c,x,y-h*.145,h*.008,h*.016,'#fff'); }
+      else { const p=Math.min(1,(t-soplado)/1.5); c.save(); c.globalAlpha=(1-p)*.6; ell(c,x+Math.sin(t*3+i)*6,y-h*(.15+p*.2),h*.015*(1+p),h*.02*(1+p),'#AEB8C8'); c.restore(); } }
+    if(soplado && t-soplado<.6){ c.save(); c.globalAlpha=.5; for(let k=0;k<4;k++){ c.strokeStyle='#CDEBFF'; c.lineWidth=4; c.beginPath(); c.moveTo(w*.08,h*(.32+k*.06)); c.quadraticCurveTo(w*.2,h*(.28+k*.06),cx-tw*.3,h*(.42+k*.02)); c.stroke(); } c.restore(); }
+    // cuántas faltan: puntitos arriba
+    if(meta){ c.fillStyle='rgba(255,255,255,.9)'; rr(c,w*.5-(meta*h*.07)/2-h*.02,h*.05,meta*h*.07+h*.04,h*.1,h*.05); c.fill(); for(let i=0;i<meta;i++){ const x=w*.5+(i-(meta-1)/2)*h*.07; ell(c,x,h*.1,h*.025,h*.025,i<puestas?'#FFC93C':'rgba(34,49,79,.15)'); } }
+  });
+
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ meta=0; await sayAll([textoN(tx.fin,total), praise(true)]); if(M.alive()) resolve(total); return; }
+    ronda++; let n; do{ n=2+Math.floor(Math.random()*6); }while(n===ultimo); ultimo=n;
+    meta=n; puestas=0; soplado=0; amigo=amigos[Math.floor(Math.random()*amigos.length)];
+    await sayAll([tx.pon(nums[n-1])]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});
