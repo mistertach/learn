@@ -1,6 +1,6 @@
 # Las aventuras de…
 
-A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French, Italian or English), types their name, picks an animal friend and walks around a place (week 1: an airport; week 2: a restaurant where the child becomes the waiter; week 3: a clock tower that teaches telling the time; week 4: our house, with the family and greetings; week 5: a market, with fruit, vegetables and counting; week 6: a playground, with action verbs and Simon says; week 7: the doctor, where the child is the doctor and learns body parts and feelings; week 8: a farm, with animals, their sounds and adjectives; week 9: school, with classroom things, shapes, the days of the week and asking "can I…?"; week 10: a birthday party with friends from every place, ages, months and the birthday song). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish).
+A talking language game for young children who can't read yet. The child picks a language (Rioplatense Spanish, French, Italian or English), types their name, picks an animal friend and walks around a place (it starts with first words like hello, yes, no and thank you in a treehouse, then home and family, a farm, a market, a playground, the doctor, school, a restaurant where the child is the waiter, a clock tower, an airport, and a birthday party to finish). They learn words syllable by syllable and phrases piece by piece, collect passport stamps, answer questions to catch fish, spend the fish on clothes in the shop, and finish the place (fly away, or get a tip in fish). Outside the places, **¡A repasar!** reviews: a picture quiz that mixes words from every place already played, and phrase practice that picks the least-practised phrases first. It pays out fish and seahorses (worth 2 fish each). Each place's mini-game opens when the place is finished, and each mixes learning with something silly to do.
 
 The game itself is plain static files with no build step. It works on its own (open `index.html`), and when it is hosted with the small API in `api/` it also has accounts: progress saved online, shared voice recordings and an admin page.
 
@@ -27,7 +27,7 @@ The tables are created automatically on the first request.
    - `SESSION_SECRET`: a long random string (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`).
    - `ADMIN_EMAIL`: your email. Whoever registers with it is the admin.
    - Optional, for "Forgot your password?" emails: `RESEND_API_KEY` (from [Resend](https://resend.com)), `MAIL_FROM` (a sender on a domain you verified in Resend, e.g. `Las aventuras <hola@yourdomain.com>`) and `APP_URL` (the site's address, e.g. `https://yourgame.vercel.app`, used in the link). Without them, the game tells the grown-up to ask you for a new password. On your computer, the link is printed in the terminal instead.
-4. Deploy, open the site and create your account with that email. `/admin.html` lists every family and child and shows their progress. It lets you lock or unlock places per child, tick **Abrir todo** to open every place and game (free) for a child (handy for testing), and give anyone who forgot their password a temporary one with **Nueva contraseña**. Grown-ups can change their own password in the grown-up corner.
+4. Deploy, open the site and create your account with that email. `/admin.html` lists every family and child and shows their progress. It lets you lock or unlock places per child, tick **Abrir todo** to open every place, game (free) and story for a child (handy for testing), and give anyone who forgot their password a temporary one with **Nueva contraseña**. Grown-ups can change their own password in the grown-up corner.
 
 ## Structure
 
@@ -50,7 +50,7 @@ capitulos/<place>/
 ## Adding things
 
 - **A new place (week):** create `capitulos/<id>/base.js` plus one text file per language (including `en.js`), following `capitulos/aeropuerto/`. Then add the id to `CAPITULOS` in `capitulos.js`.
-- **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`.
+- **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`. Arabic (`ar`) shows how a language in another script works: each string is `"latin|arabic"` (see CLAUDE.md).
 - **A new shop item:** add it to `tienda.js` and add its name to the `ropa` block of every `idiomas/*.js`.
 
 ## Notes

@@ -131,6 +131,7 @@ registrarTextos('feria', 'it', {
     otraVezB: "Un altro giorno"
   },
   microjuego: {
+    cortar: "Adesso tagliamo la frutta! Passaci sopra il dito.", cortadas: "Hai tagliato {n} frutti!",
     titulo: "Riempi il cestino!",
     intro: "Ascolta che frutta voglio, e quanta. Toccala per metterla nel cestino!",
     fin: "Hai messo {n} frutti nel cestino!",

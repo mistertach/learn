@@ -129,6 +129,7 @@ registrarTextos('plaza', 'fr', {
     otraVezB: "Encore un après-midi"
   },
   microjuego: {
+    correr: "On court avec le cerf-volant ! Appuie longtemps pour qu'il monte.",
     titulo: "Le cerf-volant !",
     intro: "Il y a du vent ! Écoute et emmène le cerf-volant jusqu'à l'étoile.",
     fin: "Tu as attrapé {n} étoiles !",

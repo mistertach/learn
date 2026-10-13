@@ -43,7 +43,7 @@ function render(filtro = ''){
         ${u.alumnos.map(a => `<tr>
           <td><b>${esc(a.nombre)}</b><div class="prog">Jugó por última vez: ${esc(fecha(a.actualizado))}</div></td>
           <td class="prog">${progreso(a.datos)}</td>
-          <td><label class="cap todo"><input type="checkbox" data-todo="${a.id}" ${a.todo_abierto ? 'checked' : ''}> <b>Abrir todo</b> (todos los lugares y los juegos, gratis: para probar)</label>
+          <td><label class="cap todo"><input type="checkbox" data-todo="${a.id}" ${a.todo_abierto ? 'checked' : ''}> <b>Abrir todo</b> (todos los lugares, los cuentos y los juegos gratis: para probar)</label>
             <div class="caps" ${a.todo_abierto ? 'data-off' : ''}>${caps.map(id => `<label class="cap"><input type="checkbox" data-a="${a.id}" data-c="${esc(id)}" ${(a.bloqueados || []).includes(id) ? '' : 'checked'}> ${esc(TITULOS[id] || id)}</label>`).join('')}</div><span class="ok" data-ok="${a.id}" hidden>Guardado</span></td>
         </tr>`).join('')}
       </tbody></table>` : '<p class="vacio">Todavía no agregó chicos.</p>'}

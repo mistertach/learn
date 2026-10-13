@@ -129,16 +129,17 @@ registrarTextos('escuela', 'en', {
     otraVezB: "Another day"
   },
   microjuego: {
+    maneja: "Now drive the train! Press and hold to go fast.", vamos: "Let's go!", bocina: "Choo choo!", llegamos: "We're here! Well done!",
     titulo: "The shape train!",
     intro: "Listen to which shape goes on the train, and tap it.",
     fin: "You loaded {n} shapes on the train!",
     chu: "Choo choo! Off goes the train!",
     ingredientes: [
-      {texto:"the circle", pon:"Put the circle on the train."},
-      {texto:"the square", pon:"Put the square on the train."},
-      {texto:"the triangle", pon:"Put the triangle on the train."},
-      {texto:"the star", pon:"Put the star on the train."},
-      {texto:"the heart", pon:"Put the heart on the train."}
+      {texto:"the circle", pon:"Put the circle on the train.", est:"The circle station!"},
+      {texto:"the square", pon:"Put the square on the train.", est:"The square station!"},
+      {texto:"the triangle", pon:"Put the triangle on the train.", est:"The triangle station!"},
+      {texto:"the star", pon:"Put the star on the train.", est:"The star station!"},
+      {texto:"the heart", pon:"Put the heart on the train.", est:"The heart station!"}
     ]
   },
   palabrasExtra: [

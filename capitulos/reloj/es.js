@@ -138,6 +138,7 @@ registrarTextos('reloj', 'es', {
   },
   // el microjuego que se abre al terminar el lugar ({n} = cuántos relojes puso bien)
   microjuego: {
+    romper: "¡Ahora, a romper relojes! ¡Tocalos!",
     titulo: "¡Poné el reloj en hora!",
     intro: "Escuchá la hora. Tocá el número, y después elegí: en punto, y cuarto, y media o menos cuarto.",
     pon: "Poné el reloj así:",

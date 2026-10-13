@@ -128,6 +128,7 @@ registrarTextos('doctor', 'it', {
     otraVezB: "Un altro giorno"
   },
   microjuego: {
+    cosquillas: "Adesso, solletico! Tocca l'orsacchiotto dove vuoi.",
     titulo: "Dov'è il naso?",
     intro: "Ascolta e tocca quella parte del corpo dell'orsacchiotto.",
     fin: "Hai trovato {n} parti del corpo!",

@@ -16,13 +16,21 @@
    del final de cada uno) y cantamos el cumpleaños feliz: cada idioma trae final.cancion
    ({N} = el nombre del chico).
    microjuego 'velas': ¿cuántas velas? Cada idioma trae pon(número), vela, soplar, soplarB, feliz.
+   Al final se toca el cumpleaños feliz (nota por nota tocando la torta, o solo con ▶) y se puede cambiar
+   la velocidad (tortuga/liebre), el tono (agudo/grave) y el instrumento: musica, lento, rapido, agudo, grave, instr{…}, linda.
    ========================================================= */
 (()=>{
 const L="#22314F";
 const arte = {
+  tortuga:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="84" cy="56" rx="10" ry="8" fill="#8CCB6B"/><circle cx="87" cy="54" r="2" fill="${L}"/><g fill="#8CCB6B"><ellipse cx="24" cy="74" rx="8" ry="6"/><ellipse cx="70" cy="74" rx="8" ry="6"/></g><path d="M12 70a36 30 0 0 1 72 0z" fill="#2E9E5E"/><path d="M30 50l10-10 14 0 10 10-10 14H40z" fill="#3CB371" stroke="#23966F" stroke-width="2"/><path d="M12 70h72" stroke="#23966F" stroke-width="3"/></svg>`,
+  liebre:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="66" cy="20" rx="6" ry="18" fill="#C9A27A" transform="rotate(20 66 20)"/><ellipse cx="56" cy="20" rx="6" ry="18" fill="#C9A27A" transform="rotate(-5 56 20)"/><ellipse cx="44" cy="62" rx="28" ry="18" fill="#C9A27A"/><circle cx="68" cy="44" r="14" fill="#C9A27A"/><circle cx="16" cy="60" r="7" fill="#fff"/><circle cx="72" cy="40" r="2.5" fill="${L}"/><ellipse cx="80" cy="47" rx="2.5" ry="2" fill="#FF7FA0"/><path d="M24 76l-12 8M60 78l18 6" stroke="#A8845E" stroke-width="7" stroke-linecap="round"/><path d="M2 40h14M4 52h10M0 64h10" stroke="#7CC6F0" stroke-width="3" stroke-linecap="round"/></svg>`,
+  instPiano:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="8" y="30" width="84" height="44" rx="6" fill="${L}"/><g fill="#fff"><rect x="14" y="40" width="10" height="30" rx="2"/><rect x="26" y="40" width="10" height="30" rx="2"/><rect x="38" y="40" width="10" height="30" rx="2"/><rect x="50" y="40" width="10" height="30" rx="2"/><rect x="62" y="40" width="10" height="30" rx="2"/><rect x="74" y="40" width="10" height="30" rx="2"/></g><g fill="${L}"><rect x="21" y="40" width="7" height="18" rx="1.5"/><rect x="33" y="40" width="7" height="18" rx="1.5"/><rect x="57" y="40" width="7" height="18" rx="1.5"/><rect x="69" y="40" width="7" height="18" rx="1.5"/></g></svg>`,
+  instXilo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g transform="rotate(-8 50 50)"><rect x="10" y="36" width="12" height="40" rx="3" fill="#E8483B"/><rect x="25" y="38" width="12" height="36" rx="3" fill="#FF9B3D"/><rect x="40" y="40" width="12" height="32" rx="3" fill="#FFC93C"/><rect x="55" y="42" width="12" height="28" rx="3" fill="#2FBF8F"/><rect x="70" y="44" width="12" height="24" rx="3" fill="#2E86DE"/></g><path d="M60 14l18 22" stroke="#8A5636" stroke-width="4" stroke-linecap="round"/><circle cx="58" cy="12" r="6" fill="#E8483B"/></svg>`,
+  instRobot:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10v10" stroke="#5C6A86" stroke-width="4"/><circle cx="50" cy="9" r="5" fill="#E8483B"/><rect x="22" y="20" width="56" height="44" rx="10" fill="#AEB8C8"/><circle cx="38" cy="40" r="7" fill="#22314F"/><circle cx="62" cy="40" r="7" fill="#22314F"/><circle cx="39" cy="38" r="2.5" fill="#7CC6F0"/><circle cx="63" cy="38" r="2.5" fill="#7CC6F0"/><rect x="36" y="52" width="28" height="6" rx="2" fill="#5C6A86"/><rect x="30" y="66" width="40" height="24" rx="6" fill="#8A96AA"/><rect x="12" y="34" width="10" height="16" rx="3" fill="#8A96AA"/><rect x="78" y="34" width="10" height="16" rx="3" fill="#8A96AA"/></svg>`,
+  instTrompeta:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M8 46h52l26-18v44L60 54H8z" fill="#FFC93C" stroke="#D99A00" stroke-width="3" stroke-linejoin="round"/><rect x="24" y="30" width="6" height="16" rx="2" fill="#D99A00"/><rect x="34" y="30" width="6" height="16" rx="2" fill="#D99A00"/><rect x="44" y="30" width="6" height="16" rx="2" fill="#D99A00"/><path d="M90 30q6 20 0 40" fill="none" stroke="#FFC93C" stroke-width="3" stroke-linecap="round"/></svg>`,
   fiesta:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M6 14q44 18 88 0" fill="none" stroke="#8A5636" stroke-width="2"/><path d="M14 17l6 14 6-12zM34 22l6 14 6-13zM54 23l6 13 6-14zM74 19l6 12 6-14z" fill="#E8483B"/><path d="M24 20l4 12 6-11zM64 22l4 12 6-12z" fill="#FFC93C"/><path d="M50 92V60" stroke="${L}" stroke-width="1.5"/><ellipse cx="34" cy="52" rx="12" ry="15" fill="#2E86DE"/><ellipse cx="66" cy="52" rx="12" ry="15" fill="#2FBF8F"/><ellipse cx="50" cy="44" rx="13" ry="16" fill="#FF8FB8"/><path d="M34 67l16 25 16-25" fill="none" stroke="${L}" stroke-width="1.5"/><ellipse cx="45" cy="38" rx="3" ry="5" fill="#fff" opacity=".5"/></svg>`,
   invitacion:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="26" width="80" height="54" rx="6" fill="#FFF3D6" stroke="#E8C66A" stroke-width="3"/><path d="M10 30l40 28 40-28" fill="none" stroke="#E8C66A" stroke-width="3"/><circle cx="50" cy="56" r="10" fill="#E8483B"/><path d="M46 52q4-6 8 0-4 4-4 8-0-4-4-8z" fill="#fff"/><path d="M20 16l4 6M80 16l-4 6M50 8v8" stroke="#FFC93C" stroke-width="3" stroke-linecap="round"/></svg>`,
-  globo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 72q-6 10 2 16t-2 12" fill="none" stroke="${L}" stroke-width="2"/><ellipse cx="50" cy="38" rx="28" ry="34" fill="#E8483B"/><path d="M45 72h10l-5-6z" fill="#C9352B"/><ellipse cx="38" cy="24" rx="6" ry="10" fill="#fff" opacity=".45"/></svg>`,
+  globito:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 72q-6 10 2 16t-2 12" fill="none" stroke="${L}" stroke-width="2"/><ellipse cx="50" cy="38" rx="28" ry="34" fill="#E8483B"/><path d="M45 72h10l-5-6z" fill="#C9352B"/><ellipse cx="38" cy="24" rx="6" ry="10" fill="#fff" opacity=".45"/></svg>`,
   gorrito:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M22 86L54 12l26 74z" fill="#FF6F8F"/><path d="M30 68l40 0M38 50l30 0M46 32l18 0" stroke="#FFC93C" stroke-width="5" stroke-linecap="round"/><circle cx="54" cy="12" r="9" fill="#fff"/><path d="M18 86q32 10 66 0" fill="none" stroke="#2E86DE" stroke-width="6" stroke-linecap="round"/></svg>`,
   regalo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="14" y="42" width="72" height="48" rx="4" fill="#2E86DE"/><rect x="10" y="30" width="80" height="16" rx="4" fill="#4FA3EE"/><rect x="44" y="30" width="12" height="60" fill="#FFC93C"/><path d="M50 30c-6-14-26-18-24-6 2 8 16 6 24 6zM50 30c6-14 26-18 24-6-2 8-16 6-24 6z" fill="#FFC93C"/></svg>`,
   pinata:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 4v16" stroke="#8A5636" stroke-width="2"/><path d="M50 20l26 14v32l-26 14-26-14V34z" fill="#FFC93C"/><path d="M24 42h52M24 52h52M24 62h52" stroke="#E8483B" stroke-width="5"/><path d="M24 66l-6 14M36 72l-2 16M64 72l2 16M76 66l6 14" stroke="#2FBF8F" stroke-width="4" stroke-linecap="round"/><circle cx="42" cy="34" r="3" fill="${L}"/><circle cx="58" cy="34" r="3" fill="${L}"/></svg>`,
@@ -83,13 +91,13 @@ registrarCapitulo({
         esc(H(.28,{uniforme:false}), N("I",.72,-1), C("invitacion",.5,.45,.14,"volar")),
         esc(H(.28,{uniforme:false,gesto:"sorpresa"}), N("I",.72,-1,"saltar")),
         esc(H(.3,{uniforme:false,gesto:"aplaudir"}), N("I",.72,-1,"bailar"), E("estrellas",.5,.4))]},
-    O: {item:"globo", mostrador:"#E8483B",
+    O: {item:"globito", mostrador:"#E8483B",
       npc:{kind:"dog", fur:"#E8D3B0", fur2:"#FFF7EA", ear:"#B48A5A", hat:"#E8483B", seed:1.3},
       escenas:[
-        esc(N("O",.3), C("globo",.62,.4,.2,"flotar"), C("globo",.78,.35,.16,"flotar")),
-        esc(H(.28,{uniforme:false}), C("globo",.55,.45,.14,"latir")),
-        esc(H(.28,{uniforme:false,gesto:"sorpresa"}), C("globo",.55,.4,.3,"latir"), E("estrellas",.55,.4)),
-        esc(H(.3,{uniforme:false,gesto:"saltar"}), N("O",.72,-1,"saltar"), C("globo",.5,.25,.14,"flotar"))]},
+        esc(N("O",.3), C("globito",.62,.4,.2,"flotar"), C("globito",.78,.35,.16,"flotar")),
+        esc(H(.28,{uniforme:false}), C("globito",.55,.45,.14,"latir")),
+        esc(H(.28,{uniforme:false,gesto:"sorpresa"}), C("globito",.55,.4,.3,"latir"), E("estrellas",.55,.4)),
+        esc(H(.3,{uniforme:false,gesto:"saltar"}), N("O",.72,-1,"saltar"), C("globito",.5,.25,.14,"flotar"))]},
     Z: {item:"gorrito", mostrador:"#FF6F8F",
       npc:{kind:"cat", fur:"#F2C46B", fur2:"#FFF3D6", seed:2.1},
       escenas:[
@@ -129,16 +137,16 @@ registrarCapitulo({
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", icono:"fiesta", anim:"fiesta"},
   microjuego: {id:"velas", arte:"torta", precio:3, color:"#FF8FB8"},
   palabrasExtra: ["pinata", "caramelo", "vaso"],
-  frasesExtra: ["regalo", "torta", "globo", "invitacion", "vela"],
+  frasesExtra: ["regalo", "torta", "globito", "invitacion", "vela"],
   preguntas: [
-    {ok:"regalo", no:["globo", "torta"]},
+    {ok:"regalo", no:["globito", "torta"]},
     {ok:"torta", no:["regalo", "caramelo"]},
-    {ok:"globo", no:["gorrito", "vela"]},
-    {ok:"vela", no:["globo", "invitacion"]},
+    {ok:"globito", no:["gorrito", "vela"]},
+    {ok:"vela", no:["globito", "invitacion"]},
     {ok:"gorrito", no:["regalo", "pinata"]},
     {ok:"invitacion", no:["calendario", "regalo"]},
     {ok:"calendario", no:["invitacion", "torta"]},
-    {ok:"pinata", no:["globo", "caramelo"]},
+    {ok:"pinata", no:["globito", "caramelo"]},
     {ok:"caramelo", no:["vela", "pinata"]},
     {ok:"vaso", no:["torta", "caramelo"]}
   ]

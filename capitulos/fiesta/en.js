@@ -134,6 +134,7 @@ registrarTextos('fiesta', 'en', {
     otraVezB: "Another party"
   },
   microjuego: {
+    musica: "Now play Happy Birthday! Tap the cake, one note at a time.", musicaTodo: "The whole song", lento: "Slow", rapido: "Fast", grave: "Low", agudo: "High", linda: "You played that beautifully!", instr: {piano:"The piano", xilofon:"The xylophone", robot:"The robot", trompeta:"The trumpet"},
     titulo: "How many candles?",
     intro: "A friend is having a birthday. Listen to how old, and put on the candles.",
     fin: "You blew out {n} candles!",

@@ -135,6 +135,7 @@ registrarTextos('fiesta', 'es', {
   },
   // el microjuego: pon recibe el número ya escrito ("tres")
   microjuego: {
+    musica: "¡Ahora tocá el cumpleaños feliz! Tocá la torta, una nota cada vez.", musicaTodo: "Toda la canción", lento: "Lento", rapido: "Rápido", grave: "Grave", agudo: "Agudo", linda: "¡Qué lindo tocaste!", instr: {piano:"El piano", xilofon:"El xilofón", robot:"El robot", trompeta:"La trompeta"},
     titulo: "¿Cuántas velas?",
     intro: "Un amigo cumple años. Escuchá cuántos y poné las velas.",
     fin: "¡Soplaste {n} velas!",

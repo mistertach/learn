@@ -129,6 +129,7 @@ registrarTextos('doctor', 'es', {
   },
   // el microjuego: las partes del cuerpo, en el orden de base.js (p = la pregunta)
   microjuego: {
+    cosquillas: "¡Ahora, cosquillas! Tocá el osito donde quieras.",
     titulo: "¿Dónde está la nariz?",
     intro: "Escuchá y tocá esa parte del cuerpo del osito.",
     fin: "¡Encontraste {n} partes del cuerpo!",

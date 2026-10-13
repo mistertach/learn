@@ -332,6 +332,13 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .cform .mbtn{align-self:stretch;justify-content:center}
 .cmsg{margin:0;color:#C0392B;font-weight:700}
 .cmsg.bien{color:#1E8E68}
+/* árabe: la escritura árabe chiquita, debajo de las letras latinas */
+small.arab{display:block;font-size:.62em;font-weight:600;opacity:.75;line-height:1.25;direction:rtl;font-family:'Noto Naskh Arabic','Segoe UI','Geeza Pro',system-ui,sans-serif;margin-top:2px}
+.chip small.arab,.stitle small.arab{font-size:.7em}
+mark small.arab{display:inline}
+.parent .chk.ayuda{flex-wrap:wrap;align-items:center}
+.parent .chk.ayuda select{font:inherit;font-size:16px;padding:6px 10px;border:2px solid #DCE3EE;border-radius:12px;background:#fff}
+.parent .chk.ayuda .note{flex-basis:100%;margin:2px 0 0}
 .parent .pclave{flex:1 1 100%;max-width:420px;gap:8px}
 .parent .pclave[hidden]{display:none}
 .parent .pclave input{font-size:16px;padding:8px 10px}
@@ -349,6 +356,14 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
+.xcard.repaso{background:#2E86DE}
+.pts .cab{display:inline-flex;align-items:center;gap:2px;font-style:normal;margin-left:6px}
+.premio{width:min(220px,46vw);animation:nada 2.2s ease-in-out infinite}
+.premio img{width:100%;display:block}
+@keyframes nada{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+.tally{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--ink2);font-size:20px;align-self:flex-end}
+.tally svg{width:22px;height:22px}
+.repaso-ops .mbtn{min-width:160px}
 .extras .xcard{flex-basis:180px}
 .mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
 .book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
@@ -402,6 +417,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
   .choice{width:min(110px,24vh);border-radius:22px;padding:8px}
   .story canvas,.fly,.mj{width:auto;max-width:100%;height:46vh;margin:0 auto}
   .stitle,.story h3{font-size:20px} .storytext{font-size:17px;line-height:1.3}
+  .story:has(small.arab) canvas{height:36vh} .story:has(small.arab) .stitle small.arab{display:none}
   .page{padding:8px 24px} .stamp{width:120px;height:120px} .stamp img{width:56px} .stamp em{font-size:16px}
   .mtitle{font-size:26px}
   .contar{width:min(240px,46vh)}
@@ -465,6 +481,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
       <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
       <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
       <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
+      <button class="xcard repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
     </div>
     <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
   </section>
