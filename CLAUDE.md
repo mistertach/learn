@@ -49,6 +49,7 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - Drawings from every place share one namespace (`ART`): give new ones names no other place uses (`registrarCapitulo` warns in the console on a clash).
 - The admin's **Abrir todo** (`alumnos.todo_abierto`, `pruebaTodo()` in juego.js) opens every place, game and story (`cuentoAbierto`), games free, for that child, overriding order and per-child locks. It is meant for testing.
 - `persist()` also uploads the child's `save` (debounced, plus `sendBeacon` on page hide). Tables are created by `servidor/db.js` on first use; change the schema there with `IF NOT EXISTS`/`ALTER ... IF NOT EXISTS` so existing databases upgrade themselves.
+- Voice comparison (`voces.html`, admin only, linked from admin.html): `api/voces.js` generates each sample line once with ElevenLabs or Google (`servidor/voces.js`, keys `ELEVENLABS_API_KEY` / `GOOGLE_TTS_API_KEY`) and keeps it in `voces_prueba`; the sample lines come from `scripts/voces-muestras.js`, shared with the terminal version `scripts/voces-prueba.js`.
 - Local check: `npm install`, a Postgres in `.env`, `npm run dev`.
 
 ## Checking changes

@@ -41,7 +41,8 @@ api/                    Vercel functions: sesion (sign up / sign in / password r
 servidor/               code shared by api/: database (Neon in production, any Postgres locally), sessions, passwords, email (correo.js)
 admin.html, admin.js    the admin page
 scripts/dev.js          local server that serves the game and api/ like Vercel does
-scripts/voces-prueba.js  generates sample lines with ElevenLabs and Google voices and writes voz-prueba/index.html to compare them with the browser voice (keys in .env; see the top of the file)
+voces.html              admin-only page (linked from admin.html) to compare ElevenLabs and Google voices with the browser voice on real game lines; needs ELEVENLABS_API_KEY / GOOGLE_TTS_API_KEY in Vercel; clips are kept in the voces_prueba table (api/voces.js, servidor/voces.js)
+scripts/voces-prueba.js  the same comparison from a terminal, writing voz-prueba/index.html (keys in .env)
 capitulos/<place>/
   base.js               map, drawings (inline SVG), characters, story scenes, quiz answers — same for every language
   es.js / fr.js / it.js texts for that place in each language (words + syllables, phrases + parts, stories, quiz questions)

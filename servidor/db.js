@@ -53,7 +53,18 @@ const ESQUEMA = [
      usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
      creado TIMESTAMPTZ NOT NULL DEFAULT NOW(),
      vence TIMESTAMPTZ NOT NULL)`,
-  `CREATE INDEX IF NOT EXISTS grabaciones_global ON grabaciones(global) WHERE global`
+  `CREATE INDEX IF NOT EXISTS grabaciones_global ON grabaciones(global) WHERE global`,
+  // audios de la prueba de voces (voces.html): se guardan para no pagar dos veces el mismo
+  `CREATE TABLE IF NOT EXISTS voces_prueba (
+     clave TEXT PRIMARY KEY,
+     servicio TEXT NOT NULL,
+     lang TEXT NOT NULL,
+     voz TEXT NOT NULL,
+     texto TEXT NOT NULL,
+     caracteres INTEGER NOT NULL,
+     tipo TEXT NOT NULL,
+     audio TEXT NOT NULL,
+     creado TIMESTAMPTZ NOT NULL DEFAULT NOW())`
 ];
 
 async function q(texto, params){
