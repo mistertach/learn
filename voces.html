@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba de voces · Las aventuras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#22314F;--ink2:#5C6A86;--mist:#EEF2F8;--sun:#FFC93C;--mint:#2FBF8F;--coral:#FF6F59;--sky:#2E6BD9}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;color:var(--ink);background:#F5F8FC;padding:24px 16px}
+main{max-width:1000px;margin:0 auto}
+h1{margin:0 0 4px;font-size:34px}
+.sub{margin:0 0 16px;color:var(--ink2)}
+a{color:var(--sky)}
+.caja{background:#fff;border-radius:20px;padding:16px 18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(34,49,79,.08)}
+.estado{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:15px}
+.estado b.si{color:var(--mint)} .estado b.no{color:var(--coral)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.tabs button{font:inherit;font-weight:800;font-size:16px;border:2px solid #DCE3EE;background:#fff;color:var(--ink);border-radius:12px;padding:4px 14px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.voces{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:end;margin-bottom:8px}
+.voces label{display:flex;flex-direction:column;font-size:13px;color:var(--ink2);font-weight:700}
+select{font:inherit;font-size:15px;padding:4px 8px;border:2px solid #DCE3EE;border-radius:10px;max-width:280px;color:var(--ink);background:#fff}
+.btn{font:inherit;font-weight:700;font-size:14px;border:2px solid #DCE3EE;background:#fff;color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink2)} .btn[disabled]{opacity:.5;cursor:default}
+.tabla{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:6px;border-top:1px solid #E3E9F2;vertical-align:middle}
+td.tipo{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);white-space:nowrap}
+td small{display:block;color:var(--ink2);font-size:15px;direction:rtl;text-align:left}
+td.voz{white-space:nowrap}
+.play{font:inherit;font-weight:800;font-size:14px;border:0;border-radius:10px;background:#E8F0FD;color:var(--sky);padding:6px 10px;cursor:pointer;min-width:96px}
+.play.sonando{background:var(--sky);color:#fff}
+.play.cargando{opacity:.6}
+.play.falla{background:#FFE6E1;color:var(--coral)}
+.elige{display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.elige input{width:18px;height:18px;accent-color:var(--mint)}
+.total{font-weight:800;margin-top:10px}
+.error{color:var(--coral);font-weight:700;font-size:14px;margin-top:6px}
+.vacio{color:var(--ink2);font-style:italic}
+@media (max-width:640px){td.tipo{display:none} td{padding:6px 3px} .play{min-width:0;padding:6px 8px;font-size:13px} .elige{flex-direction:column;gap:2px} .largo{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Prueba de voces</h1>
+  <p class="sub">Las mismas frases del juego con la voz de la compu, ElevenLabs y Google. Tocá ▶ para escuchar (la primera vez se genera y se guarda; después no gasta más) y marcá el círculo de la que más te guste en cada fila. <a href="admin.html">Volver a la administración</a></p>
+  <div id="app"><p class="vacio">Cargando…</p></div>
+</main>
+<script>
+/* los archivos de textos del juego llaman a registrarTextos: acá solo los juntamos */
+window.TEXTOS = {};
+function registrarTextos(id, lang, o){ (TEXTOS[lang] = TEXTOS[lang] || {})[id] = o; }
+function registrarCapitulo(){} function registrarIdioma(){}
+</script>
+<script src="scripts/voces-muestras.js"></script>
+<script>
+const IDIOMAS = ['es', 'fr', 'it', 'en', 'ar'];
+for(const lang of IDIOMAS) for(const id of VocesMuestras.LUGARES) document.write(`<script src="capitulos/${id}/${lang}.js"><\/script>`);
+</script>
+<script>
+(async () => {
+const app = document.getElementById('app');
+const LOCAL = {es:'es-AR', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-AE'};
+const NOMBRE_SERVICIO = {eleven:'ElevenLabs', google:'Google'};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function api(ruta, opciones={}){
+  const r = await fetch('/api/'+ruta, {method:opciones.method||'GET', headers:opciones.body?{'Content-Type':'application/json'}:{}, body:opciones.body?JSON.stringify(opciones.body):undefined});
+  let j = null; try{ j = await r.json(); }catch(e){}
+  if(!r.ok) throw Object.assign(new Error((j && j.error) || `Error ${r.status}`), {status:r.status});
+  return j;
+}
+const guardado = (k, v) => { try{ if(v === undefined) return JSON.parse(localStorage.getItem('voces.'+k)); localStorage.setItem('voces.'+k, JSON.stringify(v)); }catch(e){ return null; } };
+
+let info;
+try{ info = await api('voces'); }
+catch(e){
+  app.innerHTML = e.status === 401 || e.status === 403
+    ? `<div class="caja">Esta página es solo para el administrador. <a href="./">Entrá al juego</a> con la cuenta de administrador y volvé acá.</div>`
+    : `<div class="caja">No pude hablar con el servidor (${esc(e.message)}). Esta página funciona en Vercel o con <code>npm run dev</code>.</div>`;
+  return;
+}
+const SERV = Object.keys(info.servicios);
+const muestras = Object.fromEntries(IDIOMAS.map(l => [l, VocesMuestras.muestrasDe(TEXTOS[l]||{}, l, 'Nico')]));
+const elegidas = guardado('elegidas') || {};
+const vozElegida = guardado('voz') || {};
+const listas = {};          // servicio:lang → [{id,nombre}]
+const audios = new Map();   // servicio|voz|lang|texto → url del audio
+let lang = guardado('lang') || 'es', sonando = null;
+
+const vozDe = (s, l) => (vozElegida[s] && vozElegida[s][l]) || info.voz[s][l] || '';
+const audioClave = (s, l, t) => [s, vozDe(s, l), l, t].join('|');
+
+function parar(){
+  if(sonando && sonando.audio){ sonando.audio.pause(); }
+  speechSynthesis.cancel();
+  document.querySelectorAll('.play.sonando').forEach(b => b.classList.remove('sonando'));
+  sonando = null;
+}
+async function pedir(s, l, texto){
+  const k = audioClave(s, l, texto);
+  if(audios.has(k)) return audios.get(k);
+  const j = await api('voces', {method:'POST', body:{servicio:s, lang:l, voz:vozDe(s, l), texto}});
+  const bin = Uint8Array.from(atob(j.audio), c => c.charCodeAt(0));
+  const url = URL.createObjectURL(new Blob([bin], {type:j.tipo}));
+  audios.set(k, url);
+  if(j.nuevo){ info.gastado[s] = (info.gastado[s]||0) + texto.length; pintarEstado(); }
+  return url;
+}
+function decirCompu(texto, l, boton){
+  const u = new SpeechSynthesisUtterance(texto); u.lang = LOCAL[l];
+  const v = speechSynthesis.getVoices().filter(v => v.lang.replace('_','-').toLowerCase().startsWith(l) && !/Multilingual/i.test(v.name));
+  if(v.length) u.voice = v.find(x => x.lang.replace('_','-') === LOCAL[l]) || v[0];
+  u.onend = parar; speechSynthesis.speak(u); sonando = {boton};
+}
+async function tocar(boton){
+  const fila = muestras[lang][+boton.dataset.i], s = boton.dataset.s;
+  const yaSonaba = boton.classList.contains('sonando'); parar(); if(yaSonaba) return;
+  elegir(boton.dataset.i, s);
+  if(s === 'compu'){ boton.classList.add('sonando'); return decirCompu(fila.decir, lang, boton); }
+  boton.classList.add('cargando'); boton.classList.remove('falla');
+  try{
+    const url = await pedir(s, lang, fila.decir);
+    boton.classList.remove('cargando'); boton.classList.add('sonando');
+    const audio = new Audio(url); audio.onended = parar; sonando = {boton, audio}; await audio.play();
+  }catch(e){
+    boton.classList.remove('cargando'); boton.classList.add('falla'); boton.title = e.message;
+    mostrarError(`${NOMBRE_SERVICIO[s]}: ${e.message}`);
+  }
+}
+function elegir(i, s){
+  elegidas[`${lang}:${i}`] = s; guardado('elegidas', elegidas);
+  const r = app.querySelector(`input[name="f${i}"][value="${s}"]`); if(r) r.checked = true;
+  pintarTotal();
+}
+function mostrarError(m){ const e = app.querySelector('#error'); if(e){ e.textContent = m; e.hidden = false; } }
+
+function pintarEstado(){
+  const el = app.querySelector('#estado'); if(!el) return;
+  el.innerHTML = SERV.map(s => `<span>${NOMBRE_SERVICIO[s]}: ${info.servicios[s]
+    ? `<b class="si">listo</b> · ${(info.gastado[s]||0).toLocaleString('es-AR')} caracteres usados`
+    : `<b class="no">falta la clave</b>`}</span>`).join('')
+    + `<button class="btn" id="borrar">Borrar los audios guardados</button>`;
+}
+function pintarTotal(){
+  const t = {}; let n = 0;
+  for(const [k, s] of Object.entries(elegidas)){ if(!k.startsWith(lang+':')) continue; t[s] = (t[s]||0) + 1; n++; }
+  const todos = {}; for(const s of Object.values(elegidas)) todos[s] = (todos[s]||0) + 1;
+  const txt = x => Object.entries(x).sort((a,b) => b[1]-a[1]).map(([s, c]) => `${s === 'compu' ? 'Compu' : NOMBRE_SERVICIO[s]} ${c}`).join(' · ');
+  app.querySelector('#total').textContent = n ? `Elegidas en ${lang.toUpperCase()}: ${txt(t)}   ·   En todos los idiomas: ${txt(todos)}` : 'Todavía no elegiste ninguna en este idioma.';
+}
+async function cargarVoces(s){
+  const sel = app.querySelector(`select[data-s="${s}"]`); if(!sel || !info.servicios[s]) return;
+  const k = s+':'+lang;
+  try{
+    if(!listas[k]) listas[k] = await api(`voces?lista=${s}&lang=${lang}`);
+    const actual = vozDe(s, lang);
+    const ops = listas[k].slice(); if(actual && !ops.some(v => v.id === actual)) ops.unshift({id:actual, nombre:actual});
+    sel.innerHTML = (actual ? '' : '<option value="">(la primera de la cuenta)</option>') + ops.map(v => `<option value="${esc(v.id)}"${v.id===actual?' selected':''}>${esc(v.nombre)}</option>`).join('');
+  }catch(e){ sel.innerHTML = `<option>no pude traer las voces</option>`; mostrarError(`${NOMBRE_SERVICIO[s]}: ${e.message}`); }
+}
+async function generarTodo(s, boton){
+  boton.disabled = true; const filas = muestras[lang];
+  for(let i = 0; i < filas.length; i++){
+    boton.textContent = `Generando ${i+1}/${filas.length}…`;
+    try{ await pedir(s, lang, filas[i].decir); }catch(e){ mostrarError(`${NOMBRE_SERVICIO[s]}: ${e.message}`); break; }
+  }
+  boton.textContent = `Generar todo con ${NOMBRE_SERVICIO[s]}`; boton.disabled = false;
+}
+
+function pintar(){
+  parar();
+  const filas = muestras[lang];
+  app.innerHTML = `
+    <div class="caja estado" id="estado"></div>
+    <div class="caja">
+      <div class="tabs">${IDIOMAS.map(l => `<button data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join('')}</div>
+      <div class="voces">${SERV.filter(s => info.servicios[s]).map(s => `
+        <label>Voz de ${NOMBRE_SERVICIO[s]}<select data-s="${s}"><option>cargando…</option></select></label>
+        <button class="btn" data-todo="${s}">Generar todo con ${NOMBRE_SERVICIO[s]}</button>`).join('')}</div>
+      <p class="error" id="error" hidden></p>
+      <div class="tabla"><table>${filas.map((f, i) => `<tr>
+        <td class="tipo">${esc(f.tipo)}</td>
+        <td>${esc(f.ver)}${f.ver !== f.decir ? `<small lang="ar">${esc(f.decir)}</small>` : ''}</td>
+        ${['compu', ...SERV].map(s => `<td class="voz">${s === 'compu' || info.servicios[s]
+          ? `<label class="elige"><input type="radio" name="f${i}" value="${s}"${elegidas[`${lang}:${i}`]===s?' checked':''}><button class="play" data-s="${s}" data-i="${i}">▶ ${s === 'compu' ? 'Compu' : s === 'eleven' ? 'Eleven<span class="largo">Labs</span>' : NOMBRE_SERVICIO[s]}</button></label>`
+          : ''}</td>`).join('')}
+      </tr>`).join('')}</table></div>
+      <p class="total" id="total"></p>
+    </div>`;
+  pintarEstado(); pintarTotal();
+  SERV.forEach(cargarVoces);
+}
+
+app.addEventListener('click', async e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.classList.contains('play')){ e.preventDefault(); return tocar(b); }
+  if(b.dataset.lang){ lang = b.dataset.lang; guardado('lang', lang); return pintar(); }
+  if(b.dataset.todo) return generarTodo(b.dataset.todo, b);
+  if(b.id === 'borrar'){
+    if(!confirm('¿Borrar todos los audios de prueba guardados? Si los volvés a escuchar, se generan (y se pagan) de nuevo.')) return;
+    try{ await api('voces', {method:'DELETE'}); audios.clear(); SERV.forEach(s => info.gastado[s] = 0); pintarEstado(); }catch(err){ mostrarError(err.message); }
+  }
+});
+app.addEventListener('change', e => {
+  const r = e.target;
+  if(r.type === 'radio'){ elegir(r.name.slice(1), r.value); return; }
+  if(r.tagName === 'SELECT'){ (vozElegida[r.dataset.s] = vozElegida[r.dataset.s] || {})[lang] = r.value; guardado('voz', vozElegida); }
+});
+if(speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = () => {};
+pintar();
+})();
+</script>
+</body>
+</html>

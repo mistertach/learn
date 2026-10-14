@@ -26,93 +26,28 @@ const IDIOMAS = (arg('solo') || 'es,fr,it,en,ar').split(',');
 const PROVEEDORES = (arg('proveedor') || 'eleven,google').split(',');
 const NOMBRE = 'Nico';
 
-// cómo se llama cada idioma para la compu y para Google
-const LOCAL = {es:'es-AR', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-AE'};
-const GOOGLE_LOCAL = {es:'es-US', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-XA'};
-const GOOGLE_VOZ_BASE = 'Aoede';
+const { GOOGLE_LOCAL, SERVICIOS, vozDe } = require('../servidor/voces');
+const { LUGARES, muestrasDe } = require('./voces-muestras');
+const LOCAL = {es:'es-AR', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-AE'};   // para la voz de la compu
 
 /* ---------- las frases de prueba, sacadas del juego ---------- */
-function cargarTextos(lang){
+function muestras(lang){
   const caps = {};
   const ctx = {console, registrarIdioma(){}, registrarCapitulo(){}, registrarTextos(id, lg, o){ caps[id] = o; }};
   ctx.window = ctx; vm.createContext(ctx);
-  for(const id of ['primeras', 'casa', 'feria']) vm.runInContext(fs.readFileSync(path.join(RAIZ, 'capitulos', id, lang+'.js'), 'utf8'), ctx);
-  return caps;
+  for(const id of LUGARES) vm.runInContext(fs.readFileSync(path.join(RAIZ, 'capitulos', id, lang+'.js'), 'utf8'), ctx);
+  return muestrasDe(caps, lang, NOMBRE);
 }
-// en árabe cada texto es "latino|عربي": se lee el latino y la voz dice el árabe
-const caras = (s, lang) => { s = String(s).replace(/\{N\}/g, NOMBRE).replace(/\*/g, ''); if(lang === 'ar' && s.includes('|')){ const i = s.indexOf('|'); return {ver:s.slice(0, i), decir:s.slice(i+1)}; } return {ver:s, decir:s}; };
-
-function muestras(lang){
-  const caps = cargarTextos(lang), out = [];
-  const add = (tipo, s) => { const c = caras(s, lang); if(c.decir.trim()) out.push({tipo, ...c}); };
-  for(const [id, k] of [['primeras','H'], ['casa','R'], ['feria','M']]){
-    const C = caps[id], E = C.estaciones[k];
-    add('lugar', C.bienvenida);
-    add('narrador', E.intro);
-    add('palabra', E.palabra.texto);
-    (E.palabra.silabas||[]).forEach(s => add('sílaba', s));
-    add('frase', E.frase.texto);
-    (E.frase.partes||[]).forEach(s => add('parte', s));
-    add('respuesta', E.respuesta);
-    E.cuento.paginas.slice(0, 2).forEach(s => add('cuento', s));
-  }
-  add('narrador', caps.casa.final.lograste);
-  return out;
-}
-
-/* ---------- los servicios ---------- */
-async function ok(r){ if(r.ok) return r; let t = ''; try{ t = (await r.text()).slice(0, 300); }catch(e){} throw new Error(`${r.status} ${t}`); }
-
-const ELEVEN = 'https://api.elevenlabs.io/v1';
-let vozElevenPorDefecto = null;
-async function vozEleven(lang){
-  const v = process.env['ELEVENLABS_VOZ_'+lang.toUpperCase()] || process.env.ELEVENLABS_VOZ;
-  if(v) return v;
-  if(!vozElevenPorDefecto){
-    const j = await (await ok(await fetch(ELEVEN+'/voices', {headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY}}))).json();
-    if(!j.voices || !j.voices.length) throw new Error('tu cuenta de ElevenLabs no tiene voces');
-    vozElevenPorDefecto = j.voices[0].voice_id;
-    console.log(`  ElevenLabs: sin ELEVENLABS_VOZ, uso «${j.voices[0].name}» (${vozElevenPorDefecto})`);
-  }
-  return vozElevenPorDefecto;
-}
-async function eleven(texto, lang){
-  const voz = await vozEleven(lang);
-  const r = await ok(await fetch(`${ELEVEN}/text-to-speech/${voz}?output_format=mp3_44100_128`, {
-    method:'POST', headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY, 'Content-Type':'application/json'},
-    body:JSON.stringify({text:texto, model_id:process.env.ELEVENLABS_MODELO || 'eleven_multilingual_v2', voice_settings:{stability:0.6, similarity_boost:0.8}})
-  }));
-  return Buffer.from(await r.arrayBuffer());
-}
-
-const GOOGLE = 'https://texttospeech.googleapis.com/v1';
-const vozGoogle = lang => process.env['GOOGLE_VOZ_'+lang.toUpperCase()] || `${GOOGLE_LOCAL[lang]}-Chirp3-HD-${GOOGLE_VOZ_BASE}`;
-async function google(texto, lang){
-  const r = await ok(await fetch(`${GOOGLE}/text:synthesize?key=${encodeURIComponent(process.env.GOOGLE_TTS_API_KEY)}`, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({input:{text:texto}, voice:{languageCode:GOOGLE_LOCAL[lang], name:vozGoogle(lang)}, audioConfig:{audioEncoding:'MP3'}})
-  }));
-  return Buffer.from((await r.json()).audioContent, 'base64');
-}
-
-const SERVICIOS = {
-  eleven:{nombre:'ElevenLabs', clave:'ELEVENLABS_API_KEY', generar:eleven},
-  google:{nombre:'Google Chirp 3 HD', clave:'GOOGLE_TTS_API_KEY', generar:google},
-};
 
 async function listarVoces(){
-  if(process.env.ELEVENLABS_API_KEY){
-    const j = await (await ok(await fetch(ELEVEN+'/voices', {headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY}}))).json();
-    console.log('\nElevenLabs (tus voces; sumá más desde la Voice Library):');
-    for(const v of j.voices) console.log(`  ${v.voice_id}  ${v.name}  ${Object.values(v.labels||{}).join(', ')}`);
-  } else console.log('\nElevenLabs: falta ELEVENLABS_API_KEY');
-  if(process.env.GOOGLE_TTS_API_KEY){
-    for(const lang of IDIOMAS){
-      const j = await (await ok(await fetch(`${GOOGLE}/voices?languageCode=${GOOGLE_LOCAL[lang]}&key=${encodeURIComponent(process.env.GOOGLE_TTS_API_KEY)}`))).json();
-      const hd = (j.voices||[]).filter(v => /Chirp3-HD/.test(v.name));
-      console.log(`\nGoogle ${GOOGLE_LOCAL[lang]} (Chirp 3 HD): ${hd.map(v => `${v.name.split('-').pop()} (${v.ssmlGender==='FEMALE'?'F':'M'})`).join(', ') || 'ninguna'}`);
+  for(const [k, S] of Object.entries(SERVICIOS)){
+    if(!S.configurado()){ console.log(`\n${S.nombre}: falta la clave`); continue; }
+    for(const lang of (k === 'eleven' ? ['es'] : IDIOMAS)){
+      const lista = await S.voces(lang);
+      console.log(`\n${S.nombre}${k === 'eleven' ? ' (tus voces, sirven para todos los idiomas)' : ' '+GOOGLE_LOCAL[lang]}:`);
+      for(const v of lista) console.log(`  ${v.id}  ${v.nombre}`);
     }
-  } else console.log('\nGoogle: falta GOOGLE_TTS_API_KEY');
+  }
 }
 
 /* ---------- la página para escuchar ---------- */
@@ -173,7 +108,7 @@ document.addEventListener('change',contar); contar();
   const hechos = {};
   for(const p of PROVEEDORES){
     const S = SERVICIOS[p]; if(!S){ console.log(`No conozco el servicio «${p}»`); continue; }
-    if(!process.env[S.clave]){ console.log(`\n${S.nombre}: falta ${S.clave}, lo salteo.`); continue; }
+    if(!S.configurado()){ console.log(`\n${S.nombre}: falta la clave, lo salteo.`); continue; }
     hechos[p] = true; let nuevos = 0, fallas = 0;
     console.log(`\n${S.nombre}:`);
     for(const l of IDIOMAS){
@@ -181,7 +116,7 @@ document.addEventListener('change',contar); contar();
       for(const [i, m] of todo[l].entries()){
         const f = path.join(SALIDA, p, `${l}-${i}.mp3`);
         if(fs.existsSync(f)) continue;
-        try{ fs.writeFileSync(f, await S.generar(m.decir, l)); nuevos++; process.stdout.write('.'); }
+        try{ fs.writeFileSync(f, await S.generar(m.decir, l, await vozDe(p, l))); nuevos++; process.stdout.write('.'); }
         catch(e){ fallas++; console.log(`\n  ${l}-${i} «${m.decir}»: ${e.message}`); if(fallas > 3){ console.log('  Demasiados errores, paro este servicio.'); break; } }
       }
       if(fallas > 3) break;
