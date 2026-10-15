@@ -15,6 +15,7 @@ registrarIdioma({
     quien: 'Who are you?', quienSub: 'Pick a friend', quienDi: 'Who are you? Pick a friend!',
     holaX: n => `Hello, ${n}!`, holaSub: 'Where are we going today?', holaDi: n => `Hello, ${n}! Where are we going?`,
     semana: 'Week', pronto: 'Soon!', prontoDi: 'Soon! This place opens next week.',
+    actividades: 'Activities', seccionAprender: 'Learn', seccionJugar: 'Play',
     cuentos: 'Stories', practicar: 'Words and phrases', tienda: 'The shop',
     cuentosDi: 'The stories. Which one shall we read?', practicarDi: 'Words and phrases. Pick what you want to practice.',
     palabras: 'Words', frases: 'Phrases',

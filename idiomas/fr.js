@@ -12,6 +12,7 @@ registrarIdioma({
     quien: 'Qui es-tu ?', quienSub: 'Choisis un ami', quienDi: 'Qui es-tu ? Choisis un ami !',
     holaX: n => `Bonjour, ${n} !`, holaSub: "On va où aujourd'hui ?", holaDi: n => `Bonjour, ${n} ! On va où ?`,
     semana: 'Semaine', pronto: 'Bientôt !', prontoDi: 'Bientôt ! Cet endroit ouvre la semaine prochaine.',
+    actividades: 'Activités', seccionAprender: 'Apprendre', seccionJugar: 'Jouer',
     cuentos: 'Les histoires', practicar: 'Mots et phrases', tienda: 'La boutique',
     cuentosDi: 'Les histoires. Laquelle on lit ?', practicarDi: "On s'entraîne ! Choisis un mot ou une phrase.",
     palabras: 'Mots', frases: 'Phrases',

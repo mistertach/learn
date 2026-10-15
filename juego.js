@@ -255,11 +255,21 @@ function rotarInicio(){
     if(save.lang || scr.start.hidden){ clearInterval(rotTm); if(save.lang) applyLang(); return; }
     i=(i+1)%langs.length; const code=langs[i], t=PACKS[code].t, els=scr.start.querySelectorAll('[data-t]');
     els.forEach(el=>el.classList.add('swap'));
-    setTimeout(()=>els.forEach(el=>{ const v=t[el.dataset.t]; if(typeof v==='string') el.textContent=v; el.lang=code; el.classList.remove('swap'); }), 280);
+    setTimeout(()=>els.forEach(el=>{ const v=t[el.dataset.t]; if(typeof v==='string'){ if(esDoble(v)){ el.innerHTML=`${esc(caraLatina(v))}<small class="arab" lang="ar" dir="rtl">${esc(caraHablada(v))}</small>`; } else { el.textContent=v; } } el.lang=code; el.classList.remove('swap'); }), 280);
   }, 3000);
 }
 function applyLang(){
-  document.querySelectorAll('[data-t]').forEach(el=>{ const v=T[el.dataset.t]; if(typeof v==='string') el.textContent=v; el.removeAttribute('lang'); });
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const v=T[el.dataset.t];
+    if(typeof v==='string'){
+      if(esDoble(v)){
+        el.innerHTML=`${esc(caraLatina(v))}<small class="arab" lang="ar" dir="rtl">${esc(caraHablada(v))}</small>`;
+      } else {
+        el.textContent=v;
+      }
+    }
+    el.removeAttribute('lang');
+  });
   updateNames();
   const lb=$('#langBtn'); if(lb && LANG) lb.innerHTML=`<img src="${svgUri(LANG.bandera)}" alt="">`;
 }
