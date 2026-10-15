@@ -50,13 +50,13 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .char b{font-size:26px;line-height:1}
 .char small{font-size:16px;color:var(--ink2);font-weight:600}
 .char:hover,.char:focus-visible{transform:translateY(-6px) rotate(-1.5deg);outline:6px solid var(--sun);outline-offset:0}
-.home-top{display:flex;align-items:center;gap:16px;width:min(820px,100%)}
+.home-top{display:flex;align-items:center;gap:16px;width:min(1160px,100%)}
 .me{width:112px;height:112px;border-radius:50%;border:0;background:var(--paper);box-shadow:0 6px 0 rgba(34,49,79,.18);padding:0;flex:none;overflow:hidden}
 .me canvas{width:100%;height:100%;display:block}
 .home-top h2{flex:1;text-align:left;min-width:0}
 .gear{width:56px;height:56px;border-radius:50%;border:0;background:rgba(255,255,255,.65);display:grid;place-items:center;flex:none;position:relative;overflow:hidden}
 .gear svg{width:28px;height:28px}
-.weeks{display:flex;gap:22px;align-items:stretch;justify-content:center;flex-wrap:wrap;width:min(820px,100%)}
+.weeks{display:flex;gap:22px;align-items:stretch;justify-content:center;flex-wrap:wrap;width:100%}
 .week{width:min(340px,100%);border:0;border-radius:32px;background:var(--paper);padding:0 0 18px;text-align:left;box-shadow:0 9px 0 rgba(34,49,79,.2);overflow:hidden;transition:transform .15s;display:flex;flex-direction:column}
 .week:hover,.week:focus-visible{transform:translateY(-6px);outline:6px solid var(--sun);outline-offset:0}
 .week .art{height:160px;background:linear-gradient(180deg,#9ED8FF,#E2F4FF);display:grid;place-items:center;position:relative}
@@ -264,6 +264,31 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .card>*{flex-shrink:0}
 .home{justify-content:flex-start;overflow:auto}
 .home>*{flex:none}
+.home-main-area{display:flex;gap:32px;align-items:flex-start;justify-content:center;width:min(1160px,100%);margin:0 auto}
+.weeks-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:18px}
+.weeks-col .weeks{width:100%}
+.home-sidebar{width:250px;flex:none;position:sticky;top:16px;display:flex;flex-direction:column;gap:14px}
+.sidebar-header{display:none;align-items:center;justify-content:space-between;padding:4px 0 10px}
+.sidebar-title{font-size:22px;font-weight:800;color:var(--ink)}
+.sidebar-close{border:0;background:none;cursor:pointer;color:var(--ink2);width:40px;height:40px;display:grid;place-items:center;border-radius:50%}
+.sidebar-close svg{width:24px;height:24px}
+.home-sidebar .extras{display:flex;flex-direction:column;gap:12px;width:100%}
+.home-sidebar .xcard{max-width:none;width:100%;box-sizing:border-box;padding:14px 18px;border-radius:22px;font-size:20px}
+.home-sidebar .xcard svg{width:42px;height:42px}
+.burger-btn{display:none;border:0;background:var(--paper);color:var(--ink);width:54px;height:54px;border-radius:18px;cursor:pointer;box-shadow:0 4px 0 rgba(34,49,79,.14);flex:none;align-items:center;justify-content:center;padding:0;transition:transform .15s}
+.burger-btn svg{width:30px;height:30px}
+.burger-btn:active{transform:translateY(3px)}
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(20,30,55,.45);backdrop-filter:blur(3px);z-index:90;opacity:0;transition:opacity .25s ease}
+@media (max-width:860px){
+  .home-main-area{display:block;width:100%}
+  .burger-btn{display:flex}
+  .sidebar-backdrop.open{display:block;opacity:1}
+  .home-sidebar{position:fixed;top:0;left:0;bottom:0;width:min(320px,84vw);background:#EAF4FD;z-index:100;box-shadow:8px 0 30px rgba(20,30,55,.3);padding:24px 18px;overflow-y:auto;transform:translateX(-105%);transition:transform .28s cubic-bezier(.16,1,.3,1)}
+  .home-sidebar.open{transform:translateX(0)}
+  .sidebar-header{display:flex}
+  .home-sidebar .extras{display:flex;flex-direction:column;gap:14px}
+  .home-sidebar .xcard{padding:16px 18px;font-size:21px}
+}
 .extras{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;width:min(820px,100%)}
 .xcard{flex:1 1 0;min-width:0;max-width:360px;border:0;border-radius:28px;padding:16px 18px;display:flex;align-items:center;gap:12px;color:#fff;font-size:clamp(19px,2.4vw,24px);line-height:1.1;text-align:left;font-weight:800;box-shadow:0 8px 0 rgba(34,49,79,.2);transition:transform .15s}
 .xcard svg{width:52px;height:52px;flex:none}
@@ -300,6 +325,8 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .chip{font-size:clamp(28px,5vw,46px);font-weight:800;line-height:1.15;padding:4px 18px;border-radius:20px;background:var(--mist);color:var(--ink2);transition:transform .15s,background .15s,color .15s}
 .chip.on{background:var(--sun);color:var(--ink);transform:scale(1.12)}
 .chips .dot{font-size:30px;color:#B7C3D4;font-weight:800}
+.chip-word{display:inline-flex;align-items:center;gap:6px 8px;flex-wrap:wrap}
+.word-gap{display:inline-block;width:26px;flex:none}
 .turno{display:flex;align-items:center;justify-content:center;gap:8px;opacity:.35;transition:opacity .2s}
 .turno canvas{width:84px;height:90px}
 .turno span{font-size:22px;font-weight:800;color:var(--coral)}
@@ -357,13 +384,13 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
 .xcard.repaso{background:#2E86DE}
-.pts .cab{display:inline-flex;align-items:center;gap:2px;font-style:normal;margin-left:6px}
+.pts .cab, .pts .gal{display:inline-flex;align-items:center;gap:2px;font-style:normal;margin-left:6px}
 .premio{width:min(220px,46vw);animation:nada 2.2s ease-in-out infinite}
 .premio img{width:100%;display:block}
 @keyframes nada{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
 .tally{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--ink2);font-size:20px;align-self:flex-end}
 .tally svg{width:22px;height:22px}
-.repaso-ops .mbtn{min-width:160px}
+.repaso-ops .mbtn{min-width:130px}
 .extras .xcard{flex-basis:180px}
 .mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
 .book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
@@ -469,21 +496,38 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 
   <section id="scr-home" class="screen home" hidden>
     <div class="home-top">
+      <button class="burger-btn" id="burgerBtn" aria-label="Menú de actividades">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </button>
       <button class="me" id="meBtn" tabindex="-1" aria-label="Personaje"><canvas id="meCv"></canvas></button>
       <h2 id="hello">¡Hola!</h2>
       <div class="pts" id="homePts"></div>
       <button class="flagbtn" id="langBtn" tabindex="-1" aria-label="Idioma"></button>
       <button class="gear holdable" id="gearHome" tabindex="-1" aria-label="Rincón de los grandes (mantener apretado)"><span data-ico="gear"></span></button>
     </div>
-    <div class="weeks" id="weeks"></div>
-    <div class="extras">
-      <button class="xcard cuentos" id="btnCuentos"><span data-ico="book"></span><span data-t="cuentos"></span></button>
-      <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
-      <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
-      <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
-      <button class="xcard repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="home-main-area">
+      <aside class="home-sidebar" id="homeSidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">Actividades</span>
+          <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar"><span data-ico="close"></span></button>
+        </div>
+        <div class="extras">
+          <button class="xcard repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
+          <button class="xcard cuentos" id="btnCuentos"><span data-ico="book"></span><span data-t="cuentos"></span></button>
+          <button class="xcard practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
+          <button class="xcard juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
+          <button class="xcard tienda" id="btnTienda"><span data-ico="bag"></span><span data-t="tienda"></span></button>
+        </div>
+      </aside>
+
+      <div class="weeks-col">
+        <div class="weeks" id="weeks"></div>
+        <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
+      </div>
     </div>
-    <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
   </section>
 
   <section id="scr-lib" class="screen lib" hidden>
@@ -529,6 +573,8 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 </div>
 
 <script src="capitulos.js"></script>
+<script src="audio/audio.js"></script>
+<script src="audio/prompts.js"></script>
 <script src="juego.js"></script>
 <script src="microjuegos.js"></script>
 

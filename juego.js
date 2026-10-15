@@ -9,7 +9,8 @@ const ART = {
   globo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 16h60a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12H46L28 86V70h-8A12 12 0 0 1 8 58V28a12 12 0 0 1 12-12z" fill="#8B6FE8"/><circle cx="34" cy="43" r="6" fill="#fff"/><circle cx="50" cy="43" r="6" fill="#fff"/><circle cx="66" cy="43" r="6" fill="#fff"/></svg>`,
   caballito:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M46 14c14-4 26 6 24 20-1 6-6 10-12 11 6 6 10 14 8 24-2 12-12 20-22 18-8-2-10-10-6-14 4-3 9-1 9 3 0 3-3 4-5 3 6 3 14-4 13-12-1-10-10-14-16-20-6-6-8-16-2-24-6 0-10-2-12-6 6 1 12-1 21-3z" fill="#FF8FB8"/><path d="M58 18c4 2 6 6 5 10" fill="none" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><path d="M44 52c-6-2-10 2-10 6 4-1 8 0 10-2z" fill="#FFC93C"/><path d="M52 30l-6-12M58 26l-2-12M64 30l4-10" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="27" r="3.5" fill="#22314F"/><circle cx="61" cy="26" r="1.2" fill="#fff"/><path d="M70 34l12 3-12 4z" fill="#FF8FB8"/><path d="M50 60q6 4 4 10M48 72q4 2 2 6" fill="none" stroke="#E86A9A" stroke-width="2.5" stroke-linecap="round"/></svg>`,
   pez:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M72 50l22-18v36z" fill="#FF7A1A"/><path d="M42 30l12-14 8 16z" fill="#FF7A1A"/><ellipse cx="44" cy="50" rx="33" ry="22" fill="#FF9B3D"/><path d="M50 31c-4 6-4 32 0 38M62 34c-3 6-3 26 0 32" stroke="#FFC27A" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="25" cy="45" r="6.5" fill="#fff"/><circle cx="24" cy="45" r="3.4" fill="#22314F"/><path d="M13 55q5 4 10 1" stroke="#22314F" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
-  corazon:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 86C20 64 10 48 10 34a20 20 0 0 1 40-6 20 20 0 0 1 40 6c0 14-10 30-40 52z" fill="#FF6F8F"/><ellipse cx="32" cy="34" rx="7" ry="5" fill="#fff" opacity=".6"/></svg>`
+  corazon:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 86C20 64 10 48 10 34a20 20 0 0 1 40-6 20 20 0 0 1 40 6c0 14-10 30-40 52z" fill="#FF6F8F"/><ellipse cx="32" cy="34" rx="7" ry="5" fill="#fff" opacity=".6"/></svg>`,
+  galletita:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#E6A15C"/><circle cx="50" cy="50" r="40" fill="#F4B266"/><circle cx="48" cy="48" r="37" fill="#F9C784"/><circle cx="34" cy="38" r="5.5" fill="#6A3B14"/><circle cx="58" cy="32" r="5" fill="#6A3B14"/><circle cx="42" cy="58" r="6" fill="#6A3B14"/><circle cx="64" cy="55" r="5.5" fill="#6A3B14"/><circle cx="50" cy="42" r="4" fill="#7D471B"/><circle cx="30" cy="58" r="4" fill="#7D471B"/><circle cx="60" cy="70" r="3.5" fill="#7D471B"/><path d="M78 28c3 4 5 10 3 15-4 1-8-2-9-6-1-4 2-8 6-9z" fill="#E6A15C" opacity=".4"/></svg>`
 };
 const ICON = {
   play:'<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
@@ -21,6 +22,7 @@ const ICON = {
   close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
   book:'<svg viewBox="0 0 24 24"><path d="M3 5.5C6 4 9 4 12 6c3-2 6-2 9-.5V19c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 6v13.5" stroke="currentColor" stroke-width="2.2"/></svg>',
   talk:'<svg viewBox="0 0 24 24"><path d="M4 5h16a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 17h-8l-5 4v-4H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 5z" fill="currentColor"/><circle cx="8" cy="11" r="1.4" fill="#fff"/><circle cx="12" cy="11" r="1.4" fill="#fff"/><circle cx="16" cy="11" r="1.4" fill="#fff"/></svg>',
+  cookie:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="currentColor"/><circle cx="9" cy="9" r="1.3" fill="#fff"/><circle cx="15" cy="8" r="1.1" fill="#fff"/><circle cx="11" cy="14" r="1.4" fill="#fff"/><circle cx="16" cy="13" r="1.2" fill="#fff"/></svg>',
   gear:'<svg viewBox="0 0 24 24"><g fill="currentColor"><rect x="10.3" y="1.8" width="3.4" height="4.4" rx="1"/><rect x="10.3" y="17.8" width="3.4" height="4.4" rx="1"/><rect x="1.8" y="10.3" width="4.4" height="3.4" rx="1"/><rect x="17.8" y="10.3" width="4.4" height="3.4" rx="1"/><rect x="10.3" y="1.8" width="3.4" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="10.3" y="17.8" width="3.4" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="1.8" y="10.3" width="4.4" height="3.4" rx="1" transform="rotate(45 12 12)"/><rect x="17.8" y="10.3" width="4.4" height="3.4" rx="1" transform="rotate(45 12 12)"/></g><circle cx="12" cy="12" r="6.6" fill="currentColor"/><circle cx="12" cy="12" r="2.6" fill="#fff"/></svg>',
   check:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   del:'<svg viewBox="0 0 24 24"><path d="M9 5h11a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 20 19H9l-6.5-7z" fill="currentColor"/><path d="M11.5 9.5l5 5M16.5 9.5l-5 5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>',
@@ -264,7 +266,7 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, cuenta:{}, armario:{tiene:{}, puesto:{}}, juegos:{}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, armario:{tiene:{}, puesto:{}}, juegos:{}});
 function loadSave(){
   try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
@@ -285,13 +287,52 @@ let save = loadSave();
 function capSave(id){ const k=`${langCode()}:${id}`; if(!save.caps[k]) save.caps[k]={sellos:{}, final:false, pos:null}; return save.caps[k]; }
 const char = () => CHARACTERS.find(c=>c.id===save.charId) || CHARACTERS[0];
 
+function normPromptKey(s){
+  return String(s||'').trim().toLowerCase()
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .replace(/[¡!¿?.,:«»"']/g, '')
+    .replace(/\s+/g, ' ');
+}
+function promptAudioUrl(lang, text){
+  if(!text || !window.STATIC_PROMPTS) return null;
+  const map = window.STATIC_PROMPTS[lang];
+  if(!map) return null;
+  const k = normPromptKey(text);
+  if(map[k]) return map[k];
+  if(window.save && save.name && text.includes(save.name)){
+    const kNico = normPromptKey(text.replace(save.name, 'Nico'));
+    if(map[kNico]) return map[kNico];
+    const kSin = normPromptKey(text.replace(save.name, ''));
+    if(map[kSin]) return map[kSin];
+  }
+  const h = caraHablada(text);
+  if(h !== text){
+    const kh = normPromptKey(h);
+    if(map[kh]) return map[kh];
+  }
+  return null;
+}
+function staticAudioUrl(id){
+  if(!id || !window.STATIC_AUDIO) return null;
+  if(window.STATIC_AUDIO.get){
+    const u = window.STATIC_AUDIO.get(id);
+    if(u) return u;
+  }
+  if(window.STATIC_AUDIO[id]) return window.STATIC_AUDIO[id];
+  if(window.STATIC_AUDIO.has && window.STATIC_AUDIO.has(id)){
+    const p = id.split(':');
+    if(p.length < 3) return null;
+    return `audio/${p[0]}/${p[1]}/${p.slice(2).join('-')}.mp3`;
+  }
+  return null;
+}
 let dbp=null;
 function idb(){ if(dbp) return dbp; dbp=new Promise((res,rej)=>{ try{ const r=indexedDB.open('aventuras-nico-audio',1); r.onupgradeneeded=()=>r.result.createObjectStore('clips'); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }catch(e){ rej(e); } }); return dbp; }
 async function idbOp(mode, fn){ const db=await idb(); return new Promise((res,rej)=>{ const tx=db.transaction('clips',mode); const r=fn(tx.objectStore('clips')); tx.oncomplete=()=>res(r && r.result); tx.onerror=()=>rej(tx.error); }); }
 const clips = {
   ids:new Set(), cache:new Map(),
   nube:new Set(), global:new Set(),   // grabaciones en el servidor: las de esta cuenta y las del administrador (para todos)
-  has(id){ return this.ids.has(id) || this.nube.has(id) || this.global.has(id); },
+  has(id){ return !!staticAudioUrl(id) || this.ids.has(id) || this.nube.has(id) || this.global.has(id); },
   mia(id){ return this.ids.has(id) || this.nube.has(id) || (!!NUBE.usuario && NUBE.usuario.admin && this.global.has(id)); },
   async cargarNube(){
     this.nube.clear(); this.global.clear(); this.cache.clear();
@@ -378,6 +419,7 @@ async function speak(text, rate=.85, code=langCode()){
 }
 let curAudio=null, curAudioDone=null;
 function playBlob(b){ return new Promise(res=>{ const url=URL.createObjectURL(b); const a=new Audio(url); curAudio=a; const done=()=>{ URL.revokeObjectURL(url); if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
+function playUrl(url){ return new Promise(res=>{ const a=new Audio(url); curAudio=a; const done=()=>{ if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function stopAudio(){ if(curAudio){ try{ curAudio.pause(); }catch(e){} curAudioDone && curAudioDone(); } }
 let sayTok=0;
 /* parts: textos, o {t:'texto', id:'grabación', lento:true, lang:'fr'} */
@@ -386,9 +428,12 @@ async function sayAll(parts){
   for(let p of parts){
     if(my!==sayTok) return false;
     if(typeof p==='string') p={t:p};
-    const b=(p.id && clips.has(p.id)) ? await clips.get(p.id) : null;
+    const sUrl = (p.id ? staticAudioUrl(p.id) : null) || (p.t ? promptAudioUrl(p.lang||langCode(), p.t) : null);
+    const b = (!sUrl && p.id && clips.has(p.id)) ? await clips.get(p.id) : null;
     if(my!==sayTok) return false;
-    if(b) await playBlob(b); else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
+    if(sUrl) await playUrl(sUrl);
+    else if(b) await playBlob(b);
+    else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
     if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; await speak(tr, .9, ayuda()); } }
   }
@@ -871,13 +916,23 @@ async function goFloor(n, arriveAt){
    ========================================================= */
 const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
-const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}`;
-/* lo que tiene para gastar: cada caballito de mar vale 2 pececitos */
-const riqueza = () => (save.puntos||0) + 2*(save.caballitos||0);
-/* paga n: primero con pececitos; si no alcanzan, cambia caballitos por 2 pececitos cada uno */
+const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}${save.galletitas?`<i class="gal">${img('galletita')}<b>${save.galletitas}</b></i>`:''}`;
+/* lo que tiene para gastar: cada caballito vale 2 pececitos, cada galletita vale 3 pececitos */
+const riqueza = () => (save.puntos||0) + 2*(save.caballitos||0) + 3*(save.galletitas||0);
+/* paga n: primero con pececitos; si no alcanzan, cambia caballitos por 2 pececitos y luego galletitas por 3 */
 function gastar(n){
   if(riqueza()<n) return false;
-  while((save.puntos||0)<n){ save.caballitos--; save.puntos=(save.puntos||0)+2; }
+  while((save.puntos||0)<n){
+    if(save.caballitos > 0){
+      save.caballitos--;
+      save.puntos = (save.puntos||0) + 2;
+    } else if(save.galletitas > 0){
+      save.galletitas--;
+      save.puntos = (save.puntos||0) + 3;
+    } else {
+      break;
+    }
+  }
   save.puntos-=n; return true;
 }
 function updateNames(){
@@ -996,7 +1051,42 @@ function holdify(btn, ms, done){
 const praise=(name)=>{ const e=T.elogios; return T.elogio(e[Math.floor(Math.random()*e.length)], name ? save.name : ''); };
 
 /* chips: sílabas de una palabra o partes de una frase */
-function chipsWord(w){ return `<div class="chips"${enAttr(enDe(w.texto))}>${w.silabas.map((s,i)=>`${i?'<span class="dot">·</span>':''}<span class="chip">${esc(s)}</span>`).join('')}</div>`; }
+function agruparSilabasPorPalabra(texto, silabas){
+  if(!texto || !silabas || !silabas.length) return [silabas || []];
+  const palabras = String(texto).trim().split(/\s+/);
+  if(palabras.length <= 1) return [silabas];
+
+  const grupos = [];
+  let sIdx = 0;
+  for(let pIdx = 0; pIdx < palabras.length; pIdx++){
+    const pClean = palabras[pIdx].toLowerCase().replace(/[^a-z0-9\u0600-\u06FFáéíóúüñàèìòù]/g, '');
+    const silabasPal = [];
+    let acumulado = '';
+    while(sIdx < silabas.length){
+      const s = silabas[sIdx];
+      const sClean = s.toLowerCase().replace(/[^a-z0-9\u0600-\u06FFáéíóúüñàèìòù]/g, '');
+      silabasPal.push(s);
+      acumulado += sClean;
+      sIdx++;
+      if(acumulado.length >= pClean.length && pIdx < palabras.length - 1){
+        break;
+      }
+    }
+    grupos.push(silabasPal);
+  }
+  while(sIdx < silabas.length){
+    grupos[grupos.length - 1].push(silabas[sIdx++]);
+  }
+  return grupos;
+}
+function chipsWord(w){
+  const grupos = agruparSilabasPorPalabra(w.texto, w.silabas);
+  const htmlGrupos = grupos.map(g => {
+    const chipsHtml = g.map((s, i) => `${i ? '<span class="dot">·</span>' : ''}<span class="chip">${esc(s)}</span>`).join('');
+    return `<span class="chip-word">${chipsHtml}</span>`;
+  }).join('<span class="word-gap"></span>');
+  return `<div class="chips"${enAttr(enDe(w.texto))}>${htmlGrupos}</div>`;
+}
 function chipsPhrase(f){ return `<div class="chips"${enAttr(enDe(f.texto))}>${f.partes.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>`; }
 const turnHtml = () => `<div class="turno" data-turno><canvas data-me></canvas><span>${esc(T.teToca)}</span></div>`;
 let turnoOn=false;
@@ -1035,14 +1125,14 @@ async function construirFrase(f, intro=[T.repeti]){
   }
   for(let i=0;i<P.length;i++){
     if(!ok()) return false; mark([i]); sfx.tick();
-    await sayAll([{t:P[i], sinTrad:true}]); if(!ok()) return false;
+    await sayAll([{t:P[i], id:f.id?`${f.id}:p${i}`:null, sinTrad:true}]); if(!ok()) return false;
     if(!(await waitTurn(P[i],my))) return false;
     if(i>0){
       const last=i===P.length-1;
       if(last){ await sayAll([T.todoJunto]); if(!ok()) return false; }
       mark(Array.from({length:i+1},(_,j)=>j));
       const txt = last ? f.texto : P.slice(0,i+1).join(' ');
-      await sayAll([last ? {t:txt,id:f.id,sinTrad:true} : {t:txt,sinTrad:true}]); if(!ok()) return false;
+      await sayAll([last ? {t:txt,id:f.id,sinTrad:true} : {t:txt,id:f.id?`${f.id}:c${i}`:null,sinTrad:true}]); if(!ok()) return false;
       if(!(await waitTurn(txt,my))) return false;
     }
   }
@@ -1078,7 +1168,7 @@ async function runPlaceIntro(){
   liveMe();
   const first=!cs.visto;
   onAct('again',()=>narrar(()=>silabear(w,[])));
-  narrar(async()=>{ if(await sayAll([CAP.bienvenida])) await silabear(w); });
+  narrar(async()=>{ if(await sayAll([{t:CAP.bienvenida, id:`${CAP.key}:bienvenida`}])) await silabear(w); });
   await waitAct('go'); if(tok!==flowTok) return;
   closeModal();
   if(first){ cs.visto=true; persist(); sayAll([T.intro1]); }
@@ -1098,7 +1188,7 @@ async function runStation(key){
     actions:B('again','replay',T.otraVez)+B('next','next',T.seguir,'go')}));
   liveNpc(st.npc); liveMe();
   onAct('again',()=>narrar(()=>silabear(w,[])));
-  narrar(async()=>{ if(await sayAll([T.hola, st.intro, T.mira(w.texto)])) await silabear(w); });
+  narrar(async()=>{ if(await sayAll([T.hola, {t:st.intro, id:`${CAP.key}:${key}:intro`}, T.mira(w.texto)])) await silabear(w); });
   await waitAct('next'); if(!alive()) return;
   // 2 · buscá
   const opts=shuffle([key,...shuffle(CAP.orden.filter(k=>k!==key)).slice(0,2)]);
@@ -1112,7 +1202,7 @@ async function runStation(key){
   narrar(()=>sayAll([pregunta]));
   for(;;){
     const {btn}=await waitAct('pick'); if(!alive()) return;
-    if(btn.dataset.k===key){ btn.classList.add('right'); sfx.yay(); await sayAll([praise()]); if(!alive()) return; break; }
+    if(btn.dataset.k===key){ btn.classList.add('right'); sfx.yay(); await sayAll([{t:praise(), id:`${CAP.key}:${key}:respuesta`}]); if(!alive()) return; break; }
     btn.classList.add('wrong'); sfx.oops(); setTimeout(()=>btn.classList.remove('wrong'),500);
     sayAll(st.buscar ? [T.casi, st.buscar] : [T.ups(w.texto)]);
   }
@@ -1128,6 +1218,7 @@ async function runStation(key){
   // 4 · sello
   const first=!cs.sellos[key];
   cs.sellos[key]=true; persist(); updateHud();
+  scheduleFish(7000, 15000);
   const nowAll=first && allStamped();
   openModal(shell({steps:4,step:3,npc:st.npc,bubble:esc(st.respuesta),en:enDe(st.respuesta),
     center:`<div class="page"><div class="stamp">${img(st.item)}<em${enAttr(enDe(w.texto))}>${esc(w.texto)}</em></div></div>`,
@@ -1250,8 +1341,9 @@ async function runStory(c, key, fromLib=false){
       <div class="actions">${i>0?B('prev','back',T.atras,'soft'):''}${B('again','replay',T.otraVez)}${last?B('done','star',T.fin,'go'):B('next','next',T.seguir,'go')}</div>`,'story');
     const t0=performance.now()/1000;
     live(card.querySelector('[data-story]'),(cx,w,h,t)=>drawScene(cx,w,h,c,pg.escena,t-t0));
-    onAct('again',()=>narrar(()=>sayAll([storySpeech(pg.texto)])));
-    narrar(()=>sayAll(i===0 ? [S.titulo, storySpeech(pg.texto)] : [storySpeech(pg.texto)]));
+    const pgId = `${c.key}:${k}:cuento:${i}`, titId = `${c.key}:${k}:cuento:titulo`;
+    onAct('again',()=>narrar(()=>sayAll([{t:storySpeech(pg.texto), id:pgId}])));
+    narrar(()=>sayAll(i===0 ? [{t:S.titulo, id:titId}, {t:storySpeech(pg.texto), id:pgId}] : [{t:storySpeech(pg.texto), id:pgId}]));
     const {act}=await waitAct(['prev','next','done']); if(tok!==flowTok) return;
     if(act==='done'){ closeModal(); if(fromLib){ busy=false; } return; }
     i += act==='next' ? 1 : -1;
@@ -1400,7 +1492,9 @@ function drawScene(c,w,h,cap,esc2,t){
    ========================================================= */
 const fishes={};               // nivel -> {x,y}
 let nextFishAt=Infinity;
+const FISH_COOLDOWN_MS = 5 * 60 * 1000;
 function scheduleFish(min=18000,max=32000){ nextFishAt=performance.now()+min+Math.random()*(max-min); }
+function fishCatchCooldown(){ scheduleFish(FISH_COOLDOWN_MS, FISH_COOLDOWN_MS + 20000); }
 function maybeSpawnFish(now){
   if(busy || !modal.hidden || fishes[cur] || now<nextFishAt) return;
   const cands=[];
@@ -1449,8 +1543,8 @@ async function runFish(){
   openModal(`${X_BTN}
     <div class="scene"><div class="fishpic">${img('pez')}</div><div class="bubble"${enAttr(q.en)}><b>${esc(q.texto)}</b></div></div>
     ${q.img?`<div class="center">${q.img}</div>`:''}
-    <div class="center">${q.ops.map((o,i)=>`<button class="choice" data-act="pick" data-i="${i}">${o.html}</button>`).join('')}</div>
-    <div class="actions">${B('again','speaker',T.otraVez)}</div>`);
+    <div class="center" data-opts>${q.ops.map((o,i)=>`<button class="choice" data-act="pick" data-i="${i}">${o.html}</button>`).join('')}</div>
+    <div class="actions" data-acts>${B('again','speaker',T.otraVez)}</div>`);
   onAct('again',()=>narrar(()=>sayAll([q.texto])));
   narrar(()=>sayAll([T.pezQ, q.texto]));
   let tries=0;
@@ -1459,11 +1553,30 @@ async function runFish(){
     const o=q.ops[+btn.dataset.i];
     if(o.ok){
       btn.classList.add('right'); sfx.yay();
+      card.querySelectorAll('[data-act="pick"]').forEach(b=>{ if(b!==btn) b.style.opacity='.35'; b.disabled=true; });
+      const bbl=card.querySelector('.bubble');
+      if(bbl){ bbl.innerHTML=`<b>${esc(q.bien)}</b>`; if(q.en) bbl.setAttribute('data-en',q.en); }
+      const optsEl=card.querySelector('[data-opts]');
+      const turnDiv=document.createElement('div');
+      turnDiv.className='stack'; turnDiv.style.margin='10px auto';
+      turnDiv.innerHTML=turnHtml();
+      optsEl.insertAdjacentElement('afterend', turnDiv);
+      liveMe();
+      const actsEl=card.querySelector('[data-acts]');
+      actsEl.innerHTML=B('again','speaker',T.otraVez)+B('star','star',T.loDije,'star go');
+      onAct('again',()=>narrar(()=>sayAll([q.bien])));
+      const starTxt=save.grownup?T.estrellaGrande:T.estrella;
+      narrar(async()=>{
+        if(await sayAll([q.bien, T.repeti, q.bien])) await sayAll([starTxt]);
+      });
+      await starPress();
+      if(!alive()) return;
+
       save.puntos=(save.puntos||0)+1; persist(); updateHud();
-      delete fishes[lv]; scheduleFish();
+      delete fishes[lv]; fishCatchCooldown();
       card.querySelector('.fishpic').classList.add('eaten');
       setWait(true);
-      await sayAll([q.bien, T.nam, T.tenesPeces(T.peces(save.puntos))]);
+      await sayAll([T.nam, T.tenesPeces(T.peces(save.puntos))]);
       if(alive()) closeModal(); return;
     }
     tries++; btn.classList.add('wrong'); sfx.oops(); btn.disabled=true;
@@ -1529,7 +1642,7 @@ async function runGate(){
   } else if(F.anim==='saludo'){
     const S={n:0, texto:'', fin:0}, amigos=CAP.orden.map(k=>CAP.estaciones[k].npc);
     live(card.querySelector('[data-fly]'),(c,w,h,t)=>drawSaludo(c,w,h,t,conf,F,S,amigos));
-    for(let i=0;i<amigos.length;i++){ S.n=i+1; S.texto=(F.palabras||[])[i]||''; tone(520+i*80,.12,'triangle',.1); await sayAll([S.texto]); if(!alive()) return; await sleep(350); if(!alive()) return; }
+    for(let i=0;i<amigos.length;i++){ S.n=i+1; S.texto=(F.palabras||[])[i]||''; tone(520+i*80,.12,'triangle',.1); await sayAll([{t:S.texto, id:`${CAP.key}:final:palabra:${i}`}]); if(!alive()) return; await sleep(350); if(!alive()) return; }
     S.fin=performance.now()/1000; sfx.yay();
   } else if(F.anim==='desfile'){
     const S={n:0, texto:'', fin:0};
@@ -1860,17 +1973,93 @@ function repasoPool(){
 async function goRepaso(){
   hush(); const tok=++flowTok; busy=true;
   openModal(`${X_BTN}<h3 class="stitle">${esc(T.repasar)}</h3>
-    <div class="center"><div class="hero-item small">${img('caballito')}</div></div>
-    <div class="actions repaso-ops">${B('pal','book',T.repasoPalabras,'go')}${B('fra','talk',T.repasoFrases,'go')}</div>`);
+    <div class="center"><div class="hero-item small">${img('galletita')}</div></div>
+    <div class="actions repaso-ops">${B('merienda','cookie',T.repasoMerienda,'go star')}${B('pal','book',T.repasoPalabras,'go')}${B('fra','talk',T.repasoFrases,'go')}</div>`);
   narrar(()=>sayAll([T.repasoDi]));
-  const {act}=await waitAct(['pal','fra']); if(tok!==flowTok) return;
-  act==='pal' ? runRepasoPalabras() : runRepasoFrases();
+  const {act}=await waitAct(['merienda','pal','fra']); if(tok!==flowTok) return;
+  if(act==='merienda') runRepasoMerienda();
+  else if(act==='pal') runRepasoPalabras();
+  else runRepasoFrases();
 }
 async function sinRepaso(){ const tok=flowTok; await sayAll([T.repasoVacio]); if(tok===flowTok) closeModal(); }
+async function runRepasoMerienda(){
+  const {pal, fra} = repasoPool();
+  if(!pal.length && !fra.length) return sinRepaso();
+  const tok = ++flowTok, alive = () => tok === flowTok; busy = true;
+  const C = save.cuenta || (save.cuenta = {});
+  const RONDAS = 5;
+
+  for(let r = 0; r < RONDAS; r++){
+    const tocaFrase = (fra.length && (!pal.length || r % 2 === 1));
+    if(tocaFrase){
+      const minFra = Math.min(...fra.map(f => C[f.id] || 0));
+      const candFra = fra.filter(f => (C[f.id] || 0) === minFra);
+      const f = candFra[Math.floor(Math.random() * candFra.length)];
+
+      openModal(shell({steps:RONDAS, step:r,
+        center:`<div class="stack"><div class="center"><div class="hero-item small">${img(f.arte)}</div><span class="tally">${ICON.check}${C[f.id]||0}</span></div>${chipsPhrase(f)}${turnHtml()}</div>`,
+        actions:B('again','replay',T.otraVez)+B('star','star',T.loDije,'star go')}));
+      liveMe();
+      onAct('again',()=>narrar(()=>construirFrase(f,[])));
+      narrar(()=>construirFrase(f, r===0 ? [T.repasoMeriendaDi] : []));
+      await starPress(); if(!alive()) return;
+
+      C[f.id] = (C[f.id] || 0) + 1;
+      save.puntos = (save.puntos || 0) + 1;
+      persist(); updateNames(); sfx.yay();
+      setWait(true);
+      await sayAll([praise(), T.unPececito]);
+      if(!alive()) return;
+    } else {
+      const minPal = Math.min(...pal.map(w => C[w.id] || 0));
+      const candPal = pal.filter(w => (C[w.id] || 0) === minPal);
+      const w = candPal[Math.floor(Math.random() * candPal.length)];
+      const otros = shuffle(pal.filter(x => x.arte !== w.arte)).slice(0, 2);
+      const ops = shuffle([{w, ok:true}, ...otros.map(o => ({w:o, ok:false}))]);
+      const pregunta = T.cualEs(w.texto);
+
+      openModal(shell({steps:RONDAS, step:r,
+        center:`<div class="scene"><div class="fishpic">${img('galletita')}</div><div class="bubble"${enAttr(enDe(w.texto)&&enT('cualEs',enDe(w.texto)))}><b>${esc(pregunta)}</b></div></div>`,
+        actions:B('again','speaker',T.otraVez)}).replace('<div class="actions">', `<div class="center">${ops.map((o,i)=>`<button class="choice" data-act="pick" data-i="${i}">${img(o.w.arte)}</button>`).join('')}</div><div class="actions">`));
+
+      onAct('again',()=>narrar(()=>sayAll([pregunta])));
+      narrar(()=>sayAll(r===0 ? [T.repasoMeriendaDi, pregunta] : [pregunta]));
+
+      for(;;){
+        const {btn} = await waitAct('pick'); if(!alive()) return;
+        const o = ops[+btn.dataset.i];
+        if(o.ok){
+          btn.classList.add('right'); sfx.yay(); setWait(true);
+          C[w.id] = (C[w.id] || 0) + 1;
+          save.puntos = (save.puntos || 0) + 1;
+          persist(); updateNames();
+          await sayAll([praise(), {t:w.texto, id:w.id}, T.unPececito]);
+          if(!alive()) return;
+          break;
+        }
+        btn.classList.add('wrong'); btn.disabled = true; sfx.oops();
+        narrar(()=>sayAll([{t:o.w.texto, id:o.w.id}, pregunta])).then(()=>{ btn.disabled=true; });
+      }
+    }
+  }
+
+  save.galletitas = (save.galletitas || 0) + 1;
+  persist(); updateNames();
+  premioGalletita(runRepasoMerienda);
+}
+async function premioGalletita(otra){
+  const tok = ++flowTok; busy = true;
+  openModal(`${X_BTN}<div class="center"><div class="premio">${img('galletita')}</div></div>
+    <div class="actions">${B('again','replay',T.otraVez,'soft')}${B('home','home',T.inicio,'go')}</div>`);
+  sfx.stamp(); setTimeout(()=>sfx.yay(), 300);
+  narrar(()=>sayAll([T.ganasteGalletita, T.animalesGalletita, T.valeTres]));
+  const {act} = await waitAct(['again','home']); if(tok !== flowTok) return;
+  if(act === 'again') otra(); else closeModal();
+}
 async function runRepasoPalabras(){
   const {pal}=repasoPool();
   if(pal.length<3) return sinRepaso();
-  const tok=++flowTok, alive=()=>tok===flowTok, RONDAS=6, orden=shuffle(pal); busy=true;
+  const tok=++flowTok, alive=()=>tok===flowTok, RONDAS=6, orden=shuffle(pal), C=save.cuenta||(save.cuenta={}); busy=true;
   for(let r=0;r<RONDAS;r++){
     const w=orden[r%orden.length], otros=shuffle(pal.filter(x=>x.arte!==w.arte)).slice(0,2);
     const ops=shuffle([{w,ok:true}, ...otros.map(o=>({w:o,ok:false}))]);
@@ -1882,7 +2071,7 @@ async function runRepasoPalabras(){
     for(;;){
       const {btn}=await waitAct('pick'); if(!alive()) return;
       const o=ops[+btn.dataset.i];
-      if(o.ok){ btn.classList.add('right'); sfx.yay(); setWait(true); await sayAll([praise(), {t:w.texto, id:w.id}]); if(!alive()) return; break; }
+      if(o.ok){ btn.classList.add('right'); sfx.yay(); setWait(true); C[w.id]=(C[w.id]||0)+1; await sayAll([praise(), {t:w.texto, id:w.id}]); if(!alive()) return; break; }
       btn.classList.add('wrong'); btn.disabled=true; sfx.oops();
       narrar(()=>sayAll([{t:o.w.texto, id:o.w.id}, pregunta])).then(()=>{ btn.disabled=true; });
     }
@@ -1935,8 +2124,8 @@ function recRows(){
 }
 function recRowHtml(r){
   if(r.group) return `<tr><td class="grp" colspan="3">${esc(r.group)}</td></tr>`;
-  const mine=clips.mia(r.id), shared=!mine && clips.global.has(r.id);
-  const pill = mine ? (NUBE.usuario&&NUBE.usuario.admin&&clips.global.has(r.id) ? 'Tu voz · para todos' : 'Tu voz') : shared ? 'Voz compartida' : 'Voz de la compu';
+  const mine=clips.mia(r.id), shared=!mine && clips.global.has(r.id), st=!!staticAudioUrl(r.id);
+  const pill = mine ? (NUBE.usuario&&NUBE.usuario.admin&&clips.global.has(r.id) ? 'Tu voz · para todos' : 'Tu voz') : shared ? 'Voz compartida' : st ? 'Voz Google' : 'Voz de la compu';
   return `<tr data-id="${esc(r.id)}" class="${r.silaba?'syl':''}"><td>${r.silaba?`<span class="sylmark">sílaba</span> `:''}<b>${esc(r.texto)}</b></td><td><span class="pill ${mine||shared?'mine':''}">${pill}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
 }
 function armConfirm(btn, fn){ btn.addEventListener('click',()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; fn(); return; } btn.dataset.armed='1'; const old=btn.textContent; btn.textContent='Tocá otra vez para confirmar'; setTimeout(()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent=old; } },3500); }); }
@@ -2420,11 +2609,25 @@ $('#meBtn').addEventListener('click',goPicker);
 $('#homeBtn').addEventListener('click',()=>{ if(!modal.hidden) return; if(CAP) savePos(); goHome(); });
 $('#ppBtn').addEventListener('click',()=>{ if(modal.hidden) runPassport(); });
 $('#libBack').addEventListener('click',goHome);
-$('#btnCuentos').addEventListener('click',()=>goLib('cuentos'));
-$('#btnPracticar').addEventListener('click',()=>goLib('practicar'));
-$('#btnTienda').addEventListener('click',goShop);
-$('#btnJuegos').addEventListener('click',goJuegos);
-$('#btnRepaso').addEventListener('click',goRepaso);
+function closeSidebar(){
+  $('#homeSidebar')?.classList.remove('open');
+  $('#sidebarBackdrop')?.classList.remove('open');
+}
+function openSidebar(){
+  $('#homeSidebar')?.classList.add('open');
+  $('#sidebarBackdrop')?.classList.add('open');
+}
+$('#burgerBtn')?.addEventListener('click',()=>{
+  if($('#homeSidebar')?.classList.contains('open')) closeSidebar();
+  else openSidebar();
+});
+$('#sidebarClose')?.addEventListener('click',closeSidebar);
+$('#sidebarBackdrop')?.addEventListener('click',closeSidebar);
+$('#btnCuentos').addEventListener('click',()=>{ closeSidebar(); goLib('cuentos'); });
+$('#btnPracticar').addEventListener('click',()=>{ closeSidebar(); goLib('practicar'); });
+$('#btnTienda').addEventListener('click',()=>{ closeSidebar(); goShop(); });
+$('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
+$('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
 holdify($('#gearHome'),1500,openParent);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
 ['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));

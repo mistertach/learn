@@ -52,6 +52,12 @@ capitulos/<place>/
 ## Adding things
 
 - **A new place (week):** create `capitulos/<id>/base.js` plus one text file per language (including `en.js`), following `capitulos/aeropuerto/`. Then add the id to `CAPITULOS` in `capitulos.js`.
+- **Generating audio (Google Chirp 3 HD Leda):**
+  - `npm run audios -- --cuota` : shows total audio files and monthly Google Cloud free tier usage.
+  - `npm run audios -- --cap=<id> --ver` : dry run preview (lists all phrases and character counts without calling the API).
+  - `npm run audios -- --cap=<id>` : generates all static MP3s for that chapter across all languages and updates the manifest.
+  - `npm run audios -- --cap=<id> --solo=es` : generates for a specific language only.
+  - `npm run audios -- --prompts` : generates or updates common narrator prompts (repetition, praises, instructions).
 - **A new language:** create `idiomas/<code>.js` (copy `idiomas/fr.js`), add a `<code>.js` text file to every place, then add the code to `IDIOMAS`. Arabic (`ar`) shows how a language in another script works: each string is `"latin|arabic"` (see CLAUDE.md).
 - **A new shop item:** add it to `tienda.js` and add its name to the `ropa` block of every `idiomas/*.js`.
 

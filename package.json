@@ -4,7 +4,8 @@
   "description": "Juego para aprender idiomas. El juego es estático; api/ son las funciones de Vercel (cuentas, progreso, grabaciones).",
   "scripts": {
     "dev": "node scripts/dev.js",
-    "check": "node scripts/check.js"
+    "check": "node scripts/check.js",
+    "audios": "node scripts/audios.js"
   },
   "engines": { "node": ">=20" },
   "dependencies": {

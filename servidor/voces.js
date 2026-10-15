@@ -40,9 +40,11 @@ const SERVICIOS = {
     },
     vozPorDefecto: lang => clave('GOOGLE_VOZ_'+lang.toUpperCase()) || `${GOOGLE_LOCAL[lang]}-Chirp3-HD-Aoede`,
     async generar(texto, lang, voz){
+      const esSSML = typeof texto === 'string' && texto.trim().startsWith('<speak>');
+      const input = esSSML ? {ssml:texto} : {text:texto};
       const r = await ok(await fetch(`${GOOGLE}/text:synthesize?key=${encodeURIComponent(clave('GOOGLE_TTS_API_KEY'))}`, {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({input:{text:texto}, voice:{languageCode:GOOGLE_LOCAL[lang], name:voz}, audioConfig:{audioEncoding:'MP3'}})
+        body:JSON.stringify({input, voice:{languageCode:GOOGLE_LOCAL[lang], name:voz}, audioConfig:{audioEncoding:'MP3'}})
       }));
       return Buffer.from((await r.json()).audioContent, 'base64');
     }
