@@ -24,7 +24,7 @@ registrarIdioma({
     quien: 'minu inta?|منو انت؟', quienSub: 'ikhtar sadeeq|اختار صديق', quienDi: 'minu inta? ikhtar sadeeq!|منو انت؟ اختار صديق!',
     holaX: n => U('marhaba, |مرحبا، ', n, '!|!'), holaSub: 'wain nrooh al-yom?|وين نروح اليوم؟', holaDi: n => U('marhaba, |مرحبا، ', n, '! wain nrooh?|! وين نروح؟'),
     semana: 'usboo\'|أسبوع', pronto: 'garreeb!|قريب!', prontoDi: 'garreeb! hal makan yinfitih al-usboo\' al-yay.|قريب! هالمكان ينفتح الأسبوع الياي.',
-    cuentos: 'al-gisas|القصص', practicar: 'yalla nitmarran!|يلا نتمرن!', tienda: 'ad-dukkan|الدكان',
+    cuentos: 'al-gisas|القصص', practicar: 'al-kalimat wal-jumal|الكلمات والجمل', tienda: 'ad-dukkan|الدكان',
     cuentosDi: 'al-gisas. ay gissa nigra?|القصص. أي قصة نقرا؟', practicarDi: 'yalla nitmarran! ikhtar kilma aw jumla.|يلا نتمرن! اختار كلمة أو جملة.',
     palabras: 'kalimat|كلمات', frases: 'jumal|جمل',
     cerrado: 'hal gissa maskoora.|هالقصة مسكّرة.', abrirCuento: w => U('ita\'s tiftah hal gissa, khudh khitm |عشان تفتح هالقصة، خذ ختم ', w, '.|.'),

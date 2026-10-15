@@ -104,7 +104,13 @@ const PRONUNCIACION_SILABAS = {
     'al': '¡al!',
     'un': '¡un!',
     'de': '¡de!',
-    'en': '¡en!'
+    'en': '¡en!',
+    'ca': '¡ka!',
+    'ha': '¡a!',
+    'he': '¡e!',
+    'hi': '¡i!',
+    'ho': '¡o!',
+    'hu': '¡u!'
   },
   en: {
     'a': '<speak><prosody rate="85%">ah</prosody></speak>',
@@ -268,7 +274,8 @@ function extraerPrompts(capId, lang, datos) {
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
     'ganasteCaballito', 'valeDos',
-    'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres'
+    'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres',
+    'pez', 'pezQ', 'nam', 'escapo', 'cuantos'
   ];
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
@@ -281,21 +288,66 @@ function extraerPrompts(capId, lang, datos) {
     }
   }
 
-  if (tCap) {
-    for (const stKey of orden) {
-      const w = tCap.estaciones && tCap.estaciones[stKey]?.palabra?.texto;
+  // Colores (pregunta y respuesta para juego de pez)
+  if (T.colores) {
+    for (const [ck, cn] of Object.entries(T.colores)) {
+      if (T.color) add(`color-${ck}`, T.color(cn));
+      if (T.si) add(`si-color-${ck}`, T.si(cn));
+    }
+  }
+
+  // Números (1 a 6)
+  if (T.numeros && T.si) {
+    for (let i = 1; i < (T.numeros || []).length; i++) {
+      add(`si-num-${i}`, T.si(T.numeros[i]));
+    }
+  }
+
+  // Puntos / conteo de peces
+  if (T.tenesPeces && T.peces) {
+    for (let n = 1; n <= 10; n++) {
+      add(`peces-${n}`, T.tenesPeces(T.peces(n)));
+      add(`pecesCount-${n}`, T.peces(n));
+    }
+  }
+
+  // Palabras y preguntas de TODOS los capítulos para el juego del pez y repaso
+  const allCaps = obtenerCapitulosDisponibles();
+  for (const cid of allCaps) {
+    const cDatos = cargarCapitulo(cid);
+    const tc = cDatos.textos && cDatos.textos[lang];
+    if (!tc) continue;
+
+    for (const stKey of (cDatos.base?.orden || [])) {
+      const w = tc.estaciones && tc.estaciones[stKey]?.palabra?.texto;
       if (w) {
-        if (T.mira) add(`mira-${stKey}`, T.mira(w));
-        if (T.donde) add(`donde-${stKey}`, T.donde(w));
-        if (T.ups) add(`ups-${stKey}`, T.ups(w));
+        if (T.mira) add(`mira-${cid}-${stKey}`, T.mira(w));
+        if (T.donde) add(`donde-${cid}-${stKey}`, T.donde(w));
+        if (T.ups) add(`ups-${cid}-${stKey}`, T.ups(w));
+        if (T.cualEs) add(`cualEs-${cid}-${stKey}`, T.cualEs(w));
+        if (T.si) add(`si-${cid}-${stKey}`, T.si(w));
       }
     }
-    if (tCap.lugar?.texto && T.mira) add('mira-lugar', T.mira(tCap.lugar.texto));
+    if (tc.lugar?.texto && T.mira) add(`mira-lugar-${cid}`, T.mira(tc.lugar.texto));
+    if (tc.lugar?.texto && T.cualEs) add(`cualEs-lugar-${cid}`, T.cualEs(tc.lugar.texto));
+    if (tc.lugar?.texto && T.si) add(`si-lugar-${cid}`, T.si(tc.lugar.texto));
 
-    for (const n of (tCap.niveles || [])) {
-      if (T.piso) add(`piso-${n.numTexto}`, T.piso(n.numTexto, n.nombre));
+    for (const px of (tc.palabrasExtra || [])) {
+      if (px.texto) {
+        if (T.cualEs) add(`cualEs-px-${slugify(px.texto)}`, T.cualEs(px.texto));
+        if (T.si) add(`si-px-${slugify(px.texto)}`, T.si(px.texto));
+      }
     }
-    if (tCap.final?.todos) add('final-todos', tCap.final.todos);
+
+    for (const q of (tc.preguntas || [])) {
+      if (q.p) add(`pregunta-p-${slugify(q.p)}`, q.p);
+      if (q.r) add(`pregunta-r-${slugify(q.r)}`, q.r);
+    }
+
+    for (const n of (tc.niveles || [])) {
+      if (T.piso) add(`piso-${cid}-${n.numTexto}`, T.piso(n.numTexto, n.nombre));
+    }
+    if (tc.final?.todos) add(`final-todos-${cid}`, tc.final.todos);
   }
 
   return lista;
@@ -553,6 +605,7 @@ window.STATIC_PROMPTS = ${JSON.stringify(staticPrompts, null, 2)};
         console.log(`\nGenerando prompts [${lang}] con ${vozLeda}...`);
         let nuevos = 0, yaEstaban = 0, errores = 0;
 
+        const pendientes = [];
         for (const it of promptsPorIdioma[lang]) {
           const dest = path.join(targetDir, it.archivo);
           const relPath = `audio/${lang}/prompts/${it.archivo}`;
@@ -569,23 +622,65 @@ window.STATIC_PROMPTS = ${JSON.stringify(staticPrompts, null, 2)};
             yaEstaban++;
             continue;
           }
-
-          try {
-            const audioBuf = await S.generar(it.textoHablado, lang, vozLeda);
-            fs.writeFileSync(dest, audioBuf);
-            nuevos++;
-            process.stdout.write('.');
-          } catch (e) {
-            errores++;
-            console.error(`\nError en prompt ${it.slugPrefix} («${it.textoHablado}»):`, e.message);
-            if (errores > 5) break;
-          }
-          await new Promise(r => setTimeout(r, 60));
+          pendientes.push({ it, dest });
         }
-        console.log(`\nListo prompts [${lang}]: ${nuevos} generados, ${yaEstaban} ya existían.`);
-      }
 
-      sincronizarPrompts(nuevosPrompts);
+        const CONCURRENCY = 2;
+        let pIdx = 0;
+        const workers = Array.from({ length: Math.min(CONCURRENCY, pendientes.length || 1) }, async () => {
+          while (pIdx < pendientes.length && errores < 12) {
+            const { it, dest } = pendientes[pIdx++];
+            let intentos = 0;
+            while (intentos < 5) {
+              try {
+                const audioBuf = await S.generar(it.textoHablado, lang, vozLeda);
+                fs.writeFileSync(dest, audioBuf);
+                nuevos++;
+                process.stdout.write('.');
+                break;
+              } catch (e) {
+                intentos++;
+                const is429 = /429|RESOURCE_EXHAUSTED/i.test(e.message);
+                if (is429) {
+                  process.stdout.write('[429:espera]');
+                  await new Promise(r => setTimeout(r, 9000 + intentos * 2000));
+                } else if (intentos >= 4) {
+                  errores++;
+                  console.error(`\nError en prompt ${it.slugPrefix} («${it.textoHablado}»):`, e.message);
+                  break;
+                } else {
+                  await new Promise(r => setTimeout(r, 1000 * intentos));
+                }
+              }
+            }
+            await new Promise(r => setTimeout(r, 220));
+          }
+        });
+        await Promise.all(workers);
+        console.log(`\nListo prompts [${lang}]: ${nuevos} generados, ${yaEstaban} ya existían.`);
+        sincronizarPrompts({ [lang]: nuevosPrompts[lang] });
+      }
+    } else {
+      // Si estamos en modo sync o ver, registrar los que ya existen en disco
+      for (const lang of IDIOMAS) {
+        const targetDir = path.join(AUDIO_DIR, lang, 'prompts');
+        if (!fs.existsSync(targetDir)) continue;
+        nuevosPrompts[lang] = {};
+        for (const it of promptsPorIdioma[lang]) {
+          const dest = path.join(targetDir, it.archivo);
+          if (fs.existsSync(dest)) {
+            const relPath = `audio/${lang}/prompts/${it.archivo}`;
+            nuevosPrompts[lang][normKey(it.rawText)] = relPath;
+            if (it.rawText.includes('|')) {
+              const [lat, arab] = it.rawText.split('|');
+              nuevosPrompts[lang][normKey(lat)] = relPath;
+              nuevosPrompts[lang][normKey(arab)] = relPath;
+            }
+            nuevosPrompts[lang][normKey(it.textoHablado)] = relPath;
+          }
+        }
+        sincronizarPrompts({ [lang]: nuevosPrompts[lang] });
+      }
     }
   }
 

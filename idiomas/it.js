@@ -13,7 +13,7 @@ registrarIdioma({
     quien: 'Chi sei?', quienSub: 'Scegli un amico', quienDi: 'Chi sei? Scegli un amico!',
     holaX: n => `Ciao, ${n}!`, holaSub: 'Dove andiamo oggi?', holaDi: n => `Ciao, ${n}! Dove andiamo?`,
     semana: 'Settimana', pronto: 'Presto!', prontoDi: 'Presto! Questo posto apre la settimana prossima.',
-    cuentos: 'Le storie', practicar: 'Ci alleniamo!', tienda: 'Il negozio',
+    cuentos: 'Le storie', practicar: 'Parole e frasi', tienda: 'Il negozio',
     cuentosDi: 'Le storie. Quale leggiamo?', practicarDi: 'Ci alleniamo! Scegli una parola o una frase.',
     palabras: 'Parole', frases: 'Frasi',
     cerrado: 'Questa storia è chiusa.', abrirCuento: w => `Per aprire questa storia, prendi questo timbro: ${w}.`,

@@ -15,8 +15,8 @@ registrarIdioma({
     quien: '¿Quién sos?', quienSub: 'Elegí un amigo', quienDi: '¿Quién sos? ¡Elegí un amigo!',
     holaX: n => `¡Hola, ${n}!`, holaSub: '¿A dónde vamos hoy?', holaDi: n => `¡Hola, ${n}! ¿A dónde vamos?`,
     semana: 'Semana', pronto: '¡Pronto!', prontoDi: '¡Pronto! Este lugar se abre la semana que viene.',
-    cuentos: 'Los cuentos', practicar: '¡A practicar!', tienda: 'La tienda',
-    cuentosDi: 'Los cuentos. ¿Cuál leemos?', practicarDi: '¡A practicar! Elegí una palabra o una frase.',
+    cuentos: 'Los cuentos', practicar: 'Palabras y frases', tienda: 'La tienda',
+    cuentosDi: 'Los cuentos. ¿Cuál leemos?', practicarDi: 'Palabras y frases. Elegí qué querés practicar.',
     palabras: 'Palabras', frases: 'Frases',
     cerrado: 'Este cuento está cerrado.', abrirCuento: w => `Para abrir este cuento, conseguí el sello de ${w}.`,
     piso: (n, nombre) => `Piso ${n}. ${nombre}.`,
@@ -55,6 +55,7 @@ registrarIdioma({
     queda: '¡Te queda bárbaro!', comprar: 'Comprar', ponerme: 'Ponerme', sacarme: 'Sacarme',
     ropa: {remera_roja:'la remera roja', remera_rayas:'la remera a rayas', remera_estrella:'la remera con estrella', camiseta:'la camiseta de fútbol',
            short:'el short', pantalon:'el pantalón', gorra:'la gorra', gorro:'el gorro de lana', corona:'la corona',
-           anteojos:'los anteojos de sol', mono:'el moño', bufanda:'la bufanda', capa:'la capa'}
+           anteojos:'los anteojos de sol', mono:'el moño', bufanda:'la bufanda', capa:'la capa',
+           gadget_agua:'la pistola de agua', gadget_musica:'la radio musical', gadget_burbujas:'las pompas mágicas', gadget_estrellas:'la varita de estrellas', gadget_fiesta:'el lanzador de fiesta'}
   }
 });

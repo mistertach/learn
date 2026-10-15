@@ -15,8 +15,8 @@ registrarIdioma({
     quien: 'Who are you?', quienSub: 'Pick a friend', quienDi: 'Who are you? Pick a friend!',
     holaX: n => `Hello, ${n}!`, holaSub: 'Where are we going today?', holaDi: n => `Hello, ${n}! Where are we going?`,
     semana: 'Week', pronto: 'Soon!', prontoDi: 'Soon! This place opens next week.',
-    cuentos: 'Stories', practicar: "Let's practice!", tienda: 'The shop',
-    cuentosDi: 'The stories. Which one shall we read?', practicarDi: "Let's practice! Pick a word or a phrase.",
+    cuentos: 'Stories', practicar: 'Words and phrases', tienda: 'The shop',
+    cuentosDi: 'The stories. Which one shall we read?', practicarDi: 'Words and phrases. Pick what you want to practice.',
     palabras: 'Words', frases: 'Phrases',
     cerrado: 'This story is closed.', abrirCuento: w => `To open this story, get the stamp for ${w}.`,
     piso: (n, nombre) => `Floor ${n}. ${nombre}.`,
@@ -55,6 +55,7 @@ registrarIdioma({
     queda: 'It looks great on you!', comprar: 'Buy', ponerme: 'Put on', sacarme: 'Take off',
     ropa: {remera_roja:'the red T-shirt', remera_rayas:'the striped T-shirt', remera_estrella:'the star T-shirt', camiseta:'the soccer shirt',
            short:'the shorts', pantalon:'the pants', gorra:'the cap', gorro:'the wool hat', corona:'the crown',
-           anteojos:'the sunglasses', mono:'the bow tie', bufanda:'the scarf', capa:'the cape'}
+           anteojos:'the sunglasses', mono:'the bow tie', bufanda:'the scarf', capa:'the cape',
+           gadget_agua:'the water blaster', gadget_musica:'the musical radio', gadget_burbujas:'the bubble wand', gadget_estrellas:'the star wand', gadget_fiesta:'the party popper'}
   }
 });
