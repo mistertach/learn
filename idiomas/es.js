@@ -48,7 +48,7 @@ registrarIdioma({
     colores: {rojo:'rojo', azul:'azul', amarillo:'amarillo', verde:'verde', violeta:'violeta', naranja:'naranja', rosa:'rosa', negro:'negro', blanco:'blanco'},
     numeros: ['cero','uno','dos','tres','cuatro','cinco','seis'],
     elogios: ['Muy bien','Genial','Bárbaro','Excelente','Qué bien'], elogio: (x, n) => n ? `¡${x}, ${n}!` : `¡${x}!`,
-    animales: {cat:{f:'la gata', m:'el gato'}, dog:{m:'el perro'}, bunny:{m:'el conejo'}, bear:{m:'el oso'}},
+    animales: {cat:{f:'la gata', m:'el gato'}, dog:{m:'el perro'}, bunny:{m:'el conejo'}, tiger:{m:'el tigre'}, lion:{m:'el león'}, giraffe:{f:'la jirafa', m:'la jirafa'}},
     objetos: {'#':'la pared', b:'el banco', p:'la planta', '~':'la puerta'},
     // tienda
     tiendaHola: '¡Hola! Esta es la tienda. ¿Qué querés comprar?', quiero: i => `Quiero ${i}, por favor.`,

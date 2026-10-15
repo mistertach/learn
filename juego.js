@@ -67,13 +67,37 @@ document.querySelectorAll('[data-ico]').forEach(el=>{ el.outerHTML = ICON[el.dat
 
 /* ---------- personajes ---------- */
 const CHARACTERS = [
-  {id:'luna',  name:'Luna',  kind:'cat',   g:'f', fur:'#8E95A8', fur2:'#F3F1F7', seed:.3},
-  {id:'tigre', name:'Tigre', kind:'cat',   g:'m', fur:'#F2994A', fur2:'#FFE9CF', stripes:'#C9712C', seed:1.1},
-  {id:'mishi', name:'Mishi', kind:'cat',   g:'f', fur:'#3B3B4A', fur2:'#EDEBF2', eye:'#F5D547', seed:2.2},
-  {id:'toby',  name:'Toby',  kind:'dog',   g:'m', fur:'#C08552', fur2:'#F5E1C8', ear:'#7A4B2A', seed:.7},
-  {id:'coco',  name:'Coco',  kind:'bunny', g:'m', fur:'#F2EDE8', fur2:'#FFFFFF', inner:'#FFB3C7', seed:1.6},
-  {id:'pipo',  name:'Pipo',  kind:'bear',  g:'m', fur:'#8B5E3C', fur2:'#DDBA94', seed:2.8}
+  // 3 desbloqueados por defecto (gratuitos)
+  {id:'luna',   name:'Luna',  kind:'cat',     g:'f', fur:'#8E95A8', fur2:'#F3F1F7', seed:.3, precio:0},
+  {id:'toby',   name:'Toby',  kind:'dog',     g:'m', fur:'#C08552', fur2:'#F5E1C8', ear:'#7A4B2A', seed:.7, precio:0},
+  {id:'coco',   name:'Coco',  kind:'bunny',   g:'m', fur:'#F2EDE8', fur2:'#FFFFFF', inner:'#FFB3C7', seed:1.6, precio:0},
+
+  // 3 animales premium desbloqueables con pececitos
+  {id:'tigre',  name:'Tigre', kind:'tiger',   g:'m', fur:'#FF7A1A', fur2:'#FFF6ED', stripes:'#1E2436', seed:1.1, precio:15},
+  {id:'leon',   name:'Leo',   kind:'lion',    g:'m', fur:'#F7B044', fur2:'#FFF4D9', mane:'#A34400', ear:'#D9822B', seed:2.4, precio:20},
+  {id:'jirafa', name:'Rafa',  kind:'giraffe', g:'f', fur:'#FFCE54', fur2:'#FFF9E6', spots:'#9E5014', seed:3.1, precio:25}
 ];
+
+const charDisplayName = ch => {
+  if(!ch) return '';
+  const lang = typeof langCode === 'function' ? langCode() : 'es';
+  if(lang === 'en'){
+    if(ch.id === 'tigre') return 'Tiger';
+    if(ch.id === 'jirafa') return 'Raffi';
+  }
+  if(lang === 'fr'){
+    if(ch.id === 'leon') return 'Léo';
+  }
+  if(lang === 'it'){
+    if(ch.id === 'jirafa') return 'Raffa';
+  }
+  if(lang === 'ar'){
+    if(ch.id === 'tigre') return 'an-nimr|النمر';
+    if(ch.id === 'leon') return 'layth|ليث';
+    if(ch.id === 'jirafa') return 'zarafa|زرافة';
+  }
+  return ch.name;
+};
 const animalName = ch => { const a=T.animales[ch.kind]||{}; return a[ch.g]||a.m||''; };
 
 /* ---------- idiomas ---------- */
@@ -276,16 +300,16 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, armario:{tiene:{}, puesto:{}}, juegos:{}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, personajes:{luna:true, toby:true, coco:true}, armario:{tiene:{}, puesto:{}}, juegos:{}});
 function loadSave(){
-  try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
+  try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {personajes:Object.assign({luna:true, toby:true, coco:true}, s.personajes||{}), armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
   try{ const o=JSON.parse(localStorage.getItem('aventuras-nico.v2')); if(o && typeof o==='object'){
     const s=defaultSave(); s.name=o.name||''; s.charId=o.charId||null; s.grownup=!!o.grownup; s.pausa=o.pausa||1; s.puntos=o.puntos||0; s.lang='es';
     if(o.voice) s.voces.es=o.voice; for(const k in (o.caps||{})) s.caps['es:'+k]=o.caps[k]; return s; } }catch(e){}
   return defaultSave();
 }
-function mezclarSave(d){ const s=defaultSave(); return Object.assign(s, d||{}, {armario:Object.assign(s.armario, (d&&d.armario)||{})}); }
+function mezclarSave(d){ const s=defaultSave(); return Object.assign(s, d||{}, {personajes:Object.assign({luna:true, toby:true, coco:true}, (d&&d.personajes)||{}), armario:Object.assign(s.armario, (d&&d.armario)||{})}); }
 /* con cuenta, cada chico tiene su copia local (por si se corta internet) y la del servidor */
 const storeKey = () => NUBE.alumno ? `${STORE_KEY}:alumno:${NUBE.alumno.id}` : STORE_KEY;
 function persist(){
@@ -494,6 +518,9 @@ function drawAnimal(c,a,x,y,s,o={}){
   c.save(); c.translate(x,y-bob-(o.lift||0)-salto); if(ac==='bailar') c.rotate(Math.sin(t*6)*.16); c.scale(f*sx,sy);
   const fur=a.fur, fur2=a.fur2||'#fff';
   if(a.kind==='cat'){ c.strokeStyle=fur; c.lineWidth=s*.085; c.lineCap='round'; const w=Math.sin(t*3)*s*.05; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.42,-s*.14,-s*.40+w,-s*.42,-s*.30+w,-s*.52); c.stroke(); }
+  if(a.kind==='tiger'){ c.strokeStyle=fur; c.lineWidth=s*.085; c.lineCap='round'; const w=Math.sin(t*3)*s*.05; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.42,-s*.14,-s*.40+w,-s*.42,-s*.30+w,-s*.52); c.stroke(); ell(c,-s*.29+w,-s*.51,s*.035,s*.035,'#1E2436'); }
+  if(a.kind==='lion'){ c.strokeStyle=fur; c.lineWidth=s*.08; c.lineCap='round'; const w=Math.sin(t*2.8)*s*.04; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.4,-s*.14,-s*.38+w,-s*.4,-s*.28+w,-s*.48); c.stroke(); ell(c,-s*.27+w,-s*.48,s*.055,s*.055,a.mane||'#A34400'); }
+  if(a.kind==='giraffe'){ c.strokeStyle=fur; c.lineWidth=s*.055; c.lineCap='round'; const w=Math.sin(t*2.5)*s*.03; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.32,-s*.14,-s*.34+w,-s*.35,-s*.28+w,-s*.44); c.stroke(); ell(c,-s*.27+w,-s*.44,s*.04,s*.06,a.spots||'#9E5014',-.3); }
   if(a.kind==='dog'){ c.strokeStyle=fur; c.lineWidth=s*.07; c.lineCap='round'; c.beginPath(); c.moveTo(-s*.16,-s*.22); c.lineTo(-s*.32,-s*.36+Math.sin(t*10)*s*.04); c.stroke(); }
   if(a.kind==='bunny') ell(c,-s*.2,-s*.2,s*.07,s*.07,fur2);
   if(a.kind==='bear') ell(c,-s*.19,-s*.2,s*.05,s*.05,fur);
@@ -504,6 +531,19 @@ function drawAnimal(c,a,x,y,s,o={}){
   ell(c,-s*.09+st,-s*.03,s*.08,s*.05,fur2); ell(c,s*.10-st,-s*.03,s*.08,s*.05,fur2);
   ell(c,0,-s*.22,s*.2,s*.2,fur);
   ell(c,s*.03,-s*.19,s*.12,s*.14,fur2);
+  if(a.kind==='tiger'){
+    c.strokeStyle=a.stripes||'#1E2436'; c.lineWidth=s*.022; c.lineCap='round';
+    for(const [sx,sy] of [[-.15,-.24], [-.12,-.16], [-.14,-.3]]){
+      c.beginPath(); c.moveTo(sx*s,sy*s); c.lineTo((sx+.06)*s,sy*s); c.stroke();
+    }
+  }
+  if(a.kind==='giraffe'){
+    const sp = a.spots||'#9E5014';
+    ell(c,-s*.1,-s*.26,s*.035,s*.025,sp,.3);
+    ell(c,-s*.08,-s*.16,s*.03,s*.028,sp,-.2);
+    ell(c,-s*.02,-s*.31,s*.03,s*.022,sp,.4);
+    ell(c,-s*.01,-s*.14,s*.025,s*.03,sp);
+  }
   if(R.piernas) drawPiernas(c,R.piernas,s,st);
   if(R.torso) drawTorso(c,R.torso,s);
   if(ac==='arriba'||ac==='saltar'||ac==='bailar'){ for(const sd of [1,-1]){ const ang=-.8+Math.sin(t*8+sd)*.18; c.save(); c.translate(sd*s*.12,-s*.3); c.scale(sd,1); c.rotate(ang); ell(c,s*.15,0,s*.16,s*.055,fur); c.restore(); } }
@@ -519,11 +559,36 @@ function drawAnimal(c,a,x,y,s,o={}){
     }
   }
   const hy=-s*.6, hr=s*.26, fx=hr*.14;
+  if(a.kind==='lion'){
+    const mc=a.mane||'#A34400';
+    for(let ang=0; ang<Math.PI*2; ang+=Math.PI/7){
+      ell(c, Math.cos(ang)*hr*.96, hy+Math.sin(ang)*hr*.96, hr*.38, hr*.38, mc);
+    }
+  }
   if(a.kind==='cat'){ for(const sd of [-1,1]){ poly(c,[sd*hr*.95,hy-hr*.2, sd*hr*.74,hy-hr*1.18, sd*hr*.2,hy-hr*.82],fur); poly(c,[sd*hr*.8,hy-hr*.38, sd*hr*.72,hy-hr*.95, sd*hr*.38,hy-hr*.76],'#FFA3BC'); } }
+  if(a.kind==='tiger'){ for(const sd of [-1,1]){ ell(c,sd*hr*.75,hy-hr*.75,hr*.3,hr*.3,'#1E2436'); ell(c,sd*hr*.75,hy-hr*.75,hr*.22,hr*.22,fur); ell(c,sd*hr*.75,hy-hr*.75,hr*.14,hr*.14,'#FFA3BC'); } }
+  if(a.kind==='lion'){ for(const sd of [-1,1]){ ell(c,sd*hr*.74,hy-hr*.7,hr*.24,hr*.24,a.ear||fur); ell(c,sd*hr*.74,hy-hr*.7,hr*.13,hr*.13,'#FFF4D9'); } }
+  if(a.kind==='giraffe'){
+    c.strokeStyle=fur; c.lineWidth=s*.032; c.lineCap='round';
+    for(const sd of [-1,1]){ c.beginPath(); c.moveTo(sd*hr*.28,hy-hr*.7); c.lineTo(sd*hr*.36,hy-hr*1.18); c.stroke(); ell(c,sd*hr*.36,hy-hr*1.2,hr*.12,hr*.12,a.spots||'#9E5014'); }
+    for(const sd of [-1,1]){ ell(c,sd*hr*.88,hy-hr*.48,hr*.3,hr*.15,fur,sd*.35); ell(c,sd*hr*.86,hy-hr*.48,hr*.2,hr*.09,'#FFB3C7',sd*.35); }
+  }
   if(a.kind==='bunny'){ for(const sd of [-1,1]){ ell(c,sd*hr*.38,hy-hr*1.25,hr*.21,hr*.64,fur,sd*.14); ell(c,sd*hr*.38,hy-hr*1.22,hr*.1,hr*.46,a.inner||'#FFB3C7',sd*.14); } }
   if(a.kind==='bear'){ for(const sd of [-1,1]){ ell(c,sd*hr*.72,hy-hr*.72,hr*.3,hr*.3,fur); ell(c,sd*hr*.72,hy-hr*.72,hr*.15,hr*.15,fur2); } }
   ell(c,0,hy,hr,hr*.94,fur);
-  if(a.stripes){ c.strokeStyle=a.stripes; c.lineWidth=s*.026; c.lineCap='round'; for(const dx of [-.08,0,.08]){ c.beginPath(); c.moveTo(dx*s+fx,hy-hr*.93); c.lineTo(dx*s*.75+fx,hy-hr*.58); c.stroke(); } }
+  if(a.kind==='tiger'){
+    for(const sd of [-1,1]) ell(c,sd*hr*.85,hy+hr*.22,hr*.26,hr*.18,fur2);
+    c.strokeStyle='#1E2436'; c.lineWidth=s*.022; c.lineCap='round';
+    for(const dx of [-.07,0,.07]){ c.beginPath(); c.moveTo(dx*s+fx,hy-hr*.92); c.lineTo(dx*s*.6+fx,hy-hr*.6); c.stroke(); }
+    for(const sd of [-1,1]){ c.beginPath(); c.moveTo(sd*hr*.88,hy); c.lineTo(sd*hr*.6,hy+hr*.05); c.stroke(); c.beginPath(); c.moveTo(sd*hr*.88,hy+hr*.18); c.lineTo(sd*hr*.65,hy+hr*.18); c.stroke(); }
+  }
+  if(a.kind==='giraffe'){
+    const sp=a.spots||'#9E5014';
+    ell(c,fx-hr*.08,hy-hr*.6,hr*.12,hr*.09,sp,.2);
+    ell(c,fx+hr*.14,hy-hr*.42,hr*.11,hr*.1,sp,-.2);
+    ell(c,fx-hr*.22,hy-hr*.3,hr*.09,hr*.08,sp);
+  }
+  if(a.stripes && a.kind!=='tiger'){ c.strokeStyle=a.stripes; c.lineWidth=s*.026; c.lineCap='round'; for(const dx of [-.08,0,.08]){ c.beginPath(); c.moveTo(dx*s+fx,hy-hr*.93); c.lineTo(dx*s*.75+fx,hy-hr*.58); c.stroke(); } }
   if(a.kind==='dog'){ for(const sd of [-1,1]) ell(c,sd*hr*.9,hy+hr*.08,hr*.24,hr*.52,a.ear||fur,-sd*.32); }
   ell(c,fx,hy+hr*.38,hr*.46,hr*.32,fur2);
   c.save(); c.globalAlpha=.35; ell(c,fx-hr*.56,hy+hr*.3,hr*.13,hr*.09,'#FF7FA0'); ell(c,fx+hr*.6,hy+hr*.3,hr*.13,hr*.09,'#FF7FA0'); c.restore();
@@ -533,14 +598,16 @@ function drawAnimal(c,a,x,y,s,o={}){
     else { ell(c,ex,hy-hr*.02,hr*.12,hr*.14,a.eye||'#22314F'); if(a.eye) ell(c,ex,hy-hr*.02,hr*.05,hr*.11,'#22314F'); ell(c,ex+hr*.04,hy-hr*.07,hr*.045,hr*.045,'#fff'); }
   }
   if(R.cara) drawAnteojos(c,R.cara,fx,hy,hr,s);
-  if(a.kind==='cat') poly(c,[fx-hr*.1,hy+hr*.18, fx+hr*.1,hy+hr*.18, fx,hy+hr*.29],'#FF7FA0');
+  if(a.kind==='cat' || a.kind==='tiger') poly(c,[fx-hr*.1,hy+hr*.18, fx+hr*.1,hy+hr*.18, fx,hy+hr*.29],'#FF7FA0');
+  else if(a.kind==='giraffe'){ ell(c,fx,hy+hr*.26,hr*.18,hr*.12,'#5C2E0B'); ell(c,fx-hr*.08,hy+hr*.26,hr*.04,hr*.05,'#22314F'); ell(c,fx+hr*.08,hy+hr*.26,hr*.04,hr*.05,'#22314F'); }
+  else if(a.kind==='lion') ell(c,fx,hy+hr*.22,hr*.14,hr*.1,'#7A3508');
   else ell(c,fx,hy+hr*.22,hr*.12,hr*.08,'#22314F');
   c.strokeStyle='#22314F'; c.lineWidth=s*.016; c.lineCap='round';
   if(o.mood==='wow') ell(c,fx,hy+hr*.47,hr*.1,hr*.13,'#22314F');
   else if(o.mood==='triste'){ c.beginPath(); c.moveTo(fx-hr*.15,hy+hr*.44); c.quadraticCurveTo(fx,hy+hr*.3,fx+hr*.15,hy+hr*.44); c.stroke(); ell(c,fx+hr*.4,hy+hr*.16+((t*.6)%1)*hr*.2,hr*.06,hr*.09,'#7CC6F0'); }
   else if(o.mood==='talk'){ const m=.06+Math.abs(Math.sin(t*9))*.09; ell(c,fx,hy+hr*.45,hr*.13,hr*m,'#22314F'); }
   else { c.beginPath(); c.moveTo(fx-hr*.15,hy+hr*.36); c.quadraticCurveTo(fx-hr*.07,hy+hr*.46,fx,hy+hr*.33); c.quadraticCurveTo(fx+hr*.07,hy+hr*.46,fx+hr*.15,hy+hr*.36); c.stroke(); }
-  if(a.kind==='cat'){ c.lineWidth=s*.01; c.strokeStyle='rgba(34,49,79,.55)'; for(const sd of [-1,1]) for(const dy of [-.04,.06]){ c.beginPath(); c.moveTo(fx+sd*hr*.32,hy+hr*(.32+dy)); c.lineTo(fx+sd*hr*.82,hy+hr*(.26+dy*1.8)); c.stroke(); } }
+  if(a.kind==='cat' || a.kind==='tiger'){ c.lineWidth=s*.01; c.strokeStyle='rgba(34,49,79,.55)'; for(const sd of [-1,1]) for(const dy of [-.04,.06]){ c.beginPath(); c.moveTo(fx+sd*hr*.32,hy+hr*(.32+dy)); c.lineTo(fx+sd*hr*.82,hy+hr*(.26+dy*1.8)); c.stroke(); } }
   if(R.cuello) drawCuello(c,R.cuello,fx,hy,hr,s);
   if(R.espalda) ell(c,0,hy+hr*.98,hr*.12,hr*.12,R.espalda.color2||'#FFC93C');
   if(a.toque) drawToque(c,hy,hr,s);
@@ -1283,12 +1350,50 @@ function updateHud(){
 }
 function buildPicker(){
   const box=$('#chars'); box.innerHTML='';
+  const pickPts=$('#pickPts'); if(pickPts) pickPts.innerHTML=ptsHtml();
   CHARACTERS.forEach(ch=>{
-    const b=document.createElement('button'); b.className='char'; b.innerHTML=`<canvas></canvas><b>${ch.name}</b><small>${esc(animalName(ch))}</small>`;
-    b.addEventListener('focus',()=>sayAll([`${ch.name}, ${animalName(ch)}.`]));
-    b.addEventListener('mouseenter',()=>b.focus());
-    b.addEventListener('click',async()=>{ save.charId=ch.id; persist(); sfx.yay(); await sayAll([T.holaX(ch.name)]); goHome(); });
-    live(b.querySelector('canvas'),(c,w,h,t)=>drawAnimal(c,ch,w/2,h*.94,h*.86,{t,wave:document.activeElement===b,backpack:true}));
+    const own = !!(save.personajes && save.personajes[ch.id]) || (ch.precio || 0) === 0;
+    const dName = charDisplayName(ch);
+    const aName = animalName(ch);
+    const b = document.createElement('button');
+    b.className = 'char' + (own ? (save.charId === ch.id ? ' current' : '') : ' locked');
+    b.innerHTML = `<canvas></canvas><b>${esc(dName)}</b><small>${esc(aName)}</small>${own ? '' : `<span class="char-lock-badge">🔒 ${img('pez')} <b>${ch.precio}</b></span>`}`;
+    b.addEventListener('focus', () => {
+      if(own) sayAll([`${dName}, ${aName}.`]);
+      else sayAll([`${dName}, ${aName}. ${T.cuesta ? T.cuesta(T.peces ? T.peces(ch.precio) : `${ch.precio}`) : `${ch.precio}`}`]);
+    });
+    b.addEventListener('mouseenter', () => b.focus());
+    b.addEventListener('click', async () => {
+      if(!own){
+        const p = riqueza();
+        if(p < ch.precio){
+          sfx.oops();
+          b.classList.add('shake');
+          setTimeout(() => b.classList.remove('shake'), 400);
+          sayAll([T.noAlcanza(T.peces(ch.precio - p))]);
+          return;
+        }
+        if(gastar(ch.precio)){
+          if(!save.personajes) save.personajes = {};
+          save.personajes[ch.id] = true;
+          save.charId = ch.id;
+          persist();
+          sfx.stamp();
+          sfx.yay();
+          updateNames();
+          buildPicker();
+          await sayAll([T.comprado ? T.comprado(dName) : T.holaX(dName)]);
+          goHome();
+        }
+        return;
+      }
+      save.charId = ch.id;
+      persist();
+      sfx.yay();
+      await sayAll([T.holaX(dName)]);
+      goHome();
+    });
+    live(b.querySelector('canvas'), (c,w,h,t) => drawAnimal(c, ch, w/2, h*.94, h*.86, {t, wave: document.activeElement === b, backpack: true}));
     box.appendChild(b);
   });
 }
@@ -1652,10 +1757,44 @@ function runPassport(){
 /* =========================================================
    CUENTOS
    ========================================================= */
-const storyFill = s => s.replace(/\{N\}/g, char().name);
+const storyFill = s => s.replace(/\{N\}/g, charDisplayName(char()) || char().name);
 const marcarCuento = s => esc(s).replace(/\*(.+?)\*/g,'<mark>$1</mark>');
 const storyHtml = s => { const f=storyFill(s); return esDoble(f) ? `${marcarCuento(caraLatina(f))}<small class="arab" lang="ar" dir="rtl">${marcarCuento(caraHablada(f))}</small>` : marcarCuento(f); };
 const storySpeech = s => storyFill(s).replace(/\*/g,'');
+
+function buildStorySpeechParts(texto, pgId){
+  const ch = char();
+  const lang = langCode();
+  if(ch.id === 'luna' && pgId && staticAudioUrl(pgId)){
+    return [{ t: storySpeech(texto), id: pgId }];
+  }
+  if(!texto || !texto.includes('{N}')){
+    return [{ t: storySpeech(texto), id: pgId }];
+  }
+  const charAudioId = `${lang}:personaje:${ch.id}`;
+  const chName = charDisplayName(ch);
+  if(/^\s*\{N\}/.test(texto)){
+    const rest = texto.replace(/^\s*\{N\}\s*[:,]?\s*/, '').replace(/\*/g,'');
+    return [
+      { id: charAudioId, t: chName, sinTrad: true },
+      { t: rest }
+    ];
+  }
+  if(/\{N\}[\.\?!«»"'\s]*$/.test(texto)){
+    const before = texto.replace(/\s*\{N\}[\.\?!«»"'\s]*$/, '').replace(/\*/g,'');
+    return [
+      { t: before, sinTrad: true },
+      { id: charAudioId, t: chName }
+    ];
+  }
+  const halves = texto.split('{N}');
+  return [
+    { t: halves[0].replace(/\*/g,''), sinTrad: true },
+    { id: charAudioId, t: chName, sinTrad: true },
+    { t: halves.slice(1).join('').replace(/\*/g,'') }
+  ];
+}
+
 async function runStory(c, key, fromLib=false){
   const tok=++flowTok, S=c.estaciones[key].cuento; busy=true;
   let i=0;
@@ -1669,10 +1808,9 @@ async function runStory(c, key, fromLib=false){
     const t0=performance.now()/1000;
     live(card.querySelector('[data-story]'),(cx,w,h,t)=>drawScene(cx,w,h,c,pg.escena,t-t0));
     const pgId = `${c.key}:${key}:cuento:${i}`, titId = `${c.key}:${key}:cuento:titulo`;
-    const useStaticStoryAudio = !(pg.texto && pg.texto.includes('{N}') && char().name !== 'Luna');
-    const pAudioId = useStaticStoryAudio ? pgId : null;
-    onAct('again',()=>narrar(()=>sayAll([{t:storySpeech(pg.texto), id:pAudioId}])));
-    narrar(()=>sayAll(i===0 ? [{t:S.titulo, id:titId}, {t:storySpeech(pg.texto), id:pAudioId}] : [{t:storySpeech(pg.texto), id:pAudioId}]));
+    const storyParts = buildStorySpeechParts(pg.texto, pgId);
+    onAct('again',()=>narrar(()=>sayAll(storyParts)));
+    narrar(()=>sayAll(i===0 ? [{t:S.titulo, id:titId}, ...storyParts] : storyParts));
     const {act}=await waitAct(['prev','next','done']); if(tok!==flowTok) return;
     if(act==='done'){ closeModal(); if(fromLib){ busy=false; } return; }
     i += act==='next' ? 1 : -1;

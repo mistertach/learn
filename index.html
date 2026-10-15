@@ -50,6 +50,12 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .char b{font-size:26px;line-height:1}
 .char small{font-size:16px;color:var(--ink2);font-weight:600}
 .char:hover,.char:focus-visible{transform:translateY(-6px) rotate(-1.5deg);outline:6px solid var(--sun);outline-offset:0}
+.char.current{outline:4px solid var(--sun);box-shadow:0 8px 0 rgba(255,178,36,.4)}
+.char.locked{background:#F6F8FC}
+.char-lock-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF4D6;border:2px solid #F6BE3C;color:#875200;font-size:14px;font-weight:800;padding:2px 8px;border-radius:14px;margin-top:6px}
+.char-lock-badge img{width:16px;height:16px;display:inline-block}
+.pick-header{display:flex;align-items:center;justify-content:space-between;width:min(720px,100%);margin-bottom:8px}
+.pick-header h2{margin:0;text-align:left}
 .home-top{display:flex;align-items:center;gap:16px;width:min(1160px,100%)}
 .me{width:112px;height:112px;border-radius:50%;border:0;background:var(--paper);box-shadow:0 6px 0 rgba(34,49,79,.18);padding:0;flex:none;overflow:hidden}
 .me canvas{width:100%;height:100%;display:block}
@@ -519,7 +525,10 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
   </section>
 
   <section id="scr-pick" class="screen pick" hidden>
-    <h2><span data-t="quien"></span><small data-t="quienSub"></small></h2>
+    <div class="pick-header">
+      <h2><span data-t="quien"></span><small data-t="quienSub"></small></h2>
+      <div class="pts" id="pickPts"></div>
+    </div>
     <div class="chars" id="chars"></div>
   </section>
 

@@ -46,7 +46,7 @@ registrarIdioma({
     colores: {rojo:'rosso', azul:'blu', amarillo:'giallo', verde:'verde', violeta:'viola', naranja:'arancione', rosa:'rosa', negro:'nero', blanco:'bianco'},
     numeros: ['zero','uno','due','tre','quattro','cinque','sei'],
     elogios: ['Benissimo','Fantastico','Evviva','Ottimo','Perfetto'], elogio: (x, n) => n ? `${x}, ${n}!` : `${x}!`,
-    animales: {cat:{f:'la gatta', m:'il gatto'}, dog:{m:'il cane'}, bunny:{m:'il coniglio'}, bear:{m:"l'orso"}},
+    animales: {cat:{f:'la gatta', m:'il gatto'}, dog:{m:'il cane'}, bunny:{m:'il coniglio'}, tiger:{m:'il tigre', f:'la tigre'}, lion:{m:'il leone'}, giraffe:{f:'la giraffa', m:'la giraffa'}},
     objetos: {'#':'il muro', b:'la panchina', p:'la pianta', '~':'la porta'},
     tiendaHola: 'Ciao! Questo è il negozio. Che cosa vuoi comprare?', quiero: i => `Vorrei ${i}, per favore.`,
     cuesta: s => `Sono ${s}.`, noAlcanza: s => `Ti mancano ${s}. Cerca altri pesci!`, comprado: i => `Ecco! Adesso hai ${i}.`,

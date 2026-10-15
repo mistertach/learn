@@ -57,7 +57,7 @@ registrarIdioma({
     colores: {rojo:'ahmar|أحمر', azul:'azrag|أزرق', amarillo:'asfar|أصفر', verde:'akhdhar|أخضر', violeta:'banafsaji|بنفسجي', naranja:'burtugali|برتقالي', rosa:'wardi|وردي', negro:'aswad|أسود', blanco:'abyadh|أبيض'},
     numeros: ['sifr|صفر','wahid|واحد','ithnain|اثنين','thalatha|ثلاثة','arba\'a|أربعة','khamsa|خمسة','sitta|ستة'],
     elogios: ['zain|زين','mumtaz|ممتاز','wayed zain|وايد زين','shatir|شاطر','ahsant|أحسنت'], elogio: (x, n) => n ? U(x, ', |، ', n, '!|!') : U(x, '!|!'),
-    animales: {cat:{f:'al-gattwa|القطوة', m:'al-gattu|القطو'}, dog:{m:'al-chalb|الكلب'}, bunny:{m:'al-arnab|الأرنب'}, bear:{m:'ad-dub|الدب'}},
+    animales: {cat:{f:'al-gattwa|القطوة', m:'al-gattu|القطو'}, dog:{m:'al-chalb|الكلب'}, bunny:{m:'al-arnab|الأرنب'}, tiger:{m:'an-nimr|النمر'}, lion:{m:'al-asad|الأسد'}, giraffe:{f:'az-zarafah|الزرافة', m:'az-zarafah|الزرافة'}},
     objetos: {'#':'al-jidar|الجدار', b:'al-kirsi|الكرسي', p:'az-zar\'a|الزرعة', '~':'al-bab|الباب'},
     // la tienda
     tiendaHola: 'marhaba! hatha ad-dukkan. shtibi tishtiri?|مرحبا! هذا الدكان. شتبي تشتري؟', quiero: i => U('abi |أبي ', i, ', law samaht.|، لو سمحت.'),
