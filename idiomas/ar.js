@@ -64,7 +64,8 @@ registrarIdioma({
     queda: 'wayed hilu \'alaik!|وايد حلو عليك!', comprar: 'ishtiri|اشتري', ponerme: 'ilbis|البس', sacarme: 'shil|شيل',
     ropa: {remera_roja:'at-tishirt al-ahmar|التيشيرت الأحمر', remera_rayas:'at-tishirt al-mkhattat|التيشيرت المخطط', remera_estrella:'tishirt an-najma|تيشيرت النجمة', camiseta:'fanilat al-kora|فانيلة الكورة',
            short:'ash-short|الشورت', pantalon:'al-bantaloon|البنطلون', gorra:'al-kab|الكاب', gorro:'at-tagiyya as-soof|الطاقية الصوف', corona:'at-taj|التاج',
-           anteojos:'an-nathara ash-shamsiyya|النظارة الشمسية', mono:'al-bibyoon|البيبيون', bufanda:'al-ishar|الإيشارب', capa:'ar-rida\'|الرداء'}
+           anteojos:'an-nathara ash-shamsiyya|النظارة الشمسية', mono:'al-bibyoon|البيبيون', bufanda:'al-ishar|الإيشارب', capa:'ar-rida\'|الرداء',
+           gadget_agua:'musaddas al-ma\'a al-bahri|مسدس الماء البحري', gadget_musica:'ar-radyo al-moseeqi|الراديو الموسيقي', gadget_burbujas:'asa al-faqaqee\' as-sihriyya|عصا الفقاقيع السحرية', gadget_estrellas:'asa an-nujoom adh-dhahabiyya|عصا النجوم الذهبية', gadget_fiesta:'madfa\' al-haflaat|مدفع الحفلات'}
   }
 });
 })();

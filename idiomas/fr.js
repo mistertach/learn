@@ -51,6 +51,7 @@ registrarIdioma({
     queda: 'Ça te va super bien !', comprar: 'Acheter', ponerme: 'Mettre', sacarme: 'Enlever',
     ropa: {remera_roja:'le t-shirt rouge', remera_rayas:'le t-shirt à rayures', remera_estrella:'le t-shirt étoile', camiseta:'le maillot de foot',
            short:'le short', pantalon:'le pantalon', gorra:'la casquette', gorro:'le bonnet', corona:'la couronne',
-           anteojos:'les lunettes de soleil', mono:'le nœud papillon', bufanda:"l'écharpe", capa:'la cape'}
+           anteojos:'les lunettes de soleil', mono:'le nœud papillon', bufanda:"l'écharpe", capa:'la cape',
+           gadget_agua:'le pistolet à eau marine', gadget_musica:'la radio musicale de fête', gadget_burbujas:'la baguette à bulles magiques', gadget_estrellas:"la baguette d'étoiles dorées", gadget_fiesta:'le canon à confettis de fête'}
   }
 });

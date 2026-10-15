@@ -500,8 +500,12 @@ function drawAnimal(c,a,x,y,s,o={}){
   else if(o.wave){ const ang=-1.9+Math.sin(t*8)*.35; c.save(); c.translate(s*.14,-s*.3); c.rotate(ang); ell(c,s*.09,0,s*.1,s*.05,fur); c.restore(); if(R.torso) ell(c,s*.14,-s*.3,s*.055,s*.05,R.torso.color); }
   else {
     ell(c,s*.16,-s*.22,s*.05,s*.085,fur,-.3); if(R.torso) ell(c,s*.15,-s*.275,s*.058,s*.045,R.torso.color,-.3);
-    if(o.gadget!==false && typeof drawHeldGadget==='function' && typeof getGadget==='function'){
-      drawHeldGadget(c, getGadget().id, s);
+    const previewGadget = (o.probar && o.probar.lugar==='gadget') 
+      ? GADGETS.find(g => g.id === o.probar.id || g.tipo === o.probar.id || ('gadget_' + g.tipo) === o.probar.id) 
+      : null;
+    const gToShow = previewGadget || (typeof getEquippedGadget === 'function' ? getEquippedGadget() : null);
+    if(o.gadget!==false && gToShow && typeof drawHeldGadget==='function'){
+      drawHeldGadget(c, gToShow.tipo, s);
     }
   }
   const hy=-s*.6, hr=s*.26, fx=hr*.14;
@@ -638,27 +642,47 @@ function drawLive(L,t){ const cv=L.cv; const r=cv.getBoundingClientRect(); if(!r
    ACCESORIOS Y DISPOSITIVOS (GADGETS)
    ========================================================= */
 const GADGETS = [
-  { id: 'agua',      nombre: 'Pistola de agua',   ico: '💦', color: '#2E86DE', sfx: 'splash' },
-  { id: 'musica',    nombre: 'Radio musical',     ico: '🎵', color: '#E8483B', sfx: 'music' },
-  { id: 'burbujas',  nombre: 'Pompas mágicas',    ico: '🫧', color: '#2FBF8F', sfx: 'bubble' },
-  { id: 'estrellas', nombre: 'Varita de estrellas',ico: '⭐', color: '#FFC93C', sfx: 'star' },
-  { id: 'fiesta',    nombre: 'Lanzador de fiesta', ico: '🎉', color: '#8B6FE8', sfx: 'party' },
+  { id: 'gadget_agua',      tipo: 'agua',      ico: '💦', color: '#2E86DE', sfx: 'splash' },
+  { id: 'gadget_musica',    tipo: 'musica',    ico: '🎵', color: '#E8483B', sfx: 'music' },
+  { id: 'gadget_burbujas',  tipo: 'burbujas',  ico: '🫧', color: '#2FBF8F', sfx: 'bubble' },
+  { id: 'gadget_estrellas', tipo: 'estrellas', ico: '⭐', color: '#FFC93C', sfx: 'star' },
+  { id: 'gadget_fiesta',    tipo: 'fiesta',    ico: '🎉', color: '#8B6FE8', sfx: 'party' },
 ];
 
-let curGadget = 'agua';
 let gadgetParticles = [];
 let gadgetShootAnim = 0;
 const objBounces = new Map();
 
-function getGadget(){
-  return GADGETS.find(g => g.id === curGadget) || GADGETS[0];
+const gadgetName = g => (T.ropa && (T.ropa[g.id] || T.ropa['gadget_' + g.tipo])) || g.tipo;
+
+function getEquippedGadget(){
+  if(typeof save === 'undefined' || !save.armario) return null;
+  const p = save.armario.puesto?.gadget;
+  if(!p) return null;
+  const g = GADGETS.find(x => x.id === p || x.tipo === p || ('gadget_' + x.tipo) === p);
+  if(!g) return null;
+  if(!save.armario.tiene?.[g.id] && !save.armario.tiene?.[g.tipo]) return null;
+  return g;
+}
+
+function getOwnedGadgets(){
+  if(typeof save === 'undefined' || !save.armario || !save.armario.tiene) return [];
+  return GADGETS.filter(g => save.armario.tiene[g.id] || save.armario.tiene[g.tipo]);
 }
 
 function updateGadgetHud(){
-  const g = getGadget();
+  const g = getEquippedGadget();
   const ico = $('#gadgetIco'), name = $('#gadgetName');
+  if(!g){
+    if(ico) ico.textContent = '🏪';
+    if(name) name.textContent = T.tienda || 'Tienda';
+    return;
+  }
   if(ico) ico.textContent = g.ico;
-  if(name) name.textContent = g.nombre.split(' ')[0];
+  if(name) {
+    const full = gadgetName(g);
+    name.textContent = full.split(' ')[0] || full;
+  }
 }
 
 function showGadgetBanner(g){
@@ -669,7 +693,8 @@ function showGadgetBanner(g){
     banner.className = 'gadget-banner';
     $('#stage')?.appendChild(banner);
   }
-  banner.textContent = `${g.ico} ${g.nombre}`;
+  const name = g.nombre || gadgetName(g);
+  banner.textContent = `${g.ico} ${name}`;
   banner.classList.remove('show');
   void banner.offsetWidth;
   banner.classList.add('show');
@@ -678,10 +703,11 @@ function showGadgetBanner(g){
 }
 
 function setGadget(id, announce=true){
-  const g = GADGETS.find(x => x.id === id) || GADGETS[0];
-  curGadget = g.id;
-  if(typeof save !== 'undefined'){
-    save.gadget = g.id;
+  const g = GADGETS.find(x => x.id === id || x.tipo === id || ('gadget_' + x.tipo) === id);
+  if(!g) return;
+  if(typeof save !== 'undefined' && save.armario){
+    save.armario.puesto.gadget = g.id;
+    save.gadget = g.tipo;
     persist();
   }
   updateGadgetHud();
@@ -690,18 +716,32 @@ function setGadget(id, announce=true){
 }
 
 function nextGadget(){
-  const idx = GADGETS.findIndex(x => x.id === curGadget);
-  const next = GADGETS[(idx + 1) % GADGETS.length];
+  const owned = getOwnedGadgets();
+  if(!owned.length){
+    sfx.bump();
+    const aviso = (save && save.lang==='es') ? '¡Conseguí un accesorio en la tienda!' : (T.tienda || 'Tienda');
+    showGadgetBanner({ ico: '🏪', nombre: aviso });
+    return;
+  }
+  const cur = getEquippedGadget();
+  const idx = cur ? owned.findIndex(x => x.id === cur.id) : -1;
+  const next = owned[(idx + 1) % owned.length];
   setGadget(next.id);
 }
 
 function dispararGadget(){
   if(scr.game.hidden || !CAP || !modal.hidden) return;
   actx();
-  const g = getGadget();
+  const g = getEquippedGadget();
+  if(!g){
+    sfx.bump();
+    const aviso = (save && save.lang==='es') ? '¡Conseguí un accesorio en la tienda!' : (T.tienda || 'Tienda');
+    showGadgetBanner({ ico: '🏪', nombre: aviso });
+    return;
+  }
   sfx[g.sfx]();
   gadgetShootAnim = performance.now();
-  spawnGadgetParticles(g.id);
+  spawnGadgetParticles(g.tipo);
 }
 
 function drawHeldGadget(c, id, s){
@@ -1619,8 +1659,10 @@ async function runStory(c, key, fromLib=false){
     const t0=performance.now()/1000;
     live(card.querySelector('[data-story]'),(cx,w,h,t)=>drawScene(cx,w,h,c,pg.escena,t-t0));
     const pgId = `${c.key}:${key}:cuento:${i}`, titId = `${c.key}:${key}:cuento:titulo`;
-    onAct('again',()=>narrar(()=>sayAll([{t:storySpeech(pg.texto), id:pgId}])));
-    narrar(()=>sayAll(i===0 ? [{t:S.titulo, id:titId}, {t:storySpeech(pg.texto), id:pgId}] : [{t:storySpeech(pg.texto), id:pgId}]));
+    const useStaticStoryAudio = !(pg.texto && pg.texto.includes('{N}') && char().name !== 'Luna');
+    const pAudioId = useStaticStoryAudio ? pgId : null;
+    onAct('again',()=>narrar(()=>sayAll([{t:storySpeech(pg.texto), id:pAudioId}])));
+    narrar(()=>sayAll(i===0 ? [{t:S.titulo, id:titId}, {t:storySpeech(pg.texto), id:pAudioId}] : [{t:storySpeech(pg.texto), id:pAudioId}]));
     const {act}=await waitAct(['prev','next','done']); if(tok!==flowTok) return;
     if(act==='done'){ closeModal(); if(fromLib){ busy=false; } return; }
     i += act==='next' ? 1 : -1;

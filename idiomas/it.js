@@ -52,6 +52,7 @@ registrarIdioma({
     queda: 'Ti sta benissimo!', comprar: 'Compra', ponerme: 'Metti', sacarme: 'Togli',
     ropa: {remera_roja:'la maglietta rossa', remera_rayas:'la maglietta a righe', remera_estrella:'la maglietta con la stella', camiseta:'la maglia da calcio',
            short:'i pantaloncini', pantalon:'i pantaloni', gorra:'il cappellino', gorro:'il berretto di lana', corona:'la corona',
-           anteojos:'gli occhiali da sole', mono:'il papillon', bufanda:'la sciarpa', capa:'il mantello'}
+           anteojos:'gli occhiali da sole', mono:'il papillon', bufanda:'la sciarpa', capa:'il mantello',
+           gadget_agua:'la pistola ad acqua marina', gadget_musica:'la radio musicale da festa', gadget_burbujas:'la bacchetta di bolle magiche', gadget_estrellas:'la bacchetta di stelle dorate', gadget_fiesta:'il cannone spara coriandoli'}
   }
 });

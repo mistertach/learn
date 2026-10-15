@@ -56,6 +56,6 @@ registrarIdioma({
     ropa: {remera_roja:'the red T-shirt', remera_rayas:'the striped T-shirt', remera_estrella:'the star T-shirt', camiseta:'the soccer shirt',
            short:'the shorts', pantalon:'the pants', gorra:'the cap', gorro:'the wool hat', corona:'the crown',
            anteojos:'the sunglasses', mono:'the bow tie', bufanda:'the scarf', capa:'the cape',
-           gadget_agua:'the water blaster', gadget_musica:'the musical radio', gadget_burbujas:'the bubble wand', gadget_estrellas:'the star wand', gadget_fiesta:'the party popper'}
+           gadget_agua:'the ocean water blaster', gadget_musica:'the party musical boombox', gadget_burbujas:'the magic soap bubble wand', gadget_estrellas:'the golden star wand', gadget_fiesta:'the celebration confetti cannon'}
   }
 });

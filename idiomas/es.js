@@ -56,6 +56,6 @@ registrarIdioma({
     ropa: {remera_roja:'la remera roja', remera_rayas:'la remera a rayas', remera_estrella:'la remera con estrella', camiseta:'la camiseta de fútbol',
            short:'el short', pantalon:'el pantalón', gorra:'la gorra', gorro:'el gorro de lana', corona:'la corona',
            anteojos:'los anteojos de sol', mono:'el moño', bufanda:'la bufanda', capa:'la capa',
-           gadget_agua:'la pistola de agua', gadget_musica:'la radio musical', gadget_burbujas:'las pompas mágicas', gadget_estrellas:'la varita de estrellas', gadget_fiesta:'el lanzador de fiesta'}
+           gadget_agua:'la pistola de agua marina', gadget_musica:'la radio musical de fiesta', gadget_burbujas:'el pompero de burbujas mágicas', gadget_estrellas:'la varita de estrellas doradas', gadget_fiesta:'el cañón de confeti festivo'}
   }
 });

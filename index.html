@@ -272,16 +272,16 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .home-main-area{display:flex;gap:28px;align-items:flex-start;justify-content:center;width:min(1160px,100%);margin:0 auto}
 .weeks-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:18px}
 .weeks-col .weeks{width:100%}
-.home-sidebar{width:175px;flex:none;position:sticky;top:16px;display:flex;flex-direction:column;gap:12px}
+.home-sidebar{width:186px;flex:none;position:sticky;top:16px;display:flex;flex-direction:column;gap:12px}
 .sidebar-header{display:none;align-items:center;justify-content:space-between;padding:4px 0 10px}
 .sidebar-title{font-size:20px;font-weight:800;color:var(--ink)}
 .sidebar-close{border:0;background:none;cursor:pointer;color:var(--ink2);width:38px;height:38px;display:grid;place-items:center;border-radius:50%}
 .sidebar-close svg{width:22px;height:22px}
-.home-sidebar .extras{display:flex;flex-direction:column;gap:14px;width:100%}
-.sidebar-group{display:flex;flex-direction:column;gap:7px;width:100%}
+.home-sidebar .extras{display:flex;flex-direction:column;gap:12px;width:100%}
+.sidebar-group{display:flex;flex-direction:column;gap:6px;width:100%}
 .sidebar-group-title{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2);padding:0 6px}
-.home-sidebar .xcard.narrow{max-width:none;width:100%;box-sizing:border-box;padding:8px 12px;border-radius:16px;font-size:14.5px;font-weight:800;line-height:1.15;display:flex;align-items:center;gap:8px;min-height:44px;box-shadow:0 4px 0 rgba(34,49,79,.16);transition:transform .15s}
-.home-sidebar .xcard.narrow svg{width:24px;height:24px;flex:none}
+.home-sidebar .xcard.narrow{flex:none;flex-basis:auto;max-width:none;width:100%;box-sizing:border-box;padding:0 14px;height:44px;min-height:44px;max-height:44px;border-radius:14px;font-size:14px;font-weight:800;line-height:1;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;box-shadow:0 3px 0 rgba(34,49,79,.16);transition:transform .15s;white-space:nowrap}
+.home-sidebar .xcard.narrow svg{width:22px;height:22px;flex:none}
 .burger-btn{display:none;border:0;background:var(--paper);color:var(--ink);width:54px;height:54px;border-radius:18px;cursor:pointer;box-shadow:0 4px 0 rgba(34,49,79,.14);flex:none;align-items:center;justify-content:center;padding:0;transition:transform .15s}
 .burger-btn svg{width:30px;height:30px}
 .burger-btn:active{transform:translateY(3px)}
@@ -294,8 +294,8 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
   .home-sidebar.open{transform:translateX(0)}
   .sidebar-header{display:flex}
   .home-sidebar .extras{display:flex;flex-direction:column;gap:16px}
-  .home-sidebar .xcard.narrow{padding:12px 14px;font-size:16.5px;min-height:50px}
-  .home-sidebar .xcard.narrow svg{width:30px;height:30px}
+  .home-sidebar .xcard.narrow{height:48px;min-height:48px;max-height:48px;padding:0 16px;font-size:16px}
+  .home-sidebar .xcard.narrow svg{width:24px;height:24px}
 }
 @media (max-width:560px){
   .shop-lbl{display:none}
@@ -421,7 +421,6 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .tally{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--ink2);font-size:20px;align-self:flex-end}
 .tally svg{width:22px;height:22px}
 .repaso-ops .mbtn{min-width:130px}
-.extras .xcard{flex-basis:180px}
 .mj{width:100%;aspect-ratio:16/9;border-radius:22px;display:block;background:#CBEBFC;touch-action:none;cursor:pointer}
 .book .precio{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;background:#fff;color:var(--ink);border-radius:999px;padding:2px 9px 2px 4px;font-weight:800;font-size:16px}
 .book .precio img{width:24px;padding:0;background:none}

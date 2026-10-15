@@ -17,9 +17,9 @@ window.TIENDA = [
   {id:'gorro',           lugar:'cabeza',  estilo:'lana',     precio:8,  color:'#2FBF8F', color2:'#FFFFFF'},
   {id:'capa',            lugar:'espalda', estilo:'capa',     precio:15, color:'#E8483B', color2:'#FFC93C'},
   {id:'corona',          lugar:'cabeza',  estilo:'corona',   precio:20, color:'#FFC93C', color2:'#E8483B'},
-  {id:'gadget_agua',      lugar:'gadget',  estilo:'agua',      precio:0,  color:'#2E86DE', color2:'#7CC6F0'},
-  {id:'gadget_musica',    lugar:'gadget',  estilo:'musica',    precio:0,  color:'#E8483B', color2:'#FFC93C'},
-  {id:'gadget_burbujas',  lugar:'gadget',  estilo:'burbujas',  precio:0,  color:'#2FBF8F', color2:'#FFFFFF'},
-  {id:'gadget_estrellas', lugar:'gadget',  estilo:'estrellas', precio:0,  color:'#FFC93C', color2:'#FFF59A'},
-  {id:'gadget_fiesta',    lugar:'gadget',  estilo:'fiesta',    precio:0,  color:'#8B6FE8', color2:'#FF8FB8'}
+  {id:'gadget_agua',      lugar:'gadget',  estilo:'agua',      precio:6,  color:'#2E86DE', color2:'#7CC6F0'},
+  {id:'gadget_musica',    lugar:'gadget',  estilo:'musica',    precio:8,  color:'#E8483B', color2:'#FFC93C'},
+  {id:'gadget_burbujas',  lugar:'gadget',  estilo:'burbujas',  precio:10, color:'#2FBF8F', color2:'#FFFFFF'},
+  {id:'gadget_estrellas', lugar:'gadget',  estilo:'estrellas', precio:12, color:'#FFC93C', color2:'#FFF59A'},
+  {id:'gadget_fiesta',    lugar:'gadget',  estilo:'fiesta',    precio:15, color:'#8B6FE8', color2:'#FF8FB8'}
 ];

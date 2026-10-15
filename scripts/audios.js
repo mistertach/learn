@@ -44,7 +44,7 @@ const ES_PROMPTS = !!arg('prompts');
 const FORZAR = !!arg('forzar');
 
 const IDIOMAS = (SOLO_ARG || 'es,en,fr,it,ar').split(',');
-const NOMBRE_DEFECTO = 'Nico';
+const NOMBRE_DEFECTO = 'Luna';
 
 // Cargar lista de capítulos registrados
 function obtenerCapitulosDisponibles() {
@@ -284,7 +284,7 @@ function extraerPrompts(capId, lang, datos) {
   for (const el of (T.elogios || [])) {
     if (T.elogio) {
       add('elogio', T.elogio(el, ''));
-      add('elogioN', T.elogio(el, 'Nico'));
+      add('elogioN', T.elogio(el, 'Luna'));
     }
   }
 
