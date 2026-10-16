@@ -7,5 +7,5 @@
    Si a un lugar le falta el archivo de un idioma, en ese idioma no aparece. */
 window.IDIOMAS = ['es', 'fr', 'it', 'en', 'ar'];
 // el orden va de lo más cercano (la casa, los animales) a lo más difícil (la hora, los viajes); la fiesta, al final
-window.CAPITULOS = ['primeras', 'casa', 'granja', 'feria', 'plaza', 'doctor', 'escuela', 'restaurante', 'reloj', 'aeropuerto', 'fiesta'];
+window.CAPITULOS = ['primeras', 'casa', 'granja', 'feria', 'plaza', 'doctor', 'escuela', 'restaurante', 'reloj', 'aeropuerto', 'playa', 'fiesta'];
 window.PROXIMOS = [];   // semanas que se muestran como "¡Pronto!"

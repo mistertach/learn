@@ -1069,3 +1069,71 @@ MICROJUEGOS.burbujitas = (cap, M) => new Promise(resolve=>{
   }
   (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
 });
+
+/* ---------------------------------------------------------
+   LA PLAYA · Bajo el mar: ¿dónde está el cangrejo? Las criaturas flotan y el relator pide una; el chico la toca
+   (o elige con las flechas). Al final, a darles de comer: se toca el agua, cae comida, la criatura más cercana
+   nada hasta ahí, come y suelta burbujas (y dice cómo se llama). No se pierde nunca.
+   Los textos: microjuego.ingredientes[i] = {texto, p} (el nombre y la pregunta), más titulo, intro, fin, alimentar.
+   --------------------------------------------------------- */
+MICROJUEGOS.pesca = (cap, M) => new Promise(resolve=>{
+  const tx=cap.microjuego, cr=tx.ingredientes, cv=M.canvas, RONDAS=8;
+  const base=[[.2,.42],[.5,.68],[.78,.36],[.3,.76],[.62,.28],[.84,.66]];
+  let ronda=0, meta=null, ultimo=null, listo=false, n=0, sel=-1, modo='preguntas', brillo=null, geo={w:1,h:1}, ultDicho=0;
+  const bub=[], comida=[];
+  const est=cr.map((g,i)=>({g, i, x:base[i%6][0], y:base[i%6][1], ph:i*1.7, come:0}));
+  const pos=(e,t)=>({x:(e.x+Math.sin(t*.6+e.ph)*.035)*geo.w, y:(e.y+Math.cos(t*.8+e.ph)*.03)*geo.h});
+  const burbujas=(x,y,k=7)=>{ for(let i=0;i<k;i++) bub.push({x:x+(Math.random()-.5)*geo.h*.1, y, vy:-geo.h*(.18+Math.random()*.25), r:geo.h*(.01+Math.random()*.014), vida:1.2+Math.random()*.6}); };
+  const tocar=e=>{
+    if(!M.alive() || !e) return;
+    if(modo==='comer'){ return; }
+    if(!listo) return;
+    if(e.g.k!==meta.k){ sfx.oops(); sayAll([e.g.texto, meta.p]); return; }
+    listo=false; n++; brillo={i:e.i, t:performance.now()/1000}; const p=pos(e,performance.now()/1000); burbujas(p.x,p.y,12);
+    tone(660+n%6*90,.12,'triangle',.11); tone(990+n%6*90,.15,'sine',.07,.06); noise(.25,.06,900,2600);
+    (async()=>{ await sayAll([praise(), e.g.texto]); if(!M.alive()) return; await sleep(350); nuevaRonda(); })();
+  };
+  cv.addEventListener('pointerdown',ev=>{ const r=cv.getBoundingClientRect(), x=ev.clientX-r.left, y=ev.clientY-r.top, t=performance.now()/1000;
+    if(modo==='comer'){ if(comida.length<8){ comida.push({x,y,vy:geo.h*.18}); tone(500,.08,'sine',.07,0,800); } return; }
+    let mejor=null, dist=1e9; for(const e of est){ const p=pos(e,t), d=Math.hypot(p.x-x,p.y-y); if(d<dist){ dist=d; mejor=e; } }
+    if(dist<geo.h*.17) tocar(mejor); else if(listo) sayAll([meta.p]); });
+  const T2=teclasJuego(M, k=>{
+    if(modo==='comer') return;
+    if(k==='ArrowRight'||k==='ArrowDown'){ sel=(sel+1)%est.length; sayAll([est[sel].g.texto]); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'){ sel=(sel-1+est.length)%est.length; sayAll([est[sel].g.texto]); }
+    else if((k==='Enter'||k===' ') && sel>=0) tocar(est[sel]);
+  });
+  let tPrev=0;
+  live(cv,(c,w,h,t)=>{
+    if(!M.alive()){ T2.limpiar(); return; }
+    geo={w,h}; const dt=Math.min(.05,t-tPrev||.016); tPrev=t;
+    bgMar(c,w,h,t);
+    // la comida cae; la criatura más cercana nada hasta ahí
+    for(let i=comida.length-1;i>=0;i--){ const f=comida[i]; f.y=Math.min(h*.85,f.y+f.vy*dt); ell(c,f.x,f.y,h*.012,h*.012,'#C98B4E'); ell(c,f.x-h*.003,f.y-h*.003,h*.005,h*.005,'#F2C29B'); }
+    for(const e of est){
+      let p=pos(e,t), obj=null, dmin=1e9;
+      if(modo==='comer') for(const f of comida){ const d=Math.hypot(p.x-f.x,p.y-f.y); if(d<dmin){ dmin=d; obj=f; } }
+      if(obj){ e.x+=(obj.x/w-e.x)*Math.min(1,dt*1.8); e.y+=(obj.y/h-e.y)*Math.min(1,dt*1.8); p=pos(e,t);
+        if(Math.hypot(p.x-obj.x,p.y-obj.y)<h*.07){ comida.splice(comida.indexOf(obj),1); e.come=t; burbujas(p.x,p.y-h*.05,6); noise(.2,.05,500,1500); if(t-ultDicho>1.2){ ultDicho=t; sayAll([e.g.texto]); } } }
+      else { e.x+=(base[e.i%6][0]-e.x)*Math.min(1,dt*.6); e.y+=(base[e.i%6][1]-e.y)*Math.min(1,dt*.6); }
+      const k=e.come&&t-e.come<.6?1+.25*Math.sin((t-e.come)*16):1, hop=brillo&&brillo.i===e.i&&t-brillo.t<1.1?Math.abs(Math.sin((t-brillo.t)*8))*h*.06:0, tam=h*.2*k;
+      c.save(); c.translate(p.x,p.y-hop); if(Math.cos(t*.6+e.ph)<0) c.scale(-1,1); drawImg(c,e.g.k,0,0,tam); c.restore();
+      if(sel===e.i && modo!=='comer'){ c.strokeStyle='#FFC93C'; c.lineWidth=5; c.beginPath(); c.arc(p.x,p.y,h*.15+Math.sin(t*6)*3,0,Math.PI*2); c.stroke(); }
+      if(brillo&&brillo.i===e.i&&t-brillo.t<1.1){ c.save(); c.globalAlpha=1-(t-brillo.t)/1.1; ell(c,p.x,p.y,h*.17,h*.17,'rgba(255,201,60,.5)'); c.restore(); }
+    }
+    for(let i=bub.length-1;i>=0;i--){ const b=bub[i]; b.vida-=dt; if(b.vida<=0){ bub.splice(i,1); continue; } b.y+=b.vy*dt; b.x+=Math.sin(b.vida*6)*h*.003; c.strokeStyle='rgba(255,255,255,.85)'; c.fillStyle='rgba(255,255,255,.25)'; c.lineWidth=2; c.beginPath(); c.arc(b.x,b.y,b.r,0,Math.PI*2); c.fill(); c.stroke(); }
+    if(meta && modo==='preguntas'){ c.fillStyle='rgba(255,255,255,.85)'; rr(c,w*.74,h*.05,w*.22,h*.24,14); c.fill(); drawImg(c,meta.k,w*.85,h*.17,h*.18); }
+    c.save(); c.font=`800 ${Math.round(h*.06)}px 'Baloo 2',sans-serif`; c.textAlign='left'; c.fillStyle='#fff'; c.lineWidth=4; c.strokeStyle='#14508A'; c.strokeText(`★ ${n}`,w*.04,h*.1); c.fillText(`★ ${n}`,w*.04,h*.1); c.restore();
+  });
+  async function alimentar(){
+    modo='comer'; meta=null; await sayAll([tx.alimentar]); if(!M.alive()) return;
+    await new Promise(res=>{ const t0=performance.now(); const fin=()=>{ if(!M.alive()) return res(); if(performance.now()-t0<17000) return setTimeout(fin,300); res(); }; setTimeout(fin,500); });
+  }
+  async function nuevaRonda(){
+    if(!M.alive()) return;
+    if(ronda>=RONDAS){ meta=null; await sayAll([textoN(tx.fin,n), praise(true)]); if(!M.alive()) return; await alimentar(); if(!M.alive()) return; await sayAll([praise(true)]); if(M.alive()) resolve(n); return; }
+    ronda++; let g; do{ g=cr[Math.floor(Math.random()*cr.length)]; }while(g===ultimo && cr.length>1);
+    meta=ultimo=g; await sayAll([g.p]); listo=true;
+  }
+  (async()=>{ await sayAll([M.aviso, tx.intro]); nuevaRonda(); })();
+});

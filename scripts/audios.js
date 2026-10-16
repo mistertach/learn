@@ -366,6 +366,13 @@ function extraerPrompts(capId, lang, datos) {
       if (q.r) add(`pregunta-r-${slugify(q.r)}`, q.r);
     }
 
+    // microjuegos y finales: lo que dicen los textos sueltos (aviso, intro, preguntas, sonidos de los animales…)
+    {
+      const mj = tc.microjuego || {};
+      for (const k of ['titulo', 'intro', 'alimentar', 'libre', 'cosquillas', 'soplar', 'mas', 'listo', 'horno', 'burp', 'burpCorto']) if (typeof mj[k] === 'string' && !/\{n\}/.test(mj[k])) add(`mj-${cid}`, mj[k]);
+      for (const ing of (mj.ingredientes || [])) { if (typeof ing === 'string') continue; for (const f of ['texto', 'p', 'dale', 'sonido']) if (typeof ing[f] === 'string') add(`mj-${cid}`, ing[f]); }
+      for (const s of ((tc.final || {}).sonidos || [])) if (typeof s === 'string') add('sonido', s);
+    }
     // nivel 0: nombres e introducciones de los grupos, y la pregunta "¿cuál es…?" de cada palabra
     if (cid === allCaps[0]) {
       const d0 = datos.nivel0 && datos.nivel0[lang];
