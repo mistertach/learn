@@ -17,6 +17,7 @@ registrarIdioma({
     charlas: 'Chiacchierare', charlasDi: 'Chiacchieriamo! Con chi vuoi parlare?', charlaCerrada: 'Prima conosci questo amico nel suo posto.',
     charlaResponde: 'Tocca a te rispondere!', charlaPregunta: 'Adesso fai tu una domanda!', charlaFin: 'Hai fatto andare avanti la conversazione! Bravo!',
     nivel0: 'Livello 0', nivel0Titulo: 'Le parole del gioco', nivel0Di: 'Livello zero! Queste sono le parole che usa il gioco. Scegli un gruppo e ripeti con me.', nivel0Hecho: 'Conosci tutte queste parole! Molto bene!',
+    nivel0Todas: 'Tutte le parole', nivel0Grupo: 'Gruppo completato!',
     cuentos: 'Le storie', practicar: 'Parole e frasi', tienda: 'Il negozio',
     cuentosDi: 'Le storie. Quale leggiamo?', practicarDi: 'Ci alleniamo! Scegli una parola o una frase.',
     palabras: 'Parole', frases: 'Frasi',

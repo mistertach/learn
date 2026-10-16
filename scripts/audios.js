@@ -72,10 +72,8 @@ function cargarCapitulo(capId) {
     if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx);
   }
 
-  if (capId === 'nivel0') {
-    vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0.js'), 'utf8'), ctx);
-    return { PACKS, base: { orden: [] }, textos: {}, nivel0: ctx.NIVEL0 };
-  }
+  vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0.js'), 'utf8'), ctx);
+  if (capId === 'nivel0') return { PACKS, base: { orden: [] }, textos: {}, nivel0: ctx.NIVEL0 };
   const fBase = path.join(RAIZ, 'capitulos', capId, 'base.js');
   if (fs.existsSync(fBase)) vm.runInContext(fs.readFileSync(fBase, 'utf8'), ctx);
 
@@ -84,7 +82,7 @@ function cargarCapitulo(capId) {
     if (fs.existsSync(fLang)) vm.runInContext(fs.readFileSync(fLang, 'utf8'), ctx);
   }
 
-  return { PACKS, base: BASES[capId], textos: TEXTOS[capId] };
+  return { PACKS, base: BASES[capId], textos: TEXTOS[capId], nivel0: ctx.NIVEL0 };
 }
 
 function textoHabla(s, lang) {
@@ -295,7 +293,8 @@ function extraerPrompts(capId, lang, datos) {
     'ganasteCaballito', 'valeDos',
     'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres',
     'pez', 'pezQ', 'nam', 'escapo', 'cuantos',
-    'charlasDi', 'charlaCerrada', 'charlaResponde', 'charlaPregunta', 'charlaFin'
+    'charlasDi', 'charlaCerrada', 'charlaResponde', 'charlaPregunta', 'charlaFin',
+    'nivel0', 'nivel0Titulo', 'nivel0Di', 'nivel0Hecho', 'nivel0Todas', 'nivel0Grupo'
   ];
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
@@ -364,6 +363,14 @@ function extraerPrompts(capId, lang, datos) {
       if (q.r) add(`pregunta-r-${slugify(q.r)}`, q.r);
     }
 
+    // nivel 0: nombres e introducciones de los grupos, y la pregunta "¿cuál es…?" de cada palabra
+    if (cid === allCaps[0]) {
+      const d0 = datos.nivel0 && datos.nivel0[lang];
+      for (const gr of (d0 ? d0.grupos : [])) {
+        add('n0g', gr.nombre); add('n0i', gr.intro);
+        for (const w of gr.palabras) { if (T.cualEs) add('cualEs-n0', T.cualEs(w.texto)); }
+      }
+    }
     // conversaciones (las líneas con el nombre del chico no se graban: las dice la voz del navegador)
     for (const ch of (tc.charlas || [])) {
       const linea = x => { if (x && !String(x).includes('{N}')) add('charla', x); };

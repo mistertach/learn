@@ -16,6 +16,7 @@ registrarIdioma({
     charlas: 'Bavarder', charlasDi: 'Bavardons ! Avec qui veux-tu parler ?', charlaCerrada: "D'abord, fais connaissance avec cet ami dans son lieu.",
     charlaResponde: 'À toi de répondre !', charlaPregunta: 'Maintenant, pose une question !', charlaFin: 'Tu as fait durer la conversation ! Bravo !',
     nivel0: 'Niveau 0', nivel0Titulo: 'Les mots du jeu', nivel0Di: 'Niveau zéro ! Ce sont les mots que le jeu utilise. Choisis un groupe et répète avec moi.', nivel0Hecho: 'Tu connais tous ces mots ! Très bien !',
+    nivel0Todas: 'Tous les mots', nivel0Grupo: 'Groupe terminé !',
     cuentos: 'Les histoires', practicar: 'Mots et phrases', tienda: 'La boutique',
     cuentosDi: 'Les histoires. Laquelle on lit ?', practicarDi: "On s'entraîne ! Choisis un mot ou une phrase.",
     palabras: 'Mots', frases: 'Phrases',

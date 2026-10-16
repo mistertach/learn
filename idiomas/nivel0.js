@@ -4,7 +4,7 @@
    Se usa en goNivel0() (juego.js) y se graba con `node scripts/audios.js --cap=nivel0`. */
 window.NIVEL0 = {
   es: {grupos:[
-    {nombre:"Preguntas", palabras:[
+    {nombre:"Preguntas", intro:"Estas son las palabras de las preguntas. El juego te pregunta con ellas.", palabras:[
       {texto:"qué", silabas:["qué"]},
       {texto:"dónde", silabas:["dón","de"]},
       {texto:"quién", silabas:["quién"]},
@@ -15,7 +15,7 @@ window.NIVEL0 = {
       {texto:"con qué", silabas:["con","qué"]},
       {texto:"cuántos", silabas:["cuán","tos"]},
       {texto:"de qué color", silabas:["de","qué","co","lor"]}]},
-    {nombre:"¡Muy bien!", palabras:[
+    {nombre:"¡Muy bien!", intro:"Estas son las palabras para felicitar. Las escuchás cuando lo hacés bien.", palabras:[
       {texto:"muy bien", silabas:["muy","bien"]},
       {texto:"excelente", silabas:["ex","ce","len","te"]},
       {texto:"correcto", silabas:["co","rrec","to"]},
@@ -26,7 +26,7 @@ window.NIVEL0 = {
       {texto:"sí", silabas:["sí"]},
       {texto:"no", silabas:["no"]},
       {texto:"gracias", silabas:["gra","cias"]}]},
-    {nombre:"El juego dice…", palabras:[
+    {nombre:"El juego dice…", intro:"Estas son las órdenes del juego. Escuchá y hacé lo que dice.", palabras:[
       {texto:"repetí", silabas:["re","pe","tí"]},
       {texto:"todo junto", silabas:["to","do","jun","to"]},
       {texto:"te toca", silabas:["te","to","ca"]},
@@ -37,7 +37,7 @@ window.NIVEL0 = {
       {texto:"buscá", silabas:["bus","cá"]},
       {texto:"elegí", silabas:["e","le","gí"]},
       {texto:"esperá", silabas:["es","pe","rá"]}]},
-    {nombre:"Palabritas", palabras:[
+    {nombre:"Palabritas", intro:"Estas son palabritas para señalar cosas.", palabras:[
       {texto:"esto", silabas:["es","to"]},
       {texto:"eso", silabas:["e","so"]},
       {texto:"acá", silabas:["a","cá"]},
@@ -48,7 +48,7 @@ window.NIVEL0 = {
       {texto:"chico", silabas:["chi","co"]},
       {texto:"más", silabas:["más"]},
       {texto:"otra vez", silabas:["o","tra","vez"]}]},
-    {nombre:"Palabras amables", palabras:[
+    {nombre:"Palabras amables", intro:"Estas son palabras amables. Las usamos todos los días.", palabras:[
       {texto:"hola", silabas:["ho","la"]},
       {texto:"chau", silabas:["chau"]},
       {texto:"por favor", silabas:["por","fa","vor"]},
@@ -59,7 +59,7 @@ window.NIVEL0 = {
       {texto:"no sé", silabas:["no","sé"]},
       {texto:"vení", silabas:["ve","ní"]},
       {texto:"vamos", silabas:["va","mos"]}]},
-    {nombre:"Acciones", palabras:[
+    {nombre:"Acciones", intro:"Estas son palabras de acción. Dicen qué hacer.", palabras:[
       {texto:"dame", silabas:["da","me"]},
       {texto:"tomá", silabas:["to","má"]},
       {texto:"abrí", silabas:["a","brí"]},
@@ -70,7 +70,7 @@ window.NIVEL0 = {
       {texto:"dormir", silabas:["dor","mir"]},
       {texto:"caminar", silabas:["ca","mi","nar"]},
       {texto:"saltar", silabas:["sal","tar"]}]},
-    {nombre:"Colores", palabras:[
+    {nombre:"Colores", intro:"Estos son los colores.", palabras:[
       {texto:"rojo", silabas:["ro","jo"]},
       {texto:"azul", silabas:["a","zul"]},
       {texto:"amarillo", silabas:["a","ma","ri","llo"]},
@@ -80,7 +80,7 @@ window.NIVEL0 = {
       {texto:"rosa", silabas:["ro","sa"]},
       {texto:"negro", silabas:["ne","gro"]},
       {texto:"blanco", silabas:["blan","co"]}]},
-    {nombre:"Números", palabras:[
+    {nombre:"Números", intro:"Estos son los números, del uno al seis.", palabras:[
       {texto:"uno", silabas:["u","no"]},
       {texto:"dos", silabas:["dos"]},
       {texto:"tres", silabas:["tres"]},
@@ -88,7 +88,7 @@ window.NIVEL0 = {
       {texto:"cinco", silabas:["cin","co"]},
       {texto:"seis", silabas:["seis"]}]}]},
   fr: {grupos:[
-    {nombre:"Les questions", palabras:[
+    {nombre:"Les questions", intro:"Ce sont les mots des questions. Le jeu te pose des questions avec eux.", palabras:[
       {texto:"quoi", silabas:["quoi"]},
       {texto:"où", silabas:["où"]},
       {texto:"qui", silabas:["qui"]},
@@ -99,7 +99,7 @@ window.NIVEL0 = {
       {texto:"avec quoi", silabas:["a","vec","quoi"]},
       {texto:"combien", silabas:["com","bien"]},
       {texto:"quelle couleur", silabas:["quelle","cou","leur"]}]},
-    {nombre:"Bravo !", palabras:[
+    {nombre:"Bravo !", intro:"Ce sont les mots pour féliciter. Tu les entends quand tu réussis.", palabras:[
       {texto:"très bien", silabas:["très","bien"]},
       {texto:"excellent", silabas:["ex","cel","lent"]},
       {texto:"correct", silabas:["cor","rect"]},
@@ -110,7 +110,7 @@ window.NIVEL0 = {
       {texto:"oui", silabas:["oui"]},
       {texto:"non", silabas:["non"]},
       {texto:"merci", silabas:["mer","ci"]}]},
-    {nombre:"Le jeu dit…", palabras:[
+    {nombre:"Le jeu dit…", intro:"Ce sont les ordres du jeu. Écoute, puis fais ce qu'il dit.", palabras:[
       {texto:"répète", silabas:["ré","pète"]},
       {texto:"tous ensemble", silabas:["tous","en","sem","ble"]},
       {texto:"à toi", silabas:["à","toi"]},
@@ -121,7 +121,7 @@ window.NIVEL0 = {
       {texto:"cherche", silabas:["cher","che"]},
       {texto:"choisis", silabas:["choi","sis"]},
       {texto:"attends", silabas:["at","tends"]}]},
-    {nombre:"Petits mots", palabras:[
+    {nombre:"Petits mots", intro:"Ce sont des petits mots pour montrer les choses.", palabras:[
       {texto:"ça", silabas:["ça"]},
       {texto:"là", silabas:["là"]},
       {texto:"ici", silabas:["i","ci"]},
@@ -132,7 +132,7 @@ window.NIVEL0 = {
       {texto:"petit", silabas:["pe","tit"]},
       {texto:"plus", silabas:["plus"]},
       {texto:"encore", silabas:["en","core"]}]},
-    {nombre:"Mots gentils", palabras:[
+    {nombre:"Mots gentils", intro:"Ce sont des mots gentils. On les utilise tous les jours.", palabras:[
       {texto:"bonjour", silabas:["bon","jour"]},
       {texto:"au revoir", silabas:["au","re","voir"]},
       {texto:"s'il te plaît", silabas:["s'il","te","plaît"]},
@@ -143,7 +143,7 @@ window.NIVEL0 = {
       {texto:"je ne sais pas", silabas:["je","ne","sais","pas"]},
       {texto:"viens", silabas:["viens"]},
       {texto:"on y va", silabas:["on","y","va"]}]},
-    {nombre:"Les actions", palabras:[
+    {nombre:"Les actions", intro:"Ce sont les mots d'action. Ils disent quoi faire.", palabras:[
       {texto:"donne", silabas:["donne"]},
       {texto:"prends", silabas:["prends"]},
       {texto:"ouvre", silabas:["ou","vre"]},
@@ -154,7 +154,7 @@ window.NIVEL0 = {
       {texto:"dormir", silabas:["dor","mir"]},
       {texto:"marcher", silabas:["mar","cher"]},
       {texto:"sauter", silabas:["sau","ter"]}]},
-    {nombre:"Les couleurs", palabras:[
+    {nombre:"Les couleurs", intro:"Ce sont les couleurs.", palabras:[
       {texto:"rouge", silabas:["rouge"]},
       {texto:"bleu", silabas:["bleu"]},
       {texto:"jaune", silabas:["jaune"]},
@@ -164,7 +164,7 @@ window.NIVEL0 = {
       {texto:"rose", silabas:["rose"]},
       {texto:"noir", silabas:["noir"]},
       {texto:"blanc", silabas:["blanc"]}]},
-    {nombre:"Les nombres", palabras:[
+    {nombre:"Les nombres", intro:"Ce sont les nombres, de un à six.", palabras:[
       {texto:"un", silabas:["un"]},
       {texto:"deux", silabas:["deux"]},
       {texto:"trois", silabas:["trois"]},
@@ -172,7 +172,7 @@ window.NIVEL0 = {
       {texto:"cinq", silabas:["cinq"]},
       {texto:"six", silabas:["six"]}]}]},
   it: {grupos:[
-    {nombre:"Le domande", palabras:[
+    {nombre:"Le domande", intro:"Queste sono le parole delle domande. Il gioco ti chiede cose con queste parole.", palabras:[
       {texto:"che cosa", silabas:["che","co","sa"]},
       {texto:"dove", silabas:["do","ve"]},
       {texto:"chi", silabas:["chi"]},
@@ -183,7 +183,7 @@ window.NIVEL0 = {
       {texto:"con che cosa", silabas:["con","che","co","sa"]},
       {texto:"quanti", silabas:["quan","ti"]},
       {texto:"di che colore", silabas:["di","che","co","lo","re"]}]},
-    {nombre:"Bravo!", palabras:[
+    {nombre:"Bravo!", intro:"Queste sono le parole dei complimenti. Le senti quando fai bene.", palabras:[
       {texto:"molto bene", silabas:["mol","to","be","ne"]},
       {texto:"ottimo", silabas:["ot","ti","mo"]},
       {texto:"giusto", silabas:["giu","sto"]},
@@ -194,7 +194,7 @@ window.NIVEL0 = {
       {texto:"sì", silabas:["sì"]},
       {texto:"no", silabas:["no"]},
       {texto:"grazie", silabas:["gra","zie"]}]},
-    {nombre:"Il gioco dice…", palabras:[
+    {nombre:"Il gioco dice…", intro:"Questi sono gli ordini del gioco. Ascolta e fai quello che dice.", palabras:[
       {texto:"ripeti", silabas:["ri","pe","ti"]},
       {texto:"tutti insieme", silabas:["tut","ti","in","sie","me"]},
       {texto:"tocca a te", silabas:["toc","ca","a","te"]},
@@ -205,7 +205,7 @@ window.NIVEL0 = {
       {texto:"cerca", silabas:["cer","ca"]},
       {texto:"scegli", silabas:["sce","gli"]},
       {texto:"aspetta", silabas:["a","spet","ta"]}]},
-    {nombre:"Paroline", palabras:[
+    {nombre:"Paroline", intro:"Queste sono paroline per indicare le cose.", palabras:[
       {texto:"questo", silabas:["que","sto"]},
       {texto:"quello", silabas:["quel","lo"]},
       {texto:"qui", silabas:["qui"]},
@@ -216,7 +216,7 @@ window.NIVEL0 = {
       {texto:"piccolo", silabas:["pic","co","lo"]},
       {texto:"di più", silabas:["di","più"]},
       {texto:"ancora", silabas:["an","co","ra"]}]},
-    {nombre:"Parole gentili", palabras:[
+    {nombre:"Parole gentili", intro:"Queste sono parole gentili. Le usiamo ogni giorno.", palabras:[
       {texto:"ciao", silabas:["ciao"]},
       {texto:"arrivederci", silabas:["ar","ri","ve","der","ci"]},
       {texto:"per favore", silabas:["per","fa","vo","re"]},
@@ -227,7 +227,7 @@ window.NIVEL0 = {
       {texto:"non lo so", silabas:["non","lo","so"]},
       {texto:"vieni", silabas:["vie","ni"]},
       {texto:"andiamo", silabas:["an","dia","mo"]}]},
-    {nombre:"Le azioni", palabras:[
+    {nombre:"Le azioni", intro:"Queste sono parole di azione. Dicono cosa fare.", palabras:[
       {texto:"dai", silabas:["dai"]},
       {texto:"prendi", silabas:["pren","di"]},
       {texto:"apri", silabas:["a","pri"]},
@@ -238,7 +238,7 @@ window.NIVEL0 = {
       {texto:"dormire", silabas:["dor","mi","re"]},
       {texto:"camminare", silabas:["cam","mi","na","re"]},
       {texto:"saltare", silabas:["sal","ta","re"]}]},
-    {nombre:"I colori", palabras:[
+    {nombre:"I colori", intro:"Questi sono i colori.", palabras:[
       {texto:"rosso", silabas:["ros","so"]},
       {texto:"blu", silabas:["blu"]},
       {texto:"giallo", silabas:["gial","lo"]},
@@ -248,7 +248,7 @@ window.NIVEL0 = {
       {texto:"rosa", silabas:["ro","sa"]},
       {texto:"nero", silabas:["ne","ro"]},
       {texto:"bianco", silabas:["bian","co"]}]},
-    {nombre:"I numeri", palabras:[
+    {nombre:"I numeri", intro:"Questi sono i numeri, da uno a sei.", palabras:[
       {texto:"uno", silabas:["u","no"]},
       {texto:"due", silabas:["due"]},
       {texto:"tre", silabas:["tre"]},
@@ -256,7 +256,7 @@ window.NIVEL0 = {
       {texto:"cinque", silabas:["cin","que"]},
       {texto:"sei", silabas:["sei"]}]}]},
   en: {grupos:[
-    {nombre:"Question words", palabras:[
+    {nombre:"Question words", intro:"These are question words. The game asks you things with them.", palabras:[
       {texto:"what", silabas:["what"]},
       {texto:"where", silabas:["where"]},
       {texto:"who", silabas:["who"]},
@@ -267,7 +267,7 @@ window.NIVEL0 = {
       {texto:"with what", silabas:["with","what"]},
       {texto:"how many", silabas:["how","man","y"]},
       {texto:"what color", silabas:["what","col","or"]}]},
-    {nombre:"Well done!", palabras:[
+    {nombre:"Well done!", intro:"These are praise words. You hear them when you do well.", palabras:[
       {texto:"very good", silabas:["ver","y","good"]},
       {texto:"excellent", silabas:["ex","cel","lent"]},
       {texto:"correct", silabas:["cor","rect"]},
@@ -278,7 +278,7 @@ window.NIVEL0 = {
       {texto:"yes", silabas:["yes"]},
       {texto:"no", silabas:["no"]},
       {texto:"thank you", silabas:["thank","you"]}]},
-    {nombre:"The game says…", palabras:[
+    {nombre:"The game says…", intro:"These are the game's orders. Listen, then do what it says.", palabras:[
       {texto:"repeat", silabas:["re","peat"]},
       {texto:"all together", silabas:["all","to","geth","er"]},
       {texto:"your turn", silabas:["your","turn"]},
@@ -289,7 +289,7 @@ window.NIVEL0 = {
       {texto:"find", silabas:["find"]},
       {texto:"choose", silabas:["choose"]},
       {texto:"wait", silabas:["wait"]}]},
-    {nombre:"Little words", palabras:[
+    {nombre:"Little words", intro:"These are little words that point to things.", palabras:[
       {texto:"this", silabas:["this"]},
       {texto:"that", silabas:["that"]},
       {texto:"here", silabas:["here"]},
@@ -300,7 +300,7 @@ window.NIVEL0 = {
       {texto:"small", silabas:["small"]},
       {texto:"more", silabas:["more"]},
       {texto:"again", silabas:["a","gain"]}]},
-    {nombre:"Nice words", palabras:[
+    {nombre:"Nice words", intro:"These are nice words. We use them every day.", palabras:[
       {texto:"hello", silabas:["hel","lo"]},
       {texto:"goodbye", silabas:["good","bye"]},
       {texto:"please", silabas:["please"]},
@@ -311,7 +311,7 @@ window.NIVEL0 = {
       {texto:"I don't know", silabas:["I","don't","know"]},
       {texto:"come", silabas:["come"]},
       {texto:"let's go", silabas:["let's","go"]}]},
-    {nombre:"Doing words", palabras:[
+    {nombre:"Doing words", intro:"These are doing words. They tell us what to do.", palabras:[
       {texto:"give", silabas:["give"]},
       {texto:"take", silabas:["take"]},
       {texto:"open", silabas:["o","pen"]},
@@ -322,7 +322,7 @@ window.NIVEL0 = {
       {texto:"sleep", silabas:["sleep"]},
       {texto:"walk", silabas:["walk"]},
       {texto:"jump", silabas:["jump"]}]},
-    {nombre:"Colors", palabras:[
+    {nombre:"Colors", intro:"These are the colors.", palabras:[
       {texto:"red", silabas:["red"]},
       {texto:"blue", silabas:["blue"]},
       {texto:"yellow", silabas:["yel","low"]},
@@ -332,7 +332,7 @@ window.NIVEL0 = {
       {texto:"pink", silabas:["pink"]},
       {texto:"black", silabas:["black"]},
       {texto:"white", silabas:["white"]}]},
-    {nombre:"Numbers", palabras:[
+    {nombre:"Numbers", intro:"These are the numbers, from one to six.", palabras:[
       {texto:"one", silabas:["one"]},
       {texto:"two", silabas:["two"]},
       {texto:"three", silabas:["three"]},
@@ -340,7 +340,7 @@ window.NIVEL0 = {
       {texto:"five", silabas:["five"]},
       {texto:"six", silabas:["six"]}]}]},
   ar: {grupos:[
-    {nombre:"kalimaat as-su'aal|كلمات السؤال", palabras:[
+    {nombre:"kalimaat as-su'aal|كلمات السؤال", intro:"hathi kalimaat as-su'aal. al-lu'ba tis'alak biha.|هذي كلمات السؤال. اللعبة تسألك بها.", palabras:[
       {texto:"shu|شو", silabas:["shu|شُو"]},
       {texto:"wain|وين", silabas:["wain|وَيْن"]},
       {texto:"min|من", silabas:["min|مِنْ"]},
@@ -351,7 +351,7 @@ window.NIVEL0 = {
       {texto:"bi-shu|بشو", silabas:["bi|بِ","shu|شُو"]},
       {texto:"kam|كم", silabas:["kam|كَمْ"]},
       {texto:"shu al-loon|شو اللون", silabas:["shu|شُو","al|اَلْ","loon|لُون"]}]},
-    {nombre:"ahsant!|أحسنت!", palabras:[
+    {nombre:"ahsant!|أحسنت!", intro:"hathi kalimaat at-tashjee'. tisma'ha lamma tsawwi zain.|هذي كلمات التشجيع. تسمعها لما تسوي زين.", palabras:[
       {texto:"zain wayed|زين وايد", silabas:["zain|زَيْن","wa|وَا","yed|يِد"]},
       {texto:"mumtaz|ممتاز", silabas:["mum|مُمْ","taz|تَاز"]},
       {texto:"sah|صح", silabas:["sah|صَحّ"]},
@@ -362,7 +362,7 @@ window.NIVEL0 = {
       {texto:"aywa|أيوا", silabas:["ay|أَيْ","wa|وَا"]},
       {texto:"la|لا", silabas:["la|لَا"]},
       {texto:"shukran|شكراً", silabas:["shuk|شُكْ","ran|رَنْ"]}]},
-    {nombre:"al-lu'ba tgool...|اللعبة تقول...", palabras:[
+    {nombre:"al-lu'ba tgool...|اللعبة تقول...", intro:"hathi awaamir al-lu'ba. isma' w sawwi illi tgoolah.|هذي أوامر اللعبة. اسمع وسوي اللي تقوله.", palabras:[
       {texto:"a'id|أعد", silabas:["a|أَ","'id|عِدْ"]},
       {texto:"kilha sawa|كلها سوا", silabas:["kil|كِلْ","ha|هَا","sa|سَ","wa|وَا"]},
       {texto:"dawrak|دورك", silabas:["daw|دَوْ","rak|رَك"]},
@@ -373,7 +373,7 @@ window.NIVEL0 = {
       {texto:"lagi|لقي", silabas:["la|لَ","gi|قِي"]},
       {texto:"ikhtar|اختر", silabas:["ikh|إِخْ","tar|تَار"]},
       {texto:"intadhir|انتظر", silabas:["in|إِنْ","ta|تَ","dhir|ظِر"]}]},
-    {nombre:"kalimaat saghira|كلمات صغيرة", palabras:[
+    {nombre:"kalimaat saghira|كلمات صغيرة", intro:"hathi kalimaat saghira nishir biha 'ala al-ashya'.|هذي كلمات صغيرة نشير بها على الأشياء.", palabras:[
       {texto:"hatha|هذا", silabas:["ha|هَا","tha|ذَا"]},
       {texto:"thaak|ذاك", silabas:["thaak|ذَاك"]},
       {texto:"hini|هني", silabas:["hi|هِ","ni|نِي"]},
@@ -384,7 +384,7 @@ window.NIVEL0 = {
       {texto:"saghir|صغير", silabas:["sa|صَ","ghir|غِير"]},
       {texto:"ziyada|زيادة", silabas:["zi|زِ","ya|يَا","da|دَة"]},
       {texto:"marra thaniya|مرة ثانية", silabas:["mar|مَرْ","ra|رَة","tha|ثَا","ni|نِي","ya|يَة"]}]},
-    {nombre:"kalimaat lateefa|كلمات لطيفة", palabras:[
+    {nombre:"kalimaat lateefa|كلمات لطيفة", intro:"hathi kalimaat lateefa. nistakhdimha kil yoom.|هذي كلمات لطيفة. نستخدمها كل يوم.", palabras:[
       {texto:"marhaba|مرحبا", silabas:["mar|مَرْ","ha|حَ","ba|بَا"]},
       {texto:"ma'a as-salama|مع السلامة", silabas:["ma'a|مَعَ","as|اَسْ","sa|سَ","la|لَا","ma|مَة"]},
       {texto:"min fadlak|من فضلك", silabas:["min|مِنْ","fad|فَضْ","lak|لَك"]},
@@ -395,7 +395,7 @@ window.NIVEL0 = {
       {texto:"ma a'rif|ما أعرف", silabas:["ma|مَا","a'|أَعْ","rif|رِفْ"]},
       {texto:"ta'al|تعال", silabas:["ta|تَ","'al|عَال"]},
       {texto:"yalla|يلا", silabas:["yal|يَلْ","la|لَا"]}]},
-    {nombre:"af'aal|أفعال", palabras:[
+    {nombre:"af'aal|أفعال", intro:"hathi kalimaat al-af'aal. tgoolik shu tsawwi.|هذي كلمات الأفعال. تقولك شو تسوي.", palabras:[
       {texto:"a'ti|أعطي", silabas:["a'|أَعْ","ti|طِي"]},
       {texto:"khudh|خذ", silabas:["khudh|خُذْ"]},
       {texto:"iftah|افتح", silabas:["if|إِفْ","tah|تَحْ"]},
@@ -406,7 +406,7 @@ window.NIVEL0 = {
       {texto:"nam|نم", silabas:["nam|نَمْ"]},
       {texto:"imshi|امشي", silabas:["im|إِمْ","shi|شِي"]},
       {texto:"untut|انطط", silabas:["un|أُنْ","tut|طُطْ"]}]},
-    {nombre:"al-alwaan|الألوان", palabras:[
+    {nombre:"al-alwaan|الألوان", intro:"hathi al-alwaan.|هذي الألوان.", palabras:[
       {texto:"ahmar|أحمر", silabas:["ah|أَحْ","mar|مَر"]},
       {texto:"azraq|أزرق", silabas:["az|أَزْ","raq|رَق"]},
       {texto:"asfar|أصفر", silabas:["as|أَصْ","far|فَر"]},
@@ -416,7 +416,7 @@ window.NIVEL0 = {
       {texto:"wardi|وردي", silabas:["war|وَرْ","di|دِي"]},
       {texto:"aswad|أسود", silabas:["as|أَسْ","wad|وَد"]},
       {texto:"abyadh|أبيض", silabas:["ab|أَبْ","yadh|يَض"]}]},
-    {nombre:"al-arqaam|الأرقام", palabras:[
+    {nombre:"al-arqaam|الأرقام", intro:"hathi al-arqaam, min wahid li-sitta.|هذي الأرقام، من واحد لستة.", palabras:[
       {texto:"wahid|واحد", silabas:["wa|وَا","hid|حِد"]},
       {texto:"ithnain|اثنين", silabas:["ith|إِثْ","nain|نَيْن"]},
       {texto:"thalatha|ثلاثة", silabas:["tha|ثَ","la|لَا","tha|ثَة"]},

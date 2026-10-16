@@ -19,6 +19,7 @@ registrarIdioma({
     charlas: 'Chat', charlasDi: "Let's chat! Who do you want to talk to?", charlaCerrada: 'First meet this friend at their place.',
     charlaResponde: 'Your turn to answer!', charlaPregunta: 'Now you ask something!', charlaFin: 'You kept the chat going! Well done!',
     nivel0: 'Level 0', nivel0Titulo: 'Game words', nivel0Di: 'Level zero! These are the words the game uses. Pick a group and repeat after me.', nivel0Hecho: 'You know all these words! Very good!',
+    nivel0Todas: 'All the words', nivel0Grupo: 'Group complete!',
     cuentos: 'Stories', practicar: 'Words and phrases', tienda: 'The shop',
     cuentosDi: 'The stories. Which one shall we read?', practicarDi: 'Words and phrases. Pick what you want to practice.',
     palabras: 'Words', frases: 'Phrases',

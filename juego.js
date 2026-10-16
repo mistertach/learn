@@ -260,6 +260,7 @@ async function cargarTodo(){
     ...[...new Set([...langs,'en'])].map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
     cargarScript('idiomas/nivel0.js'),
+    cargarScript('idiomas/nivel0-arte.js'),
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
     cargarScript('idiomas/grandes.js'),
@@ -476,7 +477,7 @@ async function sayAll(parts){
     else if(b) await playBlob(b);
     else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
-    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; await speak(tr, .9, ayuda()); } }
+    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else await speak(tr, .9, ayuda()); } }
   }
   return my===sayTok;
 }
@@ -1454,7 +1455,7 @@ function construirCamino(box){
     if(nieve){ deco += q<.38 ? dibujoNieve(x,y,s) : q<.7 ? dibujoArbol(x,y,s,true) : q<.85 ? dibujoArbusto(x,y,s,true) : dibujoRoca(x,y,s*.9,true); }
     else { deco += q<.34 ? dibujoArbol(x,y,s,false) : q<.6 ? dibujoArbusto(x,y,s,false) : q<.72 ? dibujoRoca(x,y,s*.8,false) : dibujoFlorcita(x,y,['#FF8FB8','#fff','#FFC93C','#FF6F59'][i%4])+dibujoFlorcita(x+9,y+5,['#fff','#FFC93C'][i%2]); } }
   // el nivel 0 es opcional: solo es "la parada actual" mientras no se empezó ningún lugar
-  const n0ok=!items[0] || items[0].t!=='n0' || n0Grupos().every(g=>g.palabras.every(n0Hecha)), ningunLugar=!CAP_LIST.some(c=>capEmpezado(c));
+  const n0ok=!items[0] || items[0].t!=='n0' || n0Grupos().every(n0GrupoHecho), ningunLugar=!CAP_LIST.some(c=>capEmpezado(c));
   let cur=items.findIndex((it,i)=>it.t==='n0' ? (!n0ok && ningunLugar) : !capSave(it.c.id).final); if(cur<0) cur=N-1;
   const fondo=`<defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#AEDD4B"/><stop offset=".5" stop-color="#98D96E"/><stop offset=".7" stop-color="#D4F0E2"/><stop offset="1" stop-color="#EAF8FF"/></linearGradient>
     <linearGradient id="cs" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#FFCF5A"/><stop offset="1" stop-color="#D8C58B"/></linearGradient>
@@ -1471,7 +1472,7 @@ function construirCamino(box){
     const p=pos[i], b=document.createElement('button'); b.className='nodo'; b.style.left=`${p.x/W*100}%`; b.style.top=`${p.y/H*100}%`;
     let titulo, num, tile, estrellas, abierto, hecho;
     if(it.t==='n0'){
-      const g=n0Grupos(), hechos=g.filter(x=>x.palabras.every(n0Hecha)).length;
+      const g=n0Grupos(), hechos=g.filter(n0GrupoHecho).length;
       titulo=T.nivel0Titulo; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
       estrellas=[hechos>=3, hechos>=6, hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
       b.addEventListener('click',goNivel0);
@@ -1520,8 +1521,8 @@ function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
   const actual=construirCamino(box);
-  const hs=$('#scr-home'); hs.classList.remove('compact'); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs.classList.toggle('compact',hs.scrollTop>40),{passive:true}); }
-  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } hs.classList.toggle('compact',hs.scrollTop>40); },80);
+  const hs=$('#scr-home'); const compacta=()=>hs.classList.toggle('compact',hs.scrollTop>40 || innerWidth>=900); compacta(); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs._cmp&&hs._cmp(),{passive:true}); addEventListener('resize',()=>hs._cmp&&hs._cmp()); } hs._cmp=compacta;
+  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } compacta(); },80);
   $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
   sayAll([T.holaDi(save.name)]);
   if(!save.tour) setTimeout(()=>{ if(!scr.home.hidden && modal.hidden) abrirTour(); },900);
@@ -3172,52 +3173,121 @@ async function runCharla(c, i){
 
 /* =========================================================
    NIVEL 0 — las palabras del propio juego (¿qué?, ¿dónde?, muy bien, repetí…)
-   Para quien recién empieza: ~75 palabras en grupos (idiomas/nivel0.js, una lista por idioma).
-   Cada palabra se practica sílaba por sílaba como en los lugares; abajo se ve su traducción
-   (idioma de ayuda, o inglés). Cada grupo terminado por primera vez da 2 pececitos.
-   Lo hecho queda en save.nivel0 (id de la palabra / "g:<idioma>:<grupo>").
+   Para quien recién empieza: ~75 palabras en 8 grupos (idiomas/nivel0.js, una lista por idioma; los dibujitos de cada
+   palabra, en idiomas/nivel0-arte.js). Cada grupo es una lección (runLeccion0): una guía explica de qué se trata, se ve y se
+   repite cada palabra sílaba por sílaba con su dibujo y su traducción (idioma de ayuda, o inglés), y un juego de "¿cuál es…?".
+   Terminarlo da un tilde y 2 pececitos (y una galletita al completar los 8 grupos). "Todas las palabras" queda para repasar.
+   Lo hecho queda en save.nivel0 (id de la palabra / "g:<idioma>:<grupo>" / "todo:<idioma>").
    ========================================================= */
 function n0Grupos(){
   const d=(window.NIVEL0||{})[langCode()]; if(!d) return [];
-  return d.grupos.map((g,gi)=>({nombre:g.nombre, gi, palabras:g.palabras.map((w,wi)=>({id:`${langCode()}:n0:${gi}:${wi}`, texto:w.texto, silabas:w.silabas, gi, wi}))}));
+  return d.grupos.map((g,gi)=>({nombre:g.nombre, intro:g.intro, gi, palabras:g.palabras.map((w,wi)=>({id:`${langCode()}:n0:${gi}:${wi}`, texto:w.texto, silabas:w.silabas, gi, wi}))}));
 }
 const n0Hecha = w => !!(save.nivel0||{})[w.id];
+const n0GrupoHecho = g => !!(save.nivel0||{})[`g:${langCode()}:${g.gi}`];
+const N0_GUIA = gi => ({kind:'cat', fur:'#F2C46B', fur2:'#FFF3D6', hat:(window.NIVEL0_COLORES||[])[gi]||'#7C5CFF', seed:.6});
+const n0Trad = t => traducir(t)||enDe(t);
+function n0Dibujo(gi,wi,cls=''){ const f=((window.NIVEL0_ARTE||[])[gi]||[])[wi]; return f ? `<svg class="n0d ${cls}" viewBox="0 0 100 100">${f(NIVEL0_COLORES[gi])}</svg>` : ''; }
+/* la pantalla del nivel 0: una tarjeta por grupo (con su explicación, sus dibujitos y un tilde al terminar) */
 function goNivel0(){
   hush(); show('lib'); libMode='nivel0';
   const body=$('#libBody'); body.innerHTML='';
   $('#libTitle').textContent=T.nivel0Titulo;
-  n0Grupos().forEach(g=>{
+  const grupos=n0Grupos(), prox=grupos.findIndex(g=>!n0GrupoHecho(g));
+  body.innerHTML=`<div class="n0grupos">${grupos.map(g=>{ const hecho=n0GrupoHecho(g), col=NIVEL0_COLORES[g.gi];
+    return `<button class="n0g ${hecho?'hecho':''} ${g.gi===prox?'prox':''}" style="--ac:${col}" data-g="${g.gi}">
+      <span class="n0g-art">${g.palabras.slice(0,4).map(w=>n0Dibujo(g.gi,w.wi)).join('')}<em class="n0g-n">${g.gi+1}</em>${hecho?`<i class="n0g-ok">${ICON.check}</i>`:''}</span>
+      <b>${esc(g.nombre)}</b><span class="n0g-pts">${g.palabras.map(w=>`<i class="${n0Hecha(w)||hecho?'on':''}"></i>`).join('')}</span></button>`; }).join('')}</div>
+    <div class="center"><button class="n0todas" id="n0todas">${ICON.book}<span>${esc(T.nivel0Todas)}</span></button></div>`;
+  body.querySelectorAll('.n0g').forEach(b=>{ const g=grupos[+b.dataset.g];
+    b.addEventListener('focus',()=>sayAll([g.nombre])); b.addEventListener('click',()=>runLeccion0(g.gi)); });
+  $('#n0todas').addEventListener('focus',()=>sayAll([T.nivel0Todas])); $('#n0todas').addEventListener('click',goNivel0Todas);
+  setTimeout(()=>(body.querySelector('.n0g.prox')||body.querySelector('.n0g'))?.focus(),60);
+  sayAll([T.nivel0Di]);
+}
+/* todas las palabras juntas, para repasar */
+function goNivel0Todas(){
+  hush(); show('lib'); libMode='nivel0';
+  const body=$('#libBody'); body.innerHTML='';
+  $('#libTitle').textContent=T.nivel0Todas;
+  const grupos=n0Grupos();
+  grupos.forEach(g=>{
     const sec=document.createElement('section'); sec.className='shelf';
-    sec.innerHTML=`<h3>${esc(g.nombre)}</h3><div class="cards">${g.palabras.map(w=>{ const tr=traducir(w.texto)||enDe(w.texto);
-      return `<button class="pcard n0" data-g="${g.gi}" data-w="${w.wi}"><span class="n0t"><b>${esc(w.texto)}</b>${tr?`<small>${esc(tr)}</small>`:''}</span>${n0Hecha(w)?`<i class="n0ok">${ICON.check}</i>`:''}</button>`; }).join('')}</div>`;
+    sec.innerHTML=`<h3>${esc(g.nombre)}</h3><div class="cards">${g.palabras.map(w=>{ const tr=n0Trad(w.texto);
+      return `<button class="pcard n0" data-g="${g.gi}" data-w="${w.wi}"><span class="n0t"><b>${esc(w.texto)}</b>${tr?`<small>${esc(tr)}</small>`:''}</span>${n0Dibujo(g.gi,w.wi,'mini')}</button>`; }).join('')}</div>`;
     body.appendChild(sec);
   });
-  const grupos=n0Grupos();
   body.querySelectorAll('.pcard.n0').forEach(b=>{
     const w=grupos[+b.dataset.g].palabras[+b.dataset.w];
     b.addEventListener('focus',()=>sayAll([{t:w.texto, id:w.id}]));
     b.addEventListener('click',()=>runPractica0(w));
   });
   setTimeout(()=>body.querySelector('button')?.focus(),60);
-  sayAll([T.nivel0Di]);
 }
 async function runPractica0(w){
-  const tok=++flowTok; busy=true; const tr=traducir(w.texto)||enDe(w.texto);
-  openModal(`${X_BTN}
-    <div class="center"><div class="hero-item small">${img('consignas')}</div></div>
+  const tok=++flowTok; busy=true; const tr=n0Trad(w.texto);
+  openModal(`${X_BTN}<div class="center"><div class="n0-big" style="--ac:${NIVEL0_COLORES[w.gi]}">${n0Dibujo(w.gi,w.wi)}</div></div>
     ${chipsWord(w)}${tr?`<div class="center"><div class="word"><small>${esc(tr)}</small></div></div>`:''}${turnHtml()}
     <div class="actions">${B('again','replay',T.otraVez)}${B('done','star',T.listo,'go')}</div>`);
   liveMe();
   onAct('again',()=>narrar(()=>silabear(w,[])));
   narrar(()=>silabear(w,[T.repeti]));
   await waitAct('done'); if(tok!==flowTok) return;
-  sfx.yay();
-  const n=save.nivel0||(save.nivel0={}); n[w.id]=true;
-  const g=n0Grupos()[w.gi], clave=`g:${langCode()}:${w.gi}`;
-  const nuevo = g.palabras.every(n0Hecha) && !n[clave];
-  if(nuevo){ n[clave]=true; save.puntos=(save.puntos||0)+2; updateNames(); }
-  persist(); closeModal(); busy=false;
-  if(!scr.lib.hidden && libMode==='nivel0'){ goNivel0(); if(nuevo){ sfx.stamp(); sayAll([T.premio(T.peces(2))]); } }
+  sfx.yay(); (save.nivel0||(save.nivel0={}))[w.id]=true; persist(); closeModal(); busy=false;
+}
+/* una lección por grupo: la guía explica, se ve y se repite cada palabra con su dibujito, y un jueguito de "¿cuál es…?" */
+async function runLeccion0(gi){
+  const tok=++flowTok, alive=()=>tok===flowTok; busy=true;
+  const g=n0Grupos()[gi], col=NIVEL0_COLORES[gi], guia=N0_GUIA(gi), n=g.palabras.length, rondas=Math.min(4,n), total=1+n+rondas;
+  const n0=save.nivel0||(save.nivel0={});
+  // 1 · la guía explica de qué se trata
+  openModal(shell({steps:total, step:0, npc:guia, bubble:esc(g.intro), en:enDe(g.intro), sub:n0Trad(g.intro)||'',
+    center:`<div class="n0-fila" style="--ac:${col}">${g.palabras.slice(0,6).map(w=>n0Dibujo(gi,w.wi,'chico')).join('')}</div>`,
+    actions:B('go','next',T.vamos,'go')}));
+  liveNpc(guia); sfx.stamp();
+  narrar(()=>sayAll([g.nombre, g.intro]));
+  await waitAct('go'); if(!alive()) return;
+  // 2 · cada palabra, con su dibujo
+  for(let i=0;i<n;i++){
+    const w=g.palabras[i], tr=n0Trad(w.texto);
+    openModal(shell({steps:total, step:1+i,
+      center:`<div class="stack"><div class="n0-big" style="--ac:${col}">${n0Dibujo(gi,i)}</div>${chipsWord(w)}${tr?`<div class="word"><small>${esc(tr)}</small></div>`:''}${turnHtml()}</div>`,
+      actions:B('again','replay',T.otraVez)+B('go','next',T.seguir,'go')}));
+    liveMe(); onAct('again',()=>narrar(()=>silabear(w,[])));
+    narrar(()=>silabear(w,[T.repeti]));
+    await waitAct('go'); if(!alive()) return;
+    n0[w.id]=true;
+  }
+  persist();
+  // 3 · ¿cuál es…? con los dibujitos
+  const metas=shuffle(g.palabras).slice(0,rondas);
+  for(let r=0;r<rondas;r++){
+    const meta=metas[r], ops=shuffle([meta,...shuffle(g.palabras.filter(x=>x!==meta)).slice(0,2)]), q=T.cualEs(meta.texto);
+    openModal(shell({steps:total, step:1+n+r, npc:guia, bubble:esc(q), en:enDe(meta.texto)&&enT('cualEs',enDe(meta.texto)),
+      center:ops.map(o=>`<button class="choice" data-act="pick" data-w="${o.wi}" aria-label="${esc(o.texto)}">${n0Dibujo(gi,o.wi)}</button>`).join(''),
+      actions:B('again','speaker',T.otraVez)}));
+    liveNpc(guia); onAct('again',()=>narrar(()=>sayAll([q]))); narrar(()=>sayAll([q]));
+    for(;;){
+      const {btn}=await waitAct('pick'); if(!alive()) return;
+      if(+btn.dataset.w===meta.wi){ btn.classList.add('right'); sfx.yay(); card.querySelectorAll('[data-act="pick"]').forEach(b=>b.disabled=true); await sayAll([praise()]); if(!alive()) return; break; }
+      btn.classList.add('wrong'); sfx.oops(); btn.disabled=true; sayAll([T.casi, q]);
+    }
+  }
+  // 4 · terminado: tilde, premio y confeti
+  const clave=`g:${langCode()}:${gi}`, nuevo=!n0[clave]; n0[clave]=true;
+  const todos=n0Grupos().every(x=>x.gi===gi || n0GrupoHecho(x)), primeraVez=nuevo && todos && !n0['todo:'+langCode()];
+  if(nuevo){ save.puntos=(save.puntos||0)+2; }
+  if(primeraVez){ n0['todo:'+langCode()]=true; save.galletitas=(save.galletitas||0)+1; }
+  persist(); updateNames();
+  const col2=['#FFC93C','#FF6F8F','#2E86DE','#2FBF8F','#8B6FE8','#FF9B3D'];
+  openModal(`${X_BTN}<div class="confeti">${[...Array(28)].map((_,i)=>`<i style="left:${(i*37)%100}%;background:${col2[i%6]};animation-delay:${(i%9)*.18}s"></i>`).join('')}</div>
+    <h3 class="stitle">${esc(g.nombre)}</h3>
+    <div class="center"><div class="n0-fila grande" style="--ac:${col}">${g.palabras.slice(0,5).map(w=>n0Dibujo(gi,w.wi,'chico')).join('')}<i class="n0g-ok gigante">${ICON.check}</i></div></div>
+    <div class="actions">${B('back','back',T.atras,'go')}</div>`);
+  sfx.stamp(); setTimeout(()=>sfx.yay(),300);
+  await narrar(()=>sayAll([T.nivel0Grupo, praise(true), ...(nuevo?[T.premio(T.peces(2))]:[]), ...(primeraVez?[T.nivel0Hecho, T.ganasteGalletita]:[])])); if(!alive()) return;
+  await waitAct('back'); if(!alive()) return;
+  closeModal(); busy=false; if(!scr.lib.hidden && libMode==='nivel0') goNivel0();
 }
 
 /* =========================================================
