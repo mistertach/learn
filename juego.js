@@ -2813,6 +2813,31 @@ async function descargarAudio(btn){
   }catch(e){ btn.textContent='No se pudo descargar'; btn.disabled=false; }
 }
 const AUDIO_VERSION_CLIENTE='v3';   // igual que AUDIO_VERSION en sw.js
+/* tocar los pececitos de arriba: cuenta cuántos pececitos tiene en total (cada caballito vale 2 y cada galletita 3), uno por uno */
+async function abrirCuentaPeces(){
+  if(!modal.hidden) return;
+  const p=save.puntos||0, a=save.caballitos||0, b=save.galletitas||0, total=riqueza();
+  busy=true; const tok=++flowTok, alive=()=>tok===flowTok; hush();
+  const lote=(n,m)=>Array.from({length:n},()=>`<span class="cf-lote">${Array.from({length:m},()=>`<i class="cfp">${img('pez')}</i>`).join('')}</span>`).join('');
+  const grupo=(g,icono,n,m)=>n?`<div class="cf" data-g="${g}"><div class="cf-ic">${img(icono)}<b>× ${n}</b>${m>1?`<em>= ${m} ${img('pez')}</em>`:''}</div><div class="cf-peces">${lote(n,m)}</div></div>`:'';
+  openModal(`${X_BTN}<h3 class="stitle">${esc(T.contarTitulo)}</h3>
+    <div class="cuenta">${grupo('pez','pez',p,1)}${grupo('cab','caballito',a,2)}${grupo('gal','galletita',b,3)}</div>
+    <div class="cf-total"><span class="cf-eq">${[p, a?`${a} × 2`:'', b?`${b} × 3`:''].filter(Boolean).join(' + ')||'0'}</span><div class="cf-n"><b data-n>0</b>${img('pez')}</div></div>
+    <div class="actions">${B('contar','replay',T.contar,'go')}</div>`);
+  const contar=async()=>{
+    card.querySelectorAll('.cfp').forEach(x=>x.classList.remove('on')); const num=card.querySelector('[data-n]'); num.textContent='0'; num.classList.remove('fin');
+    let n=0; const pausa=Math.max(50, Math.min(260, 3200/Math.max(1,total)));
+    for(const g of ['pez','cab','gal']){
+      const fila=card.querySelector(`.cf[data-g="${g}"]`); if(!fila) continue;
+      if(g==='cab') await sayAll([T.valeDos]); if(g==='gal') await sayAll([T.valeTres]); if(!alive()) return;
+      for(const f of fila.querySelectorAll('.cfp')){ f.classList.add('on'); num.textContent=String(++n); sfx.tick(); await sleep(pausa); if(!alive()) return; }
+    }
+    if(total){ sfx.yay(); num.classList.add('fin'); await sayAll([T.tenesPeces(T.peces(total))]); }
+  };
+  onAct('contar',()=>narrar(contar));
+  narrar(async()=>{ await sayAll([T.contarTitulo]); if(alive()) await contar(); });
+}
+document.addEventListener('click',e=>{ if(e.target.closest && e.target.closest('.pts') && modal.hidden && scr.start.hidden && scr.lang.hidden && scr.name.hidden) abrirCuentaPeces(); });
 /* una cuenta de sumar antes de entrar al rincón de los grandes (mantener apretado el engranaje no alcanza: un chico puede) */
 function puertaGrandes(){
   if(!modal.hidden && card.classList.contains('parent')) return;

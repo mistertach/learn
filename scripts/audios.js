@@ -296,7 +296,7 @@ function extraerPrompts(capId, lang, datos) {
     'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres',
     'pez', 'pezQ', 'nam', 'escapo', 'cuantos',
     'charlasDi', 'charlaCerrada', 'charlaResponde', 'charlaPregunta', 'charlaFin',
-    'nivel0', 'nivel0Titulo', 'nivel0Di', 'nivel0Hecho', 'nivel0Todas', 'nivel0Grupo', 'dilo'
+    'nivel0', 'nivel0Titulo', 'nivel0Di', 'nivel0Hecho', 'nivel0Todas', 'nivel0Grupo', 'dilo', 'contarTitulo'
   ];
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
