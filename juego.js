@@ -6,6 +6,7 @@
 
 /* ---------- arte común + íconos ---------- */
 const ART = {
+  consignas:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M14 16h72a8 8 0 0 1 8 8v40a8 8 0 0 1-8 8H48L26 90V72H14a8 8 0 0 1-8-8V24a8 8 0 0 1 8-8z" fill="#FFC93C" stroke="#22314F" stroke-width="4" stroke-linejoin="round"/><path d="M40 38c0-12 22-12 22 0 0 8-10 8-10 16" fill="none" stroke="#22314F" stroke-width="7" stroke-linecap="round"/><circle cx="52" cy="63" r="4.5" fill="#22314F"/></svg>`,
   globo:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 16h60a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12H46L28 86V70h-8A12 12 0 0 1 8 58V28a12 12 0 0 1 12-12z" fill="#8B6FE8"/><circle cx="34" cy="43" r="6" fill="#fff"/><circle cx="50" cy="43" r="6" fill="#fff"/><circle cx="66" cy="43" r="6" fill="#fff"/></svg>`,
   caballito:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M46 14c14-4 26 6 24 20-1 6-6 10-12 11 6 6 10 14 8 24-2 12-12 20-22 18-8-2-10-10-6-14 4-3 9-1 9 3 0 3-3 4-5 3 6 3 14-4 13-12-1-10-10-14-16-20-6-6-8-16-2-24-6 0-10-2-12-6 6 1 12-1 21-3z" fill="#FF8FB8"/><path d="M58 18c4 2 6 6 5 10" fill="none" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><path d="M44 52c-6-2-10 2-10 6 4-1 8 0 10-2z" fill="#FFC93C"/><path d="M52 30l-6-12M58 26l-2-12M64 30l4-10" stroke="#E86A9A" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="27" r="3.5" fill="#22314F"/><circle cx="61" cy="26" r="1.2" fill="#fff"/><path d="M70 34l12 3-12 4z" fill="#FF8FB8"/><path d="M50 60q6 4 4 10M48 72q4 2 2 6" fill="none" stroke="#E86A9A" stroke-width="2.5" stroke-linecap="round"/></svg>`,
   pez:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M72 50l22-18v36z" fill="#FF7A1A"/><path d="M42 30l12-14 8 16z" fill="#FF7A1A"/><ellipse cx="44" cy="50" rx="33" ry="22" fill="#FF9B3D"/><path d="M50 31c-4 6-4 32 0 38M62 34c-3 6-3 26 0 32" stroke="#FFC27A" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="25" cy="45" r="6.5" fill="#fff"/><circle cx="24" cy="45" r="3.4" fill="#22314F"/><path d="M13 55q5 4 10 1" stroke="#22314F" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
@@ -29,6 +30,7 @@ const ICON = {
   bag:'<svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12.5H6.2z" fill="currentColor"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
   lock:'<svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>',
   chat:'<svg viewBox="0 0 24 24"><path d="M3 4h12a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 15 13H8l-3.5 3v-3H3a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 3 4z" fill="currentColor"/><path d="M18.5 9h2a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5H20v3l-3.5-3H11a1.5 1.5 0 0 1-1.5-1.5V14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+  pad:'<svg viewBox="0 0 24 24"><path d="M7.5 7.5h9a5.5 5.5 0 0 1 5.3 6.9l-.8 3a2.4 2.4 0 0 1-4 .9L14.5 16h-5l-2.5 2.3a2.4 2.4 0 0 1-4-.9l-.8-3a5.5 5.5 0 0 1 5.3-6.9z" fill="currentColor"/><path d="M8 10v4M6 12h4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="15.5" cy="11" r="1.2" fill="#fff"/><circle cx="18" cy="13" r="1.2" fill="#fff"/></svg>',
   replay:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   up:'<svg viewBox="0 0 24 24"><path d="M12 5l7 9H5z" fill="currentColor"/></svg>',
   down:'<svg viewBox="0 0 24 24"><path d="M12 19l7-9H5z" fill="currentColor"/></svg>',
@@ -141,6 +143,7 @@ function mapaTrad(){
   const m=new Map();
   for(const id in TEXTOS){ const t=TEXTOS[id][langCode()], h=TEXTOS[id][a]; if(t && h) zipTrad(m,t,h); }
   if(PACKS[a]) zipTrad(m, LANG.t, PACKS[a].t);
+  if(window.NIVEL0 && NIVEL0[langCode()] && NIVEL0[a]) zipTrad(m, NIVEL0[langCode()], NIVEL0[a]);
   // también sin las marcas *así* (los cuentos se dicen sin ellas)
   for(const [k,v] of [...m]) if(k.includes('*')) m.set(sinMarcas(k), v);
   TRAD=m; TRADpar=par; return m;
@@ -238,6 +241,7 @@ function armarIngles(){
     const m=EN[l]={};
     for(const id in TEXTOS){ const t=TEXTOS[id][l]; if(!t) continue; Object.assign(m, t.ingles||{}); zipEn(m, t, TEXTOS[id].en); }
     const P=PACKS[l]; if(P) zipEn(m, P.t, ENT);
+    if(window.NIVEL0 && NIVEL0[l] && NIVEL0.en) zipEn(m, NIVEL0[l], NIVEL0.en);
   }
 }
 const enDe = s => { if(langCode()==='en') return ''; const m=EN[langCode()]||{}; return m[s] || m[String(s||'').trim()] || ''; };
@@ -255,6 +259,7 @@ async function cargarTodo(){
   await Promise.all([
     ...[...new Set([...langs,'en'])].map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
+    cargarScript('idiomas/nivel0.js'),
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
     cargarScript('idiomas/grandes.js'),
@@ -302,7 +307,7 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, personajes:{luna:true, toby:true, coco:true}, armario:{tiene:{}, puesto:{}}, juegos:{}, charlas:{}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, personajes:{luna:true, toby:true, coco:true}, armario:{tiene:{}, puesto:{}}, juegos:{}, charlas:{}, nivel0:{}});
 function loadSave(){
   try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {personajes:Object.assign({luna:true, toby:true, coco:true}, s.personajes||{}), armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
@@ -1410,33 +1415,177 @@ const capPorOrden = c => { const i=CAP_LIST.indexOf(c); return i<=0 || save.todo
 /* el administrador le puede abrir todo a un chico (lugares y juegos, gratis) para probar */
 const pruebaTodo = () => !!(NUBE.alumno && NUBE.alumno.todo_abierto);
 const capAbierto = c => pruebaTodo() || (!(NUBE.alumno && (NUBE.alumno.bloqueados||[]).includes(c.id)) && capPorOrden(c));
+/* =========================================================
+   EL CAMINO — la pantalla de inicio es un sendero que sube por el paisaje.
+   Cada lugar es una parada con su dibujo: empieza como una sombra clarita y con cada sello se le suma una pieza
+   (escenas.js: 8 capas por lugar; la última, al terminar el lugar). El sendero se va "prendiendo" hasta donde llegó el chico.
+   Tres estrellitas sobre cada parada, cada una con su dibujito para que se entienda sin leer:
+     casita = el lugar quedó construido · globito = habló con los 4 amigos · joystick = jugó su juego.
+   El nivel 0 (palabras del juego) es la primera parada; sus estrellas son por grupos de palabras.
+   save.vistas[id] = cuántas piezas ya se vieron aparecer (para animar las nuevas al volver).
+   ========================================================= */
+const CAMINO_PASO=205;
+const ESTRELLA_SVG='<svg viewBox="0 0 24 24"><path d="M12 2.2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.2 6.1 20.4l1.2-6.6L2.5 9.2l6.6-.9z" fill="currentColor" stroke="#B3791A" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+const estrellaHtml=(on,ic)=>`<i class="st${on?' on':''}">${ESTRELLA_SVG}${ic?`<span>${ic}</span>`:''}</i>`;
+const piezasDe = c => { const s=capSave(c.id); return Math.min(8, c.orden.filter(k=>s.sellos[k]).length + (s.final?1:0)); };
+const charlasHechas = c => c.charlas.length>0 && c.charlas.every((q,i)=>charlaHecha(c,i));
+const juegoJugado = c => !!((save.juegos||{})[c.id]||{}).jugado;
+const rngSemilla = s => () => { s|=0; s=s+0x6D2B79F5|0; let t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
+function dibujoArbol(x,y,s,nieve){ const v=nieve?'#4F9E78':'#4DB566', v2=nieve?'#6DB890':'#5CC575';
+  return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s.toFixed(2)})"><ellipse cx="0" cy="4" rx="22" ry="6" fill="#22314F" opacity=".14"/><rect x="-5" y="-26" width="10" height="30" rx="3" fill="#B98B5C"/><circle cx="0" cy="-42" r="22" fill="${v}"/><circle cx="-14" cy="-34" r="14" fill="${v2}"/><circle cx="14" cy="-35" r="14" fill="${v2}"/>${nieve?'<path d="M-22 -48q8-14 22-14t22 14q-10-6-22-6t-22 6z" fill="#fff"/><circle cx="-12" cy="-30" r="5" fill="#fff"/><circle cx="14" cy="-32" r="4" fill="#fff"/>':'<path d="M-10 -52q8-6 16-2" stroke="#9BE39E" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>'}</g>`; }
+function dibujoArbusto(x,y,s,nieve){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s.toFixed(2)})"><ellipse cx="0" cy="4" rx="22" ry="5" fill="#22314F" opacity=".12"/><circle cx="-12" cy="-6" r="13" fill="${nieve?'#4F9E78':'#58B85E'}"/><circle cx="8" cy="-8" r="15" fill="${nieve?'#6DB890':'#6BC96B'}"/><circle cx="20" cy="-2" r="10" fill="${nieve?'#4F9E78':'#58B85E'}"/>${nieve?'<path d="M-10 -20q10-10 22-6q8 0 10 8q-12-6-32-2z" fill="#fff"/>':''}</g>`; }
+function dibujoRoca(x,y,s,nieve){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s.toFixed(2)})"><ellipse cx="0" cy="4" rx="24" ry="5" fill="#22314F" opacity=".14"/><path d="M-22 2L-14 -22L2 -30L18 -20L24 2Z" fill="#A79FB0"/><path d="M-14 -22L2 -30L8 -8L-4 2L-22 2Z" fill="#C2BAC9"/>${nieve?'<path d="M-15 -21L2 -30L18 -20L8 -17L-2 -22Z" fill="#fff"/>':''}</g>`; }
+function dibujoNieve(x,y,s){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s.toFixed(2)})"><ellipse cx="0" cy="6" rx="40" ry="14" fill="#CDEBFA"/><ellipse cx="0" cy="0" rx="38" ry="13" fill="#fff"/><ellipse cx="-14" cy="-6" rx="16" ry="8" fill="#fff"/></g>`; }
+function dibujoFlorcita(x,y,c){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><path d="M0 0v7" stroke="#3FA85A" stroke-width="2"/><circle cx="0" cy="-1" r="4" fill="${c}"/><circle cx="0" cy="-1" r="1.6" fill="#FFE27A"/></g>`; }
+function dibujoCartel(x,y,flecha){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="0" cy="4" rx="22" ry="5" fill="#22314F" opacity=".14"/><rect x="-3" y="-30" width="6" height="34" rx="2" fill="#9C6B3D"/><rect x="-26" y="-48" width="52" height="26" rx="5" fill="#D9A066" stroke="#8A5E3B" stroke-width="2"/>${flecha?'<path d="M-14 -35h20M0 -43l12 8-12 8" fill="none" stroke="#8A5E3B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>':'<path d="M-14 -35h28" stroke="#8A5E3B" stroke-width="4" stroke-linecap="round"/>'}</g>`; }
+function construirCamino(box){
+  const items=[]; if(n0Grupos().length) items.push({t:'n0'}); CAP_LIST.forEach(c=>items.push({t:'cap', c}));
+  const N=items.length, W=400, H=CAMINO_PASO*N+240;
+  const pos=items.map((_,i)=>({x:200+104*Math.sin(i*1.9+.5), y:H-170-i*CAMINO_PASO}));
+  const pts=[{x:pos[0].x-60,y:H+20},{x:pos[0].x-10,y:pos[0].y+130},...pos,{x:pos[N-1].x+30,y:-30}];
+  const seg=[]; for(let i=0;i<pts.length-1;i++){ const a=pts[Math.max(i-1,0)],b=pts[i],c=pts[i+1],e=pts[Math.min(i+2,pts.length-1)]; seg.push([b,{x:b.x+(c.x-a.x)/6,y:b.y+(c.y-a.y)/6},{x:c.x-(e.x-b.x)/6,y:c.y-(e.y-b.y)/6},c]); }
+  const f=v=>v.toFixed(1), d=`M${f(pts[0].x)} ${f(pts[0].y)}`+seg.map(s=>`C${f(s[1].x)} ${f(s[1].y)} ${f(s[2].x)} ${f(s[2].y)} ${f(s[3].x)} ${f(s[3].y)}`).join('');
+  const mu=[]; seg.forEach(s=>{ for(let t=0;t<1;t+=.04){ const u=1-t; mu.push({x:u*u*u*s[0].x+3*u*u*t*s[1].x+3*u*t*t*s[2].x+t*t*t*s[3].x, y:u*u*u*s[0].y+3*u*u*t*s[1].y+3*u*t*t*s[2].y+t*t*t*s[3].y}); } });
+  const kr=Math.min(6,Math.max(0,N-2)), yr=(pos[kr].y+pos[kr+1].y)/2, nearR=mu.reduce((m,p)=>Math.abs(p.y-yr)<Math.abs(m.y-yr)?p:m,mu[0]);
+  const rnd=rngSemilla(N*7919+3); let deco='';
+  const lejos=(x,y,r)=>mu.every(p=>(p.x-x)**2+(p.y-y)**2>r*r);
+  for(let i=0;i<150;i++){ const x=14+rnd()*372, y=20+rnd()*(H-40); if(!lejos(x,y,70) || Math.abs(y-yr)<46) continue;
+    const nieve=y<yr-30, q=rnd(), s=.8+rnd()*.5;
+    if(nieve){ deco += q<.38 ? dibujoNieve(x,y,s) : q<.7 ? dibujoArbol(x,y,s,true) : q<.85 ? dibujoArbusto(x,y,s,true) : dibujoRoca(x,y,s*.9,true); }
+    else { deco += q<.34 ? dibujoArbol(x,y,s,false) : q<.6 ? dibujoArbusto(x,y,s,false) : q<.72 ? dibujoRoca(x,y,s*.8,false) : dibujoFlorcita(x,y,['#FF8FB8','#fff','#FFC93C','#FF6F59'][i%4])+dibujoFlorcita(x+9,y+5,['#fff','#FFC93C'][i%2]); } }
+  // el nivel 0 es opcional: solo es "la parada actual" mientras no se empezó ningún lugar
+  const n0ok=!items[0] || items[0].t!=='n0' || n0Grupos().every(g=>g.palabras.every(n0Hecha)), ningunLugar=!CAP_LIST.some(c=>capEmpezado(c));
+  let cur=items.findIndex((it,i)=>it.t==='n0' ? (!n0ok && ningunLugar) : !capSave(it.c.id).final); if(cur<0) cur=N-1;
+  const fondo=`<defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF8FF"/><stop offset=".3" stop-color="#D4F0E2"/><stop offset=".5" stop-color="#98D96E"/><stop offset="1" stop-color="#AEDD4B"/></linearGradient>
+    <linearGradient id="cs" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#D8C58B"/><stop offset="1" stop-color="#FFCF5A"/></linearGradient>
+    <linearGradient id="cb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#AE9560"/><stop offset="1" stop-color="#E1A93D"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#cf)"/>`;
+  const rio=`<path d="M-20 ${f(yr+8)}Q90 ${f(yr-26)} 200 ${f(yr+4)}T420 ${f(yr-10)}" fill="none" stroke="#0E8BCB" stroke-width="46" stroke-linecap="round"/><path d="M-20 ${f(yr+8)}Q90 ${f(yr-26)} 200 ${f(yr+4)}T420 ${f(yr-10)}" fill="none" stroke="#33B8F5" stroke-width="38" stroke-linecap="round"/><path d="M-20 ${f(yr-4)}Q90 ${f(yr-38)} 200 ${f(yr-8)}T420 ${f(yr-22)}" fill="none" stroke="#7CD6FF" stroke-width="5" stroke-linecap="round" opacity=".7"/>`;
+  const puente=`<g transform="translate(${f(nearR.x)} ${f(yr+2)})"><rect x="-40" y="-26" width="80" height="52" rx="12" fill="#A99FB3"/><path d="M-34 -19h68v38h-68z" fill="#8A5E3B"/>${[...Array(8)].map((_,i)=>`<rect x="${-32+i*8.3}" y="-19" width="2.6" height="38" fill="#A87848"/>`).join('')}<rect x="-40" y="-26" width="80" height="8" rx="4" fill="#C2BAC9"/><rect x="-40" y="18" width="80" height="8" rx="4" fill="#C2BAC9"/></g>`;
+  box.innerHTML=`<div class="camino" style="aspect-ratio:${W}/${H}"><svg class="cam-bg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${fondo}${rio}
+    <path d="${d}" fill="none" stroke="#B4A682" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#E4DCC0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="cam-on" d="${d}" fill="none" stroke="url(#cb)" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/><path class="cam-on" d="${d}" fill="none" stroke="url(#cs)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+    ${puente}${dibujoCartel(pos[0].x+(pos[0].x>200?-70:70),pos[0].y+86,true)}${deco}${dibujoCartel(pos[N-1].x+(pos[N-1].x>200?-72:72),pos[N-1].y-70,false)}</svg></div>`;
+  const cam=box.querySelector('.camino'); const vistas=save.vistas||(save.vistas=Object.fromEntries(CAP_LIST.map(c=>[c.id,piezasDe(c)])));
+  items.forEach((it,i)=>{
+    const p=pos[i], b=document.createElement('button'); b.className='nodo'; b.style.left=`${p.x/W*100}%`; b.style.top=`${p.y/H*100}%`;
+    let titulo, num, tile, estrellas, abierto, hecho;
+    if(it.t==='n0'){
+      const g=n0Grupos(), hechos=g.filter(x=>x.palabras.every(n0Hecha)).length;
+      titulo=T.nivel0Titulo; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
+      estrellas=[hechos>=3, hechos>=6, hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
+      b.addEventListener('click',goNivel0);
+    } else {
+      const c=it.c; abierto=capAbierto(c); const n=abierto?piezasDe(c):0, desde=abierto?(vistas[c.id]||0):0; hecho=abierto && capSave(c.id).final;
+      titulo=c.titulo; num=c.num; tile=escenaSVG(c.id,n,n>desde?desde:-1);
+      if(abierto && n>desde){ vistas[c.id]=n; }
+      estrellas=estrellaHtml(hecho,ICON.home)+estrellaHtml(abierto&&charlasHechas(c),ICON.chat)+estrellaHtml(abierto&&juegoJugado(c),ICON.pad);
+      b.addEventListener('click',()=>abierto ? enterCap(c) : sayAll([capPorOrden(c) ? T.capCerrado : T.capPrimero((CAP_LIST.find(x=>!capSave(x.id).final)||capPrevio(c)).lugar.texto)]));
+      b.dataset.cap=c.id;
+    }
+    if(i===cur) b.classList.add('cur'); if(!abierto) b.classList.add('lock'); if(hecho) b.classList.add('done');
+    b.innerHTML=`<span class="estrellas">${estrellas}</span><span class="loseta">${tile}${abierto?'':`<span class="candado">${ICON.lock}</span>`}<em class="num">${esc(String(num))}</em></span><b class="nom">${esc(titulo)}</b>`;
+    b.addEventListener('focus',()=>sayAll([titulo])); cam.appendChild(b);
+  });
+  persist();
+  // el sendero iluminado hasta donde llegó
+  const on=[...box.querySelectorAll('.cam-on')], base=on[0]; const L=base.getTotalLength(), yc=pos[cur].y; let largo=0;
+  for(let s=0;s<=L;s+=L/400){ largo=s; if(base.getPointAtLength(s).y<=yc) break; }
+  if(CAP_LIST.every(c=>capSave(c.id).final)) largo=L;
+  on.forEach(el=>{ el.style.strokeDasharray=`${largo} ${L+10}`; });
+  // el personaje, parado en la parada actual
+  const heroe=document.createElement('canvas'); heroe.className='cam-heroe'; heroe.style.left=`${(pos[cur].x+(pos[cur].x>200?-86:86))/W*100}%`; heroe.style.top=`${(pos[cur].y+6)/H*100}%`;
+  cam.appendChild(heroe); live(heroe,(c,w,h,t)=>drawHero(c,w/2,h*.97,h*.94,{t,noShadow:true,wave:Math.sin(t*2)>.7}));
+  return cam.querySelector('.nodo.cur');
+}
+let escUid=0;
+/* el dibujo de un lugar con sus primeras `n` piezas puestas; las que van desde `desde` entran con animación */
+function escenaSVG(id,n,desde=-1){
+  const e=(window.ESCENAS||{})[id]; if(!e) return '';
+  const u=`es${++escUid}`;
+  return `<svg class="escena" viewBox="0 0 200 200"><defs><linearGradient id="${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${e.cielo[0]}"/><stop offset="1" stop-color="${e.cielo[1]}"/></linearGradient></defs><rect width="200" height="200" fill="url(#${u})"/>${e.capas.map((c,i)=>`<g class="cp ${i<n?'on':'off'}${desde>=0&&i>=desde&&i<n?' nueva':''}" style="--d:${Math.max(0,i-desde)*.45}s">${c}</g>`).join('')}</svg>`;
+}
+/* después de ganar un sello: el dibujo grande y la pieza nueva que aparece */
+async function runRevelar(c){
+  const tok=++flowTok, n=piezasDe(c); busy=true; if(n<1 || !(window.ESCENAS||{})[c.id]){ busy=false; return; }
+  const v=save.vistas||(save.vistas={}); const desde=Math.min(v[c.id]||0,n-1); v[c.id]=n; persist();
+  openModal(`${X_BTN}<h3 class="stitle"${enAttr(enDe(c.titulo))}>${esc(c.titulo)}</h3><div class="center"><div class="revela">${escenaSVG(c.id,n,desde)}</div></div>
+    <div class="actions">${B('go','next',T.seguir,'go')}</div>`);
+  setTimeout(()=>{ sfx.stamp(); sfx.yay(); },450);
+  narrar(()=>sayAll([praise(true)]));
+  await waitAct('go'); if(tok!==flowTok) return;
+  closeModal();
+}
 function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
-  CAP_LIST.forEach(c=>{
-    if(!capAbierto(c)){
-      const b=document.createElement('button'); b.className='week locked';
-      b.innerHTML=`<span class="art">${ICON.lock}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${esc(c.titulo)}</b>`;
-      b.addEventListener('focus',()=>sayAll([c.titulo]));
-      b.addEventListener('click',()=>sayAll([capPorOrden(c) ? T.capCerrado : T.capPrimero((CAP_LIST.find(x=>!capSave(x.id).final)||capPrevio(c)).lugar.texto)]));
-      box.appendChild(b); return;
-    }
-    const s=capSave(c.id);
-    const b=document.createElement('button'); b.className='week';
-    b.innerHTML=`<span class="art">${img(c.arteTapa)}</span><span class="wk">${esc(T.semana)} ${c.num}</span><b>${c.titulo}</b><span class="dots">${c.orden.map(k=>`<i class="${s.sellos[k]?'on':''}"></i>`).join('')}<i class="${s.final?'gold':''}"></i></span>`;
-    b.addEventListener('focus',()=>sayAll([c.titulo]));
-    b.addEventListener('click',()=>enterCap(c));
-    box.appendChild(b);
-  });
-  (window.PROXIMOS||[]).forEach(u=>{
-    const num = typeof u==='object' ? u.num : u;
-    const b=document.createElement('button'); b.className='week locked';
-    b.innerHTML=`<span class="art">${ICON.lock}</span><span class="wk">${esc(T.semana)} ${num}</span><b>${esc(T.pronto)}</b>`;
-    b.addEventListener('click',()=>sayAll([T.prontoDi]));
-    box.appendChild(b);
-  });
-  setTimeout(()=>box.querySelector('button')?.focus(),60);
+  const actual=construirCamino(box);
+  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } },80);
+  $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
   sayAll([T.holaDi(save.name)]);
+  if(!save.tour) setTimeout(()=>{ if(!scr.home.hidden && modal.hidden) abrirTour(); },900);
+}
+/* =========================================================
+   EL RECORRIDO PARA LOS GRANDES (tour)
+   Se abre solo la primera vez que se llega a la pantalla de inicio (save.tour), con el botón ? de arriba
+   y desde el rincón de los grandes. Va señalando cada cosa con un foco y un cartelito; los textos son G.sNt / G.sNd
+   (idiomas/grandes.js, en el idioma de los grandes: banderitas en el primer paso). No se dice en voz alta.
+   ========================================================= */
+const TOUR_PASOS=[
+  {},
+  {sel:()=>$('.nodo.cur')},
+  {sel:()=>$('.nodo.cur .loseta')},
+  {sel:()=>$('.nodo.cur .estrellas')},
+  {sel:()=>$('.nodo:not([data-cap])')},
+  {sel:()=>$('#homeSidebar'), antes:()=>openSidebar()},
+  {sel:()=>$('.pts-group')},
+  {sel:()=>$('#langBtn')},
+  {sel:()=>$('#gearHome')},
+  {}
+];
+let tourI=0;
+function abrirTour(){
+  if($('#tour')) return;
+  hush(); const t=document.createElement('div'); t.id='tour';
+  t.innerHTML='<div class="tour-spot"></div><div class="tour-card" role="dialog" aria-modal="true"></div>';
+  document.body.appendChild(t);
+  window.addEventListener('keydown',tourTecla,true); window.addEventListener('resize',posTour);
+  t.addEventListener('click',e=>{ const b=e.target.closest('[data-tt]'); if(!b) return; const a=b.dataset.tt;
+    if(a==='sig') tourI<TOUR_PASOS.length-1 ? pasoTour(tourI+1) : cerrarTour();
+    else if(a==='atras') pasoTour(Math.max(0,tourI-1)); else if(a==='saltar') cerrarTour();
+    else if(a==='ui'){ elegirUi(b.dataset.l); pasoTour(tourI); } });
+  pasoTour(0);
+}
+function tourTecla(e){
+  if(!$('#tour')) return;
+  if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); cerrarTour(); return; }
+  if(DIRS[e.key]){ e.preventDefault(); e.stopPropagation(); if(e.key==='ArrowRight'||e.key==='ArrowDown') (tourI<TOUR_PASOS.length-1) && pasoTour(tourI+1); else pasoTour(Math.max(0,tourI-1)); }
+}
+function pasoTour(i){
+  tourI=i; const p=TOUR_PASOS[i], c=$('#tour .tour-card'), n=TOUR_PASOS.length, ult=i===n-1;
+  if(p.antes) p.antes(); else closeSidebar();
+  const flags = i===0 ? `<div class="uilangs tour-flags">${idiomasGrandes().map(l=>`<button type="button" class="uilang ${l===uiLang?'on':''}" data-tt="ui" data-l="${l}" lang="${l}"><img src="${svgUri(banderaDe(l))}" alt=""><span>${esc(window.GRANDES[l].nombre)}</span></button>`).join('')}</div>` : '';
+  c.lang=uiLang;
+  c.innerHTML=`<div class="tour-pasos">${TOUR_PASOS.map((_,j)=>`<i class="${j<i?'hecho':j===i?'on':''}"></i>`).join('')}</div>${flags}<h3>${esc(G['s'+(i+1)+'t'])}</h3><p>${esc(G['s'+(i+1)+'d'])}</p>
+    <div class="tour-btns">${i>0?`<button type="button" class="tbtn soft" data-tt="atras">${esc(G.tour_atras)}</button>`:''}${ult?'':`<button type="button" class="tbtn flat" data-tt="saltar">${esc(G.tour_saltar)}</button>`}<button type="button" class="tbtn go" data-tt="sig">${esc(ult?G.tour_fin:G.tour_sig)}</button></div>`;
+  const el=p.sel && p.sel(); if(el) el.scrollIntoView({block:'center',behavior:'instant'});
+  posTour(); setTimeout(posTour,120); setTimeout(posTour,420);
+  setTimeout(()=>c.querySelector('[data-tt="sig"]')?.focus({preventScroll:true}),30);
+}
+function posTour(){
+  const t=$('#tour'); if(!t) return; const p=TOUR_PASOS[tourI], el=p.sel && p.sel(), sp=t.querySelector('.tour-spot'), c=t.querySelector('.tour-card');
+  if(el && el.getBoundingClientRect().width){
+    const r=el.getBoundingClientRect(), pad=8;
+    sp.style.cssText=`left:${r.left-pad}px;top:${r.top-pad}px;width:${r.width+pad*2}px;height:${r.height+pad*2}px;opacity:1`;
+    const abajo = r.height>innerHeight*.6 || r.top+r.height/2 < innerHeight*.5;
+    c.classList.toggle('arriba',!abajo); c.classList.toggle('abajo',abajo);
+  } else { sp.style.cssText=`left:${innerWidth/2}px;top:${innerHeight/2}px;width:0;height:0;opacity:1`; c.classList.remove('arriba'); c.classList.add('abajo'); }
+}
+function cerrarTour(){
+  const t=$('#tour'); if(t) t.remove();
+  window.removeEventListener('keydown',tourTecla,true); window.removeEventListener('resize',posTour);
+  closeSidebar(); if(!save.tour){ save.tour=true; persist(); }
+  $('.nodo.cur')?.scrollIntoView({block:'center'});
 }
 async function enterCap(c){
   hush(); CAP=c; cs=capSave(c.id);
@@ -1665,7 +1814,7 @@ async function runStation(key){
   if(st.cuento) msg.push(T.cuentoQ);
   narrar(()=>sayAll(msg));
   const {act}=await waitAct(['map','story']); if(!alive()) return;
-  if(act==='story') runStory(CAP,key); else closeModal();
+  if(act==='story') runStory(CAP,key); else { closeModal(); if(first) runRevelar(CAP); }
 }
 
 /* =========================================================
@@ -2613,6 +2762,10 @@ function openParent(){
     <h2>Rincón de los grandes</h2>
     ${cuentaHtml()}
     <div class="reset">
+      <div><b>Recorrido de la app</b><span>Una vuelta rápida por todo lo que ofrece el juego y cómo se usa.</span></div>
+      <button class="pbtn" id="p-tour">Ver recorrido</button>
+    </div>
+    <div class="reset">
       <div><b>Empezar de cero</b><span>Borra el nombre, el personaje, los sellos, los cuentos abiertos, los pececitos y la ropa. Se guardan las voces y tus grabaciones.</span></div>
       <button class="pbtn danger" id="p-reset">Empezar de cero</button>
     </div>
@@ -2650,6 +2803,7 @@ function openParent(){
   $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a) sayAll([{t:PACKS[a].nombre, lang:a}]); });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
+  $('#p-tour').addEventListener('click',()=>{ closeModal(); if(scr.home.hidden){ save.tour=true; goHome(); } setTimeout(abrirTour,scr.home.hidden?0:500); });
   armConfirm($('#p-reset'),resetProgress);
   conectarCuentaParent();
   armConfirm($('#p-clips'),async()=>{ await clips.clear(); card.querySelector('tbody').innerHTML=recRows().map(recRowHtml).join(''); });
@@ -2914,6 +3068,7 @@ async function runMicro(c){
   const M={canvas:card.querySelector('[data-mj]'), actions:card.querySelector('[data-mjact]'), alive:()=>tok===flowTok,
     aviso: pago.gratis ? T.juegoGratis : T.cuesta(T.peces(mj.precio))};
   const fin=await juego(c, M); if(!M.alive()) return;
+  { save.juegos=save.juegos||{}; (save.juegos[c.id]=save.juegos[c.id]||{}).jugado=true; persist(); }
   // al terminar: otra partida (paga) o volver
   M.actions.innerHTML = B('again','replay',`${esc(T.otraVez)} <i class="mjprecio">${juegoGratis(c)>0?'★':img('pez')+mj.precio}</i>`,'soft') + B('back','back',T.atras,'go');
   setTimeout(()=>M.actions.querySelector('.go')?.focus(),30);
@@ -2945,7 +3100,7 @@ function goJuegos(){
    idioma, en el mismo orden: {titulo, chau, pasos:[…]}. Un paso con `di` es el amigo que pregunta
    (el chico contesta); un paso sin `di` es el chico que pregunta. En los dos, `op` son las
    opciones {t: lo que dice el chico, r: lo que contesta el amigo}. Todas valen: no se pierde.
-   Se dice en voz alta y se toca la estrella (como en las estaciones). Primera vez completa: 2 pececitos.
+   Se dice en voz alta y se toca la estrella (como en las estaciones). Primera vez completa: una galletita.
    ========================================================= */
 const charlaClave = (c,i) => `${langCode()}:${c.id}:${i}`;
 const charlaHecha = (c,i) => !!(save.charlas||{})[charlaClave(c,i)];
@@ -3004,11 +3159,64 @@ async function runCharla(c, i){
   }
   marcar(q.pasos.length); dice(q.chau); sfx.yay();
   const primera=!charlaHecha(c,i);
-  if(primera){ (save.charlas||(save.charlas={}))[charlaClave(c,i)]=true; save.puntos=(save.puntos||0)+2; persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud(); }
+  if(primera){
+    (save.charlas||(save.charlas={}))[charlaClave(c,i)]=true; save.galletitas=(save.galletitas||0)+1; persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud();
+    opts.innerHTML=`<div class="premio">${img('galletita')}</div>`; sfx.stamp(); setTimeout(()=>sfx.yay(),300);
+  }
   acts$.innerHTML=B('back','back',T.atras,'go');
-  await narrar(()=>sayAll(primera ? [fill(q.chau), T.charlaFin, T.premio(T.peces(2))] : [fill(q.chau), T.charlaFin])); if(!alive()) return;
+  await narrar(()=>sayAll(primera ? [fill(q.chau), T.charlaFin, T.ganasteGalletita, T.valeTres] : [fill(q.chau), T.charlaFin])); if(!alive()) return;
   await waitAct('back'); if(!alive()) return;
   closeModal(); if(!scr.lib.hidden && libMode==='charlas') goCharlas();
+}
+
+/* =========================================================
+   NIVEL 0 — las palabras del propio juego (¿qué?, ¿dónde?, muy bien, repetí…)
+   Para quien recién empieza: ~75 palabras en grupos (idiomas/nivel0.js, una lista por idioma).
+   Cada palabra se practica sílaba por sílaba como en los lugares; abajo se ve su traducción
+   (idioma de ayuda, o inglés). Cada grupo terminado por primera vez da 2 pececitos.
+   Lo hecho queda en save.nivel0 (id de la palabra / "g:<idioma>:<grupo>").
+   ========================================================= */
+function n0Grupos(){
+  const d=(window.NIVEL0||{})[langCode()]; if(!d) return [];
+  return d.grupos.map((g,gi)=>({nombre:g.nombre, gi, palabras:g.palabras.map((w,wi)=>({id:`${langCode()}:n0:${gi}:${wi}`, texto:w.texto, silabas:w.silabas, gi, wi}))}));
+}
+const n0Hecha = w => !!(save.nivel0||{})[w.id];
+function goNivel0(){
+  hush(); show('lib'); libMode='nivel0';
+  const body=$('#libBody'); body.innerHTML='';
+  $('#libTitle').textContent=T.nivel0Titulo;
+  n0Grupos().forEach(g=>{
+    const sec=document.createElement('section'); sec.className='shelf';
+    sec.innerHTML=`<h3>${esc(g.nombre)}</h3><div class="cards">${g.palabras.map(w=>{ const tr=traducir(w.texto)||enDe(w.texto);
+      return `<button class="pcard n0" data-g="${g.gi}" data-w="${w.wi}"><span class="n0t"><b>${esc(w.texto)}</b>${tr?`<small>${esc(tr)}</small>`:''}</span>${n0Hecha(w)?`<i class="n0ok">${ICON.check}</i>`:''}</button>`; }).join('')}</div>`;
+    body.appendChild(sec);
+  });
+  const grupos=n0Grupos();
+  body.querySelectorAll('.pcard.n0').forEach(b=>{
+    const w=grupos[+b.dataset.g].palabras[+b.dataset.w];
+    b.addEventListener('focus',()=>sayAll([{t:w.texto, id:w.id}]));
+    b.addEventListener('click',()=>runPractica0(w));
+  });
+  setTimeout(()=>body.querySelector('button')?.focus(),60);
+  sayAll([T.nivel0Di]);
+}
+async function runPractica0(w){
+  const tok=++flowTok; busy=true; const tr=traducir(w.texto)||enDe(w.texto);
+  openModal(`${X_BTN}
+    <div class="center"><div class="hero-item small">${img('consignas')}</div></div>
+    ${chipsWord(w)}${tr?`<div class="center"><div class="word"><small>${esc(tr)}</small></div></div>`:''}${turnHtml()}
+    <div class="actions">${B('again','replay',T.otraVez)}${B('done','star',T.listo,'go')}</div>`);
+  liveMe();
+  onAct('again',()=>narrar(()=>silabear(w,[])));
+  narrar(()=>silabear(w,[T.repeti]));
+  await waitAct('done'); if(tok!==flowTok) return;
+  sfx.yay();
+  const n=save.nivel0||(save.nivel0={}); n[w.id]=true;
+  const g=n0Grupos()[w.gi], clave=`g:${langCode()}:${w.gi}`;
+  const nuevo = g.palabras.every(n0Hecha) && !n[clave];
+  if(nuevo){ n[clave]=true; save.puntos=(save.puntos||0)+2; updateNames(); }
+  persist(); closeModal(); busy=false;
+  if(!scr.lib.hidden && libMode==='nivel0'){ goNivel0(); if(nuevo){ sfx.stamp(); sayAll([T.premio(T.peces(2))]); } }
 }
 
 /* =========================================================
@@ -3184,6 +3392,7 @@ $('#btnTienda').addEventListener('click',()=>{ closeSidebar(); goShop(); });
 $('#btnCharlas').addEventListener('click',()=>{ closeSidebar(); goCharlas(); });
 $('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
 $('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
+$('#tourBtn').addEventListener('click',abrirTour);
 holdify($('#gearHome'),1500,openParent);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
 ['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));

@@ -420,6 +420,58 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
 .xcard.repaso{background:#2E86DE}
+
+
+/* recorrido para los grandes */
+.tourbtn{font:800 28px/1 'Baloo 2',sans-serif;color:var(--ink2)}
+#tour{position:fixed;inset:0;z-index:300}
+.tour-spot{position:fixed;border-radius:22px;box-shadow:0 0 0 9999px rgba(20,30,55,.66),0 0 0 4px var(--sun) inset;pointer-events:none;transition:left .3s,top .3s,width .3s,height .3s;opacity:0;transform:translate(0,0)}
+.tour-card{position:fixed;left:50%;transform:translateX(-50%);width:min(460px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:var(--paper);border-radius:26px;padding:18px 20px 16px;box-shadow:0 12px 0 rgba(0,0,0,.2);display:flex;flex-direction:column;gap:10px;box-sizing:border-box;animation:pop .25s}
+.tour-card.abajo{bottom:14px}.tour-card.arriba{top:14px}
+.tour-card h3{margin:0;font-size:26px;line-height:1.1}
+.tour-card p{margin:0;font-size:16px;line-height:1.45;font-weight:600;color:var(--ink2)}
+.tour-pasos{display:flex;gap:6px;justify-content:center}
+.tour-pasos i{width:10px;height:10px;border-radius:50%;background:#DCE3EE}
+.tour-pasos i.on{background:var(--sun);transform:scale(1.35)}.tour-pasos i.hecho{background:var(--mint)}
+.tour-flags{margin:2px 0}
+.tour-btns{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px}
+.tbtn{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:11px 18px;background:var(--mist);color:var(--ink)}
+.tbtn.go{background:var(--mint);color:#fff;box-shadow:0 4px 0 rgba(34,49,79,.2)}
+.tbtn.flat{background:none;color:var(--ink2)}
+.tbtn:focus-visible{outline:4px solid var(--sun)}
+/* el camino (pantalla de inicio) */
+.weeks{display:block}
+.camino{container-type:inline-size;position:relative;width:min(100%,540px);margin:0 auto;border-radius:34px;overflow:hidden;box-shadow:0 10px 0 rgba(34,49,79,.18)}
+.cam-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.nodo{position:absolute;transform:translate(-50%,-50%);width:25cqw;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:1.2cqw;cursor:pointer;transition:transform .18s;-webkit-tap-highlight-color:transparent}
+.nodo:hover,.nodo:focus-visible{transform:translate(-50%,-50%) scale(1.08);outline:none;z-index:3}
+.nodo:focus-visible .loseta{box-shadow:0 0 0 1.2cqw var(--sun),0 1.4cqw 0 rgba(34,49,79,.3)}
+.estrellas{display:flex;gap:.2cqw;margin-bottom:-.6cqw;z-index:2}
+.st{position:relative;width:8.4cqw;height:8.4cqw;color:#C5CCD9;display:grid;place-items:center;filter:drop-shadow(0 .5cqw 0 rgba(34,49,79,.2))}
+.st svg{position:absolute;inset:0;width:100%;height:100%}
+.st span{position:relative;width:3.8cqw;height:3.8cqw;color:#fff;margin-top:.4cqw;display:block}
+.st span svg{position:static;width:100%;height:100%}
+.st.on{color:#FFC93C}
+.st.on span{color:#7A4B00}
+.loseta{position:relative;width:100%;aspect-ratio:1;border-radius:22%;overflow:hidden;border:1cqw solid #fff;box-sizing:border-box;background:#fff;box-shadow:0 1.4cqw 0 rgba(34,49,79,.3);display:block}
+.loseta .escena{width:100%;height:100%;display:block}
+.loseta0{width:100%;height:100%;display:grid;place-items:center;background:linear-gradient(180deg,#FFE9A8,#FFF6DC)}
+.loseta0 img{width:72%}
+.num{position:absolute;top:.8cqw;left:.8cqw;min-width:5.2cqw;height:5.2cqw;border-radius:50%;background:#22314F;color:#fff;font:800 3.2cqw/5.2cqw 'Baloo 2',sans-serif;text-align:center;font-style:normal;padding:0 .4cqw;box-sizing:border-box}
+.nom{max-width:36cqw;background:#fff;color:var(--ink);border-radius:999px;padding:.6cqw 2.6cqw;font-size:3.6cqw;line-height:1.2;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 .7cqw 0 rgba(34,49,79,.18)}
+.nodo.lock .loseta{filter:grayscale(.8) brightness(.95)}
+.nodo.lock .nom{opacity:.8}
+.candado{position:absolute;inset:0;display:grid;place-items:center;background:rgba(34,49,79,.28)}
+.candado svg{width:42%;height:42%;color:#fff;filter:drop-shadow(0 .5cqw 0 rgba(34,49,79,.4))}
+.nodo.cur .loseta{box-shadow:0 0 0 1.2cqw var(--sun),0 1.4cqw 0 rgba(34,49,79,.3);animation:latir 1.6s ease-in-out infinite}
+@keyframes latir{50%{transform:scale(1.06)}}
+.cam-heroe{position:absolute;width:15cqw;height:17cqw;transform:translate(-50%,-70%);pointer-events:none;z-index:2}
+.cp.off{opacity:.17;filter:url(#gris)}
+.cp.nueva{animation:pieza .9s cubic-bezier(.2,1.5,.4,1) both;animation-delay:calc(var(--d,0s) + .35s);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes pieza{0%{opacity:0;transform:translateY(-26px) scale(.2)}55%{opacity:1;transform:translateY(0) scale(1.14)}100%{opacity:1;transform:scale(1)}}
+.revela{width:min(70vw,52vh,420px);aspect-ratio:1;border-radius:28px;overflow:hidden;border:6px solid #fff;box-shadow:0 10px 0 rgba(34,49,79,.22)}
+.revela .escena{width:100%;height:100%;display:block}
+@media (prefers-reduced-motion:reduce){.nodo.cur .loseta,.cp.nueva{animation:none}}
 .xcard.charlas{background:#19A7CE}
 .dichos{display:flex;flex-direction:column;gap:12px;width:100%}
 .dicho{display:flex;align-items:center;gap:14px;text-align:left;border:6px solid #E3E9F2;border-left-width:14px;background:#fff;border-radius:26px;padding:12px 18px;font-size:clamp(20px,3.4vw,30px);line-height:1.15;font-weight:800;color:var(--ink);transition:transform .15s,border-color .15s,background .15s}
@@ -431,6 +483,11 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .dicho.oye,.dicho.oye:disabled{opacity:1;border-color:var(--sun);background:#FFF8E1;transform:scale(1.03)}
 .dicho:disabled{opacity:.55;cursor:default}
 .dicho.right,.dicho.right:disabled{opacity:1;border-color:var(--mint);background:#EAFBF4}
+.pcard.n0{justify-content:space-between;min-height:64px}
+.pcard.n0 .n0t{display:flex;flex-direction:column;min-width:0}
+.pcard.n0 small{display:block;font-size:14px;font-weight:600;color:var(--ink2)}
+.pcard.n0 .n0ok svg{width:22px;height:22px;color:var(--mint);flex:none}
+.week.n0card .art{background:linear-gradient(180deg,#FFE9A8,#FFF6DC)}
 .bubble.yo{background:#FFF1D6}
 .bubble.yo::before{border-right-color:#FFF1D6}
 .book .precio.hecha svg{width:20px;height:20px;color:var(--mint)}
@@ -559,6 +616,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
         <button class="shop-pill-btn" id="btnTienda" aria-label="La tienda"><span data-ico="bag"></span><span class="shop-lbl" data-t="tienda"></span></button>
       </div>
       <button class="flagbtn" id="langBtn" tabindex="-1" aria-label="Idioma"></button>
+      <button class="gear tourbtn" id="tourBtn" tabindex="-1" aria-label="Tour">?</button>
       <button class="gear holdable" id="gearHome" tabindex="-1" aria-label="Rincón de los grandes (mantener apretado)"><span data-ico="gear"></span></button>
     </div>
 
@@ -642,11 +700,13 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
     </div>
   </section>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="gris"><feColorMatrix type="saturate" values="0"/></filter></svg>
   <div id="modal" hidden><div id="card" class="card" role="dialog" aria-modal="true"></div></div>
   <div id="fade"></div>
 </div>
 
 <script src="capitulos.js"></script>
+<script src="escenas.js"></script>
 <script src="audio/audio.js"></script>
 <script src="audio/prompts.js"></script>
 <script src="juego.js"></script>

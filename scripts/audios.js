@@ -72,6 +72,10 @@ function cargarCapitulo(capId) {
     if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx);
   }
 
+  if (capId === 'nivel0') {
+    vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0.js'), 'utf8'), ctx);
+    return { PACKS, base: { orden: [] }, textos: {}, nivel0: ctx.NIVEL0 };
+  }
   const fBase = path.join(RAIZ, 'capitulos', capId, 'base.js');
   if (fs.existsSync(fBase)) vm.runInContext(fs.readFileSync(fBase, 'utf8'), ctx);
 
@@ -175,6 +179,20 @@ function slugify(s) {
 // Extrae todos los ítems de audio de un capítulo
 function extraerItemsCapitulo(capId, lang, datos) {
   const items = [];
+  if (capId === 'nivel0') {
+    const d = datos.nivel0 && datos.nivel0[lang], pack = datos.PACKS[lang];
+    (d ? d.grupos : []).forEach((g, gi) => g.palabras.forEach((w, wi) => {
+      const id = `${lang}:n0:${gi}:${wi}`;
+      const texto = textoHabla(w.texto, lang);
+      items.push({ id, idSuffix: `${gi}:${wi}`, rawText: w.texto, texto, archivo: `${gi}-${wi}.mp3`, esSilaba: false, relPath: `audio/${lang}/nivel0/${gi}-${wi}.mp3`, lento: false });
+      w.silabas.forEach((sl, j) => {
+        const sSlug = slugSilaba(sl), t2 = textoHabla(sonidoSilaba(sl, lang, pack), lang);
+        if (t2) items.push({ id: `${id}:s${j}`, idSuffix: `${gi}:${wi}:s${j}`, rawText: sl, texto: t2, archivo: `silaba-${sSlug}.mp3`, esSilaba: true, sSlug, relPath: `audio/${lang}/silabas/${sSlug}.mp3`, lento: true });
+      });
+    }));
+    return items;
+  }
+
   const b = datos.base, t = datos.textos && datos.textos[lang], pack = datos.PACKS[lang];
   if (!b || !t) return items;
 
@@ -263,6 +281,7 @@ function extraerPrompts(capId, lang, datos) {
     const textoHablado = textoHabla(rawText, lang);
     if (!textoHablado) return;
     const slug = `${slugPrefix}-${slugify(rawText)}`;
+    if (lista.some(x => x.slug === slug)) return;
     lista.push({ slugPrefix, rawText, textoHablado, slug, archivo: `${slug}.mp3` });
   };
 
@@ -275,7 +294,8 @@ function extraerPrompts(capId, lang, datos) {
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
     'ganasteCaballito', 'valeDos',
     'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres',
-    'pez', 'pezQ', 'nam', 'escapo', 'cuantos'
+    'pez', 'pezQ', 'nam', 'escapo', 'cuantos',
+    'charlasDi', 'charlaCerrada', 'charlaResponde', 'charlaPregunta', 'charlaFin'
   ];
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
@@ -342,6 +362,13 @@ function extraerPrompts(capId, lang, datos) {
     for (const q of (tc.preguntas || [])) {
       if (q.p) add(`pregunta-p-${slugify(q.p)}`, q.p);
       if (q.r) add(`pregunta-r-${slugify(q.r)}`, q.r);
+    }
+
+    // conversaciones (las líneas con el nombre del chico no se graban: las dice la voz del navegador)
+    for (const ch of (tc.charlas || [])) {
+      const linea = x => { if (x && !String(x).includes('{N}')) add('charla', x); };
+      linea(ch.titulo); linea(ch.chau);
+      for (const p of (ch.pasos || [])) { linea(p.di); for (const o of (p.op || [])) { linea(o.t); linea(o.r); } }
     }
 
     for (const n of (tc.niveles || [])) {

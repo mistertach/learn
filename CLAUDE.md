@@ -44,7 +44,14 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 ## Conversations (charlas, `goCharlas`/`runCharla` in juego.js)
 - Home → Chat. Each place can carry 4 conversations: `charlas: [{npc, arte, est, color}]` in `base.js` (`est` = the station whose stamp opens it, or `'final'` for finishing the place) and `charlas: [{titulo, chau, pasos}]` in every `<lang>.js` and `en.js`, matched by position (so the helper-language translation and the grown-up English tooltip work for free). A place without them just isn't listed; a language missing them hides them. All 11 places have their 4 conversations in every language each place has. Keep child lines gender-neutral where the language marks gender (fr/it/es), since the child can be a boy or a girl.
 - A `paso` with `di` is the friend asking and the child answering; a `paso` without `di` is the child asking. Both have two `op`tions `{t: what the child says, r: the friend's reply}`. Use the pattern ask, ask-back, ask, ask-back (4 steps, 2 options each). Every option is valid: there is no way to lose.
-- The narrator reads the friend's line and then each option (highlighted one by one); the child taps one, repeats it aloud and taps the star (same as stations). First completion of each conversation gives 2 fish (`save.charlas`). Keep the child addressed neutrally where the language marks gender (no "cansado"), `{N}` is the child's name.
+- The narrator reads the friend's line and then each option (highlighted one by one); the child taps one, repeats it aloud and taps the star (same as stations). First completion of each conversation gives one biscuit (`save.charlas`, `save.galletitas`). Keep the child addressed neutrally where the language marks gender (no "cansado"), `{N}` is the child's name.
+
+## Home path, building pictures, tour, Level 0
+- Home is a winding path (`construirCamino` in juego.js): one stop per place, Level 0 first. The road lights up to the current stop (first unfinished place; Level 0 only counts as current until the child starts any place). Backgrounds go meadow, river with bridge (before the 7th place), snow.
+- Each place has a picture in `escenas.js` (`ESCENAS[id] = {cielo, capas}`, 8 layers on a 200x200 canvas). Layer k appears when the child has k+1 stamps (the 8th when the place is finished); unearned layers show as a faint ghost (`.cp.off`). `escenaSVG(id, n, desde)` draws it, `runRevelar` shows the big picture after a new stamp, and `save.vistas[id]` remembers how many pieces were already seen so new ones animate when returning home. Adding a place: add its scene to `escenas.js` (keep the 8 layers) or the stop shows no picture.
+- Three stars per stop, each with its own little icon so a child can read them: house = place finished, speech bubble = all 4 conversations done, joystick = its game played at least once (`save.juegos[id].jugado`). Level 0 stars are by word groups (3, 6, 8 groups).
+- Level 0 (`idiomas/nivel0.js`, `goNivel0`): about 75 words the game itself uses (what, where, very good, repeat...), practised syllable by syllable with the translation shown; each finished group gives 2 fish (`save.nivel0`). Audio: `node scripts/audios.js --cap=nivel0`.
+- Grown-up tour (`abrirTour`): runs once on first arrival at home (`save.tour`), from the `?` button on home and from the grown-up corner. Texts are `G.sNt/G.sNd` in `idiomas/grandes.js` (en/es/fr/it, flags on the first step). Add a step by adding it to `TOUR_PASOS` plus its two G strings in every language.
 
 ## Accounts (api/, servidor/, the NUBE section of juego.js)
 - The game must keep working with no server (file:// or static hosting): `nubeInit()` turns online mode on only when `/api/sesion` answers JSON.
@@ -60,3 +67,6 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 ## Checking changes
 - `node scripts/check.js` (runs `node --check` on every .js file).
 - Load `index.html` in a browser and play through: language → name → character → place intro → a station → fish → shop.
+
+## Audio (Google Chirp 3 HD Leda, pre-generated)
+- `sayAll` plays a prerecorded mp3 when the exact text is in `audio/prompts.js` (`node scripts/audios.js --prompts`, needs `GOOGLE_TTS_API_KEY`), otherwise it falls back to the browser voice. The conversations (`charlas`: titles, goodbyes, every line and reply) and the chat UI strings are part of `--prompts`; lines containing `{N}` are skipped on purpose (the child's name changes) and use the browser voice.

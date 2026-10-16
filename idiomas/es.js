@@ -18,6 +18,7 @@ registrarIdioma({
     actividades: 'Actividades', seccionAprender: 'Aprender', seccionJugar: 'Jugar',
     charlas: 'Charlar', charlasDi: '¡Charlemos! ¿Con quién querés hablar?', charlaCerrada: 'Primero conocé a este amigo en su lugar.',
     charlaResponde: '¡Te toca contestar!', charlaPregunta: '¡Ahora preguntá vos algo!', charlaFin: '¡Mantuviste la charla! ¡Muy bien!',
+    nivel0: 'Nivel 0', nivel0Titulo: 'Palabras del juego', nivel0Di: '¡Nivel cero! Estas son las palabras que usa el juego. Elegí un grupo y repetí conmigo.', nivel0Hecho: '¡Ya sabés todas estas palabras! ¡Muy bien!',
     cuentos: 'Los cuentos', practicar: 'Palabras y frases', tienda: 'La tienda',
     cuentosDi: 'Los cuentos. ¿Cuál leemos?', practicarDi: 'Palabras y frases. Elegí qué querés practicar.',
     palabras: 'Palabras', frases: 'Frases',

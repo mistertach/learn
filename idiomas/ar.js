@@ -27,6 +27,7 @@ registrarIdioma({
     actividades: 'al-nashatat|النشاطات', seccionAprender: 'ta\'allam|تعلّم', seccionJugar: 'il\'ab|العب',
     charlas: 'nsawlif|نسولف', charlasDi: 'yalla nsawlif! wiyya min tabi titkallam?|يلا نسولف! ويا من تبي تتكلم؟', charlaCerrada: 'awwal it\'arraf \'ala hatha as-sadeeq fi makanah.|أول تتعرف على هذا الصديق في مكانه.',
     charlaResponde: 'dawrak tjaawib!|دورك تجاوب!', charlaPregunta: 'al-heen is\'al inta shi!|الحين اسأل إنت شي!', charlaFin: 'khallait al-hadeeth mistamir! ahsant!|خليت الحديث مستمر! أحسنت!',
+    nivel0: 'al-mustawa sifr|المستوى صفر', nivel0Titulo: 'kalimaat al-lu\'ba|كلمات اللعبة', nivel0Di: 'al-mustawa sifr! hathi al-kalimaat illi tistakhdimha al-lu\'ba. ikhtar majmoo\'a w gool wiyyaai.|المستوى صفر! هذي الكلمات اللي تستخدمها اللعبة. اختر مجموعة وقول وياي.', nivel0Hecho: 'ta\'rif kil hathi al-kalimaat! zain wayed!|تعرف كل هذي الكلمات! زين وايد!',
     cuentos: 'al-gisas|القصص', practicar: 'al-kalimat wal-jumal|الكلمات والجمل', tienda: 'ad-dukkan|الدكان',
     cuentosDi: 'al-gisas. ay gissa nigra?|القصص. أي قصة نقرا؟', practicarDi: 'yalla nitmarran! ikhtar kilma aw jumla.|يلا نتمرن! اختار كلمة أو جملة.',
     palabras: 'kalimat|كلمات', frases: 'jumal|جمل',
