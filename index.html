@@ -420,6 +420,21 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
 .xcard.repaso{background:#2E86DE}
+.xcard.charlas{background:#19A7CE}
+.dichos{display:flex;flex-direction:column;gap:12px;width:100%}
+.dicho{display:flex;align-items:center;gap:14px;text-align:left;border:6px solid #E3E9F2;border-left-width:14px;background:#fff;border-radius:26px;padding:12px 18px;font-size:clamp(20px,3.4vw,30px);line-height:1.15;font-weight:800;color:var(--ink);transition:transform .15s,border-color .15s,background .15s}
+.dicho:nth-child(1){border-left-color:var(--blue)}
+.dicho:nth-child(2){border-left-color:var(--coral)}
+.dicho svg{width:34px;height:34px;flex:none;color:var(--ink2)}
+.dicho b{min-width:0}
+.dicho:hover:not(:disabled),.dicho:focus-visible{border-color:var(--sun);outline:none;transform:scale(1.02)}
+.dicho.oye,.dicho.oye:disabled{opacity:1;border-color:var(--sun);background:#FFF8E1;transform:scale(1.03)}
+.dicho:disabled{opacity:.55;cursor:default}
+.dicho.right,.dicho.right:disabled{opacity:1;border-color:var(--mint);background:#EAFBF4}
+.bubble.yo{background:#FFF1D6}
+.bubble.yo::before{border-right-color:#FFF1D6}
+.book .precio.hecha svg{width:20px;height:20px;color:var(--mint)}
+
 .pts .cab, .pts .gal{display:inline-flex;align-items:center;gap:2px;font-style:normal;margin-left:6px}
 .premio{width:min(220px,46vw);animation:nada 2.2s ease-in-out infinite}
 .premio img{width:100%;display:block}
@@ -560,6 +575,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
             <span class="sidebar-group-title" data-t="seccionAprender">Aprender</span>
             <button class="xcard narrow cuentos" id="btnCuentos"><span data-ico="book"></span><span data-t="cuentos"></span></button>
             <button class="xcard narrow practicar" id="btnPracticar"><span data-ico="talk"></span><span data-t="practicar"></span></button>
+            <button class="xcard narrow charlas" id="btnCharlas"><span data-ico="chat"></span><span data-t="charlas"></span></button>
           </div>
           <div class="sidebar-group">
             <span class="sidebar-group-title" data-t="seccionJugar">Jugar</span>

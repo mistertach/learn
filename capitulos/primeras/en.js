@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('primeras', 'en', {
+  charlas: [
+    {titulo:"Chatting with the bunny", chau:"Nice to meet you! See you soon!", pasos:[
+      {di:"Hello! What's your name?", op:[{t:"My name is {N}.", r:"What a lovely name!"}, {t:"Hello! I'm {N}.", r:"Nice to meet you, {N}!"}]},
+      {op:[{t:"How are you?", r:"I'm very well, thank you!"}, {t:"What's your name?", r:"My name is Fluffy."}]},
+      {di:"Do you like to play?", op:[{t:"Yes, I like to play!", r:"Me too! Playing is the best."}, {t:"Yes, a lot!", r:"Me too! I love it."}]},
+      {op:[{t:"Do you want to be my friend?", r:"Yes! We're friends now!"}, {t:"What do you like to play?", r:"I like to play hide and seek."}]}]},
+    {titulo:"Chatting with the cat", chau:"Thank you, friend! Bye-bye!", pasos:[
+      {di:"Look, I have a present for you!", op:[{t:"Thank you!", r:"You're welcome!"}, {t:"Thank you very much!", r:"You're welcome, friend!"}]},
+      {op:[{t:"What is it?", r:"It's a little star!"}, {t:"Is it for me?", r:"Yes, it's for you!"}]},
+      {di:"Do you want to share it with me?", op:[{t:"Yes, let's share!", r:"How nice! Sharing is lovely."}, {t:"Yes, please!", r:"Here, half for you and half for me."}]},
+      {op:[{t:"Do you like it?", r:"I love it!"}, {t:"Can I give you a hug?", r:"Yes, a big hug!"}]}]},
+    {titulo:"Chatting with the bear", chau:"That was refreshing! See you soon!", pasos:[
+      {di:"I'm thirsty. Do you want some water?", op:[{t:"Yes, water please!", r:"Here you go. Cheers!"}, {t:"Yes, I'm thirsty too!", r:"Here's a glass for you."}]},
+      {op:[{t:"Is the water cold?", r:"Yes, nice and cold!"}, {t:"Where does water come from?", r:"From the tap, and from the rain!"}]},
+      {di:"Would you like some more?", op:[{t:"Yes, more please!", r:"Of course! Here's some more."}, {t:"No, thank you. I'm full.", r:"All right. Thanks for drinking with me."}]},
+      {op:[{t:"Do you like water?", r:"Yes, it's my favorite!"}, {t:"Shall we play?", r:"Yes! Let's play!"}]}]},
+    {titulo:"Chatting at the door", chau:"Bye-bye, friend! See you on the adventure!", pasos:[
+      {di:"You know lots of words now! Shall we go on an adventure?", op:[{t:"Yes, let's go!", r:"Hooray! Come with me."}, {t:"Yes, I'm ready!", r:"Great! Off we go."}]},
+      {op:[{t:"Where are we going?", r:"To lots of new places!"}, {t:"Who is coming with us?", r:"All your friends!"}]},
+      {di:"Are you happy?", op:[{t:"Yes, I'm very happy!", r:"Me too! I'm so glad."}, {t:"Yes, I love adventures!", r:"Me too! Adventures are fun."}]},
+      {op:[{t:"Are you happy too?", r:"Yes, very happy!"}, {t:"Can we go now?", r:"Yes! Off we go."}]}]}
+  ],
   titulo: "Hello!",
   lugar: {texto:"the treehouse", silabas:["the", "tree", "house"]},
   bienvenida: "Here we are at the treehouse!",

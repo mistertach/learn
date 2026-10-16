@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('restaurante', 'en', {
+  charlas: [
+    {titulo:"Chatting with the host", chau:"Enjoy your meal!", pasos:[
+      {di:"Welcome to the restaurant! How many people?", op:[{t:"Two, please.", r:"A table for two. Follow me!"}, {t:"Four, please.", r:"A big table for four. Follow me!"}]},
+      {op:[{t:"Where is our table?", r:"Right by the window."}, {t:"Is the restaurant full?", r:"Almost full, but we have room."}]},
+      {di:"Would you like to sit here or over there?", op:[{t:"Here, please.", r:"Very good. Take a seat."}, {t:"Over there, please.", r:"Of course. This way."}]},
+      {op:[{t:"Can I have the menu, please?", r:"Of course! Here you go."}, {t:"Is the food good here?", r:"It's delicious!"}]}]},
+    {titulo:"Chatting with the chef", chau:"Thank you for visiting my kitchen! Enjoy your meal!", pasos:[
+      {di:"Hello! I'm the chef. Do you want to see the kitchen?", op:[{t:"Yes, please!", r:"Come in, but be careful."}, {t:"Yes, it smells so good!", r:"Thank you! I'm cooking soup."}]},
+      {op:[{t:"What are you cooking?", r:"A big pot of soup."}, {t:"Is it hot?", r:"Yes, very hot! Be careful."}]},
+      {di:"Do you want to taste it?", op:[{t:"Yes, please!", r:"Here's a little spoon."}, {t:"Just a little bit.", r:"Here, a tiny taste."}]},
+      {op:[{t:"What's in the soup?", r:"Carrots, potatoes and love."}, {t:"Can I help cook?", r:"Yes! Stir the pot."}]}]},
+    {titulo:"Chatting at the ice cream stand", chau:"Enjoy your ice cream! Bye-bye!", pasos:[
+      {di:"It's time for dessert! What flavor of ice cream do you want?", op:[{t:"Strawberry, please!", r:"Here's your pink ice cream."}, {t:"Chocolate, please!", r:"Here's your chocolate ice cream."}]},
+      {op:[{t:"Which flavors do you have?", r:"Strawberry, chocolate and vanilla."}, {t:"Is it cold?", r:"Very cold! Brrr."}]},
+      {di:"One scoop or two scoops?", op:[{t:"One scoop, please.", r:"Here you go. One scoop."}, {t:"Two scoops, please!", r:"Wow, two scoops!"}]},
+      {op:[{t:"Can I have a cone?", r:"Of course! A crunchy cone."}, {t:"How much is it?", r:"One little fish."}]}]},
+    {titulo:"Chatting with the guest", chau:"Thank you, and here's a tip for you!", pasos:[
+      {di:"Hello! This restaurant is lovely. Do you work here?", op:[{t:"Yes, I work here!", r:"How wonderful! You do it so well."}, {t:"Yes, I help everyone.", r:"What a good helper!"}]},
+      {op:[{t:"Did you like the food?", r:"It was delicious!"}, {t:"What did you eat?", r:"Pizza and ice cream!"}]},
+      {di:"Everything was great! Can I have the bill, please?", op:[{t:"Yes, here's the bill.", r:"Thank you! Here's the money."}, {t:"Yes, one moment, please.", r:"Thank you!"}]},
+      {op:[{t:"Will you come back?", r:"Yes, I'll come again soon!"}, {t:"Did you have fun?", r:"I had a great time!"}]}]}
+  ],
   titulo: "The restaurant",
   lugar: {texto:"the restaurant", silabas:["the", "rest", "uh", "ront"]},
   bienvenida: "We're at the restaurant!",

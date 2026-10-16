@@ -6,6 +6,28 @@
    Se le habla al chico en masculino.
    ========================================================= */
 registrarTextos('plaza', 'ar', {
+  charlas: [
+    {titulo:"nsawlif 'ind al-urjoohha|نسولف عند الأرجوحة", chau:"kan mumti'! nshoofak fil-hadeeqa!|كان ممتع! نشوفك في الحديقة!", pasos:[
+      {di:"tibi tarkab al-urjoohha?|تبي تركب الأرجوحة؟", op:[{t:"aywa, dfa'ni min fadlak!|أيوا، دفعني من فضلك!", r:"yalla! wiiii!|يلا! ويييي!"}, {t:"aywa! agdar atarjah wahdi.|أيوا! أقدر أتأرجح وحدي.", r:"shu hal-kibar!|شو هالكبر!"}]},
+      {op:[{t:"hiya 'aaliya?|هي عالية؟", r:"mu wayed. imsik zain!|مو وايد. امسك زين!"}, {t:"inta bad titarjah?|إنت بعد تتأرجح؟", r:"aywa! nitarjah sawa.|أيوا! نتأرجح سوا."}]},
+      {di:"ashaal aw shway shway?|أعلى أو شوي شوي؟", op:[{t:"ashaal min fadlak!|أعلى من فضلك!", r:"foog! imsik zain!|فوق! امسك زين!"}, {t:"shway shway min fadlak.|شوي شوي من فضلك.", r:"tamam, shway shway.|تمام، شوي شوي."}]},
+      {op:[{t:"tijibik al-urjoohha?|تعجبك الأرجوحة؟", r:"ahibbha wayed!|أحبها وايد!"}, {t:"nroh az-zaleeqa ba'dain?|نروح الزحليقة بعدين؟", r:"aywa! yalla.|أيوا! يلا."}]}]},
+    {titulo:"nsawlif wiyya laa'ib al-kora|نسولف ويا لاعب الكرة", chau:"mubaara jameela! nshoofak qareeb!|مباراة جميلة! نشوفك قريب!", pasos:[
+      {di:"shoof, ladai kora! tibi tal'ab?|شوف، لدي كرة! تبي تلعب؟", op:[{t:"aywa, yalla nal'ab kora!|أيوا، يلا نلعب كرة!", r:"mumtaz! imsikha!|ممتاز! امسكها!"}, {t:"aywa, ramhaa li!|أيوا، ارمها لي!", r:"hiya jaayya!|هي جايّة!"}]},
+      {op:[{t:"shu lon al-kora?|شو لون الكرة؟", r:"hiya hamra!|هي حمرا!"}, {t:"armeeha lak?|أرميها لك؟", r:"aywa, irmiha 'aali!|أيوا، ارميها عالي!"}]},
+      {di:"nirkilha aw nirmeeha?|نركلها أو نرميها؟", op:[{t:"yalla nirkilha!|يلا نركلها!", r:"goal! rakalta ba'eed.|غول! ركلتها بعيد."}, {t:"yalla nirmeeha!|يلا نرميها!", r:"ramya hilwa!|رمية حلوة!"}]},
+      {op:[{t:"nal'ab marra thaniya?|نلعب مرة ثانية؟", r:"aywa! marra thaniya!|أيوا! مرة ثانية!"}, {t:"inta ta'baan?|إنت تعبان؟", r:"la, agdar al'ab tool al-yoom!|لا، أقدر ألعب طول اليوم!"}]}]},
+    {titulo:"nsawlif wiyya al-fuqa'aat|نسولف ويا الفقاعات", chau:"ma'a as-salama ya fuqa'aat! nshoofkum qareeb!|مع السلامة يا فقاعات! نشوفكم قريب!", pasos:[
+      {di:"shoof kam fuqa'a! tijibik?|شوف كم فقاعة! تعجبك؟", op:[{t:"aywa, hilwa wayed!|أيوا، حلوة وايد!", r:"tilma' mithl qaws qazah.|تلمع مثل قوس قزح."}, {t:"aywa, abi afajjirha!|أيوا، أبي أفجرها!", r:"bop, bop, bop!|بوب، بوب، بوب!"}]},
+      {op:[{t:"agdar a'mal fuqa'aat?|أقدر أسوي فقاعات؟", r:"aywa! unfukh shway shway.|أيوا! انفخ شوي شوي."}, {t:"min shu al-fuqa'aat?|من شو الفقاعات؟", r:"min maay wa saboon!|من مي وصابون!"}]},
+      {di:"shu tishoof fil-fuqa'aat?|شو تشوف في الفقاعات؟", op:[{t:"ashoof alwaan wayed!|أشوف ألوان وايد!", r:"ya hilw al-alwaan!|يا حلو الألوان!"}, {t:"ashoof fuqa'aat kabeera!|أشوف فقاعات كبيرة!", r:"w saghira ba'd!|وصغيرة بعد!"}]},
+      {op:[{t:"tihibb al-fuqa'aat?|تحب الفقاعات؟", r:"ahibbha wayed!|أحبها وايد!"}, {t:"n'mal ziyada?|نسوي زيادة؟", r:"aywa! wayed ziyada!|أيوا! وايد زيادة!"}]}]},
+    {titulo:"nsawlif wiyya al-mushrifa|نسولف ويا المشرفة", chau:"ahsant! inta batal!|أحسنت! إنت بطل!", pasos:[
+      {di:"nal'ab 'sayyid yagool'?|نلعب «سيد يقول»؟", op:[{t:"aywa, yalla nal'ab!|أيوا، يلا نلعب!", r:"mumtaz! isma' zain.|ممتاز! اسمع زين."}, {t:"aywa, ahibb hathi al-li'ba!|أيوا، أحب هذي اللعبة!", r:"wana ba'd! jahiz?|وأنا بعد! جاهز؟"}]},
+      {op:[{t:"shlon nal'abha?|شلون نلعبها؟", r:"isawwi bas illi ygoolah as-sayyid!|اسوي بس اللي يقوله السيد!"}, {t:"agdar a'ti al-awaamir?|أقدر أعطي الأوامر؟", r:"aywa! al-heen inta as-sayyid.|أيوا! الحين إنت السيد."}]},
+      {di:"as-sayyid yagool: untut!|السيد يقول: انطط!", op:[{t:"antut! boing, boing!|أنط! بوينغ، بوينغ!", r:"zain wayed! tintt 'aali.|زين وايد! تنط عالي."}, {t:"shoof, antut!|شوف، أنط!", r:"ya hilw al-natta!|يا حلو النطة!"}]},
+      {op:[{t:"nal'ab marra thaniya?|نلعب مرة ثانية؟", r:"aywa, marra thaniya!|أيوا، مرة ثانية!"}, {t:"sawwait zain?|سويت زين؟", r:"sawwait mumtaz!|سويت ممتاز!"}]}]}
+  ],
   titulo: "al-mal'ab|الملعب",
   lugar: {texto:"al-mal'ab|الملعب", silabas:["al|ألْ", "mal|مَلْ", "'ab|عَبْ"]},
   bienvenida: "wsalna al-mal'ab!|وصلنا الملعب!",

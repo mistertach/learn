@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('reloj', 'es', {
+  charlas: [
+    {titulo:"Charlar con el relojero", chau:"¡El tiempo vuela! ¡Hasta pronto!", pasos:[
+      {di:"¡Hola! ¿Te gustan mis relojes?", op:[{t:"¡Sí, son hermosos!", r:"¡Gracias! Los hice yo."}, {t:"¡Sí, me gusta el reloj grande!", r:"Es mi favorito también."}]},
+      {op:[{t:"¿Qué hora es?", r:"¡Son las tres en punto!"}, {t:"¿Cuántos relojes tenés?", r:"¡Tengo cien relojes!"}]},
+      {di:"¿Querés escuchar el tic-tac del reloj?", op:[{t:"¡Sí, tic-tac!", r:"¡Tic-tac, tic-tac!"}, {t:"Sí, quiero escuchar.", r:"Shh… tic-tac, tic-tac."}]},
+      {op:[{t:"¿Suena?", r:"¡Sí, a cada hora!"}, {t:"¿Puedo tocar las agujas?", r:"¡Sí, con cuidado!"}]}]},
+    {titulo:"Charlar a las tres en punto", chau:"¡Es hora de irse! ¡Nos vemos a las cuatro!", pasos:[
+      {di:"¡Son las tres en punto! Hora de la merienda. ¿Tenés hambre?", op:[{t:"¡Sí, tengo hambre!", r:"¡Vamos a merendar!"}, {t:"¡Sí, quiero una galletita!", r:"Acá tenés tu galletita."}]},
+      {op:[{t:"¿Qué hora es?", r:"Son las tres en punto."}, {t:"¿A qué hora cenamos?", r:"A las ocho."}]},
+      {di:"¿Qué hacés a las tres?", op:[{t:"Juego con mis juguetes.", r:"¡Qué divertido!"}, {t:"Hago la merienda.", r:"¡Mmm! Yo también."}]},
+      {op:[{t:"¿Dónde está la aguja chica ahora?", r:"¡En el tres!"}, {t:"¿Es tarde?", r:"No, todavía es temprano."}]}]},
+    {titulo:"Charlar a las siete menos cuarto", chau:"¡La cena está lista! ¡Buen provecho!", pasos:[
+      {di:"Son las siete menos cuarto. Ya casi es hora de cenar. ¿Tenés hambre?", op:[{t:"¡Sí, tengo mucha hambre!", r:"La cena ya casi está."}, {t:"Sí, ¿qué hay de cena?", r:"¡Sopa y pan!"}]},
+      {op:[{t:"¿A qué hora es la cena?", r:"A las siete en punto."}, {t:"¿Cuánto falta para la cena?", r:"¡Solo un cuarto de hora!"}]},
+      {di:"¿Nos lavamos las manos primero?", op:[{t:"¡Sí, lavémonos las manos!", r:"¡Jabón, jabón y agua!"}, {t:"¡Sí, las tengo sucias!", r:"Lavémoslas bien."}]},
+      {op:[{t:"¿Te ayudo a poner la mesa?", r:"¡Sí! Traé los platos, por favor."}, {t:"¿Ya es la hora?", r:"¡Casi! Esperá un poquito."}]}]},
+    {titulo:"Charlar en el campanario", chau:"¡Din don! ¡Hasta mañana!", pasos:[
+      {di:"¡Son las doce en punto! ¿Qué hora es?", op:[{t:"¡Son las doce en punto!", r:"¡Eso es! Hora de las campanas."}, {t:"¡Es mediodía!", r:"¡Sí! Van a sonar las campanas."}]},
+      {op:[{t:"¿Puedo tocar las campanas?", r:"¡Sí! Tirá de la soga."}, {t:"¿Cuántas veces suenan?", r:"¡Doce veces!"}]},
+      {di:"¿Aprendiste las horas hoy?", op:[{t:"¡Sí, sé las en punto y las y media!", r:"¡Maravilloso! Sos un experto en relojes."}, {t:"¡Sí, me encantan los relojes!", r:"¡A mí también! El tiempo es divertido."}]},
+      {op:[{t:"¿Qué hora es ahora?", r:"¡Hora de volver a casa!"}, {t:"¿Me enseñás más?", r:"¡Claro! Volvé mañana."}]}]}
+  ],
   titulo: "La torre del reloj",
   lugar: {texto:"la torre del reloj", silabas:["la", "to", "rre", "del", "re", "loj"]},
   bienvenida: "¡Llegamos a la torre del reloj!",

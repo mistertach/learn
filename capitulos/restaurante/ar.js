@@ -7,6 +7,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('restaurante', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya al-mudheef|نسولف ويا المضيف", chau:"bil-hana wash-shifa!|بالهنا والشفا!", pasos:[
+      {di:"ahlan bikum fil-mat'am! kam shakhs?|أهلاً بكم في المطعم! كم شخص؟", op:[{t:"ithnain min fadlak.|اثنين من فضلك.", r:"tawilat ithnain. tafaddal wiyyaai!|طاولة اثنين. تفضل وياي!"}, {t:"arba'a min fadlak.|أربعة من فضلك.", r:"tawila kabeera li-arba'a. tafaddal wiyyaai!|طاولة كبيرة لأربعة. تفضل وياي!"}]},
+      {op:[{t:"wain tawiltna?|وين طاولتنا؟", r:"jamb ash-shubbaak.|جنب الشباك."}, {t:"al-mat'am malyaan?|المطعم مليان؟", r:"taqreeban, laakin fi makaan.|تقريباً، لكن في مكان."}]},
+      {di:"tibi tijlis hini aw hnaak?|تبي تجلس هني أو هناك؟", op:[{t:"hini min fadlak.|هني من فضلك.", r:"zain wayed. itfaddal ijlis.|زين وايد. تفضل اجلس."}, {t:"hnaak min fadlak.|هناك من فضلك.", r:"akeed. min hini.|أكيد. من هني."}]},
+      {op:[{t:"agdar a'khudh al-qaa'ima min fadlak?|أقدر آخذ القائمة من فضلك؟", r:"akeed! tafaddal.|أكيد! تفضل."}, {t:"al-akl zain hini?|الأكل زين هني؟", r:"ladheedh wayed!|لذيذ وايد!"}]}]},
+    {titulo:"nsawlif wiyya at-tabbakh|نسولف ويا الطباخ", chau:"shukran 'ala ziyarat matbakhi! sahha wa afya!|شكراً على زيارة مطبخي! صحة وعافية!", pasos:[
+      {di:"marhaba! ana at-tabbakh. tibi tshoof al-matbakh?|مرحبا! أنا الطباخ. تبي تشوف المطبخ؟", op:[{t:"aywa, min fadlak!|أيوا، من فضلك!", r:"itfaddal, laakin intabih.|تفضل، لكن انتبه."}, {t:"aywa, rayhatah zainah!|أيوا، ريحته زينة!", r:"shukran! asawwi shorba.|شكراً! أسوي شوربة."}]},
+      {op:[{t:"shu tutbukh?|شو تطبخ؟", r:"qidr kabeer min ash-shorba.|قدر كبير من الشوربة."}, {t:"hiya haara?|هي حارة؟", r:"aywa, haara wayed! intabih.|أيوا، حارة وايد! انتبه."}]},
+      {di:"tibi tadhooqha?|تبي تذوقها؟", op:[{t:"aywa, min fadlak!|أيوا، من فضلك!", r:"hathi mal'aqa saghira.|هذي ملعقة صغيرة."}, {t:"shway bas.|شوي بس.", r:"tafaddal, dhawqa saghira.|تفضل، ذوقة صغيرة."}]},
+      {op:[{t:"shu fi ash-shorba?|شو في الشوربة؟", r:"jazar wa batata wa hubb.|جزر وبطاطا وحب."}, {t:"agdar asa'id fit-tabkh?|أقدر أساعد في الطبخ؟", r:"aywa! harrik al-qidr.|أيوا! حرك القدر."}]}]},
+    {titulo:"nsawlif 'ind al-aysakreem|نسولف عند الآيسكريم", chau:"tamatta' bil-aysakreem! ma'a as-salama!|تمتع بالآيسكريم! مع السلامة!", pasos:[
+      {di:"hana waqt al-halawiyyat! ay nakha tibi?|حان وقت الحلويات! أي نكهة تبي؟", op:[{t:"faraawla min fadlak!|فراولة من فضلك!", r:"hatha aysakreemak al-wardi.|هذا آيسكريمك الوردي."}, {t:"shokolata min fadlak!|شوكولاتة من فضلك!", r:"hatha aysakreemak bish-shokolata.|هذا آيسكريمك بالشوكولاتة."}]},
+      {op:[{t:"ay nakhaat 'indak?|أي نكهات عندك؟", r:"faraawla, shokolata, w fanilya.|فراولة، شوكولاتة، وفانيليا."}, {t:"huwa baarid?|هو بارد؟", r:"baarid wayed! brr.|بارد وايد! بررر."}]},
+      {di:"kora aw kuratain?|كرة أو كرتين؟", op:[{t:"kora wahda min fadlak.|كرة وحدة من فضلك.", r:"tafaddal. kora wahda.|تفضل. كرة وحدة."}, {t:"kuratain min fadlak!|كرتين من فضلك!", r:"wow, kuratain!|واو، كرتين!"}]},
+      {op:[{t:"tiddeeni 'ardha?|تعطيني عرضة؟", r:"akeed! 'ardha mugarmisha.|أكيد! عرضة مقرمشة."}, {t:"bikam?|بكم؟", r:"samaka wahda.|سمكة وحدة."}]}]},
+    {titulo:"nsawlif wiyya az-zaboona|نسولف ويا الزبونة", chau:"shukran, w hathi baqsheesh lak!|شكراً، وهذي بقشيش لك!", pasos:[
+      {di:"marhaba! al-mat'am jameel. tishtaghil hini?|مرحبا! المطعم جميل. تشتغل هني؟", op:[{t:"aywa, ashtaghil hini!|أيوا، أشتغل هني!", r:"ya salaam! tsawwi zain wayed.|يا سلام! تسوي زين وايد."}, {t:"aywa, asa'id al-jami'.|أيوا، أساعد الجميع.", r:"shu hal-musa'id az-zain!|شو هالمساعد الزين!"}]},
+      {op:[{t:"a'jabak al-akl?|أعجبك الأكل؟", r:"kan ladheedh!|كان لذيذ!"}, {t:"shu akalti?|شو أكلتي؟", r:"pitza w aysakreem!|بيتزا وآيسكريم!"}]},
+      {di:"kil shi kan mumtaz! tijeebli al-hisaab min fadlak?|كل شي كان ممتاز! تجيبلي الحساب من فضلك؟", op:[{t:"aywa, hatha al-hisaab.|أيوا، هذا الحساب.", r:"shukran! hathi al-floos.|شكراً! هذي الفلوس."}, {t:"aywa, lahdha min fadlak.|أيوا، لحظة من فضلك.", r:"shukran!|شكراً!"}]},
+      {op:[{t:"traj'een?|ترجعين؟", r:"aywa, arja' qareeb!|أيوا، أرجع قريب!"}, {t:"istamta'ti?|استمتعتي؟", r:"istamta't wayed!|استمتعت وايد!"}]}]}
+  ],
   titulo: "al-mat'am|المطعم",
   lugar: {texto:"al-mat'am|المطعم", silabas:["al|اَلْ", "mat|مَطْ", "'am|عَمْ"]},
   bienvenida: "wisalna lil-mat'am!|وصلنا للمطعم!",

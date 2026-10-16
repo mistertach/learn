@@ -19,6 +19,28 @@ const edadVelas = n => {
   return [U(c, ' snin| سنين'), U(c, " shim'aat| شمعات")];
 };
 registrarTextos('fiesta', 'ar', {
+  charlas: [
+    {titulo:"nsawlif 'an ad-da'wa|نسولف عن الدعوة", chau:"nshoofak fil-hafla!|نشوفك في الحفلة!", pasos:[
+      {di:"marhaba! inta ma'zoom 'ala hafla! tibi tiji?|مرحبا! إنت معزوم على حفلة! تبي تجي؟", op:[{t:"aywa, abi aji!|أيوا، أبي أجي!", r:"hurra! rah tkoon mumti'a.|هورا! راح تكون ممتعة."}, {t:"aywa, shukran 'ala ad-da'wa!|أيوا، شكراً على الدعوة!", r:"afwan! nifrah ishaan tiji.|عفواً! نفرح إنك تجي."}]},
+      {op:[{t:"wain al-hafla?|وين الحفلة؟", r:"fil-hadeeqa al-kabeera!|في الحديقة الكبيرة!"}, {t:"min bad yiji?|من بعد يجي؟", r:"kil asdiqaa'na!|كل أصدقاءنا!"}]},
+      {di:"shu rah tijeeb?|شو راح تجيب؟", op:[{t:"rah ajeeb hadiyya.|راح أجيب هدية.", r:"ya hilw! shukran.|يا حلو! شكراً."}, {t:"rah ajeeb ibtisaama kabeera.|راح أجيب ابتسامة كبيرة.", r:"ahsan hadiyya!|أحسن هدية!"}]},
+      {op:[{t:"mita tibda?|متى تبدأ؟", r:"as-saa'a arba'a!|الساعة أربعة!"}, {t:"fi kaek?|في كيك؟", r:"aywa, kaek kabeer!|أيوا، كيك كبير!"}]}]},
+    {titulo:"nsawlif 'ind at-taqweem|نسولف عند التقويم", chau:"kil sana wanta tayyib! nshoofak qareeb!|كل سنة وإنت طيب! نشوفك قريب!", pasos:[
+      {di:"fi ay fasl 'eed milaadak?|في أي فصل عيد ميلادك؟", op:[{t:"fis-sayf!|في الصيف!", r:"a'yaad al-milaad as-sayfiyya ahsan shi!|أعياد الميلاد الصيفية أحسن شي!"}, {t:"fish-shita'!|في الشتاء!", r:"ya dafi'! shokolata sakhna!|يا دافي! شوكولاتة سخنة!"}]},
+      {op:[{t:"mita 'eed milaadak?|متى عيد ميلادك؟", r:"fi shahr mayo!|في شهر مايو!"}, {t:"kam shahr fis-sana?|كم شهر في السنة؟", r:"ithna'ash shahr!|اثنعش شهر!"}]},
+      {di:"kam 'umrak rah yikoon hathi as-sana?|كم عمرك راح يكون هذي السنة؟", op:[{t:"rah ikmil sitta!|راح أكمل ستة!", r:"sitta! tikbar wayed.|ستة! تكبر وايد."}, {t:"rah ikmil khamsa!|راح أكمل خمسة!", r:"khamsa! 'umr hilw.|خمسة! عمر حلو."}]},
+      {op:[{t:"kam 'umrik?|كم عمرك؟", r:"ashwaya akbar minnak!|أشوية أكبر منك!"}, {t:"agdar aji li-'eed milaadik?|أقدر أجي لعيد ميلادك؟", r:"akeed! inta ma'zoom.|أكيد! إنت معزوم."}]}]},
+    {titulo:"nsawlif 'an al-hadiyya|نسولف عن الهدية", chau:"afwan! tamatta' bi-hadiyyatak!|عفواً! تمتع بهديتك!", pasos:[
+      {di:"shoof hathi as-sandooq al-kabeer! hadiyya lak. tibi tiftahha?|شوف هذا الصندوق الكبير! هدية لك. تبي تفتحها؟", op:[{t:"aywa, abi aftahha!|أيوا، أبي أفتحها!", r:"iftahha bi-hadhar!|افتحها بحذر!"}, {t:"aywa, shu hiya?|أيوا، شو هي؟", r:"hiya mufaja'a!|هي مفاجأة!"}]},
+      {op:[{t:"min yaa'ni hiya?|من يعني هي؟", r:"min kil asdiqaa'ak!|من كل أصدقاءك!"}, {t:"hiya kabeera?|هي كبيرة؟", r:"aywa, kabeera wayed!|أيوا، كبيرة وايد!"}]},
+      {di:"hathi lu'ba! tijibik?|هذي لعبة! تعجبك؟", op:[{t:"aywa, ahibbha! shukran!|أيوا، أحبها! شكراً!", r:"yfarrihni inha a'jabatak!|يفرحني إنها أعجبتك!"}, {t:"aywa, hilwa wayed!|أيوا، حلوة وايد!", r:"hiya lak, bi-hubb.|هي لك، بحب."}]},
+      {op:[{t:"nal'ab biha sawa?|نلعب بها سوا؟", r:"aywa! yalla nal'ab.|أيوا! يلا نلعب."}, {t:"agdar ahdhinik?|أقدر أحضنك؟", r:"aywa, hidhin kabeer!|أيوا، حضن كبير!"}]}]},
+    {titulo:"nsawlif fi hafla 'eed al-milaad|نسولف في حفلة عيد الميلاد", chau:"kil sana wanta tayyib! nihibbak!|كل سنة وإنت طيب! نحبك!", pasos:[
+      {di:"mufaja'a! kil asdiqaa'ak hini! kil sana wanta tayyib!|مفاجأة! كل أصدقاءك هني! كل سنة وإنت طيب!", op:[{t:"shukran lakum jami'an!|شكراً لكم جميعاً!", r:"afwan! nihibbak.|عفواً! نحبك."}, {t:"ya salaam, shu hal-mufaja'a!|يا سلام، شو هالمفاجأة!", r:"ridna nufaji'ak!|ردنا نفاجئك!"}]},
+      {op:[{t:"wain al-kaek?|وين الكيك؟", r:"hini, wiyya sham'aat!|هني، ويا شمعات!"}, {t:"nghanni?|نغني؟", r:"aywa! nghanni sawa.|أيوا! نغني سوا."}]},
+      {di:"itmanna umniyya wa itfi ash-sham'aat!|اتمنى أمنية واطفي الشمعات!", op:[{t:"itmannait umniyya!|اتمنيت أمنية!", r:"inshaallah tit-haqqaq!|إن شاء الله تتحقق!"}, {t:"wahid, ithnain, thalatha... atfi!|واحد، اثنين، ثلاثة... أطفي!", r:"hurra! shu hal-nafas!|هورا! شو هالنفس!"}]},
+      {op:[{t:"tiddeeni qit'a min al-kaek?|تعطيني قطعة من الكيك؟", r:"akeed! akbar qit'a.|أكيد! أكبر قطعة."}, {t:"istamta't?|استمتعت؟", r:"kanat ahsan hafla!|كانت أحسن حفلة!"}]}]}
+  ],
   titulo: "al-hafla|الحفلة",
   lugar: {texto:"al-hafla|الحفلة", silabas:["al|اَلْ", "haf|حَفْ", "la|لَة"]},
   bienvenida: "al-yom 'eed meeladak!|اليوم عيد ميلادك!",

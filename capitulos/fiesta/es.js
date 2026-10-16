@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('fiesta', 'es', {
+  charlas: [
+    {titulo:"Charlar sobre la invitación", chau:"¡Nos vemos en la fiesta!", pasos:[
+      {di:"¡Hola! ¡Te invitamos a una fiesta! ¿Querés venir?", op:[{t:"¡Sí, quiero ir!", r:"¡Hurra! Va a ser divertido."}, {t:"¡Sí, gracias por invitarme!", r:"¡De nada! Nos alegra que vengas."}]},
+      {op:[{t:"¿Dónde es la fiesta?", r:"¡En el jardín grande!"}, {t:"¿Quién más viene?", r:"¡Todos nuestros amigos!"}]},
+      {di:"¿Qué vas a llevar?", op:[{t:"Voy a llevar un regalo.", r:"¡Qué lindo! Gracias."}, {t:"Voy a llevar una gran sonrisa.", r:"¡El mejor regalo de todos!"}]},
+      {op:[{t:"¿A qué hora empieza?", r:"¡A las cuatro!"}, {t:"¿Va a haber torta?", r:"¡Sí, una torta enorme!"}]}]},
+    {titulo:"Charlar en el calendario", chau:"¡Feliz cumpleaños por adelantado! ¡Hasta pronto!", pasos:[
+      {di:"¿En qué estación es tu cumpleaños?", op:[{t:"¡En verano!", r:"¡Los cumpleaños de verano son los mejores!"}, {t:"¡En invierno!", r:"¡Qué acogedor! ¡Chocolate caliente!"}]},
+      {op:[{t:"¿Cuándo es tu cumpleaños?", r:"¡En el mes de mayo!"}, {t:"¿Cuántos meses tiene el año?", r:"¡Doce meses!"}]},
+      {di:"¿Cuántos años vas a cumplir este año?", op:[{t:"¡Voy a cumplir seis!", r:"¡Seis! Qué grande estás."}, {t:"¡Voy a cumplir cinco!", r:"¡Cinco! Qué linda edad."}]},
+      {op:[{t:"¿Cuántos años tenés?", r:"¡Algunos más que vos!"}, {t:"¿Puedo ir a tu cumpleaños?", r:"¡Claro! Te invitamos."}]}]},
+    {titulo:"Charlar sobre el regalo", chau:"¡De nada! ¡Disfrutá tu regalo!", pasos:[
+      {di:"¡Mirá esta caja grande! Es un regalo para vos. ¿Querés abrirlo?", op:[{t:"¡Sí, quiero abrirlo!", r:"¡Abrilo con cuidado!"}, {t:"¡Sí! ¿Qué es?", r:"¡Es una sorpresa!"}]},
+      {op:[{t:"¿De parte de quién es?", r:"¡De todos tus amigos!"}, {t:"¿Es grande?", r:"¡Sí, muy grande!"}]},
+      {di:"¡Es un juguete! ¿Te gusta?", op:[{t:"¡Sí, me encanta! ¡Gracias!", r:"¡Qué alegría que te guste!"}, {t:"¡Sí, es hermoso!", r:"Es para vos, con cariño."}]},
+      {op:[{t:"¿Jugamos juntos con él?", r:"¡Sí! Juguemos."}, {t:"¿Te doy un abrazo?", r:"¡Sí, un abrazo grande!"}]}]},
+    {titulo:"Charlar en la fiesta de cumpleaños", chau:"¡Feliz cumpleaños! ¡Te queremos!", pasos:[
+      {di:"¡Sorpresa! ¡Están todos tus amigos! ¡Feliz cumpleaños!", op:[{t:"¡Gracias a todos!", r:"¡De nada! Te queremos."}, {t:"¡Uy, qué sorpresa!", r:"¡Queríamos sorprenderte!"}]},
+      {op:[{t:"¿Dónde está la torta?", r:"¡Acá, con velitas!"}, {t:"¿Cantamos?", r:"¡Sí! Cantemos juntos."}]},
+      {di:"¡Pedí un deseo y soplá las velitas!", op:[{t:"¡Ya pedí un deseo!", r:"¡Ojalá se cumpla!"}, {t:"¡Uno, dos, tres… soplo!", r:"¡Hurra! ¡Qué soplido!"}]},
+      {op:[{t:"¿Me das un pedazo de torta?", r:"¡Claro! El más grande."}, {t:"¿Te divertiste?", r:"¡Fue la mejor fiesta del mundo!"}]}]}
+  ],
   titulo: "La fiesta",
   lugar: {texto:"la fiesta", silabas:["la", "fies", "ta"]},
   bienvenida: "¡Hoy es tu cumpleaños!",

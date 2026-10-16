@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('doctor', 'fr', {
+  charlas: [
+    {titulo:"Parler avec l'infirmière", chau:"Bonne chance, docteur ! À tout à l'heure !", pasos:[
+      {di:"Bonjour, docteur ! Tout est prêt pour aujourd'hui ?", op:[{t:"Oui, tout est prêt !", r:"Merveilleux ! Les patients attendent."}, {t:"Oui, j'ai ma blouse blanche !", r:"On dirait un vrai docteur !"}]},
+      {op:[{t:"Qui est le premier patient ?", r:"Un petit ours qui a mal à la tête."}, {t:"Où est le stéthoscope ?", r:"Le voici, autour de ton cou !"}]},
+      {di:"Il te faut autre chose ?", op:[{t:"Un pansement, s'il te plaît.", r:"Voici un pansement tout coloré."}, {t:"Le thermomètre, s'il te plaît.", r:"Voici le thermomètre."}]},
+      {op:[{t:"Tu m'aides ?", r:"Bien sûr ! Je suis toujours là pour aider."}, {t:"Il y a beaucoup de monde ?", r:"Oui, mais tout le monde est content."}]}]},
+    {titulo:"Parler avec l'ours", chau:"Merci, docteur ! Je me sens déjà mieux !", pasos:[
+      {di:"Docteur, je ne me sens pas bien.", op:[{t:"Qu'est-ce qui ne va pas ?", r:"J'ai très mal à la tête."}, {t:"Où as-tu mal ?", r:"Ici, à la tête."}]},
+      {op:[{t:"Tu as de la fièvre ?", r:"Non, je ne crois pas."}, {t:"Tu as bien dormi ?", r:"Non, j'ai mal dormi."}]},
+      {di:"C'est grave, docteur ?", op:[{t:"Non, ce n'est pas grave.", r:"Ouf ! Quel soulagement."}, {t:"Bois de l'eau et repose-toi.", r:"D'accord, je vais me reposer."}]},
+      {op:[{t:"Tu te sens mieux maintenant ?", r:"Oui, beaucoup mieux ! Merci !"}, {t:"Tu veux un câlin ?", r:"Oui, s'il te plaît !"}]}]},
+    {titulo:"Parler avec la lapine", chau:"Merci, docteur ! Atchoum… au revoir !", pasos:[
+      {di:"Atchoum ! Docteur, j'ai le nez tout rouge.", op:[{t:"À tes souhaits !", r:"Merci !"}, {t:"Tu es enrhumée ?", r:"Oui, je crois bien."}]},
+      {op:[{t:"Tu as mal à la gorge ?", r:"Un tout petit peu."}, {t:"Tu as un mouchoir ?", r:"Oui, le voici."}]},
+      {di:"Qu'est-ce que je fais, docteur ?", op:[{t:"Bois une tisane chaude.", r:"Mmm, une tisane chaude. Bonne idée !"}, {t:"Reste au chaud et repose-toi.", r:"D'accord, je reste au lit."}]},
+      {op:[{t:"Tu veux du sirop ?", r:"Oui, s'il te plaît ! J'adore celui à la fraise."}, {t:"Tu te sens mieux ?", r:"Oui, je sens de nouveau les fleurs !"}]}]},
+    {titulo:"Parler avec l'ourson en peluche", chau:"Merci de t'occuper de moi ! Je t'aime, docteur !", pasos:[
+      {di:"Docteur… je suis triste.", op:[{t:"Ne sois pas triste, ourson.", r:"Merci, docteur."}, {t:"Je vais prendre soin de toi.", r:"Avec toi, je me sens en sécurité."}]},
+      {op:[{t:"Où as-tu mal ?", r:"Ici, un petit peu."}, {t:"Tu as peur ?", r:"Un peu, mais je suis courageux."}]},
+      {di:"Tu me mets un pansement ?", op:[{t:"Oui, tiens.", r:"Merci ! Il est très joli."}, {t:"Oui, et un gros câlin !", r:"J'adore les câlins !"}]},
+      {op:[{t:"Tu te sens mieux ?", r:"Oui, maintenant je suis content !"}, {t:"Tu veux jouer ?", r:"Oui ! Allons jouer !"}]}]}
+  ],
   titulo: "Chez le docteur",
   lugar: {texto:"chez le docteur", silabas:["chez", "le", "doc", "teur"]},
   bienvenida: "Nous voilà chez le docteur !",

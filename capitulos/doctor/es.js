@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('doctor', 'es', {
+  charlas: [
+    {titulo:"Charlar con la enfermera", chau:"¡Suerte, doctor! ¡Hasta luego!", pasos:[
+      {di:"¡Hola, doctor! ¿Está todo listo para hoy?", op:[{t:"¡Sí, todo listo!", r:"¡Maravilloso! Los pacientes esperan."}, {t:"¡Sí, tengo mi bata blanca!", r:"¡Parecés un doctor de verdad!"}]},
+      {op:[{t:"¿Quién es el primer paciente?", r:"Un osito con dolor de cabeza."}, {t:"¿Dónde está el estetoscopio?", r:"¡Acá está, colgado del cuello!"}]},
+      {di:"¿Necesitás algo más?", op:[{t:"Una curita, por favor.", r:"Acá tenés una curita de colores."}, {t:"El termómetro, por favor.", r:"Acá tenés el termómetro."}]},
+      {op:[{t:"¿Me ayudás?", r:"¡Claro! Siempre estoy para ayudar."}, {t:"¿Hay mucha gente esperando?", r:"Sí, pero todos están contentos."}]}]},
+    {titulo:"Charlar con el oso", chau:"¡Gracias, doctor! ¡Ya me siento mejor!", pasos:[
+      {di:"Doctor, no me siento bien.", op:[{t:"¿Qué te pasa?", r:"Me duele mucho la cabeza."}, {t:"¿Dónde te duele?", r:"Acá, en la cabeza."}]},
+      {op:[{t:"¿Tenés fiebre?", r:"No, no creo."}, {t:"¿Dormiste bien?", r:"No, dormí mal."}]},
+      {di:"¿Es grave, doctor?", op:[{t:"No, no es nada grave.", r:"¡Uf! Qué alivio."}, {t:"Tomá agua y descansá.", r:"Bueno, voy a descansar."}]},
+      {op:[{t:"¿Ya te sentís mejor?", r:"¡Sí, mucho mejor! ¡Gracias!"}, {t:"¿Querés un abrazo?", r:"¡Sí, por favor!"}]}]},
+    {titulo:"Charlar con la conejita", chau:"¡Gracias, doctor! Achís… ¡chau!", pasos:[
+      {di:"¡Achís! Doctor, tengo la nariz roja.", op:[{t:"¡Salud!", r:"¡Gracias!"}, {t:"¿Estás resfriada?", r:"Sí, creo que sí."}]},
+      {op:[{t:"¿Te duele la garganta?", r:"Un poquito."}, {t:"¿Tenés un pañuelo?", r:"Sí, acá lo tengo."}]},
+      {di:"¿Qué hago, doctor?", op:[{t:"Tomá un té calentito.", r:"Mmm, un té calentito. ¡Buena idea!"}, {t:"Abrigate y descansá.", r:"Bueno, me quedo en la cama."}]},
+      {op:[{t:"¿Querés un jarabe?", r:"¡Sí, por favor! Me encanta el de frutilla."}, {t:"¿Te sentís mejor?", r:"¡Sí, ya puedo oler las flores!"}]}]},
+    {titulo:"Charlar con el osito de peluche", chau:"¡Gracias por cuidarme! ¡Te quiero, doctor!", pasos:[
+      {di:"Doctor… estoy triste.", op:[{t:"No estés triste, osito.", r:"Gracias, doctor."}, {t:"Yo te voy a cuidar.", r:"Con vos me siento seguro."}]},
+      {op:[{t:"¿Dónde te duele?", r:"Acá, un poquito."}, {t:"¿Tenés miedo?", r:"Un poco, pero soy valiente."}]},
+      {di:"¿Me ponés una curita?", op:[{t:"Sí, tomá.", r:"¡Gracias! Es muy linda."}, {t:"Sí, ¡y un abrazo grande!", r:"¡Me encantan los abrazos!"}]},
+      {op:[{t:"¿Te sentís mejor?", r:"¡Sí, ahora estoy contento!"}, {t:"¿Querés jugar?", r:"¡Sí! ¡Vamos a jugar!"}]}]}
+  ],
   titulo: "El consultorio",
   lugar: {texto:"el consultorio", silabas:["el", "con", "sul", "to", "rio"]},
   bienvenida: "¡Llegamos al consultorio!",

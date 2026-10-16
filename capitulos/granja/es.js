@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('granja', 'es', {
+  charlas: [
+    {titulo:"Charlar con el granjero", chau:"¡Gracias por visitar a la vaca! ¡Hasta pronto!", pasos:[
+      {di:"¡Buen día! ¿Querés ver a la vaca?", op:[{t:"¡Sí, quiero ver a la vaca!", r:"Vamos, está por acá."}, {t:"¡Sí, por favor!", r:"¡Seguime!"}]},
+      {op:[{t:"¿Qué dice la vaca?", r:"¡La vaca dice muuu!"}, {t:"¿Qué come la vaca?", r:"Come pasto."}]},
+      {di:"¿Querés leche fresquita?", op:[{t:"¡Sí, por favor!", r:"Acá tenés un vaso de leche."}, {t:"¡Sí, me encanta la leche!", r:"¡A mí también! Está bien fresquita."}]},
+      {op:[{t:"¿De dónde viene la leche?", r:"¡De la vaca!"}, {t:"¿La vaca es grande?", r:"Sí, muy grande y muy mansa."}]}]},
+    {titulo:"Charlar con el amigo del gallo", chau:"¡Quiquiriquí! ¡Nos vemos mañana temprano!", pasos:[
+      {di:"¡Quiquiriquí! ¡Buen día! ¿Escuchaste al gallo?", op:[{t:"¡Sí, lo escuché!", r:"¡Canta muy fuerte!"}, {t:"No, estaba dormido.", r:"¡Entonces el gallo te acaba de despertar!"}]},
+      {op:[{t:"¿Cuándo se despierta el gallo?", r:"¡Muy temprano, cuando sale el sol!"}, {t:"¿El gallo tiene amigos?", r:"¡Sí, todas las gallinas!"}]},
+      {di:"¿Sabés cantar como el gallo?", op:[{t:"¡Sí! ¡Quiquiriquí!", r:"¡Maravilloso! ¡Cantás muy bien!"}, {t:"¡Voy a probar! ¡Quiquiriquí!", r:"¡Muy bien! ¡Más fuerte!"}]},
+      {op:[{t:"¿Te gusta la granja?", r:"¡Me encanta la granja!"}, {t:"¿Cantamos juntos?", r:"¡Sí! ¡Quiquiriquí!"}]}]},
+    {titulo:"Charlar con el amigo del caballo", chau:"¡El caballo te saluda! ¡Hasta pronto!", pasos:[
+      {di:"¿Querés acariciar al caballo?", op:[{t:"¡Sí, despacito!", r:"¡Muy bien! Despacito, despacito."}, {t:"Sí, no tengo miedo.", r:"¡Qué valiente sos!"}]},
+      {op:[{t:"¿Cómo se llama el caballo?", r:"Se llama Trueno."}, {t:"¿Qué come el caballo?", r:"Come heno y manzanas."}]},
+      {di:"¿Le damos una manzana al caballo?", op:[{t:"¡Sí, acá está la manzana!", r:"¡Le encanta! Crunch, crunch."}, {t:"¡Sí, una para él!", r:"¡Dice gracias! ¡Iiiiih!"}]},
+      {op:[{t:"¿El caballo corre rápido?", r:"¡Sí, rapidísimo!"}, {t:"¿Puedo montar al caballo?", r:"¡Cuando seas más grande, sí!"}]}]},
+    {titulo:"Charlar con el granjero de noche", chau:"¡Buenas noches! ¡Dulces sueños!", pasos:[
+      {di:"Ya es de noche. ¿Les damos las buenas noches a los animales?", op:[{t:"¡Sí, buenas noches, animales!", r:"¡Buenas noches! ¡Que duerman bien!"}, {t:"Sí, tienen sueño.", r:"Shhh, hablemos bajito."}]},
+      {op:[{t:"¿Ya duermen todos los animales?", r:"¡Casi todos!"}, {t:"¿Con qué sueñan los animales?", r:"Sueñan con pasto verde."}]},
+      {di:"¿Te gustó la granja?", op:[{t:"¡Sí, me encantó!", r:"¡Qué alegría!"}, {t:"¡Sí, me encantaron los animales!", r:"¡Y ellos te adoraron a vos!"}]},
+      {op:[{t:"¿Puedo volver mañana?", r:"¡Claro! Los animales te esperan."}, {t:"¿Me contás un secreto?", r:"Shhh… los animales te quieren."}]}]}
+  ],
   titulo: "La granja",
   lugar: {texto:"la granja", silabas:["la", "gran", "ja"]},
   bienvenida: "¡Llegamos a la granja!",

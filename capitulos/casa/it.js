@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('casa', 'it', {
+  charlas: [
+    {titulo:"Parlare con papà", chau:"Ti voglio bene! A più tardi!", pasos:[
+      {di:"Buongiorno! Hai dormito bene?", op:[{t:"Sì, ho dormito benissimo!", r:"Che bello! Hai una bella faccia."}, {t:"Sì, ho fatto bei sogni.", r:"Che meraviglia! I bei sogni sono i migliori."}]},
+      {op:[{t:"Che cosa leggi, papà?", r:"Leggo il giornale."}, {t:"Vuoi giocare?", r:"Certo! Giochiamo insieme."}]},
+      {di:"Che cosa vuoi per colazione?", op:[{t:"Voglio il latte, per favore.", r:"Ecco il tuo latte. Buon appetito!"}, {t:"Voglio il pane, per favore.", r:"Ecco il tuo pane. Che buono!"}]},
+      {op:[{t:"Anche tu hai fame, papà?", r:"Sì, tantissima!"}, {t:"Posso aiutarti?", r:"Sì, grazie! Mi aiuti tanto."}]}]},
+    {titulo:"Parlare con mamma", chau:"Vieni, un abbraccio grande! Si pranza tra poco.", pasos:[
+      {di:"Ciao, amore mio! Come stai?", op:[{t:"Molto bene, grazie!", r:"Che gioia sentirlo!"}, {t:"Ho un po' di sonno.", r:"Allora ci riposiamo dopo pranzo."}]},
+      {op:[{t:"Che cosa cucini, mamma?", r:"Preparo la zuppa. La tua preferita!"}, {t:"Posso assaggiare?", r:"Certo! Piano, è calda."}]},
+      {di:"Vuoi ancora un po' di zuppa?", op:[{t:"Sì, per favore!", r:"Ecco qua!"}, {t:"No, grazie. Era buonissima!", r:"Sono contenta che ti sia piaciuta!"}]},
+      {op:[{t:"Ti aiuto, mamma?", r:"Sì! Apparecchi la tavola?"}, {t:"È già pronto?", r:"Quasi! Ancora un minuto."}]}]},
+    {titulo:"Parlare con tua sorella", chau:"Sei speciale! A dopo!", pasos:[
+      {di:"Ciao! Vuoi leggere un libro con me?", op:[{t:"Sì! Adoro i libri.", r:"Anch'io! Sediamoci qui."}, {t:"No, voglio giocare.", r:"Va bene! Prima giochiamo e poi leggiamo."}]},
+      {op:[{t:"Qual è il tuo colore preferito?", r:"Il viola! E il tuo?"}, {t:"Di che parla questo libro?", r:"È la storia di un cagnolino."}]},
+      {di:"Ti piace questa storia?", op:[{t:"Sì, è divertente!", r:"Anche a me! La rileggiamo."}, {t:"Sì, è bellissima!", r:"Che bello! È la mia preferita."}]},
+      {op:[{t:"Giochiamo adesso?", r:"Sì! Dai, giochiamo!"}, {t:"Vuoi un abbraccio?", r:"Sì, un abbraccio grande!"}]}]},
+    {titulo:"Parlare con la nonna", chau:"Tanti baci, amore mio! Ciao, ciao!", pasos:[
+      {di:"Ciao, tesoro! Mi manchi tanto!", op:[{t:"Mi manchi anche tu, nonna!", r:"Che dolce!"}, {t:"Ciao, nonna! Ti voglio bene!", r:"Anch'io ti voglio bene, tesoro mio!"}]},
+      {op:[{t:"Come stai, nonna?", r:"Benissimo, ora che ti vedo!"}, {t:"Che cosa stai facendo?", r:"Sto facendo una sciarpa per te."}]},
+      {di:"Che cosa hai fatto oggi?", op:[{t:"Ho giocato con il mio cane.", r:"Che divertente! I cani sono così dolci."}, {t:"Ho giocato in giardino.", r:"Che bello! L'aria aperta ti fa bene."}]},
+      {op:[{t:"Quando vieni, nonna?", r:"Molto presto! Ti porto un regalo."}, {t:"Mi racconti una storia?", r:"Certo! C'era una volta…"}]}]}
+  ],
   titulo: "La nostra casa",
   lugar: {texto:"la nostra casa", silabas:["la", "no", "stra", "ca", "sa"]},
   bienvenida: "Benvenuti a casa!",

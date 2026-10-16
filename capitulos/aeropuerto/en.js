@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('aeropuerto', 'en', {
+  charlas: [
+    {titulo:"Chatting at the information desk", chau:"Have a nice trip!", pasos:[
+      {di:"Hello! Can I help you?", op:[{t:"Yes, where is the bathroom?", r:"Down the hall, on the right."}, {t:"Yes, where is the plane?", r:"At gate 5! Follow the yellow arrows."}]},
+      {op:[{t:"Where is the snack stand?", r:"Right over there, next to the window."}, {t:"What time does the plane leave?", r:"In one hour!"}]},
+      {di:"Do you have your ticket?", op:[{t:"Yes, here's my ticket.", r:"Perfect! You're all set."}, {t:"Yes, it's in my bag.", r:"Great! Don't lose it."}]},
+      {op:[{t:"Can I have a map, please?", r:"Of course! Here's a map."}, {t:"Is it far?", r:"No, it's very close."}]}]},
+    {titulo:"Chatting at the snack stand", chau:"Enjoy your snack! Safe travels!", pasos:[
+      {di:"Hello! Do you want a snack?", op:[{t:"Yes, a cookie, please.", r:"Here's a yummy cookie."}, {t:"Yes, juice, please.", r:"Here's your juice."}]},
+      {op:[{t:"How much is it?", r:"Two little fish."}, {t:"What do you have?", r:"Cookies, juice and fruit!"}]},
+      {di:"Do you want anything else?", op:[{t:"No, thank you.", r:"You're welcome!"}, {t:"Yes, one more cookie!", r:"Here you go. You must be hungry!"}]},
+      {op:[{t:"Is it fresh?", r:"Yes, made today!"}, {t:"Can I take it on the plane?", r:"Of course!"}]}]},
+    {titulo:"Chatting at security", chau:"All clear! Have a good flight!", pasos:[
+      {di:"Hello! Your passport, please.", op:[{t:"Here's my passport.", r:"Thank you! Let me see."}, {t:"Here you go.", r:"Thank you very much."}]},
+      {op:[{t:"Is it okay?", r:"Yes, everything is fine!"}, {t:"Where do I go now?", r:"Straight ahead, to the gate."}]},
+      {di:"Do you have anything in your pockets?", op:[{t:"No, nothing.", r:"Perfect! You can pass."}, {t:"Only my toy.", r:"That's fine! You can pass."}]},
+      {op:[{t:"Can I go through now?", r:"Yes, go ahead!"}, {t:"Do you check all the bags?", r:"Yes, to keep everyone safe."}]}]},
+    {titulo:"Chatting with the pilot", chau:"We're landing! Thank you for flying with me!", pasos:[
+      {di:"Welcome aboard! I'm the pilot. Are you ready to fly?", op:[{t:"Yes, I'm ready!", r:"Fasten your seat belt!"}, {t:"Yes, I love planes!", r:"Me too! Come on up."}]},
+      {op:[{t:"Where are we flying?", r:"Up in the sky, above the clouds!"}, {t:"Is the plane big?", r:"Yes, very big!"}]},
+      {di:"Look out of the window! What do you see?", op:[{t:"I see the clouds!", r:"Yes, they look like cotton."}, {t:"I see the sky!", r:"Yes, it's so blue."}]},
+      {op:[{t:"Can I sit next to the window?", r:"Of course! It's the best seat."}, {t:"How long is the flight?", r:"Just one hour."}]}]}
+  ],
   titulo: "The airport",
   lugar: {texto:"the airport", silabas:["the", "air", "port"]},
   bienvenida: "We're at the airport!",

@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('casa', 'es', {
+  charlas: [
+    {titulo:"Charlar con papá", chau:"¡Te quiero mucho! ¡Hasta luego!", pasos:[
+      {di:"¡Buenos días! ¿Dormiste bien?", op:[{t:"¡Sí, dormí muy bien!", r:"¡Qué bueno! Tenés buena cara."}, {t:"Sí, soñé cosas lindas.", r:"¡Qué lindo! Los sueños lindos son los mejores."}]},
+      {op:[{t:"¿Qué estás leyendo, papá?", r:"Estoy leyendo el diario."}, {t:"¿Querés jugar?", r:"¡Claro! Juguemos juntos."}]},
+      {di:"¿Qué querés desayunar?", op:[{t:"Quiero leche, por favor.", r:"Acá tenés tu leche. ¡A disfrutar!"}, {t:"Quiero pan, por favor.", r:"Acá tenés tu pan. ¡Qué rico!"}]},
+      {op:[{t:"¿Vos también tenés hambre, papá?", r:"¡Sí, muchísima!"}, {t:"¿Te puedo ayudar?", r:"¡Sí, gracias! Me ayudás un montón."}]}]},
+    {titulo:"Charlar con mamá", chau:"¡Vení, un abrazo grande! Ya casi almorzamos.", pasos:[
+      {di:"¡Hola, mi amor! ¿Cómo estás?", op:[{t:"¡Muy bien, gracias!", r:"¡Qué alegría escucharte!"}, {t:"Tengo un poco de sueño.", r:"Entonces descansamos después del almuerzo."}]},
+      {op:[{t:"¿Qué estás cocinando, mamá?", r:"Estoy haciendo sopa. ¡Tu favorita!"}, {t:"¿Puedo probar?", r:"¡Claro! Cuidado, que está caliente."}]},
+      {di:"¿Querés más sopa?", op:[{t:"¡Sí, por favor!", r:"¡Acá tenés!"}, {t:"No, gracias. ¡Estaba riquísima!", r:"¡Me alegra que te haya gustado!"}]},
+      {op:[{t:"¿Te ayudo, mamá?", r:"¡Sí! ¿Ponés la mesa?"}, {t:"¿Ya está lista?", r:"¡Casi! Un minutito más."}]}]},
+    {titulo:"Charlar con tu hermana", chau:"¡Sos lo mejor! ¡Nos vemos más tarde!", pasos:[
+      {di:"¡Hola! ¿Querés leer un libro conmigo?", op:[{t:"¡Sí! Me encantan los libros.", r:"¡A mí también! Sentémonos acá."}, {t:"No, quiero jugar.", r:"¡Bueno! Primero jugamos y después leemos."}]},
+      {op:[{t:"¿Cuál es tu color favorito?", r:"¡El violeta! ¿Y el tuyo?"}, {t:"¿De qué es este libro?", r:"Es un cuento de un perrito."}]},
+      {di:"¿Te gusta este cuento?", op:[{t:"¡Sí, es divertido!", r:"¡A mí también! Lo leemos de nuevo."}, {t:"¡Sí, es hermoso!", r:"¡Qué bueno! Es mi favorito."}]},
+      {op:[{t:"¿Jugamos ahora?", r:"¡Sí! ¡Vamos a jugar!"}, {t:"¿Querés un abrazo?", r:"¡Sí, un abrazo grande!"}]}]},
+    {titulo:"Charlar con la abuela", chau:"¡Besos grandes, mi amor! ¡Chau, chau!", pasos:[
+      {di:"¡Hola, mi cielo! ¡Te extraño tanto!", op:[{t:"¡Yo también te extraño, abuela!", r:"¡Qué dulce sos!"}, {t:"¡Hola, abuela! ¡Te quiero!", r:"¡Yo también te quiero, mi tesoro!"}]},
+      {op:[{t:"¿Cómo estás, abuela?", r:"¡Muy bien, ahora que te veo!"}, {t:"¿Qué estás haciendo?", r:"Estoy tejiendo una bufanda para vos."}]},
+      {di:"¿Qué hiciste hoy?", op:[{t:"Jugué con mi perro.", r:"¡Qué divertido! Los perros son tan dulces."}, {t:"Jugué en el jardín.", r:"¡Qué lindo! El aire libre te hace bien."}]},
+      {op:[{t:"¿Cuándo venís, abuela?", r:"¡Muy pronto! Te llevo un regalo."}, {t:"¿Me contás un cuento?", r:"¡Claro! Había una vez…"}]}]}
+  ],
   titulo: "Nuestra casa",
   lugar: {texto:"nuestra casa", silabas:["nues", "tra", "ca", "sa"]},
   bienvenida: "¡Llegamos a casa!",

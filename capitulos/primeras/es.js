@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('primeras', 'es', {
+  charlas: [
+    {titulo:"Charlar con la conejita", chau:"¡Qué gusto conocerte! ¡Hasta pronto!", pasos:[
+      {di:"¡Hola! ¿Cómo te llamás?", op:[{t:"Me llamo {N}.", r:"¡Qué lindo nombre!"}, {t:"¡Hola! Soy {N}.", r:"¡Mucho gusto, {N}!"}]},
+      {op:[{t:"¿Cómo estás?", r:"¡Muy bien, gracias!"}, {t:"¿Cómo te llamás vos?", r:"Me llamo Pelusa."}]},
+      {di:"¿Te gusta jugar?", op:[{t:"¡Sí, me gusta jugar!", r:"¡A mí también! Jugar es lo mejor."}, {t:"¡Sí, mucho!", r:"¡A mí también! Me encanta."}]},
+      {op:[{t:"¿Querés ser mi amiga?", r:"¡Sí! ¡Ya somos amigas!"}, {t:"¿A qué te gusta jugar?", r:"Me gusta jugar a las escondidas."}]}]},
+    {titulo:"Charlar con la gata", chau:"¡Gracias, amigo! ¡Chau, chau!", pasos:[
+      {di:"¡Mirá, tengo un regalo para vos!", op:[{t:"¡Gracias!", r:"¡De nada!"}, {t:"¡Muchas gracias!", r:"¡De nada, amigo!"}]},
+      {op:[{t:"¿Qué es?", r:"¡Es una estrellita!"}, {t:"¿Es para mí?", r:"¡Sí, es para vos!"}]},
+      {di:"¿Querés compartirla conmigo?", op:[{t:"¡Sí, compartamos!", r:"¡Qué lindo! Compartir es hermoso."}, {t:"¡Sí, por favor!", r:"Tomá, la mitad para vos y la mitad para mí."}]},
+      {op:[{t:"¿Te gusta?", r:"¡Me encanta!"}, {t:"¿Te doy un abrazo?", r:"¡Sí, un abrazo grande!"}]}]},
+    {titulo:"Charlar con el oso", chau:"¡Qué refrescante! ¡Hasta pronto!", pasos:[
+      {di:"Tengo sed. ¿Querés agua?", op:[{t:"¡Sí, agua por favor!", r:"Tomá. ¡Salud!"}, {t:"¡Sí, yo también tengo sed!", r:"Acá tenés un vaso."}]},
+      {op:[{t:"¿El agua está fría?", r:"¡Sí, bien fría!"}, {t:"¿De dónde viene el agua?", r:"¡De la canilla y de la lluvia!"}]},
+      {di:"¿Querés más?", op:[{t:"¡Sí, más por favor!", r:"¡Claro! Acá tenés más."}, {t:"No, gracias. Ya no quiero más.", r:"Bueno. Gracias por tomar conmigo."}]},
+      {op:[{t:"¿Te gusta el agua?", r:"¡Sí, es mi favorita!"}, {t:"¿Jugamos?", r:"¡Sí! ¡Juguemos!"}]}]},
+    {titulo:"Charlar en la puerta", chau:"¡Chau, amigo! ¡Nos vemos en la aventura!", pasos:[
+      {di:"¡Ya sabés muchas palabras! ¿Vamos de aventura?", op:[{t:"¡Sí, vamos!", r:"¡Hurra! Vení conmigo."}, {t:"¡Sí, vamos!", r:"¡Genial! ¡Vamos!"}]},
+      {op:[{t:"¿Adónde vamos?", r:"¡A muchos lugares nuevos!"}, {t:"¿Quién viene con nosotros?", r:"¡Todos tus amigos!"}]},
+      {di:"¿Estás feliz?", op:[{t:"¡Sí, estoy muy feliz!", r:"¡Yo también! Qué alegría."}, {t:"¡Sí, me encantan las aventuras!", r:"¡A mí también! Las aventuras son divertidas."}]},
+      {op:[{t:"¿Vos también estás contenta?", r:"¡Sí, muy contenta!"}, {t:"¿Podemos ir ahora?", r:"¡Sí! ¡Vamos!"}]}]}
+  ],
   titulo: "¡Hola!",
   lugar: {texto:"la casita", silabas:["la", "ca", "si", "ta"]},
   bienvenida: "¡Llegamos a la casita del árbol!",

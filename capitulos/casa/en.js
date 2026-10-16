@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('casa', 'en', {
+  charlas: [
+    {titulo:"Chatting with Dad", chau:"I love you, little one! See you later!", pasos:[
+      {di:"Good morning! Did you sleep well?", op:[{t:"Yes, I slept well!", r:"Great! You look rested."}, {t:"Yes, I had sweet dreams.", r:"How lovely! Sweet dreams are the best."}]},
+      {op:[{t:"What are you reading, Dad?", r:"I'm reading the newspaper."}, {t:"Do you want to play?", r:"Of course! Let's play together."}]},
+      {di:"What would you like for breakfast?", op:[{t:"I'd like some milk, please.", r:"Here's your milk. Enjoy!"}, {t:"I'd like some bread, please.", r:"Here's your bread. Yum!"}]},
+      {op:[{t:"Are you hungry too, Dad?", r:"Yes, very hungry!"}, {t:"Can I help you?", r:"Yes, thank you! You help me a lot."}]}]},
+    {titulo:"Chatting with Mom", chau:"Come here, a big hug! Lunch is almost ready.", pasos:[
+      {di:"Hello, sweetheart! How are you?", op:[{t:"I'm very well, thank you!", r:"I'm so happy to hear that!"}, {t:"I'm a little sleepy.", r:"Then we'll rest after lunch."}]},
+      {op:[{t:"What are you cooking, Mom?", r:"I'm making soup. Your favorite!"}, {t:"Can I taste it?", r:"Of course! Careful, it's hot."}]},
+      {di:"Would you like some more soup?", op:[{t:"Yes, please!", r:"Here you go!"}, {t:"No, thank you. It was delicious!", r:"I'm glad you liked it!"}]},
+      {op:[{t:"Can I help you, Mom?", r:"Yes! Can you set the table?"}, {t:"Is it ready yet?", r:"Almost! Just one more minute."}]}]},
+    {titulo:"Chatting with your sister", chau:"You're the best! See you later!", pasos:[
+      {di:"Hi! Do you want to read a book with me?", op:[{t:"Yes! I love books.", r:"Me too! Let's sit here."}, {t:"No, I want to play.", r:"Okay! First we play, then we read."}]},
+      {op:[{t:"What's your favorite color?", r:"Purple! What's yours?"}, {t:"What's this book about?", r:"It's a story about a little dog."}]},
+      {di:"Do you like this story?", op:[{t:"Yes, it's funny!", r:"I think so too! Let's read it again."}, {t:"Yes, it's beautiful!", r:"I'm glad! It's my favorite."}]},
+      {op:[{t:"Can we play now?", r:"Yes! Come on, let's play!"}, {t:"Do you want a hug?", r:"Yes, a big hug!"}]}]},
+    {titulo:"Chatting with Grandma", chau:"Big kisses, my love! Bye-bye!", pasos:[
+      {di:"Hello, sweetheart! I miss you so much!", op:[{t:"I miss you too, Grandma!", r:"How sweet you are!"}, {t:"Hello, Grandma! I love you!", r:"I love you too, my treasure!"}]},
+      {op:[{t:"How are you, Grandma?", r:"Very well, now that I see you!"}, {t:"What are you doing?", r:"I'm knitting a scarf for you."}]},
+      {di:"What did you do today?", op:[{t:"I played with my dog.", r:"How fun! Dogs are so sweet."}, {t:"I played in the garden.", r:"How lovely! Fresh air is good for you."}]},
+      {op:[{t:"When are you coming, Grandma?", r:"Very soon! I'll bring you a present."}, {t:"Can you tell me a story?", r:"Of course! Once upon a time…"}]}]}
+  ],
   titulo: "Our house",
   lugar: {texto:"our house", silabas:["our", "house"]},
   bienvenida: "Welcome home!",

@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('plaza', 'es', {
+  charlas: [
+    {titulo:"Charlar en la hamaca", chau:"¡Qué divertido! ¡Nos vemos en la plaza!", pasos:[
+      {di:"¿Querés subirte a la hamaca?", op:[{t:"¡Sí, empujame, por favor!", r:"¡Allá vamos! ¡Wiiii!"}, {t:"¡Sí! Me puedo hamacar sin ayuda.", r:"¡Qué grande sos!"}]},
+      {op:[{t:"¿Es alta?", r:"No tanto. ¡Agarrate fuerte!"}, {t:"¿Vos también te hamacás?", r:"¡Sí! Hamaquémonos juntos."}]},
+      {di:"¿Más alto o más despacio?", op:[{t:"¡Más alto, por favor!", r:"¡Arriba! ¡Agarrate bien!"}, {t:"Más despacio, por favor.", r:"Bueno, despacito."}]},
+      {op:[{t:"¿Te gusta la hamaca?", r:"¡Me encanta!"}, {t:"¿Vamos al tobogán después?", r:"¡Sí! Vamos."}]}]},
+    {titulo:"Charlar con el de la pelota", chau:"¡Qué buen partido! ¡Hasta pronto!", pasos:[
+      {di:"¡Mirá, tengo una pelota! ¿Querés jugar?", op:[{t:"¡Sí, juguemos a la pelota!", r:"¡Genial! ¡Atrapala!"}, {t:"¡Sí, tirámela!", r:"¡Ahí va!"}]},
+      {op:[{t:"¿De qué color es la pelota?", r:"¡Es roja!"}, {t:"¿Te la tiro a vos?", r:"¡Sí, tirala bien alto!"}]},
+      {di:"¿Le pegamos con el pie o la tiramos?", op:[{t:"¡Pateémosla!", r:"¡Gol! La pateaste lejos."}, {t:"¡Tirémosla!", r:"¡Buen tiro!"}]},
+      {op:[{t:"¿Jugamos de nuevo?", r:"¡Sí! ¡Otra vez, otra vez!"}, {t:"¿Estás cansado?", r:"¡No, podría jugar todo el día!"}]}]},
+    {titulo:"Charlar en las burbujas", chau:"¡Chau, burbujas! ¡Hasta pronto!", pasos:[
+      {di:"¡Mirá cuántas burbujas! ¿Te gustan?", op:[{t:"¡Sí, son hermosas!", r:"Brillan como arcoíris."}, {t:"¡Sí, quiero explotarlas!", r:"¡Pop, pop, pop!"}]},
+      {op:[{t:"¿Puedo hacer burbujas?", r:"¡Sí! Soplá bien suavecito."}, {t:"¿De qué están hechas las burbujas?", r:"¡De agua y jabón!"}]},
+      {di:"¿Qué ves en las burbujas?", op:[{t:"¡Veo muchos colores!", r:"¡Cuántos colores!"}, {t:"¡Veo burbujas grandes!", r:"¡Y chiquitas también!"}]},
+      {op:[{t:"¿Te gustan las burbujas?", r:"¡Me encantan!"}, {t:"¿Hacemos más?", r:"¡Sí! ¡Muchas más!"}]}]},
+    {titulo:"Charlar con la que cuida la plaza", chau:"¡Muy bien! ¡Sos genial!", pasos:[
+      {di:"¿Jugamos a Simón dice?", op:[{t:"¡Sí, juguemos!", r:"¡Genial! Escuchá bien."}, {t:"¡Sí, me encanta ese juego!", r:"¡A mí también! ¿Empezamos?"}]},
+      {op:[{t:"¿Cómo se juega?", r:"¡Hacé solo lo que Simón dice!"}, {t:"¿Puedo dar las órdenes?", r:"¡Sí! Ahora vos sos Simón."}]},
+      {di:"¡Simón dice: salten!", op:[{t:"¡Salto! ¡Boing, boing!", r:"¡Muy bien! Saltás alto."}, {t:"¡Mirá cómo salto!", r:"¡Qué gran salto!"}]},
+      {op:[{t:"¿Jugamos otra vez?", r:"¡Sí, una vez más!"}, {t:"¿Lo hice bien?", r:"¡Lo hiciste genial!"}]}]}
+  ],
   titulo: "La plaza",
   lugar: {texto:"la plaza", silabas:["la", "pla", "za"]},
   bienvenida: "¡Llegamos a la plaza!",

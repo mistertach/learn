@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('plaza', 'fr', {
+  charlas: [
+    {titulo:"Parler à la balançoire", chau:"Quel amusement ! On se voit au parc !", pasos:[
+      {di:"Tu veux monter sur la balançoire ?", op:[{t:"Oui, pousse-moi, s'il te plaît !", r:"C'est parti ! Youpi !"}, {t:"Oui ! Je peux me balancer sans aide.", r:"Comme tu as grandi !"}]},
+      {op:[{t:"C'est haut ?", r:"Pas trop. Tiens-toi bien !"}, {t:"Toi aussi, tu te balances ?", r:"Oui ! Balançons-nous ensemble."}]},
+      {di:"Plus haut ou plus doucement ?", op:[{t:"Plus haut, s'il te plaît !", r:"Hop, plus haut ! Accroche-toi !"}, {t:"Plus doucement, s'il te plaît.", r:"D'accord, tout doucement."}]},
+      {op:[{t:"Tu aimes la balançoire ?", r:"J'adore !"}, {t:"On va au toboggan après ?", r:"Oui ! Allons-y."}]}]},
+    {titulo:"Parler avec le joueur de ballon", chau:"Belle partie ! À bientôt !", pasos:[
+      {di:"Regarde, j'ai un ballon ! Tu veux jouer ?", op:[{t:"Oui, jouons au ballon !", r:"Super ! Attrape !"}, {t:"Oui, lance-le-moi !", r:"Le voilà !"}]},
+      {op:[{t:"De quelle couleur est le ballon ?", r:"Il est rouge !"}, {t:"Je te le lance ?", r:"Oui, lance-le bien haut !"}]},
+      {di:"On lui donne un coup de pied ou on le lance ?", op:[{t:"Donnons-lui un coup de pied !", r:"But ! Tu l'as envoyé loin."}, {t:"Lançons-le !", r:"Beau lancer !"}]},
+      {op:[{t:"On rejoue ?", r:"Oui ! Encore, encore !"}, {t:"Tu es fatigué ?", r:"Non, je pourrais jouer toute la journée !"}]}]},
+    {titulo:"Parler aux bulles", chau:"Au revoir, les bulles ! À bientôt !", pasos:[
+      {di:"Regarde toutes ces bulles ! Elles te plaisent ?", op:[{t:"Oui, elles sont magnifiques !", r:"Elles brillent comme des arcs-en-ciel."}, {t:"Oui, je veux les éclater !", r:"Pop, pop, pop !"}]},
+      {op:[{t:"Je peux faire des bulles ?", r:"Oui ! Souffle très doucement."}, {t:"Les bulles, c'est fait avec quoi ?", r:"Avec de l'eau et du savon !"}]},
+      {di:"Qu'est-ce que tu vois dans les bulles ?", op:[{t:"Je vois plein de couleurs !", r:"Quelles belles couleurs !"}, {t:"Je vois de grosses bulles !", r:"Et des petites aussi !"}]},
+      {op:[{t:"Tu aimes les bulles ?", r:"J'adore !"}, {t:"On en fait d'autres ?", r:"Oui ! Plein d'autres !"}]}]},
+    {titulo:"Parler avec la monitrice du parc", chau:"Bravo ! Tu es génial !", pasos:[
+      {di:"On joue à Jacques a dit ?", op:[{t:"Oui, jouons !", r:"Super ! Écoute bien."}, {t:"Oui, j'adore ce jeu !", r:"Moi aussi ! On commence ?"}]},
+      {op:[{t:"Comment on joue ?", r:"Fais seulement ce que Jacques dit !"}, {t:"Je peux donner les ordres ?", r:"Oui ! Maintenant, c'est toi Jacques."}]},
+      {di:"Jacques a dit : sautez !", op:[{t:"Je saute ! Boing, boing !", r:"Très bien ! Tu sautes haut."}, {t:"Regarde, je saute !", r:"Quel beau saut !"}]},
+      {op:[{t:"On rejoue ?", r:"Oui, encore une fois !"}, {t:"J'ai bien joué ?", r:"Tu as très bien joué !"}]}]}
+  ],
   titulo: "Le parc",
   lugar: {texto:"le parc", silabas:["le", "parc"]},
   bienvenida: "Nous voilà au parc !",

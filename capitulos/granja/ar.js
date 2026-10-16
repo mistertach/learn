@@ -5,6 +5,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('granja', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya al-fallah|نسولف ويا الفلاح", chau:"shukran 'ala ziyarat al-baqara! nshoofak qareeb!|شكراً على زيارة البقرة! نشوفك قريب!", pasos:[
+      {di:"sabaah al-khair! tibi tshoof al-baqara?|صباح الخير! تبي تشوف البقرة؟", op:[{t:"aywa, abi ashoof al-baqara!|أيوا، أبي أشوف البقرة!", r:"yalla, hiya hini.|يلا، هي هني."}, {t:"aywa, min fadlak!|أيوا، من فضلك!", r:"ta'al wiyyaai!|تعال وياي!"}]},
+      {op:[{t:"shu tgool al-baqara?|شو تقول البقرة؟", r:"al-baqara tgool moo!|البقرة تقول مو!"}, {t:"shu ta'kil al-baqara?|شو تاكل البقرة؟", r:"ta'kil hasheesh.|تاكل حشيش."}]},
+      {di:"tibi haleeb taazaj?|تبي حليب طازج؟", op:[{t:"aywa, min fadlak!|أيوا، من فضلك!", r:"hatha kaas haleeb.|هذا كاس حليب."}, {t:"aywa, ahibb al-haleeb!|أيوا، أحب الحليب!", r:"wana ba'd! huwa taazaj wayed.|وأنا بعد! هو طازج وايد."}]},
+      {op:[{t:"min wain yiji al-haleeb?|من وين يجي الحليب؟", r:"min al-baqara!|من البقرة!"}, {t:"al-baqara kabeera?|البقرة كبيرة؟", r:"aywa, kabeera wayed w hadya.|أيوا، كبيرة وايد وهادية."}]}]},
+    {titulo:"nsawlif wiyya sadeeq ad-dik|نسولف ويا صديق الديك", chau:"kookoo-kooo! nshoofak bukra as-subuh!|كوكو-كووو! نشوفك بكرة الصبح!", pasos:[
+      {di:"kookoo-kooo! sabaah al-khair! simi't ad-dik?|كوكو-كووو! صباح الخير! سمعت الديك؟", op:[{t:"aywa, simi'ta!|أيوا، سمعته!", r:"yghanni sowt 'aali!|يغني صوت عالي!"}, {t:"la, kunt naayim.|لا، كنت نايم.", r:"yimkin ad-dik tawwah sahhak!|يمكن الديك توه صحاك!"}]},
+      {op:[{t:"mita ysahi ad-dik?|متى يصحى الديك؟", r:"badri, lamma tatla' ash-shams!|بدري، لما تطلع الشمس!"}, {t:"ad-dik indah asdiqa'?|الديك عنده أصدقاء؟", r:"aywa, kil ad-dajaaj!|أيوا، كل الدجاج!"}]},
+      {di:"tigdar tghanni mithl ad-dik?|تقدر تغني مثل الديك؟", op:[{t:"aywa! kookoo-kooo!|أيوا! كوكو-كووو!", r:"mumtaz! tghanni zain!|ممتاز! تغني زين!"}, {t:"bjarrib! kookoo-kooo!|أجرب! كوكو-كووو!", r:"zain wayed! asha'al!|زين وايد! أعلى!"}]},
+      {op:[{t:"tijibik al-mazra'a?|تعجبك المزرعة؟", r:"ahibb al-mazra'a!|أحب المزرعة!"}, {t:"nghanni sawa?|نغني سوا؟", r:"aywa! kookoo-kooo!|أيوا! كوكو-كووو!"}]}]},
+    {titulo:"nsawlif wiyya sadeeq al-hisaan|نسولف ويا صديق الحصان", chau:"al-hisaan ysallim 'alaik! nshoofak qareeb!|الحصان يسلم عليك! نشوفك قريب!", pasos:[
+      {di:"tibi tamsah 'ala al-hisaan?|تبي تمسح على الحصان؟", op:[{t:"aywa, shway shway!|أيوا، شوي شوي!", r:"zain wayed! shway shway.|زين وايد! شوي شوي."}, {t:"aywa, ma akhaaf.|أيوا، ما أخاف.", r:"shu hal-shaja'a!|شو هالشجاعة!"}]},
+      {op:[{t:"shu ism al-hisaan?|شو اسم الحصان؟", r:"ismah ar-ra'd.|اسمه الرعد."}, {t:"shu yaakil al-hisaan?|شو ياكل الحصان؟", r:"yaakil tibn w tuffaah.|ياكل تبن وتفاح."}]},
+      {di:"n'tee al-hisaan tuffaaha?|نعطي الحصان تفاحة؟", op:[{t:"aywa, hathi tuffaaha!|أيوا، هذي تفاحة!", r:"yhibbha! garsh, garsh.|يحبها! قرش، قرش."}, {t:"aywa, wahda lah!|أيوا، وحدة له!", r:"ygool shukran!|يقول شكراً!"}]},
+      {op:[{t:"al-hisaan yijri sari'?|الحصان يجري سريع؟", r:"aywa, sari' wayed!|أيوا، سريع وايد!"}, {t:"agdar arkab al-hisaan?|أقدر أركب الحصان؟", r:"lamma tikbar, aywa!|لما تكبر، أيوا!"}]}]},
+    {titulo:"nsawlif wiyya al-fallah bil-layl|نسولف ويا الفلاح بالليل", chau:"tisbah 'ala khair! ahlam saa'ida!|تصبح على خير! أحلام سعيدة!", pasos:[
+      {di:"al-heen layl. nqool tisbahoon 'ala khair lil-haywanat?|الحين ليل. نقول تصبحون على خير للحيوانات؟", op:[{t:"aywa, tisbahoon 'ala khair!|أيوا، تصبحون على خير!", r:"tisbah 'ala khair! naamoo zain!|تصبح على خير! ناموا زين!"}, {t:"aywa, hum n'asaneen.|أيوا، هم نعسانين.", r:"sh-sh-sh, nitkallam bi-hudoo'.|ش ش ش، نتكلم بهدوء."}]},
+      {op:[{t:"kil al-haywanat naayma?|كل الحيوانات نايمة؟", r:"taqreeban kilha!|تقريباً كلها!"}, {t:"shu tihlam al-haywanat?|شو تحلم الحيوانات؟", r:"tihlam bil-hasheesh al-akhdar.|تحلم بالحشيش الأخضر."}]},
+      {di:"a'jabatk al-mazra'a?|أعجبتك المزرعة؟", op:[{t:"aywa, a'jabatni wayed!|أيوا، أعجبتني وايد!", r:"ma ahla al-farha!|ما أحلى الفرحة!"}, {t:"aywa, ahbbait al-haywanat!|أيوا، أحببت الحيوانات!", r:"wahum ahabbook ba'd!|وهم أحبوك بعد!"}]},
+      {op:[{t:"agdar arja' bukra?|أقدر أرجع بكرة؟", r:"akeed! al-haywanat tantazirak.|أكيد! الحيوانات تنتظرك."}, {t:"tgool li sirr?|تقول لي سر؟", r:"sh-sh-sh... al-haywanat tihibbak.|ش ش ش... الحيوانات تحبك."}]}]}
+  ],
   titulo: "al-mazra'a|المزرعة",
   lugar: {texto:"al-mazra'a|المزرعة", silabas:["al|اَلْ", "maz|مَزْ", "ra|رَ", "'a|عَة"]},
   bienvenida: "wosalna al-mazra'a!|وصلنا المزرعة!",

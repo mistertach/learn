@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('reloj', 'it', {
+  charlas: [
+    {titulo:"Parlare con l'orologiaio", chau:"Il tempo vola! A presto!", pasos:[
+      {di:"Ciao! Ti piacciono i miei orologi?", op:[{t:"Sì, sono bellissimi!", r:"Grazie! Li ho fatti io."}, {t:"Sì, mi piace l'orologio grande!", r:"È anche il mio preferito."}]},
+      {op:[{t:"Che ore sono?", r:"Sono le tre in punto!"}, {t:"Quanti orologi ha?", r:"Ho cento orologi!"}]},
+      {di:"Vuoi sentire il tic-tac dell'orologio?", op:[{t:"Sì, tic-tac!", r:"Tic-tac, tic-tac!"}, {t:"Sì, voglio ascoltare.", r:"Sss… tic-tac, tic-tac."}]},
+      {op:[{t:"Suona?", r:"Sì, a ogni ora!"}, {t:"Posso toccare le lancette?", r:"Sì, piano!"}]}]},
+    {titulo:"Parlare alle tre in punto", chau:"È ora di andare! Ci vediamo alle quattro!", pasos:[
+      {di:"Sono le tre in punto! È l'ora della merenda. Hai fame?", op:[{t:"Sì, ho fame!", r:"Facciamo merenda!"}, {t:"Sì, voglio un biscotto!", r:"Ecco il tuo biscotto."}]},
+      {op:[{t:"Che ore sono?", r:"Sono le tre in punto."}, {t:"A che ora si cena?", r:"Alle otto."}]},
+      {di:"Che cosa fai alle tre?", op:[{t:"Gioco con i miei giocattoli.", r:"Che divertente!"}, {t:"Faccio merenda.", r:"Mmm! Anch'io."}]},
+      {op:[{t:"Dov'è la lancetta piccola adesso?", r:"Sul tre!"}, {t:"È tardi?", r:"No, è ancora presto."}]}]},
+    {titulo:"Parlare alle sette meno un quarto", chau:"La cena è pronta! Buon appetito!", pasos:[
+      {di:"Sono le sette meno un quarto. È quasi ora di cena. Hai fame?", op:[{t:"Sì, ho tanta fame!", r:"La cena è quasi pronta."}, {t:"Sì, che cosa c'è per cena?", r:"Zuppa e pane!"}]},
+      {op:[{t:"A che ora è la cena?", r:"Alle sette."}, {t:"Quanto manca alla cena?", r:"Solo un quarto d'ora!"}]},
+      {di:"Ci laviamo prima le mani?", op:[{t:"Sì, laviamoci le mani!", r:"Sapone, sapone e acqua!"}, {t:"Sì, sono sporche!", r:"Laviamole bene."}]},
+      {op:[{t:"Posso aiutare ad apparecchiare?", r:"Sì! Porta i piatti, per favore."}, {t:"È già ora?", r:"Quasi! Aspetta un pochino."}]}]},
+    {titulo:"Parlare sul campanile", chau:"Din don! A domani!", pasos:[
+      {di:"Sono le dodici! Che ore sono?", op:[{t:"Sono le dodici!", r:"Esatto! È l'ora delle campane."}, {t:"È mezzogiorno!", r:"Sì! Le campane suoneranno."}]},
+      {op:[{t:"Posso suonare le campane?", r:"Sì! Tira la corda."}, {t:"Quante volte suonano?", r:"Dodici volte!"}]},
+      {di:"Hai imparato l'ora oggi?", op:[{t:"Sì, conosco le ore in punto e le mezze!", r:"Meraviglioso! Sei un esperto di orologi."}, {t:"Sì, adoro gli orologi!", r:"Anch'io! Il tempo è divertente."}]},
+      {op:[{t:"Che ore sono adesso?", r:"È ora di tornare a casa!"}, {t:"Mi insegni ancora?", r:"Certo! Torna domani."}]}]}
+  ],
   titulo: "La torre dell'orologio",
   lugar: {texto:"la torre dell'orologio", silabas:["la", "tor", "re", "del", "l'o", "ro", "lo", "gio"]},
   bienvenida: "Eccoci alla torre dell'orologio!",

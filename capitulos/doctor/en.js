@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('doctor', 'en', {
+  charlas: [
+    {titulo:"Chatting with the nurse", chau:"Good luck, doctor! See you later!", pasos:[
+      {di:"Hello, doctor! Is everything ready for today?", op:[{t:"Yes, everything is ready!", r:"Wonderful! The patients are waiting."}, {t:"Yes, I have my white coat!", r:"You look like a real doctor!"}]},
+      {op:[{t:"Who is the first patient?", r:"A little bear with a sore head."}, {t:"Where is the stethoscope?", r:"Here it is, around your neck!"}]},
+      {di:"Do you need anything else?", op:[{t:"A plaster, please.", r:"Here's a colorful plaster."}, {t:"The thermometer, please.", r:"Here's the thermometer."}]},
+      {op:[{t:"Can you help me?", r:"Of course! I'm always here to help."}, {t:"Are there many people waiting?", r:"Yes, but everybody is happy."}]}]},
+    {titulo:"Chatting with the bear", chau:"Thank you, doctor! I already feel better!", pasos:[
+      {di:"Doctor, I don't feel well.", op:[{t:"What's wrong?", r:"My head hurts a lot."}, {t:"Where does it hurt?", r:"Here, on my head."}]},
+      {op:[{t:"Do you have a fever?", r:"No, I don't think so."}, {t:"Did you sleep well?", r:"No, I slept badly."}]},
+      {di:"Is it serious, doctor?", op:[{t:"No, it's nothing serious.", r:"Phew! What a relief."}, {t:"Drink some water and rest.", r:"Okay, I'll rest."}]},
+      {op:[{t:"Do you feel better now?", r:"Yes, much better! Thank you!"}, {t:"Do you want a hug?", r:"Yes, please!"}]}]},
+    {titulo:"Chatting with the bunny", chau:"Thank you, doctor! Achoo… bye-bye!", pasos:[
+      {di:"Achoo! Doctor, my nose is all red.", op:[{t:"Bless you!", r:"Thank you!"}, {t:"Do you have a cold?", r:"Yes, I think so."}]},
+      {op:[{t:"Does your throat hurt?", r:"Just a little bit."}, {t:"Do you have a tissue?", r:"Yes, here it is."}]},
+      {di:"What should I do, doctor?", op:[{t:"Drink some warm tea.", r:"Mmm, warm tea. Good idea!"}, {t:"Stay warm and rest.", r:"Okay, I'll stay in bed."}]},
+      {op:[{t:"Do you want some medicine?", r:"Yes, please! I love the strawberry one."}, {t:"Do you feel better?", r:"Yes, I can smell the flowers again!"}]}]},
+    {titulo:"Chatting with the teddy", chau:"Thank you for looking after me! I love you, doctor!", pasos:[
+      {di:"Doctor… I'm sad.", op:[{t:"Don't be sad, teddy.", r:"Thank you, doctor."}, {t:"I'll take care of you.", r:"I feel safe with you."}]},
+      {op:[{t:"Where does it hurt?", r:"Here, a little bit."}, {t:"Are you scared?", r:"A little, but I'm brave."}]},
+      {di:"Will you put a plaster on me?", op:[{t:"Yes, here you go.", r:"Thank you! It's very pretty."}, {t:"Yes, and a big hug!", r:"I love hugs!"}]},
+      {op:[{t:"Do you feel better?", r:"Yes, now I'm happy!"}, {t:"Do you want to play?", r:"Yes! Let's go and play!"}]}]}
+  ],
   titulo: "At the doctor's",
   lugar: {texto:"the doctor's", silabas:["the", "doc", "tor's"]},
   bienvenida: "Here we are at the doctor's!",

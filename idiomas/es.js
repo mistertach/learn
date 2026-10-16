@@ -16,6 +16,8 @@ registrarIdioma({
     holaX: n => `¡Hola, ${n}!`, holaSub: '¿A dónde vamos hoy?', holaDi: n => `¡Hola, ${n}! ¿A dónde vamos?`,
     semana: 'Semana', pronto: '¡Pronto!', prontoDi: '¡Pronto! Este lugar se abre la semana que viene.',
     actividades: 'Actividades', seccionAprender: 'Aprender', seccionJugar: 'Jugar',
+    charlas: 'Charlar', charlasDi: '¡Charlemos! ¿Con quién querés hablar?', charlaCerrada: 'Primero conocé a este amigo en su lugar.',
+    charlaResponde: '¡Te toca contestar!', charlaPregunta: '¡Ahora preguntá vos algo!', charlaFin: '¡Mantuviste la charla! ¡Muy bien!',
     cuentos: 'Los cuentos', practicar: 'Palabras y frases', tienda: 'La tienda',
     cuentosDi: 'Los cuentos. ¿Cuál leemos?', practicarDi: 'Palabras y frases. Elegí qué querés practicar.',
     palabras: 'Palabras', frases: 'Frases',

@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('feria', 'fr', {
+  charlas: [
+    {titulo:"Parler avec le marchand de pommes", chau:"Merci pour ton achat ! Reviens vite !", pasos:[
+      {di:"Bonjour ! Tu veux acheter quelque chose ?", op:[{t:"Oui, je veux une pomme.", r:"Voici une pomme rouge."}, {t:"Oui, des pommes, s'il vous plaît.", r:"Voilà, bien rouges."}]},
+      {op:[{t:"C'est combien ?", r:"Un petit poisson."}, {t:"Elle est sucrée ?", r:"Oui, très sucrée !"}]},
+      {di:"Tu veux une ou deux pommes ?", op:[{t:"Une pomme, s'il vous plaît.", r:"Voici une pomme."}, {t:"Deux pommes, s'il vous plaît.", r:"Voici deux pommes."}]},
+      {op:[{t:"Elles sont fraîches ?", r:"Oui, cueillies aujourd'hui !"}, {t:"Je peux avoir un sac ?", r:"Bien sûr ! Voici un sac."}]}]},
+    {titulo:"Parler avec la marchande de fraises", chau:"Régale-toi avec tes fraises ! Au revoir !", pasos:[
+      {di:"Regarde ces fraises ! Elles te plaisent ?", op:[{t:"Oui, j'adore les fraises !", r:"Moi aussi ! Elles sont bien rouges."}, {t:"Oui, elles ont l'air bonnes !", r:"Elles sont délicieuses !"}]},
+      {op:[{t:"Elles sont de quelle couleur ?", r:"Elles sont rouges !"}, {t:"Je peux en goûter une ?", r:"Bien sûr ! Tiens."}]},
+      {di:"Combien en veux-tu ?", op:[{t:"Trois, s'il vous plaît.", r:"Voici trois fraises."}, {t:"Beaucoup, s'il vous plaît !", r:"Voici un grand panier !"}]},
+      {op:[{t:"Elles sont sucrées ?", r:"Très sucrées !"}, {t:"Merci ! C'est combien ?", r:"Deux petits poissons, s'il vous plaît."}]}]},
+    {titulo:"Parler à la balance", chau:"Belle pesée ! À bientôt !", pasos:[
+      {di:"Bonjour ! Tu veux peser quelque chose ?", op:[{t:"Oui, la pastèque !", r:"On la met sur la balance."}, {t:"Oui, les pommes !", r:"Hop, on les monte !"}]},
+      {op:[{t:"C'est lourd ?", r:"Oui, assez lourd !"}, {t:"Ça pèse combien ?", r:"Deux kilos pile !"}]},
+      {di:"Qu'est-ce qui est plus lourd : la pastèque ou la pomme ?", op:[{t:"La pastèque !", r:"Exact ! Elle est très grosse."}, {t:"La pomme !", r:"Hmm, essaie de soulever les deux. La pastèque est plus lourde !"}]},
+      {op:[{t:"Je peux essayer la balance ?", r:"Oui ! Monte dessus."}, {t:"Elle marche toujours ?", r:"Oui, elle est très précise."}]}]},
+    {titulo:"Parler avec le commerçant", chau:"Merci pour tes achats ! Au revoir !", pasos:[
+      {di:"Bienvenue au marché ! De quoi as-tu besoin aujourd'hui ?", op:[{t:"Il me faut des fruits, s'il vous plaît.", r:"Parfait ! Nous avons plein de fruits."}, {t:"Il me faut des légumes, s'il vous plaît.", r:"Bien sûr ! Regarde ces carottes."}]},
+      {op:[{t:"C'est combien en tout ?", r:"Cinq petits poissons !"}, {t:"Vous avez un sac ?", r:"Oui, voici un panier."}]},
+      {di:"Tu as tout trouvé ?", op:[{t:"Oui, j'ai tout !", r:"Quels bons achats !"}, {t:"Oui, merci !", r:"De rien !"}]},
+      {op:[{t:"Je peux payer maintenant ?", r:"Oui ! Merci beaucoup."}, {t:"Je peux revenir demain ?", r:"Bien sûr ! On sera là."}]}]}
+  ],
   titulo: "Le marché",
   lugar: {texto:"le marché", silabas:["le", "mar", "ché"]},
   bienvenida: "Nous voilà au marché !",

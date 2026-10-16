@@ -135,6 +135,11 @@ registrarCapitulo({
         esc(N("Q",.35), C("r645",.7,.45,.22,"quieto"), E("zzz",.4,.35)),
         esc(H(.35,{gesto:"salto"}), C("r645",.66,.5,.26,"latir"), E("estrellas",.66,.45))]}
   },
+  charlas: [
+    {npc:{kind:"bear", fur:"#9C6B45", fur2:"#E8C9A4", hat:"#22314F", seed:0.6}, arte:"reloj", est:"R", color:"#8A5636"},
+    {npc:{kind:"dog", fur:"#C08552", fur2:"#F5E1C8", ear:"#7A4B2A", hat:"#2FBF8F", seed:0.3}, arte:"r300", est:"H", color:"#2FBF8F"},
+    {npc:{kind:"cat", fur:"#3B3B4A", fur2:"#EDEBF2", eye:"#F5D547", hat:"#FFC93C", seed:2.6}, arte:"r645", est:"Q", color:"#22314F"},
+    {npc:{kind:"bear", fur:"#8B5E3C", fur2:"#DDBA94", hat:"#FFC93C", seed:1.1}, arte:"r1200", est:"final", color:"#FFC93C"}],
   final: {npc:{kind:"bear", fur:"#8B5E3C", fur2:"#DDBA94", hat:"#FFC93C", seed:1.1}, arte:"r1200", anim:"campanas"},
   microjuego: {id:"hora", arte:"reloj", precio:3, color:"#8B6FE8"},
   palabrasExtra: ["n1","n2","n3","n4","n5","n6","n7","n8","n9","n10","n11","n12"],

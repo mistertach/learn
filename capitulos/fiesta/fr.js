@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('fiesta', 'fr', {
+  charlas: [
+    {titulo:"Parler de l'invitation", chau:"On se voit à la fête !", pasos:[
+      {di:"Bonjour ! On t'invite à une fête ! Tu veux venir ?", op:[{t:"Oui, je veux venir !", r:"Hourra ! Ça va être amusant."}, {t:"Oui, merci pour l'invitation !", r:"De rien ! On est contents que tu viennes."}]},
+      {op:[{t:"Où est la fête ?", r:"Dans le grand jardin !"}, {t:"Qui d'autre vient ?", r:"Tous nos amis !"}]},
+      {di:"Qu'est-ce que tu vas apporter ?", op:[{t:"Je vais apporter un cadeau.", r:"Comme c'est gentil ! Merci."}, {t:"Je vais apporter un grand sourire.", r:"Le plus beau des cadeaux !"}]},
+      {op:[{t:"À quelle heure ça commence ?", r:"À quatre heures !"}, {t:"Il y aura un gâteau ?", r:"Oui, un énorme gâteau !"}]}]},
+    {titulo:"Parler au calendrier", chau:"Joyeux anniversaire en avance ! À bientôt !", pasos:[
+      {di:"Ton anniversaire, c'est dans quelle saison ?", op:[{t:"En été !", r:"Les anniversaires d'été, c'est le mieux !"}, {t:"En hiver !", r:"Quelle douceur ! Du chocolat chaud !"}]},
+      {op:[{t:"Quand est ton anniversaire ?", r:"Au mois de mai !"}, {t:"Combien de mois y a-t-il dans une année ?", r:"Douze mois !"}]},
+      {di:"Tu vas avoir quel âge cette année ?", op:[{t:"Je vais avoir six ans !", r:"Six ! Comme tu grandis."}, {t:"Je vais avoir cinq ans !", r:"Cinq ! Quel bel âge."}]},
+      {op:[{t:"Quel âge as-tu ?", r:"Un peu plus que toi !"}, {t:"Je peux venir à ton anniversaire ?", r:"Bien sûr ! On t'invite."}]}]},
+    {titulo:"Parler du cadeau", chau:"De rien ! Profite de ton cadeau !", pasos:[
+      {di:"Regarde cette grande boîte ! C'est un cadeau pour toi. Tu veux l'ouvrir ?", op:[{t:"Oui, je veux l'ouvrir !", r:"Ouvre-le avec précaution !"}, {t:"Oui, qu'est-ce que c'est ?", r:"C'est une surprise !"}]},
+      {op:[{t:"Il vient de qui ?", r:"De tous tes amis !"}, {t:"Il est grand ?", r:"Oui, très grand !"}]},
+      {di:"C'est un jouet ! Il te plaît ?", op:[{t:"Oui, j'adore ! Merci !", r:"Je suis contente qu'il te plaise !"}, {t:"Oui, il est magnifique !", r:"C'est pour toi, avec amour."}]},
+      {op:[{t:"On joue ensemble avec ?", r:"Oui ! Jouons."}, {t:"Je peux te faire un câlin ?", r:"Oui, un gros câlin !"}]}]},
+    {titulo:"Parler à la fête d'anniversaire", chau:"Joyeux anniversaire ! On t'aime !", pasos:[
+      {di:"Surprise ! Tous tes amis sont là ! Joyeux anniversaire !", op:[{t:"Merci à tous !", r:"De rien ! On t'aime."}, {t:"Oh, quelle surprise !", r:"On voulait te surprendre !"}]},
+      {op:[{t:"Où est le gâteau ?", r:"Ici, avec des bougies !"}, {t:"On chante ?", r:"Oui ! Chantons ensemble."}]},
+      {di:"Fais un vœu et souffle les bougies !", op:[{t:"J'ai fait un vœu !", r:"J'espère qu'il se réalisera !"}, {t:"Un, deux, trois… je souffle !", r:"Hourra ! Quel grand souffle !"}]},
+      {op:[{t:"Je peux avoir une part de gâteau ?", r:"Bien sûr ! La plus grosse."}, {t:"Tu t'es amusée ?", r:"C'était la plus belle fête du monde !"}]}]}
+  ],
   titulo: "La fête",
   lugar: {texto:"la fête", silabas:["la", "fête"]},
   bienvenida: "Aujourd'hui, c'est ton anniversaire !",

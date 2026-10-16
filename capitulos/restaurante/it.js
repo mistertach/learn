@@ -6,6 +6,28 @@
    El héroe trabaja de mozo: a los clientes les habla de Lei.
    ========================================================= */
 registrarTextos('restaurante', 'it', {
+  charlas: [
+    {titulo:"Parlare con l'accoglienza", chau:"Buon appetito!", pasos:[
+      {di:"Benvenuti al ristorante! Quante persone siete?", op:[{t:"Due, per favore.", r:"Un tavolo per due. Seguitemi!"}, {t:"Quattro, per favore.", r:"Un tavolo grande per quattro. Seguitemi!"}]},
+      {op:[{t:"Dov'è il nostro tavolo?", r:"Proprio accanto alla finestra."}, {t:"Il ristorante è pieno?", r:"Quasi pieno, ma c'è posto."}]},
+      {di:"Volete sedervi qui o là?", op:[{t:"Qui, per favore.", r:"Benissimo. Accomodatevi."}, {t:"Là, per favore.", r:"Certo. Da questa parte."}]},
+      {op:[{t:"Posso avere il menù, per favore?", r:"Certo! Ecco qui."}, {t:"Si mangia bene qui?", r:"È delizioso!"}]}]},
+    {titulo:"Parlare con il cuoco", chau:"Grazie per aver visitato la mia cucina! Buon appetito!", pasos:[
+      {di:"Ciao! Sono il cuoco. Vuoi vedere la cucina?", op:[{t:"Sì, per favore!", r:"Entra, ma fai attenzione."}, {t:"Sì, che buon profumo!", r:"Grazie! Sto preparando una zuppa."}]},
+      {op:[{t:"Che cosa sta cucinando?", r:"Una grande pentola di zuppa."}, {t:"È calda?", r:"Sì, caldissima! Attenzione."}]},
+      {di:"Vuoi assaggiarla?", op:[{t:"Sì, per favore!", r:"Ecco un cucchiaino."}, {t:"Solo un pochino.", r:"Tieni, un assaggino."}]},
+      {op:[{t:"Che cosa c'è nella zuppa?", r:"Carote, patate e tanto amore."}, {t:"Posso aiutare a cucinare?", r:"Sì! Mescola la pentola."}]}]},
+    {titulo:"Parlare alla gelateria", chau:"Goditi il gelato! Ciao, ciao!", pasos:[
+      {di:"È l'ora del dolce! Che gusto di gelato vuoi?", op:[{t:"Alla fragola, per favore!", r:"Ecco il tuo gelato rosa."}, {t:"Al cioccolato, per favore!", r:"Ecco il tuo gelato al cioccolato."}]},
+      {op:[{t:"Che gusti avete?", r:"Fragola, cioccolato e vaniglia."}, {t:"È freddo?", r:"Freddissimo! Brrr."}]},
+      {di:"Una pallina o due palline?", op:[{t:"Una pallina, per favore.", r:"Tieni. Una pallina."}, {t:"Due palline, per favore!", r:"Wow, due palline!"}]},
+      {op:[{t:"Posso avere un cono?", r:"Certo! Un cono croccante."}, {t:"Quanto costa?", r:"Un pesciolino."}]}]},
+    {titulo:"Parlare con la cliente", chau:"Grazie, e questa è la tua mancia!", pasos:[
+      {di:"Ciao! Che bel ristorante. Lavori qui?", op:[{t:"Sì, lavoro qui!", r:"Che meraviglia! Lo fai molto bene."}, {t:"Sì, aiuto tutti.", r:"Che bell'aiuto!"}]},
+      {op:[{t:"Le è piaciuto il cibo?", r:"Era delizioso!"}, {t:"Che cosa ha mangiato?", r:"Pizza e gelato!"}]},
+      {di:"Era tutto ottimo! Mi porti il conto, per favore?", op:[{t:"Sì, ecco il conto.", r:"Grazie! Ecco i soldi."}, {t:"Sì, un momento, per favore.", r:"Grazie!"}]},
+      {op:[{t:"Tornerà?", r:"Sì, tornerò presto!"}, {t:"Si è divertita?", r:"Mi sono divertita tantissimo!"}]}]}
+  ],
   titulo: "Il ristorante",
   lugar: {texto:"il ristorante", silabas:["il", "ri", "sto", "ran", "te"]},
   bienvenida: "Eccoci al ristorante!",

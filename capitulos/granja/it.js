@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('granja', 'it', {
+  charlas: [
+    {titulo:"Parlare con il contadino", chau:"Grazie per aver visitato la mucca! A presto!", pasos:[
+      {di:"Buongiorno! Vuoi vedere la mucca?", op:[{t:"Sì, voglio vedere la mucca!", r:"Vieni, è qui."}, {t:"Sì, per favore!", r:"Seguimi!"}]},
+      {op:[{t:"Che cosa dice la mucca?", r:"La mucca dice muuu!"}, {t:"Che cosa mangia la mucca?", r:"Mangia l'erba."}]},
+      {di:"Vuoi del latte freschissimo?", op:[{t:"Sì, per favore!", r:"Ecco un bicchiere di latte."}, {t:"Sì, adoro il latte!", r:"Anch'io! È freschissimo."}]},
+      {op:[{t:"Da dove viene il latte?", r:"Dalla mucca!"}, {t:"La mucca è grande?", r:"Sì, grandissima e dolcissima."}]}]},
+    {titulo:"Parlare con l'amico del gallo", chau:"Chicchirichì! A domani mattina!", pasos:[
+      {di:"Chicchirichì! Buongiorno! Hai sentito il gallo?", op:[{t:"Sì, l'ho sentito!", r:"Canta fortissimo!"}, {t:"No, dormivo.", r:"Allora il gallo ti ha appena svegliato!"}]},
+      {op:[{t:"Quando si sveglia il gallo?", r:"Presto, quando sorge il sole!"}, {t:"Il gallo ha degli amici?", r:"Sì, tutte le galline!"}]},
+      {di:"Sai cantare come il gallo?", op:[{t:"Sì! Chicchirichì!", r:"Meraviglioso! Canti benissimo!"}, {t:"Provo! Chicchirichì!", r:"Molto bene! Più forte!"}]},
+      {op:[{t:"Ti piace la fattoria?", r:"Adoro la fattoria!"}, {t:"Cantiamo insieme?", r:"Sì! Chicchirichì!"}]}]},
+    {titulo:"Parlare con l'amico del cavallo", chau:"Il cavallo ti saluta! A presto!", pasos:[
+      {di:"Vuoi accarezzare il cavallo?", op:[{t:"Sì, piano piano!", r:"Piano, piano. Così!"}, {t:"Sì, non ho paura.", r:"Che coraggio!"}]},
+      {op:[{t:"Come si chiama il cavallo?", r:"Si chiama Tuono."}, {t:"Che cosa mangia il cavallo?", r:"Mangia fieno e mele."}]},
+      {di:"Diamo una mela al cavallo?", op:[{t:"Sì, ecco una mela!", r:"Gli piace tanto! Crunch, crunch."}, {t:"Sì, una per lui!", r:"Dice grazie! Iiiiih!"}]},
+      {op:[{t:"Il cavallo corre veloce?", r:"Sì, velocissimo!"}, {t:"Posso montare il cavallo?", r:"Quando sarai più grande, sì!"}]}]},
+    {titulo:"Parlare con il contadino di sera", chau:"Buonanotte! Sogni d'oro!", pasos:[
+      {di:"È notte. Diamo la buonanotte agli animali?", op:[{t:"Sì, buonanotte, animali!", r:"Buonanotte! Dormite bene!"}, {t:"Sì, hanno sonno.", r:"Sss, parliamo piano."}]},
+      {op:[{t:"Tutti gli animali dormono?", r:"Quasi tutti!"}, {t:"Che cosa sognano gli animali?", r:"Sognano l'erba verde."}]},
+      {di:"Ti è piaciuta la fattoria?", op:[{t:"Sì, mi è piaciuta tanto!", r:"Che gioia!"}, {t:"Sì, ho adorato gli animali!", r:"E loro hanno adorato te!"}]},
+      {op:[{t:"Posso tornare domani?", r:"Certo! Gli animali ti aspettano."}, {t:"Mi racconti un segreto?", r:"Sss… gli animali ti vogliono bene."}]}]}
+  ],
   titulo: "La fattoria",
   lugar: {texto:"la fattoria", silabas:["la", "fat", "to", "ria"]},
   bienvenida: "Eccoci alla fattoria!",

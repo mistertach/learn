@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('doctor', 'it', {
+  charlas: [
+    {titulo:"Parlare con l'infermiera", chau:"In bocca al lupo, dottore! A più tardi!", pasos:[
+      {di:"Buongiorno, dottore! È tutto pronto per oggi?", op:[{t:"Sì, è tutto pronto!", r:"Meraviglioso! I pazienti aspettano."}, {t:"Sì, ho il mio camice bianco!", r:"Sembri un vero dottore!"}]},
+      {op:[{t:"Chi è il primo paziente?", r:"Un orsetto con il mal di testa."}, {t:"Dov'è lo stetoscopio?", r:"Eccolo, attorno al tuo collo!"}]},
+      {di:"Ti serve altro?", op:[{t:"Un cerotto, per favore.", r:"Ecco un cerotto colorato."}, {t:"Il termometro, per favore.", r:"Ecco il termometro."}]},
+      {op:[{t:"Mi aiuti?", r:"Certo! Sono sempre qui per aiutare."}, {t:"C'è tanta gente?", r:"Sì, ma sono tutti contenti."}]}]},
+    {titulo:"Parlare con l'orso", chau:"Grazie, dottore! Mi sento già meglio!", pasos:[
+      {di:"Dottore, non mi sento bene.", op:[{t:"Che cosa hai?", r:"Ho tanto mal di testa."}, {t:"Dove ti fa male?", r:"Qui, sulla testa."}]},
+      {op:[{t:"Hai la febbre?", r:"No, non credo."}, {t:"Hai dormito bene?", r:"No, ho dormito male."}]},
+      {di:"È grave, dottore?", op:[{t:"No, non è niente di grave.", r:"Uff! Che sollievo."}, {t:"Bevi un po' d'acqua e riposati.", r:"Va bene, mi riposo."}]},
+      {op:[{t:"Ti senti meglio adesso?", r:"Sì, molto meglio! Grazie!"}, {t:"Vuoi un abbraccio?", r:"Sì, per favore!"}]}]},
+    {titulo:"Parlare con la coniglietta", chau:"Grazie, dottore! Etciù… ciao!", pasos:[
+      {di:"Etciù! Dottore, ho il naso tutto rosso.", op:[{t:"Salute!", r:"Grazie!"}, {t:"Sei raffreddata?", r:"Sì, credo di sì."}]},
+      {op:[{t:"Ti fa male la gola?", r:"Un pochino."}, {t:"Hai un fazzoletto?", r:"Sì, eccolo."}]},
+      {di:"Che cosa faccio, dottore?", op:[{t:"Bevi una tisana calda.", r:"Mmm, una tisana calda. Buona idea!"}, {t:"Stai al caldo e riposati.", r:"Va bene, resto a letto."}]},
+      {op:[{t:"Vuoi lo sciroppo?", r:"Sì, per favore! Adoro quello alla fragola."}, {t:"Ti senti meglio?", r:"Sì, sento di nuovo i fiori!"}]}]},
+    {titulo:"Parlare con l'orsacchiotto", chau:"Grazie per esserti preso cura di me! Ti voglio bene, dottore!", pasos:[
+      {di:"Dottore… sono triste.", op:[{t:"Non essere triste, orsacchiotto.", r:"Grazie, dottore."}, {t:"Mi prenderò cura di te.", r:"Con te mi sento al sicuro."}]},
+      {op:[{t:"Dove ti fa male?", r:"Qui, un pochino."}, {t:"Hai paura?", r:"Un po', ma sono coraggioso."}]},
+      {di:"Mi metti un cerotto?", op:[{t:"Sì, tieni.", r:"Grazie! È molto carino."}, {t:"Sì, e un grande abbraccio!", r:"Adoro gli abbracci!"}]},
+      {op:[{t:"Ti senti meglio?", r:"Sì, adesso sono contento!"}, {t:"Vuoi giocare?", r:"Sì! Andiamo a giocare!"}]}]}
+  ],
   titulo: "Dal dottore",
   lugar: {texto:"dal dottore", silabas:["dal", "dot", "to", "re"]},
   bienvenida: "Eccoci dal dottore!",

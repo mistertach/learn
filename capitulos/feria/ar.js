@@ -26,6 +26,28 @@ const ANTES = {
 const uno = n => A(n)==='واحد', dos = n => A(n)==='اثنين';
 const cuantas = (n,g) => uno(n) ? g.uno : dos(n) ? (DUAL[A(g.plural)] || U(n, ' ', g.plural)) : U(ANTES[A(n)] || n, ' ', g.plural);
 registrarTextos('feria', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya baa'i' at-tuffaah|نسولف ويا بايع التفاح", chau:"shukran 'ala shirakhum! irja' qareeb!|شكراً على شرائك! ارجع قريب!", pasos:[
+      {di:"marhaba! tibi tishtiri shi?|مرحبا! تبي تشتري شي؟", op:[{t:"aywa, abi tuffaaha.|أيوا، أبي تفاحة.", r:"hathi tuffaaha hamra.|هذي تفاحة حمرا."}, {t:"aywa, tuffaah min fadlak.|أيوا، تفاح من فضلك.", r:"tafaddal, hamra wayed.|تفضل، حمرا وايد."}]},
+      {op:[{t:"bikam?|بكم؟", r:"samaka wahda.|سمكة وحدة."}, {t:"hiya hilwa?|هي حلوة؟", r:"aywa, hilwa wayed!|أيوا، حلوة وايد!"}]},
+      {di:"tibi tuffaaha aw tuffaahtain?|تبي تفاحة أو تفاحتين؟", op:[{t:"tuffaaha wahda min fadlak.|تفاحة وحدة من فضلك.", r:"hathi tuffaaha wahda.|هذي تفاحة وحدة."}, {t:"tuffaahtain min fadlak.|تفاحتين من فضلك.", r:"hatheen tuffaahtain.|هذين تفاحتين."}]},
+      {op:[{t:"hiya taazaja?|هي طازجة؟", r:"aywa, ittaqaatt al-yoom!|أيوا، اتقطفت اليوم!"}, {t:"tiddeeni kees?|تعطيني كيس؟", r:"akeed! hatha kees.|أكيد! هذا كيس."}]}]},
+    {titulo:"nsawlif wiyya baa'i'at al-faraawla|نسولف ويا بايعة الفراولة", chau:"tamatta' bil-faraawla! ma'a as-salama!|تمتع بالفراولة! مع السلامة!", pasos:[
+      {di:"shoof hathi al-faraawla! tijibik?|شوف هذي الفراولة! تعجبك؟", op:[{t:"aywa, ahibb al-faraawla!|أيوا، أحب الفراولة!", r:"wana ba'd! hiya hamra wayed.|وأنا بعد! هي حمرا وايد."}, {t:"aywa, shikla ladheedh!|أيوا، شكلها لذيذ!", r:"hiya ladheedha fi'lan!|هي لذيذة فعلاً!"}]},
+      {op:[{t:"shu lonha?|شو لونها؟", r:"hiya hamra!|هي حمرا!"}, {t:"agdar adhooq wahda?|أقدر أذوق وحدة؟", r:"akeed! tafaddal.|أكيد! تفضل."}]},
+      {di:"kam tibi?|كم تبي؟", op:[{t:"thalatha min fadlik.|ثلاثة من فضلك.", r:"hathi thalath faraawlaat.|هذي ثلاث فراولات."}, {t:"wayed min fadlik!|وايد من فضلك!", r:"hathi salla kabeera!|هذي سلة كبيرة!"}]},
+      {op:[{t:"hiya hilwa?|هي حلوة؟", r:"hilwa wayed!|حلوة وايد!"}, {t:"shukran! bikam?|شكراً! بكم؟", r:"samaktain min fadlak.|سمكتين من فضلك."}]}]},
+    {titulo:"nsawlif 'ind al-meezan|نسولف عند الميزان", chau:"wazn mumtaz! nshoofak qareeb!|وزن ممتاز! نشوفك قريب!", pasos:[
+      {di:"marhaba! tibi tiwzin shi?|مرحبا! تبي توزن شي؟", op:[{t:"aywa, al-batteekh!|أيوا، البطيخ!", r:"nitihha 'ala al-meezan.|نحطه على الميزان."}, {t:"aywa, at-tuffaah!|أيوا، التفاح!", r:"foog!|فوق!"}]},
+      {op:[{t:"huwa thaqeel?|هو ثقيل؟", r:"aywa, thaqeel shway!|أيوا، ثقيل شوي!"}, {t:"kam wazna?|كم وزنه؟", r:"kiloain bil-zabt!|كيلوين بالضبط!"}]},
+      {di:"shu athqal: al-batteekh aw at-tuffaah?|شو أثقل: البطيخ أو التفاح؟", op:[{t:"al-batteekh!|البطيخ!", r:"sah! huwa kabeer wayed.|صح! هو كبير وايد."}, {t:"at-tuffaah!|التفاح!", r:"mm, jarrib tirfa' al-ithnain. al-batteekh athqal!|مم، جرب ترفع الاثنين. البطيخ أثقل!"}]},
+      {op:[{t:"agdar ajarrib al-meezan?|أقدر أجرب الميزان؟", r:"aywa! itla'.|أيوا! اطلع."}, {t:"yishtaghil daayman?|يشتغل دايماً؟", r:"aywa, daqeeq wayed.|أيوا، دقيق وايد."}]}]},
+    {titulo:"nsawlif wiyya al-baa'i'|نسولف ويا البايع", chau:"shukran 'ala shirakhum! ma'a as-salama!|شكراً على شرائك! مع السلامة!", pasos:[
+      {di:"marhaba bik fis-soog! shu tihtaaj al-yoom?|مرحبا بك في السوق! شو تحتاج اليوم؟", op:[{t:"ahtaaj fawaakih min fadlak.|أحتاج فواكه من فضلك.", r:"mumtaz! indina fawaakih wayed.|ممتاز! عندنا فواكه وايد."}, {t:"ahtaaj khudhar min fadlak.|أحتاج خضر من فضلك.", r:"akeed! shoof hatheen al-jazar.|أكيد! شوف هذي الجزر."}]},
+      {op:[{t:"bikam kil shi?|بكم كل شي؟", r:"khamas samakaat!|خمس سمكات!"}, {t:"indak kees?|عندك كيس؟", r:"aywa, hathi salla.|أيوا، هذي سلة."}]},
+      {di:"lagait kil shi?|لقيت كل شي؟", op:[{t:"aywa, ladai kil shi!|أيوا، لدي كل شي!", r:"shira' mumtaz!|شراء ممتاز!"}, {t:"aywa, shukran!|أيوا، شكراً!", r:"afwan!|عفواً!"}]},
+      {op:[{t:"agdar adfa' al-heen?|أقدر أدفع الحين؟", r:"aywa! shukran jazeelan.|أيوا! شكراً جزيلاً."}, {t:"agdar arja' bukra?|أقدر أرجع بكرة؟", r:"akeed! ihna hini.|أكيد! إحنا هني."}]}]}
+  ],
   titulo: "as-soog|السوق",
   lugar: {texto:"as-soog|السوق", silabas:["as|اَسْ", "soog|سُوق"]},
   bienvenida: "wasalna as-soog!|وصلنا السوق!",

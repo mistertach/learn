@@ -13,6 +13,8 @@ registrarIdioma({
     holaX: n => `Bonjour, ${n} !`, holaSub: "On va où aujourd'hui ?", holaDi: n => `Bonjour, ${n} ! On va où ?`,
     semana: 'Semaine', pronto: 'Bientôt !', prontoDi: 'Bientôt ! Cet endroit ouvre la semaine prochaine.',
     actividades: 'Activités', seccionAprender: 'Apprendre', seccionJugar: 'Jouer',
+    charlas: 'Bavarder', charlasDi: 'Bavardons ! Avec qui veux-tu parler ?', charlaCerrada: "D'abord, fais connaissance avec cet ami dans son lieu.",
+    charlaResponde: 'À toi de répondre !', charlaPregunta: 'Maintenant, pose une question !', charlaFin: 'Tu as fait durer la conversation ! Bravo !',
     cuentos: 'Les histoires', practicar: 'Mots et phrases', tienda: 'La boutique',
     cuentosDi: 'Les histoires. Laquelle on lit ?', practicarDi: "On s'entraîne ! Choisis un mot ou une phrase.",
     palabras: 'Mots', frases: 'Phrases',

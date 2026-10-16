@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('reloj', 'en', {
+  charlas: [
+    {titulo:"Chatting with the clockmaker", chau:"Time flies! See you soon!", pasos:[
+      {di:"Hello! Do you like my clocks?", op:[{t:"Yes, they're beautiful!", r:"Thank you! I made them."}, {t:"Yes, I like the big clock!", r:"It's my favorite too."}]},
+      {op:[{t:"What time is it?", r:"It's three o'clock!"}, {t:"How many clocks do you have?", r:"I have a hundred clocks!"}]},
+      {di:"Do you want to hear the clock go tick-tock?", op:[{t:"Yes, tick-tock!", r:"Tick-tock, tick-tock!"}, {t:"Yes, I want to listen.", r:"Shh… tick-tock, tick-tock."}]},
+      {op:[{t:"Does it ring?", r:"Yes, at every hour!"}, {t:"Can I touch the hands?", r:"Yes, gently!"}]}]},
+    {titulo:"Chatting at three o'clock", chau:"It's time to go! See you at four o'clock!", pasos:[
+      {di:"It's three o'clock! Time for a snack. Are you hungry?", op:[{t:"Yes, I'm hungry!", r:"Let's have a snack!"}, {t:"Yes, I want a cookie!", r:"Here's your cookie."}]},
+      {op:[{t:"What time is it?", r:"It's three o'clock."}, {t:"What time do we have dinner?", r:"At eight o'clock."}]},
+      {di:"What do you do at three o'clock?", op:[{t:"I play with my toys.", r:"How fun!"}, {t:"I have a snack.", r:"Yum! Me too."}]},
+      {op:[{t:"Where is the little hand now?", r:"On the three!"}, {t:"Is it late?", r:"No, it's still early."}]}]},
+    {titulo:"Chatting at a quarter to seven", chau:"Dinner is ready! Enjoy your meal!", pasos:[
+      {di:"It's a quarter to seven. Almost dinner time. Are you hungry?", op:[{t:"Yes, I'm very hungry!", r:"Dinner is almost ready."}, {t:"Yes, what's for dinner?", r:"Soup and bread!"}]},
+      {op:[{t:"What time is dinner?", r:"At seven o'clock."}, {t:"How long until dinner?", r:"Just a quarter of an hour!"}]},
+      {di:"Shall we wash our hands first?", op:[{t:"Yes, let's wash our hands!", r:"Soap, soap, and water!"}, {t:"Yes, they're dirty!", r:"Let's clean them well."}]},
+      {op:[{t:"Can I help set the table?", r:"Yes! Please bring the plates."}, {t:"Is it time yet?", r:"Almost! Wait a little."}]}]},
+    {titulo:"Chatting at the bell tower", chau:"Ding dong! See you tomorrow!", pasos:[
+      {di:"It's twelve o'clock! What time is it?", op:[{t:"It's twelve o'clock!", r:"That's right! Time for the bells."}, {t:"It's noon!", r:"Yes! The bells will ring."}]},
+      {op:[{t:"Can I ring the bells?", r:"Yes! Pull the rope."}, {t:"How many times do they ring?", r:"Twelve times!"}]},
+      {di:"Did you learn about time today?", op:[{t:"Yes, I know o'clock and half past!", r:"Wonderful! You're a clock expert."}, {t:"Yes, I love clocks!", r:"Me too! Time is fun."}]},
+      {op:[{t:"What time is it now?", r:"Time to go home!"}, {t:"Will you teach me more?", r:"Of course! Come back tomorrow."}]}]}
+  ],
   titulo: "The clock tower",
   lugar: {texto:"the clock tower", silabas:["the", "clock", "tow", "er"]},
   bienvenida: "We're at the clock tower!",

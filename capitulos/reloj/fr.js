@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('reloj', 'fr', {
+  charlas: [
+    {titulo:"Parler avec l'horloger", chau:"Le temps passe vite ! À bientôt !", pasos:[
+      {di:"Bonjour ! Tu aimes mes horloges ?", op:[{t:"Oui, elles sont magnifiques !", r:"Merci ! Je les ai faites."}, {t:"Oui, j'aime la grande horloge !", r:"C'est ma préférée aussi."}]},
+      {op:[{t:"Quelle heure est-il ?", r:"Il est trois heures !"}, {t:"Combien d'horloges avez-vous ?", r:"J'ai cent horloges !"}]},
+      {di:"Tu veux entendre le tic-tac de l'horloge ?", op:[{t:"Oui, tic-tac !", r:"Tic-tac, tic-tac !"}, {t:"Oui, je veux écouter.", r:"Chut… tic-tac, tic-tac."}]},
+      {op:[{t:"Elle sonne ?", r:"Oui, à chaque heure !"}, {t:"Je peux toucher les aiguilles ?", r:"Oui, doucement !"}]}]},
+    {titulo:"Parler à trois heures", chau:"Il est temps de partir ! À quatre heures !", pasos:[
+      {di:"Il est trois heures ! C'est l'heure du goûter. Tu as faim ?", op:[{t:"Oui, j'ai faim !", r:"Allons goûter !"}, {t:"Oui, je veux un biscuit !", r:"Voici ton biscuit."}]},
+      {op:[{t:"Quelle heure est-il ?", r:"Il est trois heures."}, {t:"À quelle heure dîne-t-on ?", r:"À huit heures."}]},
+      {di:"Que fais-tu à trois heures ?", op:[{t:"Je joue avec mes jouets.", r:"Comme c'est amusant !"}, {t:"Je prends mon goûter.", r:"Miam ! Moi aussi."}]},
+      {op:[{t:"Où est la petite aiguille maintenant ?", r:"Sur le trois !"}, {t:"Il est tard ?", r:"Non, il est encore tôt."}]}]},
+    {titulo:"Parler à sept heures moins le quart", chau:"Le dîner est prêt ! Bon appétit !", pasos:[
+      {di:"Il est sept heures moins le quart. C'est bientôt l'heure du dîner. Tu as faim ?", op:[{t:"Oui, j'ai très faim !", r:"Le dîner est presque prêt."}, {t:"Oui, qu'est-ce qu'on mange ?", r:"De la soupe et du pain !"}]},
+      {op:[{t:"À quelle heure est le dîner ?", r:"À sept heures."}, {t:"Il reste combien de temps avant le dîner ?", r:"Seulement un quart d'heure !"}]},
+      {di:"On se lave d'abord les mains ?", op:[{t:"Oui, lavons-nous les mains !", r:"Du savon, du savon et de l'eau !"}, {t:"Oui, elles sont sales !", r:"Lavons-les bien."}]},
+      {op:[{t:"Je peux aider à mettre la table ?", r:"Oui ! Apporte les assiettes, s'il te plaît."}, {t:"C'est déjà l'heure ?", r:"Presque ! Attends un peu."}]}]},
+    {titulo:"Parler dans le clocher", chau:"Ding dong ! À demain !", pasos:[
+      {di:"Il est midi ! Quelle heure est-il ?", op:[{t:"Il est midi !", r:"Exact ! C'est l'heure des cloches."}, {t:"Il est douze heures !", r:"Oui ! Les cloches vont sonner."}]},
+      {op:[{t:"Je peux sonner les cloches ?", r:"Oui ! Tire sur la corde."}, {t:"Combien de fois sonnent-elles ?", r:"Douze fois !"}]},
+      {di:"Tu as appris l'heure aujourd'hui ?", op:[{t:"Oui, je connais les heures pile et les demies !", r:"Merveilleux ! Tu es un expert des horloges."}, {t:"Oui, j'adore les horloges !", r:"Moi aussi ! Le temps, c'est amusant."}]},
+      {op:[{t:"Quelle heure est-il maintenant ?", r:"C'est l'heure de rentrer !"}, {t:"Tu m'en apprendras plus ?", r:"Bien sûr ! Reviens demain."}]}]}
+  ],
   titulo: "La tour de l'horloge",
   lugar: {texto:"la tour de l'horloge", silabas:["la", "tour", "de", "l'hor", "loge"]},
   bienvenida: "On arrive à la tour de l'horloge !",

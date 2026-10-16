@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('granja', 'fr', {
+  charlas: [
+    {titulo:"Parler avec le fermier", chau:"Merci d'avoir rendu visite à la vache ! À bientôt !", pasos:[
+      {di:"Bonjour ! Tu veux voir la vache ?", op:[{t:"Oui, je veux voir la vache !", r:"Viens, elle est par ici."}, {t:"Oui, s'il te plaît !", r:"Suis-moi !"}]},
+      {op:[{t:"Que dit la vache ?", r:"La vache dit meuh !"}, {t:"Que mange la vache ?", r:"Elle mange de l'herbe."}]},
+      {di:"Tu veux du lait bien frais ?", op:[{t:"Oui, s'il te plaît !", r:"Voici un verre de lait."}, {t:"Oui, j'adore le lait !", r:"Moi aussi ! Il est très frais."}]},
+      {op:[{t:"D'où vient le lait ?", r:"De la vache !"}, {t:"Elle est grande, la vache ?", r:"Oui, très grande et très douce."}]}]},
+    {titulo:"Parler avec l'ami du coq", chau:"Cocorico ! À demain matin !", pasos:[
+      {di:"Cocorico ! Bonjour ! Tu as entendu le coq ?", op:[{t:"Oui, je l'ai entendu !", r:"Il chante très fort !"}, {t:"Non, je dormais.", r:"Alors le coq vient de te réveiller !"}]},
+      {op:[{t:"Quand se réveille le coq ?", r:"Très tôt, quand le soleil se lève !"}, {t:"Le coq a des amis ?", r:"Oui, toutes les poules !"}]},
+      {di:"Tu sais chanter comme le coq ?", op:[{t:"Oui ! Cocorico !", r:"Merveilleux ! Tu chantes très bien !"}, {t:"Je vais essayer ! Cocorico !", r:"Très bien ! Plus fort !"}]},
+      {op:[{t:"Tu aimes la ferme ?", r:"J'adore la ferme !"}, {t:"On chante ensemble ?", r:"Oui ! Cocorico !"}]}]},
+    {titulo:"Parler avec l'ami du cheval", chau:"Le cheval te dit au revoir ! À bientôt !", pasos:[
+      {di:"Tu veux caresser le cheval ?", op:[{t:"Oui, doucement !", r:"Très bien ! Doucement, doucement."}, {t:"Oui, je n'ai pas peur.", r:"Quel courage !"}]},
+      {op:[{t:"Comment s'appelle le cheval ?", r:"Il s'appelle Tonnerre."}, {t:"Que mange le cheval ?", r:"Il mange du foin et des pommes."}]},
+      {di:"On donne une pomme au cheval ?", op:[{t:"Oui, voici une pomme !", r:"Il adore ça ! Croc, croc."}, {t:"Oui, une pour lui !", r:"Il dit merci ! Hiiiii !"}]},
+      {op:[{t:"Le cheval court vite ?", r:"Oui, très vite !"}, {t:"Je peux monter sur le cheval ?", r:"Quand tu seras plus grand, oui !"}]}]},
+    {titulo:"Parler avec le fermier le soir", chau:"Bonne nuit ! Fais de beaux rêves !", pasos:[
+      {di:"C'est la nuit. On dit bonne nuit aux animaux ?", op:[{t:"Oui, bonne nuit, les animaux !", r:"Bonne nuit ! Dormez bien !"}, {t:"Oui, ils ont sommeil.", r:"Chut, parlons tout bas."}]},
+      {op:[{t:"Tous les animaux dorment ?", r:"Presque tous !"}, {t:"De quoi rêvent les animaux ?", r:"Ils rêvent d'herbe verte."}]},
+      {di:"Tu as aimé la ferme ?", op:[{t:"Oui, j'ai adoré !", r:"Quelle joie !"}, {t:"Oui, j'ai adoré les animaux !", r:"Et ils t'ont adoré aussi !"}]},
+      {op:[{t:"Je peux revenir demain ?", r:"Bien sûr ! Les animaux t'attendent."}, {t:"Tu me dis un secret ?", r:"Chut… les animaux t'aiment."}]}]}
+  ],
   titulo: "La ferme",
   lugar: {texto:"la ferme", silabas:["la", "ferme"]},
   bienvenida: "Nous voilà à la ferme !",

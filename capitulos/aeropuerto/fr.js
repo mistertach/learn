@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('aeropuerto', 'fr', {
+  charlas: [
+    {titulo:"Parler au guichet d'information", chau:"Bon voyage !", pasos:[
+      {di:"Bonjour ! Je peux t'aider ?", op:[{t:"Oui, où sont les toilettes ?", r:"Au bout du couloir, à droite."}, {t:"Oui, où est l'avion ?", r:"À la porte 5 ! Suis les flèches jaunes."}]},
+      {op:[{t:"Où est le snack ?", r:"Juste là-bas, à côté de la fenêtre."}, {t:"À quelle heure part l'avion ?", r:"Dans une heure !"}]},
+      {di:"Tu as ton billet ?", op:[{t:"Oui, voici mon billet.", r:"Parfait ! Tout est prêt."}, {t:"Oui, il est dans mon sac.", r:"Super ! Ne le perds pas."}]},
+      {op:[{t:"Je peux avoir un plan, s'il vous plaît ?", r:"Bien sûr ! Voici un plan."}, {t:"C'est loin ?", r:"Non, c'est tout près."}]}]},
+    {titulo:"Parler au snack", chau:"Bon goûter ! Bon voyage !", pasos:[
+      {di:"Bonjour ! Tu veux un petit quelque chose ?", op:[{t:"Oui, un biscuit, s'il vous plaît.", r:"Voici un bon biscuit."}, {t:"Oui, un jus, s'il vous plaît.", r:"Voici ton jus."}]},
+      {op:[{t:"C'est combien ?", r:"Deux petits poissons."}, {t:"Qu'est-ce que vous avez ?", r:"Des biscuits, des jus et des fruits !"}]},
+      {di:"Tu veux autre chose ?", op:[{t:"Non, merci.", r:"De rien !"}, {t:"Oui, encore un biscuit !", r:"Tiens. Tu as faim !"}]},
+      {op:[{t:"C'est frais ?", r:"Oui, fait aujourd'hui !"}, {t:"Je peux l'emporter dans l'avion ?", r:"Bien sûr !"}]}]},
+    {titulo:"Parler à la sécurité", chau:"Tout est en ordre ! Bon vol !", pasos:[
+      {di:"Bonjour ! Ton passeport, s'il te plaît.", op:[{t:"Voici mon passeport.", r:"Merci ! Voyons voir."}, {t:"Tenez.", r:"Merci beaucoup."}]},
+      {op:[{t:"C'est bon ?", r:"Oui, tout va bien !"}, {t:"Où dois-je aller maintenant ?", r:"Tout droit, jusqu'à la porte d'embarquement."}]},
+      {di:"Tu as quelque chose dans les poches ?", op:[{t:"Non, rien.", r:"Parfait ! Tu peux passer."}, {t:"Seulement mon jouet.", r:"Très bien ! Tu peux passer."}]},
+      {op:[{t:"Je peux passer maintenant ?", r:"Oui, vas-y !"}, {t:"Vous vérifiez tous les sacs ?", r:"Oui, pour protéger tout le monde."}]}]},
+    {titulo:"Parler avec le pilote", chau:"On atterrit ! Merci d'avoir volé avec moi !", pasos:[
+      {di:"Bienvenue à bord ! Je suis le pilote. On décolle ?", op:[{t:"Oui, allons-y !", r:"Attache ta ceinture !"}, {t:"Oui, j'adore les avions !", r:"Moi aussi ! Monte."}]},
+      {op:[{t:"Où est-ce qu'on vole ?", r:"Là-haut, au-dessus des nuages !"}, {t:"L'avion est grand ?", r:"Oui, très grand !"}]},
+      {di:"Regarde par le hublot ! Qu'est-ce que tu vois ?", op:[{t:"Je vois les nuages !", r:"Oui, on dirait du coton."}, {t:"Je vois le ciel !", r:"Oui, il est si bleu."}]},
+      {op:[{t:"Je peux m'asseoir près du hublot ?", r:"Bien sûr ! C'est la meilleure place."}, {t:"Le vol dure combien de temps ?", r:"Seulement une heure."}]}]}
+  ],
   titulo: "L'aéroport",
   lugar: {texto:"l'aéroport", silabas:["l'a", "é", "ro", "port"]},
   bienvenida: "Bienvenue à l'aéroport !",

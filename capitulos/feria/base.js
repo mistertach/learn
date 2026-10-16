@@ -120,6 +120,11 @@ registrarCapitulo({
         esc(H(.25,{gesto:"sorpresa"}), C("sandia",.62,.42,.2,"latir"), C("balanza",.62,.68,.26,"saltar")),
         esc(H(.35,{gesto:"salto"}), N("B",.7,-1), E("estrellas",.5,.4))]}
   },
+  charlas: [
+    {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8483B", seed:0.5}, arte:"manzana", est:"M", color:"#E8483B"},
+    {npc:{kind:"cat", fur:"#F2C46B", fur2:"#FFF3D6", hat:"#E8483B", seed:1.6}, arte:"frutilla", est:"F", color:"#FF8FB8"},
+    {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#2E86DE", seed:0.3}, arte:"balanza", est:"B", color:"#2E86DE"},
+    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#E8483B", seed:1.1}, arte:"bolsa", est:"final", color:"#2FBF8F"}],
   final: {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#E8483B", seed:1.1}, arte:"bolsa", icono:"canasta", anim:"compras"},
   microjuego: {id:"canasta", arte:"canasta", precio:3, color:"#2FBF8F", ingredientes:["manzana", "banana", "naranja", "frutilla", "pera", "limon"]},
   palabrasExtra: ["pera", "limon", "canasta", "bolsa"],

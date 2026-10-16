@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('escuela', 'es', {
+  charlas: [
+    {titulo:"Charlar en la puerta de la escuela", chau:"¡Que tengas un lindo día en la escuela!", pasos:[
+      {di:"¡Buen día! ¿Tenés tu mochila?", op:[{t:"¡Sí, acá está mi mochila!", r:"¡Muy bien! A la escuela."}, {t:"¡Sí, y está llena de cosas!", r:"¡Qué mochila grande!"}]},
+      {op:[{t:"¿Qué tenés en tu mochila?", r:"Mi almuerzo y un libro."}, {t:"¿De qué color es tu mochila?", r:"¡Es violeta!"}]},
+      {di:"¿Tenés ganas de aprender hoy?", op:[{t:"¡Sí, tengo ganas de aprender!", r:"¡Maravilloso! Entremos."}, {t:"¡Sí, me encanta la escuela!", r:"¡A mí también! La escuela es divertida."}]},
+      {op:[{t:"¿Te gusta la escuela?", r:"¡Me encanta!"}, {t:"¿Dónde está mi salón?", r:"¡Por el pasillo, a la izquierda!"}]}]},
+    {titulo:"Charlar con la lectora", chau:"¡Leer es divertido! ¡Hasta pronto!", pasos:[
+      {di:"Estoy leyendo un libro. ¿Querés leer conmigo?", op:[{t:"¡Sí, leamos!", r:"Sentate a mi lado."}, {t:"¡Sí, me encantan los libros!", r:"¡A mí también! Mirá los dibujos."}]},
+      {op:[{t:"¿De qué es el libro?", r:"Es sobre un elefantito."}, {t:"¿De qué color es la tapa?", r:"¡Es azul!"}]},
+      {di:"¿Qué página abrimos?", op:[{t:"¡La primera página!", r:"Había una vez…"}, {t:"¡Esta página!", r:"¡Ay, mirá ese dibujo!"}]},
+      {op:[{t:"¿Lo leés de nuevo?", r:"¡Claro! Una vez más."}, {t:"¿Te gusta leer?", r:"¡Me encanta leer!"}]}]},
+    {titulo:"Charlar en el calendario", chau:"¡Ya sabés los días! ¡Hasta mañana!", pasos:[
+      {di:"¿Sabés los días de la semana?", op:[{t:"¡Sí, lunes, martes, miércoles!", r:"¡Muy bien! Seguí."}, {t:"¡Sí, me sé algunos!", r:"¡Genial! Aprendamos todos."}]},
+      {op:[{t:"¿Cuántos días tiene la semana?", r:"¡Siete días!"}, {t:"¿Qué día descansamos?", r:"¡El domingo!"}]},
+      {di:"¿Cuál es tu día favorito?", op:[{t:"¡El sábado!", r:"¡El mío también! ¡No hay escuela!"}, {t:"¡El viernes!", r:"¡El mío también! Ya llega el fin de semana."}]},
+      {op:[{t:"¿Cuál es tu día favorito?", r:"¡El domingo, porque almorzamos juntos!"}, {t:"¿Qué día viene después del lunes?", r:"¡El martes!"}]}]},
+    {titulo:"Charlar con el maestro", chau:"¡Terminó la clase! ¡Hasta mañana!", pasos:[
+      {di:"¡Buen día, chicos! ¿Cantamos?", op:[{t:"¡Sí, cantemos!", r:"¡Maravilloso! Escuchen primero."}, {t:"¡Sí, me encanta cantar!", r:"¡A mí también! Empecemos."}]},
+      {op:[{t:"¿Qué vamos a cantar?", r:"¡Los días de la semana!"}, {t:"¿Puedo cantar con mis amigos?", r:"¡Claro! Todos juntos."}]},
+      {di:"¿Aprendiste algo hoy?", op:[{t:"¡Sí, aprendí muchas palabras!", r:"¡Excelente! Estoy orgulloso de vos."}, {t:"¡Sí, aprendí los días!", r:"¡Muy bien! Bien hecho."}]},
+      {op:[{t:"¿Puedo volver mañana?", r:"¡Claro! La escuela abre todos los días."}, {t:"¿Lo hice bien?", r:"¡Lo hiciste muy bien!"}]}]}
+  ],
   titulo: "La escuela",
   lugar: {texto:"la escuela", silabas:["la", "es", "cue", "la"]},
   bienvenida: "¡Llegamos a la escuela!",

@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('primeras', 'fr', {
+  charlas: [
+    {titulo:"Parler avec la lapine", chau:"Enchantée ! À bientôt !", pasos:[
+      {di:"Bonjour ! Comment tu t'appelles ?", op:[{t:"Je m'appelle {N}.", r:"Quel joli nom !"}, {t:"Bonjour ! Je suis {N}.", r:"Enchantée, {N} !"}]},
+      {op:[{t:"Comment ça va ?", r:"Très bien, merci !"}, {t:"Et toi, comment tu t'appelles ?", r:"Je m'appelle Pompon."}]},
+      {di:"Tu aimes jouer ?", op:[{t:"Oui, j'aime jouer !", r:"Moi aussi ! Jouer, c'est le mieux."}, {t:"Oui, beaucoup !", r:"Moi aussi ! J'adore ça."}]},
+      {op:[{t:"Tu veux être mon amie ?", r:"Oui ! On est amies maintenant !"}, {t:"À quoi tu aimes jouer ?", r:"J'aime jouer à cache-cache."}]}]},
+    {titulo:"Parler avec la chatte", chau:"Merci, mon ami ! Au revoir !", pasos:[
+      {di:"Regarde, j'ai un cadeau pour toi !", op:[{t:"Merci !", r:"De rien !"}, {t:"Merci beaucoup !", r:"De rien, mon ami !"}]},
+      {op:[{t:"C'est quoi ?", r:"C'est une petite étoile !"}, {t:"C'est pour moi ?", r:"Oui, c'est pour toi !"}]},
+      {di:"Tu veux la partager avec moi ?", op:[{t:"Oui, partageons !", r:"Comme c'est bien ! Partager, c'est beau."}, {t:"Oui, s'il te plaît !", r:"Tiens, la moitié pour toi et la moitié pour moi."}]},
+      {op:[{t:"Elle te plaît ?", r:"Je l'adore !"}, {t:"Je peux te faire un câlin ?", r:"Oui, un gros câlin !"}]}]},
+    {titulo:"Parler avec l'ours", chau:"Ça fait du bien ! À bientôt !", pasos:[
+      {di:"J'ai soif. Tu veux de l'eau ?", op:[{t:"Oui, de l'eau, s'il te plaît !", r:"Tiens. À ta santé !"}, {t:"Oui, moi aussi j'ai soif !", r:"Voici un verre pour toi."}]},
+      {op:[{t:"Elle est froide, l'eau ?", r:"Oui, bien fraîche !"}, {t:"D'où vient l'eau ?", r:"Du robinet et de la pluie !"}]},
+      {di:"Tu en veux encore ?", op:[{t:"Oui, encore, s'il te plaît !", r:"Bien sûr ! En voilà encore."}, {t:"Non, merci. Je n'ai plus soif.", r:"D'accord. Merci d'avoir bu avec moi."}]},
+      {op:[{t:"Tu aimes l'eau ?", r:"Oui, c'est ma préférée !"}, {t:"On joue ?", r:"Oui ! Jouons !"}]}]},
+    {titulo:"Parler à la porte", chau:"Au revoir, mon ami ! On se voit pendant l'aventure !", pasos:[
+      {di:"Tu connais plein de mots maintenant ! On part à l'aventure ?", op:[{t:"Oui, allons-y !", r:"Hourra ! Viens avec moi."}, {t:"Oui, allons-y !", r:"Super ! En route !"}]},
+      {op:[{t:"Où est-ce qu'on va ?", r:"Dans plein de nouveaux endroits !"}, {t:"Qui vient avec nous ?", r:"Tous tes amis !"}]},
+      {di:"Tu es heureux ?", op:[{t:"Oui, je suis très heureux !", r:"Moi aussi ! Quelle joie."}, {t:"Oui, j'adore les aventures !", r:"Moi aussi ! Les aventures, c'est amusant."}]},
+      {op:[{t:"Toi aussi, tu es contente ?", r:"Oui, très contente !"}, {t:"On peut y aller maintenant ?", r:"Oui ! En route !"}]}]}
+  ],
   titulo: "Bonjour !",
   lugar: {texto:"la cabane", silabas:["la", "ca", "bane"]},
   bienvenida: "Nous voilà à la cabane dans l'arbre !",

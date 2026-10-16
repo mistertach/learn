@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('fiesta', 'it', {
+  charlas: [
+    {titulo:"Parlare dell'invito", chau:"Ci vediamo alla festa!", pasos:[
+      {di:"Ciao! Ti invitiamo a una festa! Vuoi venire?", op:[{t:"Sì, voglio venire!", r:"Evviva! Sarà divertente."}, {t:"Sì, grazie dell'invito!", r:"Prego! Siamo contenti che vieni."}]},
+      {op:[{t:"Dov'è la festa?", r:"Nel grande giardino!"}, {t:"Chi altro viene?", r:"Tutti i nostri amici!"}]},
+      {di:"Che cosa porterai?", op:[{t:"Porterò un regalo.", r:"Che bello! Grazie."}, {t:"Porterò un grande sorriso.", r:"Il regalo più bello di tutti!"}]},
+      {op:[{t:"A che ora comincia?", r:"Alle quattro!"}, {t:"Ci sarà la torta?", r:"Sì, una torta enorme!"}]}]},
+    {titulo:"Parlare al calendario", chau:"Buon compleanno in anticipo! A presto!", pasos:[
+      {di:"In quale stagione è il tuo compleanno?", op:[{t:"In estate!", r:"I compleanni d'estate sono i più belli!"}, {t:"In inverno!", r:"Che bello! Cioccolata calda!"}]},
+      {op:[{t:"Quando è il tuo compleanno?", r:"Nel mese di maggio!"}, {t:"Quanti mesi ha l'anno?", r:"Dodici mesi!"}]},
+      {di:"Quanti anni compirai quest'anno?", op:[{t:"Ne compirò sei!", r:"Sei! Come stai crescendo."}, {t:"Ne compirò cinque!", r:"Cinque! Che bell'età."}]},
+      {op:[{t:"Quanti anni hai?", r:"Qualcuno più di te!"}, {t:"Posso venire al tuo compleanno?", r:"Certo! Ti invitiamo."}]}]},
+    {titulo:"Parlare del regalo", chau:"Prego! Goditi il tuo regalo!", pasos:[
+      {di:"Guarda questa grande scatola! È un regalo per te. Vuoi aprirlo?", op:[{t:"Sì, voglio aprirlo!", r:"Aprilo con attenzione!"}, {t:"Sì, che cos'è?", r:"È una sorpresa!"}]},
+      {op:[{t:"Da parte di chi è?", r:"Da parte di tutti i tuoi amici!"}, {t:"È grande?", r:"Sì, grandissimo!"}]},
+      {di:"È un giocattolo! Ti piace?", op:[{t:"Sì, mi piace tantissimo! Grazie!", r:"Che bello che ti piaccia!"}, {t:"Sì, è bellissimo!", r:"È per te, con affetto."}]},
+      {op:[{t:"Giochiamo insieme con questo?", r:"Sì! Giochiamo."}, {t:"Posso farti un abbraccio?", r:"Sì, un abbraccio grande!"}]}]},
+    {titulo:"Parlare alla festa di compleanno", chau:"Buon compleanno! Ti vogliamo bene!", pasos:[
+      {di:"Sorpresa! Ci sono tutti i tuoi amici! Buon compleanno!", op:[{t:"Grazie a tutti!", r:"Prego! Ti vogliamo bene."}, {t:"Che sorpresa!", r:"Volevamo sorprenderti!"}]},
+      {op:[{t:"Dov'è la torta?", r:"Qui, con le candeline!"}, {t:"Cantiamo?", r:"Sì! Cantiamo insieme."}]},
+      {di:"Esprimi un desiderio e soffia sulle candeline!", op:[{t:"Ho espresso un desiderio!", r:"Speriamo che si avveri!"}, {t:"Uno, due, tre… soffio!", r:"Evviva! Che bel soffio!"}]},
+      {op:[{t:"Posso avere una fetta di torta?", r:"Certo! La più grande."}, {t:"Ti sei divertita?", r:"È stata la festa più bella del mondo!"}]}]}
+  ],
   titulo: "La festa",
   lugar: {texto:"la festa", silabas:["la", "fe", "sta"]},
   bienvenida: "Oggi è il tuo compleanno!",

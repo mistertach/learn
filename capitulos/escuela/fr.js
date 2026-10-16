@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('escuela', 'fr', {
+  charlas: [
+    {titulo:"Parler à la porte de l'école", chau:"Passe une bonne journée à l'école !", pasos:[
+      {di:"Bonjour ! Tu as ton sac à dos ?", op:[{t:"Oui, voici mon sac à dos !", r:"Très bien ! Allons à l'école."}, {t:"Oui, et il est plein de choses !", r:"Quel grand sac à dos !"}]},
+      {op:[{t:"Qu'est-ce qu'il y a dans ton sac ?", r:"Mon déjeuner et un livre."}, {t:"De quelle couleur est ton sac ?", r:"Il est violet !"}]},
+      {di:"Tu as envie d'apprendre aujourd'hui ?", op:[{t:"Oui, allons-y !", r:"Merveilleux ! Entrons."}, {t:"Oui, j'adore l'école !", r:"Moi aussi ! L'école, c'est amusant."}]},
+      {op:[{t:"Tu aimes l'école ?", r:"J'adore !"}, {t:"Où est ma classe ?", r:"Au bout du couloir, à gauche !"}]}]},
+    {titulo:"Parler avec la lectrice", chau:"Lire, c'est amusant ! À bientôt !", pasos:[
+      {di:"Je lis un livre. Tu veux lire avec moi ?", op:[{t:"Oui, lisons !", r:"Viens t'asseoir à côté de moi."}, {t:"Oui, j'adore les livres !", r:"Moi aussi ! Regarde les images."}]},
+      {op:[{t:"De quoi parle le livre ?", r:"D'un petit éléphant."}, {t:"De quelle couleur est la couverture ?", r:"Elle est bleue !"}]},
+      {di:"On ouvre quelle page ?", op:[{t:"La première page !", r:"Il était une fois…"}, {t:"Cette page !", r:"Oh, regarde cette image !"}]},
+      {op:[{t:"Tu le relis ?", r:"Bien sûr ! Encore une fois."}, {t:"Tu aimes lire ?", r:"J'adore lire !"}]}]},
+    {titulo:"Parler au calendrier", chau:"Maintenant tu connais les jours ! À demain !", pasos:[
+      {di:"Tu connais les jours de la semaine ?", op:[{t:"Oui, lundi, mardi, mercredi !", r:"Très bien ! Continue."}, {t:"Oui, j'en connais quelques-uns !", r:"Super ! Apprenons-les tous."}]},
+      {op:[{t:"Combien de jours y a-t-il dans une semaine ?", r:"Sept jours !"}, {t:"Quel jour se repose-t-on ?", r:"Le dimanche !"}]},
+      {di:"Quel est ton jour préféré ?", op:[{t:"Le samedi !", r:"Le mien aussi ! Pas d'école !"}, {t:"Le vendredi !", r:"Le mien aussi ! Le week-end arrive."}]},
+      {op:[{t:"Quel est ton jour préféré ?", r:"Le dimanche, parce qu'on déjeune ensemble !"}, {t:"Quel jour vient après lundi ?", r:"Mardi !"}]}]},
+    {titulo:"Parler avec le maître", chau:"La classe est finie ! À demain !", pasos:[
+      {di:"Bonjour, les enfants ! On chante ?", op:[{t:"Oui, chantons !", r:"Merveilleux ! Écoutez d'abord."}, {t:"Oui, j'adore chanter !", r:"Moi aussi ! Commençons."}]},
+      {op:[{t:"Qu'est-ce qu'on va chanter ?", r:"Les jours de la semaine !"}, {t:"Je peux chanter avec mes amis ?", r:"Bien sûr ! Tous ensemble."}]},
+      {di:"Tu as appris quelque chose aujourd'hui ?", op:[{t:"Oui, j'ai appris beaucoup de mots !", r:"Excellent ! Je suis fier de toi."}, {t:"Oui, j'ai appris les jours !", r:"Très bien ! Bravo."}]},
+      {op:[{t:"Je peux revenir demain ?", r:"Bien sûr ! L'école est ouverte tous les jours."}, {t:"J'ai bien fait ?", r:"Tu as très bien fait !"}]}]}
+  ],
   titulo: "L'école",
   lugar: {texto:"l'école", silabas:["lé", "cole"]},
   bienvenida: "Nous voilà à l'école !",

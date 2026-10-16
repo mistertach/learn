@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('feria', 'es', {
+  charlas: [
+    {titulo:"Charlar con el vendedor de manzanas", chau:"¡Gracias por tu compra! ¡Volvé pronto!", pasos:[
+      {di:"¡Hola! ¿Querés comprar algo?", op:[{t:"Sí, quiero una manzana.", r:"Acá tenés una manzana roja."}, {t:"Sí, manzanas, por favor.", r:"Tomá, bien rojitas."}]},
+      {op:[{t:"¿Cuánto cuesta?", r:"Un pececito."}, {t:"¿Es dulce?", r:"¡Sí, muy dulce!"}]},
+      {di:"¿Querés una o dos manzanas?", op:[{t:"Una manzana, por favor.", r:"Acá tenés una manzana."}, {t:"Dos manzanas, por favor.", r:"Acá tenés dos manzanas."}]},
+      {op:[{t:"¿Están frescas?", r:"¡Sí, recién cosechadas!"}, {t:"¿Me das una bolsa?", r:"¡Claro! Acá tenés una bolsa."}]}]},
+    {titulo:"Charlar con la vendedora de frutillas", chau:"¡Disfrutá tus frutillas! ¡Chau, chau!", pasos:[
+      {di:"¡Mirá estas frutillas! ¿Te gustan?", op:[{t:"¡Sí, me encantan las frutillas!", r:"¡A mí también! Están rojísimas."}, {t:"¡Sí, se ven ricas!", r:"¡Son deliciosas!"}]},
+      {op:[{t:"¿De qué color son?", r:"¡Son rojas!"}, {t:"¿Puedo probar una?", r:"¡Claro! Tomá."}]},
+      {di:"¿Cuántas querés?", op:[{t:"Tres, por favor.", r:"Acá tenés tres frutillas."}, {t:"¡Muchas, por favor!", r:"¡Acá tenés una canasta grande!"}]},
+      {op:[{t:"¿Son dulces?", r:"¡Muy dulces!"}, {t:"¡Gracias! ¿Cuánto es?", r:"Dos pececitos, por favor."}]}]},
+    {titulo:"Charlar en la balanza", chau:"¡Qué buen pesaje! ¡Hasta pronto!", pasos:[
+      {di:"¡Hola! ¿Querés pesar algo?", op:[{t:"¡Sí, la sandía!", r:"La ponemos en la balanza."}, {t:"¡Sí, las manzanas!", r:"¡Arriba!"}]},
+      {op:[{t:"¿Pesa mucho?", r:"¡Sí, bastante!"}, {t:"¿Cuánto pesa?", r:"¡Dos kilos justos!"}]},
+      {di:"¿Qué pesa más: la sandía o la manzana?", op:[{t:"¡La sandía!", r:"¡Correcto! Es muy grande."}, {t:"¡La manzana!", r:"Mmm, probá levantar las dos. ¡La sandía pesa más!"}]},
+      {op:[{t:"¿Puedo probar la balanza?", r:"¡Sí! Subite."}, {t:"¿Siempre funciona?", r:"Sí, es muy precisa."}]}]},
+    {titulo:"Charlar con el verdulero", chau:"¡Gracias por tu compra! ¡Chau!", pasos:[
+      {di:"¡Qué bueno que viniste a la feria! ¿Qué necesitás hoy?", op:[{t:"Necesito fruta, por favor.", r:"¡Genial! Tenemos mucha fruta."}, {t:"Necesito verduras, por favor.", r:"¡Claro! Mirá estas zanahorias."}]},
+      {op:[{t:"¿Cuánto es todo?", r:"¡Cinco pececitos!"}, {t:"¿Tenés una bolsa?", r:"Sí, acá hay una canasta."}]},
+      {di:"¿Encontraste todo?", op:[{t:"¡Sí, tengo todo!", r:"¡Qué buena compra!"}, {t:"¡Sí, gracias!", r:"¡De nada!"}]},
+      {op:[{t:"¿Puedo pagar ahora?", r:"¡Sí! Muchas gracias."}, {t:"¿Puedo volver mañana?", r:"¡Claro! Acá vamos a estar."}]}]}
+  ],
   titulo: "La feria",
   lugar: {texto:"la feria", silabas:["la", "fe", "ria"]},
   bienvenida: "¡Llegamos a la feria!",

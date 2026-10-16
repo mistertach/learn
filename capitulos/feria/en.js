@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('feria', 'en', {
+  charlas: [
+    {titulo:"Chatting with the apple seller", chau:"Thank you for shopping! Come back soon!", pasos:[
+      {di:"Hello! Do you want to buy something?", op:[{t:"Yes, I want an apple.", r:"Here's a red apple."}, {t:"Yes, apples, please.", r:"Here you go, nice and red."}]},
+      {op:[{t:"How much is it?", r:"One little fish."}, {t:"Is it sweet?", r:"Yes, very sweet!"}]},
+      {di:"Do you want one or two apples?", op:[{t:"One apple, please.", r:"Here's one apple."}, {t:"Two apples, please.", r:"Here are two apples."}]},
+      {op:[{t:"Are they fresh?", r:"Yes, picked today!"}, {t:"Can I have a bag?", r:"Of course! Here's a bag."}]}]},
+    {titulo:"Chatting with the strawberry seller", chau:"Enjoy your strawberries! Bye-bye!", pasos:[
+      {di:"Look at these strawberries! Do you like them?", op:[{t:"Yes, I love strawberries!", r:"Me too! They're so red."}, {t:"Yes, they look yummy!", r:"They are delicious!"}]},
+      {op:[{t:"What color are they?", r:"They're red!"}, {t:"Can I taste one?", r:"Of course! Here you go."}]},
+      {di:"How many do you want?", op:[{t:"Three, please.", r:"Here are three strawberries."}, {t:"Lots, please!", r:"Here's a big basket!"}]},
+      {op:[{t:"Are they sweet?", r:"Very sweet!"}, {t:"Thank you! How much is it?", r:"Two little fish, please."}]}]},
+    {titulo:"Chatting at the scale", chau:"Great weighing! See you soon!", pasos:[
+      {di:"Hello! Do you want to weigh something?", op:[{t:"Yes, the watermelon!", r:"Let's put it on the scale."}, {t:"Yes, the apples!", r:"Up they go!"}]},
+      {op:[{t:"Is it heavy?", r:"Yes, quite heavy!"}, {t:"How much does it weigh?", r:"Two kilos exactly!"}]},
+      {di:"Which is heavier: the watermelon or the apple?", op:[{t:"The watermelon!", r:"Correct! It's very big."}, {t:"The apple!", r:"Hmm, try lifting both. The watermelon is heavier!"}]},
+      {op:[{t:"Can I try the scale?", r:"Yes! Climb up."}, {t:"Does it always work?", r:"Yes, it's very accurate."}]}]},
+    {titulo:"Chatting with the shopkeeper", chau:"Thank you for shopping! Goodbye!", pasos:[
+      {di:"Welcome to the market! What do you need today?", op:[{t:"I need fruit, please.", r:"Wonderful! We have lots of fruit."}, {t:"I need vegetables, please.", r:"Of course! Look at these carrots."}]},
+      {op:[{t:"How much is everything?", r:"Five little fish!"}, {t:"Do you have a bag?", r:"Yes, here's a basket."}]},
+      {di:"Did you find everything?", op:[{t:"Yes, I have everything!", r:"Excellent shopping!"}, {t:"Yes, thank you!", r:"You're welcome!"}]},
+      {op:[{t:"Can I pay now?", r:"Yes! Thank you very much."}, {t:"Can I come back tomorrow?", r:"Of course! We'll be here."}]}]}
+  ],
   titulo: "The market",
   lugar: {texto:"the market", silabas:["the", "mar", "ket"]},
   bienvenida: "Here we are at the market!",

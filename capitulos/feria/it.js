@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('feria', 'it', {
+  charlas: [
+    {titulo:"Parlare con il venditore di mele", chau:"Grazie per l'acquisto! Torna presto!", pasos:[
+      {di:"Ciao! Vuoi comprare qualcosa?", op:[{t:"Sì, voglio una mela.", r:"Ecco una mela rossa."}, {t:"Sì, delle mele, per favore.", r:"Ecco, belle rosse."}]},
+      {op:[{t:"Quanto costa?", r:"Un pesciolino."}, {t:"È dolce?", r:"Sì, dolcissima!"}]},
+      {di:"Vuoi una o due mele?", op:[{t:"Una mela, per favore.", r:"Ecco una mela."}, {t:"Due mele, per favore.", r:"Ecco due mele."}]},
+      {op:[{t:"Sono fresche?", r:"Sì, raccolte oggi!"}, {t:"Posso avere un sacchetto?", r:"Certo! Ecco un sacchetto."}]}]},
+    {titulo:"Parlare con la venditrice di fragole", chau:"Goditi le tue fragole! Ciao, ciao!", pasos:[
+      {di:"Guarda queste fragole! Ti piacciono?", op:[{t:"Sì, adoro le fragole!", r:"Anch'io! Sono rossissime."}, {t:"Sì, sembrano buone!", r:"Sono deliziose!"}]},
+      {op:[{t:"Di che colore sono?", r:"Sono rosse!"}, {t:"Posso assaggiarne una?", r:"Certo! Tieni."}]},
+      {di:"Quante ne vuoi?", op:[{t:"Tre, per favore.", r:"Ecco tre fragole."}, {t:"Tante, per favore!", r:"Ecco un grande cestino!"}]},
+      {op:[{t:"Sono dolci?", r:"Dolcissime!"}, {t:"Grazie! Quanto costano?", r:"Due pesciolini, per favore."}]}]},
+    {titulo:"Parlare alla bilancia", chau:"Bella pesata! A presto!", pasos:[
+      {di:"Ciao! Vuoi pesare qualcosa?", op:[{t:"Sì, l'anguria!", r:"La mettiamo sulla bilancia."}, {t:"Sì, le mele!", r:"Su, in alto!"}]},
+      {op:[{t:"È pesante?", r:"Sì, abbastanza!"}, {t:"Quanto pesa?", r:"Due chili esatti!"}]},
+      {di:"Che cosa pesa di più: l'anguria o la mela?", op:[{t:"L'anguria!", r:"Esatto! È molto grande."}, {t:"La mela!", r:"Mmm, prova a sollevarle tutte e due. L'anguria pesa di più!"}]},
+      {op:[{t:"Posso provare la bilancia?", r:"Sì! Sali."}, {t:"Funziona sempre?", r:"Sì, è molto precisa."}]}]},
+    {titulo:"Parlare con il fruttivendolo", chau:"Grazie per gli acquisti! Arrivederci!", pasos:[
+      {di:"Benvenuti al mercato! Di che cosa hai bisogno oggi?", op:[{t:"Mi serve della frutta, per favore.", r:"Perfetto! Abbiamo tanta frutta."}, {t:"Mi servono delle verdure, per favore.", r:"Certo! Guarda queste carote."}]},
+      {op:[{t:"Quanto costa tutto?", r:"Cinque pesciolini!"}, {t:"Ha un sacchetto?", r:"Sì, ecco un cestino."}]},
+      {di:"Hai trovato tutto?", op:[{t:"Sì, ho tutto!", r:"Che bella spesa!"}, {t:"Sì, grazie!", r:"Prego!"}]},
+      {op:[{t:"Posso pagare adesso?", r:"Sì! Grazie mille."}, {t:"Posso tornare domani?", r:"Certo! Noi siamo qui."}]}]}
+  ],
   titulo: "Il mercato",
   lugar: {texto:"il mercato", silabas:["il", "mer", "ca", "to"]},
   bienvenida: "Eccoci al mercato!",

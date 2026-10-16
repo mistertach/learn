@@ -25,6 +25,8 @@ registrarIdioma({
     holaX: n => U('marhaba, |مرحبا، ', n, '!|!'), holaSub: 'wain nrooh al-yom?|وين نروح اليوم؟', holaDi: n => U('marhaba, |مرحبا، ', n, '! wain nrooh?|! وين نروح؟'),
     semana: 'usboo\'|أسبوع', pronto: 'garreeb!|قريب!', prontoDi: 'garreeb! hal makan yinfitih al-usboo\' al-yay.|قريب! هالمكان ينفتح الأسبوع الياي.',
     actividades: 'al-nashatat|النشاطات', seccionAprender: 'ta\'allam|تعلّم', seccionJugar: 'il\'ab|العب',
+    charlas: 'nsawlif|نسولف', charlasDi: 'yalla nsawlif! wiyya min tabi titkallam?|يلا نسولف! ويا من تبي تتكلم؟', charlaCerrada: 'awwal it\'arraf \'ala hatha as-sadeeq fi makanah.|أول تتعرف على هذا الصديق في مكانه.',
+    charlaResponde: 'dawrak tjaawib!|دورك تجاوب!', charlaPregunta: 'al-heen is\'al inta shi!|الحين اسأل إنت شي!', charlaFin: 'khallait al-hadeeth mistamir! ahsant!|خليت الحديث مستمر! أحسنت!',
     cuentos: 'al-gisas|القصص', practicar: 'al-kalimat wal-jumal|الكلمات والجمل', tienda: 'ad-dukkan|الدكان',
     cuentosDi: 'al-gisas. ay gissa nigra?|القصص. أي قصة نقرا؟', practicarDi: 'yalla nitmarran! ikhtar kilma aw jumla.|يلا نتمرن! اختار كلمة أو جملة.',
     palabras: 'kalimat|كلمات', frases: 'jumal|جمل',

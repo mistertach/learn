@@ -6,6 +6,28 @@
    El héroe trabaja de mozo: a los clientes les habla de usted.
    ========================================================= */
 registrarTextos('restaurante', 'es', {
+  charlas: [
+    {titulo:"Charlar con el anfitrión", chau:"¡Que disfruten la comida!", pasos:[
+      {di:"¡Bienvenidos al restaurante! ¿Cuántas personas son?", op:[{t:"Dos, por favor.", r:"Una mesa para dos. ¡Síganme!"}, {t:"Cuatro, por favor.", r:"Una mesa grande para cuatro. ¡Síganme!"}]},
+      {op:[{t:"¿Dónde está nuestra mesa?", r:"Justo al lado de la ventana."}, {t:"¿Está lleno el restaurante?", r:"Casi lleno, pero tenemos lugar."}]},
+      {di:"¿Quieren sentarse acá o allá?", op:[{t:"Acá, por favor.", r:"Muy bien. Tomen asiento."}, {t:"Allá, por favor.", r:"Claro. Por acá."}]},
+      {op:[{t:"¿Me trae la carta, por favor?", r:"¡Claro! Acá tienen."}, {t:"¿Se come bien acá?", r:"¡Es riquísimo!"}]}]},
+    {titulo:"Charlar con el cocinero", chau:"¡Gracias por visitar mi cocina! ¡Buen provecho!", pasos:[
+      {di:"¡Hola! Soy el cocinero. ¿Querés ver la cocina?", op:[{t:"¡Sí, por favor!", r:"Pasá, pero con cuidado."}, {t:"¡Sí, qué rico huele!", r:"¡Gracias! Estoy haciendo sopa."}]},
+      {op:[{t:"¿Qué estás cocinando?", r:"Una olla grande de sopa."}, {t:"¿Está caliente?", r:"¡Sí, muy caliente! Cuidado."}]},
+      {di:"¿Querés probarla?", op:[{t:"¡Sí, por favor!", r:"Acá tenés una cucharita."}, {t:"Solo un poquito.", r:"Tomá, un traguito."}]},
+      {op:[{t:"¿Qué lleva la sopa?", r:"Zanahorias, papas y mucho cariño."}, {t:"¿Puedo ayudar a cocinar?", r:"¡Sí! Revolvé la olla."}]}]},
+    {titulo:"Charlar en la heladería", chau:"¡Disfrutá tu helado! ¡Chau, chau!", pasos:[
+      {di:"¡Llegó la hora del postre! ¿De qué gusto querés el helado?", op:[{t:"¡De frutilla, por favor!", r:"Acá tenés tu helado rosa."}, {t:"¡De chocolate, por favor!", r:"Acá tenés tu helado de chocolate."}]},
+      {op:[{t:"¿Qué gustos tenés?", r:"Frutilla, chocolate y vainilla."}, {t:"¿Está frío?", r:"¡Muy frío! Brrr."}]},
+      {di:"¿Una bocha o dos bochas?", op:[{t:"Una bocha, por favor.", r:"Tomá. Una bocha."}, {t:"¡Dos bochas, por favor!", r:"¡Wow, dos bochas!"}]},
+      {op:[{t:"¿Me das un cucurucho?", r:"¡Claro! Un cucurucho crocante."}, {t:"¿Cuánto es?", r:"Un pececito."}]}]},
+    {titulo:"Charlar con la clienta", chau:"¡Gracias, y esta es tu propina!", pasos:[
+      {di:"¡Hola! Qué lindo restaurante. ¿Trabajás acá?", op:[{t:"¡Sí, trabajo acá!", r:"¡Qué maravilla! Lo hacés muy bien."}, {t:"Sí, ayudo a todos.", r:"¡Qué buena ayuda!"}]},
+      {op:[{t:"¿Te gustó la comida?", r:"¡Estuvo riquísima!"}, {t:"¿Qué comiste?", r:"¡Pizza y helado!"}]},
+      {di:"¡Todo estuvo genial! ¿Me traés la cuenta, por favor?", op:[{t:"Sí, acá está la cuenta.", r:"¡Gracias! Acá está el dinero."}, {t:"Sí, un momentito, por favor.", r:"¡Gracias!"}]},
+      {op:[{t:"¿Vas a volver?", r:"¡Sí, voy a volver pronto!"}, {t:"¿Te divertiste?", r:"¡La pasé genial!"}]}]}
+  ],
   titulo: "El restaurante",
   lugar: {texto:"el restaurante", silabas:["el", "res", "tau", "ran", "te"]},
   bienvenida: "¡Llegamos al restaurante!",

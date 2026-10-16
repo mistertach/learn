@@ -7,6 +7,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('escuela', 'ar', {
+  charlas: [
+    {titulo:"nsawlif 'ind baab al-madrasa|نسولف عند باب المدرسة", chau:"yoom jameel fil-madrasa!|يوم جميل في المدرسة!", pasos:[
+      {di:"sabaah al-khair! 'indak shanta?|صباح الخير! عندك شنطة؟", op:[{t:"aywa, hathi shantati!|أيوا، هذي شنطتي!", r:"zain wayed! jahiz lil-madrasa.|زين وايد! جاهز للمدرسة."}, {t:"aywa, w hiya malyaana!|أيوا، وهي مليانة!", r:"ya hal-shanta al-kabeera!|يا هالشنطة الكبيرة!"}]},
+      {op:[{t:"shu fi shantatik?|شو في شنطتك؟", r:"ghadaai w kitab.|غدائي وكتاب."}, {t:"shu lon shantatik?|شو لون شنطتك؟", r:"hiya banafsajiyya!|هي بنفسجية!"}]},
+      {di:"inta jahiz titi'allam al-yoom?|إنت جاهز تتعلم اليوم؟", op:[{t:"aywa, ana jahiz!|أيوا، أنا جاهز!", r:"mumtaz! yalla nidkhul.|ممتاز! يلا ندخل."}, {t:"aywa, ahibb al-madrasa!|أيوا، أحب المدرسة!", r:"wana ba'd! al-madrasa mumti'a.|وأنا بعد! المدرسة ممتعة."}]},
+      {op:[{t:"tihibb al-madrasa?|تحب المدرسة؟", r:"ahibbha wayed!|أحبها وايد!"}, {t:"wain saffi?|وين صفي؟", r:"fil-mamarr, 'ala al-yasaar!|في الممر، على اليسار!"}]}]},
+    {titulo:"nsawlif wiyya al-qaari'a|نسولف ويا القارئة", chau:"al-qiraa'a mumti'a! nshoofak qareeb!|القراءة ممتعة! نشوفك قريب!", pasos:[
+      {di:"aqra kitab. tibi tiqra wiyyaai?|أقرا كتاب. تبي تقرا وياي؟", op:[{t:"aywa, yalla niqra!|أيوا، يلا نقرا!", r:"ta'al ijlis janbi.|تعال اجلس جنبي."}, {t:"aywa, ahibb al-kutub!|أيوا، أحب الكتب!", r:"wana ba'd! shoof as-suwar.|وأنا بعد! شوف الصور."}]},
+      {op:[{t:"shu hatha al-kitab?|شو هذا الكتاب؟", r:"an feel saghir.|عن فيل صغير."}, {t:"shu lon al-ghilaf?|شو لون الغلاف؟", r:"huwa azraq!|هو أزرق!"}]},
+      {di:"ay safha nftah?|أي صفحة نفتح؟", op:[{t:"as-safha al-oola!|الصفحة الأولى!", r:"ya ma kan...|يا ما كان..."}, {t:"hathi as-safha!|هذي الصفحة!", r:"oh, shoof hathi as-soora!|أوه، شوف هذي الصورة!"}]},
+      {op:[{t:"tiqraha marra thaniya?|تقراها مرة ثانية؟", r:"akeed! marra thaniya.|أكيد! مرة ثانية."}, {t:"tihibb al-qiraa'a?|تحب القراءة؟", r:"ahibb al-qiraa'a wayed!|أحب القراءة وايد!"}]}]},
+    {titulo:"nsawlif 'ind at-taqweem|نسولف عند التقويم", chau:"al-heen ta'rif al-ayyaam! nshoofak bukra!|الحين تعرف الأيام! نشوفك بكرة!", pasos:[
+      {di:"ta'rif ayyaam al-usbooa'?|تعرف أيام الأسبوع؟", op:[{t:"aywa, al-ithnain, ath-thulatha, al-arba'a!|أيوا، الاثنين، الثلاثاء، الأربعاء!", r:"zain wayed! kammil.|زين وايد! كمل."}, {t:"aywa, a'rif baadhhum!|أيوا، أعرف بعضهم!", r:"mumtaz! nit'allamhum kilhum.|ممتاز! نتعلمهم كلهم."}]},
+      {op:[{t:"kam yoom fil-usbooa'?|كم يوم في الأسبوع؟", r:"sab'at ayyaam!|سبعة أيام!"}, {t:"ay yoom nartaah?|أي يوم نرتاح؟", r:"yoom al-ahad!|يوم الأحد!"}]},
+      {di:"shu yoomik al-mufaddal?|شو يومك المفضل؟", op:[{t:"as-sabt!|السبت!", r:"wana ba'd! ma fi madrasa!|وأنا بعد! ما في مدرسة!"}, {t:"al-jum'a!|الجمعة!", r:"wana ba'd! nihayat al-usbooa' jaaya.|وأنا بعد! نهاية الأسبوع جاية."}]},
+      {op:[{t:"shu yoomik al-mufaddal?|شو يومك المفضل؟", r:"al-ahad, li'anna nitghadda sawa!|الأحد، لأننا نتغدى سوا!"}, {t:"ay yoom yiji ba'd al-ithnain?|أي يوم يجي بعد الاثنين؟", r:"ath-thulatha!|الثلاثاء!"}]}]},
+    {titulo:"nsawlif wiyya al-mu'allim|نسولف ويا المعلم", chau:"intahat al-hissa! nshoofak bukra!|انتهت الحصة! نشوفك بكرة!", pasos:[
+      {di:"sabaah al-khair ya awlaad! nghanni?|صباح الخير يا أولاد! نغني؟", op:[{t:"aywa, yalla nghanni!|أيوا، يلا نغني!", r:"mumtaz! isma'oo awwal.|ممتاز! اسمعوا أول."}, {t:"aywa, ahibb al-ghina'!|أيوا، أحب الغناء!", r:"wana ba'd! yalla nibda.|وأنا بعد! يلا نبدأ."}]},
+      {op:[{t:"shu bnghanni?|شو بنغني؟", r:"ayyaam al-usbooa'!|أيام الأسبوع!"}, {t:"agdar aghanni wiyya asdiqa'i?|أقدر أغني ويا أصدقائي؟", r:"akeed! kilkum sawa.|أكيد! كلكم سوا."}]},
+      {di:"ta'allamt shi al-yoom?|تعلمت شي اليوم؟", op:[{t:"aywa, ta'allamt kalimaat wayed!|أيوا، تعلمت كلمات وايد!", r:"mumtaz! ana fakhoor fik.|ممتاز! أنا فخور فيك."}, {t:"aywa, ta'allamt al-ayyaam!|أيوا، تعلمت الأيام!", r:"zain wayed! ahsant.|زين وايد! أحسنت."}]},
+      {op:[{t:"agdar arja' bukra?|أقدر أرجع بكرة؟", r:"akeed! al-madrasa maftooha kil yoom.|أكيد! المدرسة مفتوحة كل يوم."}, {t:"sawwait zain?|سويت زين؟", r:"sawwait zain wayed!|سويت زين وايد!"}]}]}
+  ],
   titulo: "al-madrasa|المدرسة",
   lugar: {texto:"al-madrasa|المدرسة", silabas:["al|اَلْ", "mad|مَدْ", "ra|رَ", "sa|سَة"]},
   bienvenida: "wasalna al-madrasa!|وصلنا المدرسة!",

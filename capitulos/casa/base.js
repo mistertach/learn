@@ -154,6 +154,11 @@ registrarCapitulo({
         esc("noche", C("cama",.5,.7,.4,"quieto"), E("zzz",.55,.4))]}
   },
   final: {npc:{kind:"cat", fur:"#C9C9D1", fur2:"#F3F1F7", seed:1.5}, arte:"abuela", icono:"telefono", anim:"llamada"},
+  charlas: [
+    {npc:PAPA, arte:"papa", est:"A", color:"#2E86DE"},
+    {npc:MAMA, arte:"mama", est:"M", color:"#E8483B"},
+    {npc:{kind:"bunny", fur:"#F2D7E0", fur2:"#FFFFFF", inner:"#FF9EBB", hat:"#8B6FE8", seed:1.7}, arte:"hermana", est:"E", color:"#8B6FE8"},
+    {npc:{kind:"cat", fur:"#C9C9D1", fur2:"#F3F1F7", seed:1.5}, arte:"abuela", est:"final", color:"#FF8FB8"}],
   microjuego: {id:"torta", arte:"torta", precio:3, color:"#FF8FB8", ingredientes:["crema", "frutilla", "chocolate", "confites", "cereza", "vela"]},
   palabrasExtra: ["abuela", "abuelo", "familia", "sofa", "telefono"],
   frasesExtra: ["sol", "globo", "corazon", "corazon", "nochecita"],

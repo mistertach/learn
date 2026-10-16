@@ -28,6 +28,7 @@ const ICON = {
   del:'<svg viewBox="0 0 24 24"><path d="M9 5h11a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 20 19H9l-6.5-7z" fill="currentColor"/><path d="M11.5 9.5l5 5M16.5 9.5l-5 5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>',
   bag:'<svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12.5H6.2z" fill="currentColor"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
   lock:'<svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>',
+  chat:'<svg viewBox="0 0 24 24"><path d="M3 4h12a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 15 13H8l-3.5 3v-3H3a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 3 4z" fill="currentColor"/><path d="M18.5 9h2a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5H20v3l-3.5-3H11a1.5 1.5 0 0 1-1.5-1.5V14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
   replay:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   up:'<svg viewBox="0 0 24 24"><path d="M12 5l7 9H5z" fill="currentColor"/></svg>',
   down:'<svg viewBox="0 0 24 24"><path d="M12 19l7-9H5z" fill="currentColor"/></svg>',
@@ -200,7 +201,8 @@ function buildCap(id, lang){
     microjuego: b.microjuego ? {...b.microjuego, ...envolverMj(id, t.microjuego), ingredientes:(b.microjuego.ingredientes||[]).map((k,i)=>({k, ...(((t.microjuego||{}).ingredientes||[])[i]||{})}))} : null,
     palabrasExtra:(b.palabrasExtra||[]).map((a,i)=>({...t.palabrasExtra[i], arte:a})),
     frasesExtra:(b.frasesExtra||[]).map((a,i)=>({...t.frasesExtra[i], arte:a})),
-    preguntas:(b.preguntas||[]).map((q,i)=>({...q, ...t.preguntas[i]}))
+    preguntas:(b.preguntas||[]).map((q,i)=>({...q, ...t.preguntas[i]})),
+    charlas:(b.charlas||[]).map((q,i)=>({...q, ...((t.charlas||[])[i]||{})})).filter(q=>q.pasos)
   };
   for(const k of b.orden){
     const be=b.estaciones[k], te=t.estaciones[k];
@@ -300,7 +302,7 @@ function applyLang(){
 
 /* ---------- guardado ---------- */
 const STORE_KEY='aventuras-nico.v3';
-const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, personajes:{luna:true, toby:true, coco:true}, armario:{tiene:{}, puesto:{}}, juegos:{}});
+const defaultSave = () => ({name:'', lang:null, charId:null, grownup:false, voces:{}, pausa:1, caps:{}, puntos:0, caballitos:0, galletitas:0, cuenta:{}, personajes:{luna:true, toby:true, coco:true}, armario:{tiene:{}, puesto:{}}, juegos:{}, charlas:{}});
 function loadSave(){
   try{ const s=JSON.parse(localStorage.getItem(STORE_KEY)); if(s && typeof s==='object'){ const d=defaultSave(); return Object.assign(d, s, {personajes:Object.assign({luna:true, toby:true, coco:true}, s.personajes||{}), armario:Object.assign(d.armario, s.armario||{})}); } }catch(e){}
   // migración desde la versión anterior (solo castellano)
@@ -1458,7 +1460,7 @@ function openModal(html, cls=''){ hideEn(); hush(); narrTok++; acts={}; card.cla
 function closeModal(){ hideEn(); hush(); flowTok++; stopRecording(); releaseMic(); modal.hidden=true; card.innerHTML=''; acts={}; busy=false; inputLock=keys.length>0; if(!scr.game.hidden && CAP) updateHud(); }
 /* mientras el relator habla, los botones esperan */
 let narrTok=0;
-function setWait(on){ card.querySelectorAll('.actions .mbtn, .choice').forEach(b=>b.disabled=on); card.classList.toggle('talking',on); if(!on) setTimeout(()=>{ if(!card.contains(document.activeElement)||document.activeElement.disabled) (card.querySelector('.actions .go:not([disabled])')||card.querySelector('.choice:not([disabled])')||card.querySelector('.actions .mbtn:not([disabled])'))?.focus(); },20); }
+function setWait(on){ card.querySelectorAll('.actions .mbtn, .choice, .dicho').forEach(b=>b.disabled=on); card.classList.toggle('talking',on); if(!on) setTimeout(()=>{ if(!card.contains(document.activeElement)||document.activeElement.disabled) (card.querySelector('.actions .go:not([disabled])')||card.querySelector('.choice:not([disabled])')||card.querySelector('.actions .mbtn:not([disabled])'))?.focus(); },20); }
 async function narrar(fn){ const my=++narrTok; setWait(true); try{ await fn(); } finally { if(my===narrTok) setWait(false); } }
 const X_BTN = `<button class="xbtn" data-act="close" tabindex="-1" aria-label="Cerrar">${ICON.close}</button>`;
 function B(act,icon,label,cls=''){ return `<button class="mbtn ${cls}" data-act="${act}">${ICON[icon]}<span>${label}</span></button>`; }
@@ -2937,6 +2939,79 @@ function goJuegos(){
 }
 
 /* =========================================================
+   CHARLAR — conversaciones con la gente de cada lugar
+   Cada lugar trae 4 charlas (`charlas` en base.js: npc, arte, color y `est`, la estación
+   cuyo sello la abre; `est:'final'` se abre al terminar el lugar). Los textos van en cada
+   idioma, en el mismo orden: {titulo, chau, pasos:[…]}. Un paso con `di` es el amigo que pregunta
+   (el chico contesta); un paso sin `di` es el chico que pregunta. En los dos, `op` son las
+   opciones {t: lo que dice el chico, r: lo que contesta el amigo}. Todas valen: no se pierde.
+   Se dice en voz alta y se toca la estrella (como en las estaciones). Primera vez completa: 2 pececitos.
+   ========================================================= */
+const charlaClave = (c,i) => `${langCode()}:${c.id}:${i}`;
+const charlaHecha = (c,i) => !!(save.charlas||{})[charlaClave(c,i)];
+const charlaAbierta = (c,q) => pruebaTodo() || (q.est==='final' ? !!capSave(c.id).final : !!capSave(c.id).sellos[q.est]);
+function goCharlas(){
+  hush(); show('lib'); libMode='charlas';
+  const body=$('#libBody'); body.innerHTML='';
+  $('#libTitle').textContent=T.charlas;
+  CAP_LIST.filter(c=>capAbierto(c) && c.charlas.length).forEach(c=>{
+    const sec=document.createElement('section'); sec.className='shelf';
+    sec.innerHTML=`<h3${enAttr(enDe(c.titulo))}>${esc(c.titulo)}</h3><div class="books">${c.charlas.map((q,i)=>{ const open=charlaAbierta(c,q);
+      return `<button class="book ${open?'':'locked'}" style="--bc:${q.color||'#2E86DE'}" data-c="${c.id}" data-i="${i}">${img(q.arte)}<b>${open?esc(q.titulo):''}</b>${open?(charlaHecha(c,i)?`<span class="precio hecha">${ICON.check}</span>`:''):ICON.lock}</button>`; }).join('')}</div>`;
+    body.appendChild(sec);
+  });
+  body.querySelectorAll('.book').forEach(b=>{
+    const c=CAP_LIST.find(x=>x.id===b.dataset.c), q=c.charlas[+b.dataset.i];
+    b.addEventListener('focus',()=>sayAll([charlaAbierta(c,q) ? q.titulo : T.charlaCerrada]));
+    b.addEventListener('click',()=>{ if(!charlaAbierta(c,q)){ sayAll([T.charlaCerrada]); return; } runCharla(c,+b.dataset.i); });
+  });
+  setTimeout(()=>body.querySelector('button')?.focus(),60);
+  sayAll([T.charlasDi]);
+}
+async function runCharla(c, i){
+  const q=c.charlas[i], tok=++flowTok, alive=()=>tok===flowTok; busy=true;
+  const fill=s=>String(s).replaceAll('{N}', save.name||'');
+  openModal(shell({steps:q.pasos.length, step:0, npc:q.npc, bubble:'', center:`<div class="dichos" data-opts></div>${turnHtml()}`, actions:'<span data-acts></span>'}),'charla');
+  liveNpc(q.npc); liveMe();
+  const bub=card.querySelector('.bubble'), opts=card.querySelector('[data-opts]'), acts$=card.querySelector('[data-acts]');
+  const dice=(raw,yo)=>{ bub.innerHTML=`<b>${esc(fill(raw))}</b>`; const en=enDe(raw); if(en) bub.setAttribute('data-en',fill(en)); else bub.removeAttribute('data-en'); bub.classList.toggle('yo',!!yo); };
+  const marcar=k=>card.querySelectorAll('.steps i').forEach((el,j)=>{ el.className = j<k?'done':j===k?'on':''; });
+  for(let k=0;k<q.pasos.length;k++){
+    const p=q.pasos[k]; marcar(k);
+    const lead = p.di ? fill(p.di) : null, intro = p.di ? T.charlaResponde : T.charlaPregunta;
+    dice(p.di || T.charlaPregunta);
+    opts.innerHTML=p.op.map((o,j)=>`<button class="dicho" data-act="pick" data-i="${j}">${ICON.speaker}<b${enAttr(enDe(o.t) && fill(enDe(o.t)))}>${esc(fill(o.t))}</b></button>`).join('');
+    // el amigo habla, y se leen las opciones una por una
+    const oir=()=>narrar(async()=>{
+      if(!(await sayAll(lead ? [lead, intro] : [intro]))) return;
+      for(let j=0;j<p.op.length;j++){ const b=opts.children[j]; b.classList.add('oye'); const ok=await sayAll([fill(p.op[j].t)]); b.classList.remove('oye'); if(!ok) return; await sleep(200); }
+    });
+    acts$.innerHTML=B('again','speaker',T.otraVez);
+    onAct('again',oir); oir();
+    const {btn}=await waitAct('pick'); if(!alive()) return;
+    const o=p.op[+btn.dataset.i]; sfx.tick();
+    opts.querySelectorAll('.dicho').forEach(b=>{ b.disabled=true; b.classList.toggle('right',b===btn); if(b!==btn) b.style.display='none'; });
+    // el chico lo dice y toca la estrella
+    dice(o.t,true);
+    acts$.innerHTML=B('again','replay',T.otraVez)+B('star','star',T.loDije,'star go');
+    onAct('again',()=>narrar(()=>sayAll([T.repeti, fill(o.t)])));
+    narrar(async()=>{ if(await sayAll([T.repeti, fill(o.t)])){ turno(true); await sayAll([save.grownup?T.estrellaGrande:T.estrella]); } });
+    await starPress(); if(!alive()) return;
+    turno(false); sfx.yay(); acts$.innerHTML=''; opts.innerHTML='';
+    // el amigo contesta
+    dice(o.r); await narrar(()=>sayAll([fill(o.r)])); if(!alive()) return;
+    await sleep(350); if(!alive()) return;
+  }
+  marcar(q.pasos.length); dice(q.chau); sfx.yay();
+  const primera=!charlaHecha(c,i);
+  if(primera){ (save.charlas||(save.charlas={}))[charlaClave(c,i)]=true; save.puntos=(save.puntos||0)+2; persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud(); }
+  acts$.innerHTML=B('back','back',T.atras,'go');
+  await narrar(()=>sayAll(primera ? [fill(q.chau), T.charlaFin, T.premio(T.peces(2))] : [fill(q.chau), T.charlaFin])); if(!alive()) return;
+  await waitAct('back'); if(!alive()) return;
+  closeModal(); if(!scr.lib.hidden && libMode==='charlas') goCharlas();
+}
+
+/* =========================================================
    LA TIENDA
    ========================================================= */
 let shopSel=null;
@@ -3106,6 +3181,7 @@ $('#sidebarBackdrop')?.addEventListener('click',closeSidebar);
 $('#btnCuentos').addEventListener('click',()=>{ closeSidebar(); goLib('cuentos'); });
 $('#btnPracticar').addEventListener('click',()=>{ closeSidebar(); goLib('practicar'); });
 $('#btnTienda').addEventListener('click',()=>{ closeSidebar(); goShop(); });
+$('#btnCharlas').addEventListener('click',()=>{ closeSidebar(); goCharlas(); });
 $('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
 $('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
 holdify($('#gearHome'),1500,openParent);

@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('primeras', 'it', {
+  charlas: [
+    {titulo:"Parlare con la coniglietta", chau:"Piacere di conoscerti! A presto!", pasos:[
+      {di:"Ciao! Come ti chiami?", op:[{t:"Mi chiamo {N}.", r:"Che bel nome!"}, {t:"Ciao! Sono {N}.", r:"Piacere, {N}!"}]},
+      {op:[{t:"Come stai?", r:"Molto bene, grazie!"}, {t:"E tu, come ti chiami?", r:"Mi chiamo Batuffolo."}]},
+      {di:"Ti piace giocare?", op:[{t:"Sì, mi piace giocare!", r:"Anche a me! Giocare è la cosa più bella."}, {t:"Sì, tanto!", r:"Anche a me! Lo adoro."}]},
+      {op:[{t:"Vuoi essere mia amica?", r:"Sì! Adesso siamo amiche!"}, {t:"A che cosa ti piace giocare?", r:"Mi piace giocare a nascondino."}]}]},
+    {titulo:"Parlare con la gatta", chau:"Grazie, amico! Ciao, ciao!", pasos:[
+      {di:"Guarda, ho un regalo per te!", op:[{t:"Grazie!", r:"Prego!"}, {t:"Grazie mille!", r:"Prego, amico!"}]},
+      {op:[{t:"Che cos'è?", r:"È una stellina!"}, {t:"È per me?", r:"Sì, è per te!"}]},
+      {di:"Vuoi dividerla con me?", op:[{t:"Sì, dividiamola!", r:"Che bello! Dividere è bellissimo."}, {t:"Sì, per favore!", r:"Tieni, metà per te e metà per me."}]},
+      {op:[{t:"Ti piace?", r:"Mi piace tantissimo!"}, {t:"Posso farti un abbraccio?", r:"Sì, un abbraccio grande!"}]}]},
+    {titulo:"Parlare con l'orso", chau:"Che rinfrescata! A presto!", pasos:[
+      {di:"Ho sete. Vuoi dell'acqua?", op:[{t:"Sì, acqua, per favore!", r:"Tieni. Salute!"}, {t:"Sì, anch'io ho sete!", r:"Ecco un bicchiere per te."}]},
+      {op:[{t:"L'acqua è fredda?", r:"Sì, ben fresca!"}, {t:"Da dove viene l'acqua?", r:"Dal rubinetto e dalla pioggia!"}]},
+      {di:"Ne vuoi ancora?", op:[{t:"Sì, ancora, per favore!", r:"Certo! Ecco ancora un po'."}, {t:"No, grazie. Non ho più sete.", r:"Va bene. Grazie di aver bevuto con me."}]},
+      {op:[{t:"Ti piace l'acqua?", r:"Sì, è la mia preferita!"}, {t:"Giochiamo?", r:"Sì! Giochiamo!"}]}]},
+    {titulo:"Parlare alla porta", chau:"Ciao, amico! Ci vediamo nell'avventura!", pasos:[
+      {di:"Adesso conosci tante parole! Andiamo all'avventura?", op:[{t:"Sì, andiamo!", r:"Evviva! Vieni con me."}, {t:"Sì, andiamo!", r:"Benissimo! Si parte."}]},
+      {op:[{t:"Dove andiamo?", r:"In tanti posti nuovi!"}, {t:"Chi viene con noi?", r:"Tutti i tuoi amici!"}]},
+      {di:"Sei felice?", op:[{t:"Sì, sono felicissimo!", r:"Anch'io! Che gioia."}, {t:"Sì, adoro le avventure!", r:"Anch'io! Le avventure sono divertenti."}]},
+      {op:[{t:"Anche tu sei contenta?", r:"Sì, contentissima!"}, {t:"Possiamo andare adesso?", r:"Sì! Si parte."}]}]}
+  ],
   titulo: "Ciao!",
   lugar: {texto:"la casetta", silabas:["la", "ca", "set", "ta"]},
   bienvenida: "Eccoci alla casetta sull'albero!",

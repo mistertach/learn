@@ -6,6 +6,28 @@
    El héroe trabaja de mozo: a los clientes les habla de vous.
    ========================================================= */
 registrarTextos('restaurante', 'fr', {
+  charlas: [
+    {titulo:"Parler avec l'hôte", chau:"Bon appétit !", pasos:[
+      {di:"Bienvenue au restaurant ! Vous êtes combien ?", op:[{t:"Deux, s'il vous plaît.", r:"Une table pour deux. Suivez-moi !"}, {t:"Quatre, s'il vous plaît.", r:"Une grande table pour quatre. Suivez-moi !"}]},
+      {op:[{t:"Où est notre table ?", r:"Juste à côté de la fenêtre."}, {t:"Le restaurant est plein ?", r:"Presque plein, mais il y a de la place."}]},
+      {di:"Vous voulez vous asseoir ici ou là-bas ?", op:[{t:"Ici, s'il vous plaît.", r:"Très bien. Installez-vous."}, {t:"Là-bas, s'il vous plaît.", r:"Bien sûr. Par ici."}]},
+      {op:[{t:"Je peux avoir le menu, s'il vous plaît ?", r:"Bien sûr ! Voici."}, {t:"On mange bien ici ?", r:"C'est délicieux !"}]}]},
+    {titulo:"Parler avec le cuisinier", chau:"Merci d'avoir visité ma cuisine ! Bon appétit !", pasos:[
+      {di:"Bonjour ! Je suis le cuisinier. Tu veux voir la cuisine ?", op:[{t:"Oui, s'il vous plaît !", r:"Entre, mais fais attention."}, {t:"Oui, ça sent tellement bon !", r:"Merci ! Je prépare une soupe."}]},
+      {op:[{t:"Qu'est-ce que vous cuisinez ?", r:"Une grande marmite de soupe."}, {t:"C'est chaud ?", r:"Oui, très chaud ! Attention."}]},
+      {di:"Tu veux la goûter ?", op:[{t:"Oui, s'il vous plaît !", r:"Voici une petite cuillère."}, {t:"Juste un petit peu.", r:"Tiens, une toute petite gorgée."}]},
+      {op:[{t:"Qu'est-ce qu'il y a dans la soupe ?", r:"Des carottes, des pommes de terre et beaucoup d'amour."}, {t:"Je peux aider à cuisiner ?", r:"Oui ! Remue la marmite."}]}]},
+    {titulo:"Parler chez le glacier", chau:"Régale-toi avec ta glace ! Au revoir !", pasos:[
+      {di:"C'est l'heure du dessert ! Quel parfum de glace tu veux ?", op:[{t:"À la fraise, s'il vous plaît !", r:"Voici ta glace rose."}, {t:"Au chocolat, s'il vous plaît !", r:"Voici ta glace au chocolat."}]},
+      {op:[{t:"Quels parfums avez-vous ?", r:"Fraise, chocolat et vanille."}, {t:"Elle est froide ?", r:"Très froide ! Brrr."}]},
+      {di:"Une boule ou deux boules ?", op:[{t:"Une boule, s'il vous plaît.", r:"Tiens. Une boule."}, {t:"Deux boules, s'il vous plaît !", r:"Oh là là, deux boules !"}]},
+      {op:[{t:"Je peux avoir un cornet ?", r:"Bien sûr ! Un cornet croustillant."}, {t:"C'est combien ?", r:"Un petit poisson."}]}]},
+    {titulo:"Parler avec la cliente", chau:"Merci, et voici un pourboire pour toi !", pasos:[
+      {di:"Bonjour ! Ce restaurant est charmant. Tu travailles ici ?", op:[{t:"Oui, je travaille ici !", r:"Quelle merveille ! Tu le fais très bien."}, {t:"Oui, j'aide tout le monde.", r:"Quelle bonne aide !"}]},
+      {op:[{t:"Vous avez aimé le repas ?", r:"C'était délicieux !"}, {t:"Qu'est-ce que vous avez mangé ?", r:"De la pizza et de la glace !"}]},
+      {di:"Tout était super ! Je peux avoir l'addition, s'il te plaît ?", op:[{t:"Oui, voici l'addition.", r:"Merci ! Voici l'argent."}, {t:"Oui, un instant, s'il vous plaît.", r:"Merci !"}]},
+      {op:[{t:"Vous reviendrez ?", r:"Oui, je reviendrai bientôt !"}, {t:"Vous vous êtes amusée ?", r:"Je me suis très bien amusée !"}]}]}
+  ],
   titulo: "Le restaurant",
   lugar: {texto:"le restaurant", silabas:["le", "res", "tau", "rant"]},
   bienvenida: "On arrive au restaurant !",

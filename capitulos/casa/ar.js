@@ -5,6 +5,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('casa', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya baba|نسولف ويا بابا", chau:"ahibbak wayed! nshoofak ba'dain!|أحبك وايد! نشوفك بعدين!", pasos:[
+      {di:"sabaah al-khair! nimt zain?|صباح الخير! نمت زين؟", op:[{t:"aywa, nimt zain!|أيوا، نمت زين!", r:"tamam! wijhak mirtaah.|تمام! وجهك مرتاح."}, {t:"aywa, hlamt ahlam hilwa.|أيوا، حلمت أحلام حلوة.", r:"ma ahla! al-ahlam al-hilwa ahsan shi.|ما أحلى! الأحلام الحلوة أحسن شي."}]},
+      {op:[{t:"shu tiqra ya baba?|شو تقرا يا بابا؟", r:"aqra al-jareeda.|أقرا الجريدة."}, {t:"tibi tal'ab?|تبي تلعب؟", r:"akeed! nal'ab sawa.|أكيد! نلعب سوا."}]},
+      {di:"shu tibi fil-futoor?|شو تبي في الفطور؟", op:[{t:"abi haleeb min fadlak.|أبي حليب من فضلك.", r:"hadha al-haleeb. sahha wa afya!|هذا الحليب. صحة وعافية!"}, {t:"abi khubz min fadlak.|أبي خبز من فضلك.", r:"hadha al-khubz. yammi!|هذا الخبز. يمّي!"}]},
+      {op:[{t:"inta jou'an ba'ad, ya baba?|إنت جوعان بعد، يا بابا؟", r:"ay, wayed jou'an!|أي، وايد جوعان!"}, {t:"agdar asa'dak?|أقدر أساعدك؟", r:"ay, shukran! inta musa'id mumtaz.|أي، شكراً! إنت مساعد ممتاز."}]}]},
+    {titulo:"nsawlif wiyya mama|نسولف ويا ماما", chau:"ta'al, hidhin kabeer! al-ghada qareeb.|تعال، حضن كبير! الغدا قريب.", pasos:[
+      {di:"marhaba, habeebi! shlonak?|مرحبا، حبيبي! شلونك؟", op:[{t:"zain, shukran!|زين، شكراً!", r:"yfarrih galbi! shukran!|يفرح قلبي! شكراً!"}, {t:"abi anam shway.|أبي أنام شوي.", r:"tamam! nartaah ba'd al-ghada.|تمام! نرتاح بعد الغدا."}]},
+      {op:[{t:"shu tutbukhin ya mama?|شو تطبخين يا ماما؟", r:"asawwi shorba. al-mufaddala indak!|أسوي شوربة. المفضلة عندك!"}, {t:"agdar adhooq?|أقدر أذوق؟", r:"akeed! intabih, haara.|أكيد! انتبه، حارة."}]},
+      {di:"tibi shorba ba'ad?|تبي شوربة بعد؟", op:[{t:"aywa, min fadlik!|أيوا، من فضلك!", r:"tafaddal!|تفضل!"}, {t:"la, shukran. kanat ladheedha!|لا، شكراً. كانت لذيذة!", r:"yfarrihni inha a'jabatak!|يفرحني إنها أعجبتك!"}]},
+      {op:[{t:"asa'dik ya mama?|أساعدك يا ماما؟", r:"ay! tihit as-sufra?|أي! تحط السفرة؟"}, {t:"al-akil jahiz?|الأكل جاهز؟", r:"qareeb! daqeeqa wahda.|قريب! دقيقة وحدة."}]}]},
+    {titulo:"nsawlif wiyya ukhtak|نسولف ويا أختك", chau:"inta ahla shi! nshoofak ba'dain!|إنت أحلى شي! نشوفك بعدين!", pasos:[
+      {di:"marhaba! tibi tiqra kitab wiyyaai?|مرحبا! تبي تقرا كتاب وياي؟", op:[{t:"aywa! ahibb al-kutub.|أيوا! أحب الكتب.", r:"wana ba'd! nijlis hini.|وأنا بعد! نجلس هني."}, {t:"la, abi al'ab.|لا، أبي ألعب.", r:"tamam! nal'ab awwal wba'dain niqra.|تمام! نلعب أول وبعدين نقرا."}]},
+      {op:[{t:"shu al-loon al-mufaddal indik?|شو اللون المفضل عندك؟", r:"al-banafsaji! wenta?|البنفسجي! وإنت؟"}, {t:"shu hatha al-kitab?|شو هذا الكتاب؟", r:"qissa an chalb saghir.|قصة عن كلب صغير."}]},
+      {di:"tijibk hathi al-qissa?|تعجبك هذي القصة؟", op:[{t:"aywa, mudhika!|أيوا، مضحكة!", r:"wana ba'd! nuqraha marra thaniya.|وأنا بعد! نقراها مرة ثانية."}, {t:"aywa, hilwa wayed!|أيوا، حلوة وايد!", r:"yfarrihni! hiya al-mufaddala indi.|يفرحني! هي المفضلة عندي."}]},
+      {op:[{t:"nal'ab al-heen?|نلعب الحين؟", r:"aywa! yalla nal'ab!|أيوا! يلا نلعب!"}, {t:"tibi hidhin?|تبي حضن؟", r:"aywa, hidhin kabeer!|أيوا، حضن كبير!"}]}]},
+    {titulo:"nsawlif wiyya al-jidda|نسولف ويا الجدة", chau:"bawsaat kabeera, ya galbi! ma'a as-salama!|بوسات كبيرة، يا قلبي! مع السلامة!", pasos:[
+      {di:"marhaba, ya rooh jiddatik! ishtaqt lik!|مرحبا، يا روح جدتك! اشتقت لك!", op:[{t:"wana ba'd ishtaqt lik, ya jidda!|وأنا بعد اشتقت لك، يا جدة!", r:"ya hilawtak!|يا حلاوتك!"}, {t:"marhaba ya jidda! ahibbik!|مرحبا يا جدة! أحبك!", r:"wana ahibbak ya galbi!|وأنا أحبك يا قلبي!"}]},
+      {op:[{t:"shlonik ya jidda?|شلونك يا جدة؟", r:"zaina, ba'd ma shiftak!|زينة، بعد ما شفتك!"}, {t:"shu tsawwin?|شو تسوين؟", r:"aghzil lak shaal.|أغزل لك شال."}]},
+      {di:"shu sawwait al-yoom?|شو سويت اليوم؟", op:[{t:"li'abt wiyya chalbi.|لعبت ويا كلبي.", r:"ma ahla! al-chilaab hilwa wayed.|ما أحلى! الكلاب حلوة وايد."}, {t:"li'abt fil-hadeega.|لعبت في الحديقة.", r:"hilw! al-hawa at-taliq yfeedak.|حلو! الهوا الطلق يفيدك."}]},
+      {op:[{t:"mita tijeen ya jidda?|متى تجين يا جدة؟", r:"qareeb! ajeeb lak hadiyya.|قريب! أجيب لك هدية."}, {t:"tihkeeli qissa?|تحكيلي قصة؟", r:"akeed! ya ma kan...|أكيد! يا ما كان..."}]}]}
+  ],
   titulo: "baitna|بيتنا",
   lugar: {texto:"baitna|بيتنا", silabas:["bait|بَيْت", "na|نَا"]},
   bienvenida: "wasalna al-bait!|وصلنا البيت!",

@@ -5,6 +5,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('aeropuerto', 'ar', {
+  charlas: [
+    {titulo:"nsawlif 'ind al-isti'lamaat|نسولف عند الاستعلامات", chau:"rihla sa'eeda!|رحلة سعيدة!", pasos:[
+      {di:"marhaba! agdar asa'dak?|مرحبا! أقدر أساعدك؟", op:[{t:"aywa, wain al-hammam?|أيوا، وين الحمام؟", r:"fil-mamarr, 'ala al-yameen.|في الممر، على اليمين."}, {t:"aywa, wain at-tayyara?|أيوا، وين الطيارة؟", r:"'ind bawwaba khamsa! itba' as-sihaam as-safra.|عند بوابة خمسة! اتبع الأسهم الصفرا."}]},
+      {op:[{t:"wain al-kafeeteria?|وين الكافتيريا؟", r:"hnaak, jamb ash-shubbaak.|هناك، جنب الشباك."}, {t:"mita tiTla' at-tayyara?|متى تطلع الطيارة؟", r:"ba'd saa'a!|بعد ساعة!"}]},
+      {di:"'indak at-tadhkara?|عندك التذكرة؟", op:[{t:"aywa, hathi tadhkarti.|أيوا، هذي تذكرتي.", r:"mumtaz! kil shi jahiz.|ممتاز! كل شي جاهز."}, {t:"aywa, hiya fi shantati.|أيوا، هي في شنطتي.", r:"zain! la tidyi'ha.|زين! لا تضيعها."}]},
+      {op:[{t:"agdar a'khudh khareeta min fadlak?|أقدر آخذ خريطة من فضلك؟", r:"akeed! hathi khareeta.|أكيد! هذي خريطة."}, {t:"hiya ba'eeda?|هي بعيدة؟", r:"la, qareeba wayed.|لا، قريبة وايد."}]}]},
+    {titulo:"nsawlif 'ind al-kafeeteria|نسولف عند الكافتيريا", chau:"tamatta' bil-wajba! safar mumti'!|تمتع بالوجبة! سفر ممتع!", pasos:[
+      {di:"marhaba! tibi shi takilh?|مرحبا! تبي شي تاكله؟", op:[{t:"aywa, biskwit min fadlak.|أيوا، بسكويت من فضلك.", r:"hatha biskwit ladheedh.|هذا بسكويت لذيذ."}, {t:"aywa, 'aseer min fadlak.|أيوا، عصير من فضلك.", r:"hatha 'aseerak.|هذا عصيرك."}]},
+      {op:[{t:"bikam?|بكم؟", r:"samaktain.|سمكتين."}, {t:"shu 'indak?|شو عندك؟", r:"biskwit w 'aseer w fawaakih!|بسكويت وعصير وفواكه!"}]},
+      {di:"tibi shi thaani?|تبي شي ثاني؟", op:[{t:"la, shukran.|لا، شكراً.", r:"afwan!|عفواً!"}, {t:"aywa, biskwit thaani!|أيوا، بسكويت ثاني!", r:"tafaddal. inta jou'an!|تفضل. إنت جوعان!"}]},
+      {op:[{t:"hatha taazaj?|هذا طازج؟", r:"aywa, min al-yoom!|أيوا، من اليوم!"}, {t:"agdar aakhidhah fit-tayyara?|أقدر آخذه في الطيارة؟", r:"akeed!|أكيد!"}]}]},
+    {titulo:"nsawlif 'ind al-amn|نسولف عند الأمن", chau:"kil shi tamam! rihla sa'eeda!|كل شي تمام! رحلة سعيدة!", pasos:[
+      {di:"marhaba! jawaaz safarak min fadlak.|مرحبا! جواز سفرك من فضلك.", op:[{t:"hatha jawaaz safari.|هذا جواز سفري.", r:"shukran! khalni ashoof.|شكراً! خلني أشوف."}, {t:"tafaddal.|تفضل.", r:"shukran jazeelan.|شكراً جزيلاً."}]},
+      {op:[{t:"huwa zain?|هو زين؟", r:"aywa, kil shi tamam!|أيوا، كل شي تمام!"}, {t:"wain aroh al-heen?|وين أروح الحين؟", r:"siida, lil-bawwaba.|سيدا، للبوابة."}]},
+      {di:"'indak shi fi jaybak?|عندك شي في جيبك؟", op:[{t:"la, wala shi.|لا، ولا شي.", r:"mumtaz! tigdar timshi.|ممتاز! تقدر تمشي."}, {t:"bas lu'btii.|بس لعبتي.", r:"zain! tigdar timshi.|زين! تقدر تمشي."}]},
+      {op:[{t:"agdar amshi al-heen?|أقدر أمشي الحين؟", r:"aywa, itfaddal!|أيوا، اتفضل!"}, {t:"tiftishoon kil ash-shunat?|تفتشون كل الشنط؟", r:"aywa, li-hifz al-jami'.|أيوا، لحفظ الجميع."}]}]},
+    {titulo:"nsawlif wiyya at-tayyaar|نسولف ويا الطيار", chau:"binazil! shukran 'ala at-tayaraan wiyyaai!|ننزل! شكراً على الطيران وياي!", pasos:[
+      {di:"ahlan bik 'ala al-mutn! ana at-tayyaar. jahiz titeer?|أهلاً بك على المتن! أنا الطيار. جاهز تطير؟", op:[{t:"aywa, ana jahiz!|أيوا، أنا جاهز!", r:"ishdud hizaam al-amaan!|اشدد حزام الأمان!"}, {t:"aywa, ahibb at-tayyaraat!|أيوا، أحب الطيارات!", r:"wana ba'd! itla'.|وأنا بعد! اطلع."}]},
+      {op:[{t:"wain nteer?|وين نطير؟", r:"foog, foog as-sahaab!|فوق، فوق السحاب!"}, {t:"at-tayyara kabeera?|الطيارة كبيرة؟", r:"aywa, kabeera wayed!|أيوا، كبيرة وايد!"}]},
+      {di:"shoof min ash-shubbaak! shu tishoof?|شوف من الشباك! شو تشوف؟", op:[{t:"ashoof as-sahaab!|أشوف السحاب!", r:"aywa, mithl al-qutn.|أيوا، مثل القطن."}, {t:"ashoof as-sama'!|أشوف السماء!", r:"aywa, zarqa wayed.|أيوا، زرقاء وايد."}]},
+      {op:[{t:"agdar ajlis jamb ash-shubbaak?|أقدر أجلس جنب الشباك؟", r:"akeed! ahsan maq'ad.|أكيد! أحسن مقعد."}, {t:"kam tdoom ar-rihla?|كم تدوم الرحلة؟", r:"saa'a wahda bas.|ساعة وحدة بس."}]}]}
+  ],
   titulo: "al-mataar|المطار",
   lugar: {texto:"al-mataar|المطار", silabas:["al|اَلْ", "ma|مَ", "taar|طَار"]},
   bienvenida: "wasalna al-mataar!|وصلنا المطار!",

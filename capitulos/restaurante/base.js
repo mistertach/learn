@@ -361,6 +361,11 @@ registrarCapitulo({
       ]
     }
   },
+  charlas: [
+    {npc:{kind:"bear", fur:"#7A4E2D", fur2:"#D9B48F", hat:"#22314F", seed:1.2}, arte:"mesa", est:"R", color:"#8A5636"},
+    {npc:{kind:"cat", fur:"#9AA3B5", fur2:"#FFFFFF", toque:true, seed:0.9}, arte:"olla", est:"K", color:"#AEB8C8"},
+    {npc:{kind:"cat", fur:"#D9D2C5", fur2:"#FFFFFF", stripes:"#A89F90", hat:"#8B6FE8", seed:2.7}, arte:"helado", est:"H", color:"#2E86DE"},
+    {npc:{kind:"cat", fur:"#FFFFFF", fur2:"#FFFFFF", eye:"#2FBF8F", hat:"#8B6FE8", seed:1.5}, arte:"propina", est:"final", color:"#FFC93C"}],
   final: {
     npc: {kind:"cat", fur:"#FFFFFF", fur2:"#FFFFFF", eye:"#2FBF8F", hat:"#8B6FE8", seed:1.5},
     arte: "propina",

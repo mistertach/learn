@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('aeropuerto', 'es', {
+  charlas: [
+    {titulo:"Charlar en informes", chau:"¡Que tengas un buen viaje!", pasos:[
+      {di:"¡Hola! ¿Te puedo ayudar?", op:[{t:"Sí, ¿dónde está el baño?", r:"Por el pasillo, a la derecha."}, {t:"Sí, ¿dónde está el avión?", r:"¡En la puerta 5! Seguí las flechas amarillas."}]},
+      {op:[{t:"¿Dónde está el kiosco?", r:"Allá, al lado de la ventana."}, {t:"¿A qué hora sale el avión?", r:"¡En una hora!"}]},
+      {di:"¿Tenés tu pasaje?", op:[{t:"Sí, acá está mi pasaje.", r:"¡Perfecto! Está todo listo."}, {t:"Sí, está en mi mochila.", r:"¡Genial! No lo pierdas."}]},
+      {op:[{t:"¿Me das un mapa, por favor?", r:"¡Claro! Acá tenés un mapa."}, {t:"¿Queda lejos?", r:"No, queda muy cerca."}]}]},
+    {titulo:"Charlar en el kiosco", chau:"¡Disfrutá tu merienda! ¡Buen viaje!", pasos:[
+      {di:"¡Hola! ¿Querés algo para comer?", op:[{t:"Sí, un alfajor, por favor.", r:"Acá tenés un alfajor riquísimo."}, {t:"Sí, un jugo, por favor.", r:"Acá tenés tu jugo."}]},
+      {op:[{t:"¿Cuánto cuesta?", r:"Dos pececitos."}, {t:"¿Qué tenés?", r:"¡Alfajores, jugos y fruta!"}]},
+      {di:"¿Querés algo más?", op:[{t:"No, gracias.", r:"¡De nada!"}, {t:"¡Sí, otro alfajor!", r:"Tomá. ¡Qué hambre!"}]},
+      {op:[{t:"¿Es fresco?", r:"¡Sí, de hoy!"}, {t:"¿Lo puedo llevar al avión?", r:"¡Claro!"}]}]},
+    {titulo:"Charlar en la seguridad", chau:"¡Todo en orden! ¡Buen vuelo!", pasos:[
+      {di:"¡Hola! Tu pasaporte, por favor.", op:[{t:"Acá está mi pasaporte.", r:"¡Gracias! A ver."}, {t:"Tomá.", r:"Muchas gracias."}]},
+      {op:[{t:"¿Está bien?", r:"¡Sí, todo bien!"}, {t:"¿Adónde voy ahora?", r:"Derecho, hasta la puerta de embarque."}]},
+      {di:"¿Tenés algo en los bolsillos?", op:[{t:"No, nada.", r:"¡Perfecto! Podés pasar."}, {t:"Solo mi juguete.", r:"¡Está bien! Podés pasar."}]},
+      {op:[{t:"¿Ya puedo pasar?", r:"¡Sí, pasá!"}, {t:"¿Revisan todos los bolsos?", r:"Sí, para cuidar a todos."}]}]},
+    {titulo:"Charlar con el piloto", chau:"¡Aterrizamos! ¡Gracias por volar conmigo!", pasos:[
+      {di:"¡Subí a bordo! Soy el piloto. ¿Despegamos?", op:[{t:"¡Sí, vamos!", r:"¡Abrochate el cinturón!"}, {t:"¡Sí, me encantan los aviones!", r:"¡A mí también! Subí."}]},
+      {op:[{t:"¿Adónde volamos?", r:"¡Arriba, por encima de las nubes!"}, {t:"¿El avión es grande?", r:"¡Sí, muy grande!"}]},
+      {di:"¡Mirá por la ventanilla! ¿Qué ves?", op:[{t:"¡Veo las nubes!", r:"Sí, parecen algodón."}, {t:"¡Veo el cielo!", r:"Sí, qué azul."}]},
+      {op:[{t:"¿Puedo sentarme junto a la ventanilla?", r:"¡Claro! Es el mejor asiento."}, {t:"¿Cuánto dura el vuelo?", r:"Solo una hora."}]}]}
+  ],
   titulo: "El aeropuerto",
   lugar: {texto:"el aeropuerto", silabas:["el", "a", "e", "ro", "puer", "to"]},
   bienvenida: "¡Llegamos al aeropuerto!",

@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('aeropuerto', 'it', {
+  charlas: [
+    {titulo:"Parlare al banco informazioni", chau:"Buon viaggio!", pasos:[
+      {di:"Ciao! Posso aiutarti?", op:[{t:"Sì, dov'è il bagno?", r:"In fondo al corridoio, a destra."}, {t:"Sì, dov'è l'aereo?", r:"Al gate 5! Segui le frecce gialle."}]},
+      {op:[{t:"Dov'è il bar?", r:"Proprio là, vicino alla finestra."}, {t:"A che ora parte l'aereo?", r:"Tra un'ora!"}]},
+      {di:"Hai il biglietto?", op:[{t:"Sì, ecco il mio biglietto.", r:"Perfetto! È tutto pronto."}, {t:"Sì, è nel mio zaino.", r:"Ottimo! Non perderlo."}]},
+      {op:[{t:"Posso avere una mappa, per favore?", r:"Certo! Ecco una mappa."}, {t:"È lontano?", r:"No, è molto vicino."}]}]},
+    {titulo:"Parlare al bar dell'aeroporto", chau:"Buona merenda! Buon viaggio!", pasos:[
+      {di:"Ciao! Vuoi qualcosa da mangiare?", op:[{t:"Sì, un biscotto, per favore.", r:"Ecco un buon biscotto."}, {t:"Sì, un succo, per favore.", r:"Ecco il tuo succo."}]},
+      {op:[{t:"Quanto costa?", r:"Due pesciolini."}, {t:"Che cosa avete?", r:"Biscotti, succhi e frutta!"}]},
+      {di:"Vuoi altro?", op:[{t:"No, grazie.", r:"Prego!"}, {t:"Sì, un altro biscotto!", r:"Tieni. Che fame!"}]},
+      {op:[{t:"È fresco?", r:"Sì, di oggi!"}, {t:"Posso portarlo in aereo?", r:"Certo!"}]}]},
+    {titulo:"Parlare ai controlli", chau:"Tutto a posto! Buon volo!", pasos:[
+      {di:"Ciao! Il tuo passaporto, per favore.", op:[{t:"Ecco il mio passaporto.", r:"Grazie! Vediamo."}, {t:"Tenga.", r:"Grazie mille."}]},
+      {op:[{t:"Va bene?", r:"Sì, tutto a posto!"}, {t:"Dove devo andare adesso?", r:"Dritto, fino al gate."}]},
+      {di:"Hai qualcosa nelle tasche?", op:[{t:"No, niente.", r:"Perfetto! Puoi passare."}, {t:"Solo il mio giocattolo.", r:"Va bene! Puoi passare."}]},
+      {op:[{t:"Posso passare adesso?", r:"Sì, vai pure!"}, {t:"Controllate tutte le borse?", r:"Sì, per proteggere tutti."}]}]},
+    {titulo:"Parlare con il pilota", chau:"Atterriamo! Grazie per aver volato con me!", pasos:[
+      {di:"Benvenuti a bordo! Sono il pilota. Decolliamo?", op:[{t:"Sì, andiamo!", r:"Allaccia la cintura!"}, {t:"Sì, adoro gli aerei!", r:"Anch'io! Sali."}]},
+      {op:[{t:"Dove voliamo?", r:"Lassù, sopra le nuvole!"}, {t:"L'aereo è grande?", r:"Sì, grandissimo!"}]},
+      {di:"Guarda dal finestrino! Che cosa vedi?", op:[{t:"Vedo le nuvole!", r:"Sì, sembrano cotone."}, {t:"Vedo il cielo!", r:"Sì, com'è azzurro."}]},
+      {op:[{t:"Posso sedermi vicino al finestrino?", r:"Certo! È il posto migliore."}, {t:"Quanto dura il volo?", r:"Solo un'ora."}]}]}
+  ],
   titulo: "L'aeroporto",
   lugar: {texto:"l'aeroporto", silabas:["l'a", "e", "ro", "por", "to"]},
   bienvenida: "Eccoci all'aeroporto!",

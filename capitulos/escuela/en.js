@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('escuela', 'en', {
+  charlas: [
+    {titulo:"Chatting at the school door", chau:"Have a great day at school!", pasos:[
+      {di:"Good morning! Do you have your backpack?", op:[{t:"Yes, here's my backpack!", r:"Very good! Ready for school."}, {t:"Yes, and it's full of things!", r:"What a big backpack!"}]},
+      {op:[{t:"What's in your backpack?", r:"My lunch and a book."}, {t:"What color is your backpack?", r:"It's purple!"}]},
+      {di:"Are you ready to learn today?", op:[{t:"Yes, I'm ready!", r:"Wonderful! Let's go in."}, {t:"Yes, I love school!", r:"Me too! School is fun."}]},
+      {op:[{t:"Do you like school?", r:"I love it!"}, {t:"Where is my classroom?", r:"Down the hall, on the left!"}]}]},
+    {titulo:"Chatting with the reader", chau:"Reading is fun! See you soon!", pasos:[
+      {di:"I'm reading a book. Do you want to read with me?", op:[{t:"Yes, let's read!", r:"Come sit next to me."}, {t:"Yes, I love books!", r:"Me too! Look at the pictures."}]},
+      {op:[{t:"What's the book about?", r:"It's about a little elephant."}, {t:"What color is the cover?", r:"It's blue!"}]},
+      {di:"Which page shall we open?", op:[{t:"The first page!", r:"Once upon a time…"}, {t:"This page!", r:"Oh, look at that picture!"}]},
+      {op:[{t:"Can you read it again?", r:"Of course! Once more."}, {t:"Do you like reading?", r:"I love reading!"}]}]},
+    {titulo:"Chatting at the calendar", chau:"Now you know the days! See you tomorrow!", pasos:[
+      {di:"Do you know the days of the week?", op:[{t:"Yes, Monday, Tuesday, Wednesday!", r:"Very good! Keep going."}, {t:"Yes, I know some of them!", r:"Great! Let's learn them all."}]},
+      {op:[{t:"How many days are in a week?", r:"Seven days!"}, {t:"Which day do we rest?", r:"On Sunday!"}]},
+      {di:"What is your favorite day?", op:[{t:"Saturday!", r:"Mine too! No school!"}, {t:"Friday!", r:"Mine too! The weekend is coming."}]},
+      {op:[{t:"What's your favorite day?", r:"Sunday, because we have lunch together!"}, {t:"Which day comes after Monday?", r:"Tuesday!"}]}]},
+    {titulo:"Chatting with the teacher", chau:"Class dismissed! See you tomorrow!", pasos:[
+      {di:"Good morning, class! Are you ready to sing?", op:[{t:"Yes, let's sing!", r:"Wonderful! Listen first."}, {t:"Yes, I love singing!", r:"Me too! Let's start."}]},
+      {op:[{t:"What are we going to sing?", r:"The days of the week!"}, {t:"Can I sing with my friends?", r:"Of course! Everyone together."}]},
+      {di:"Did you learn something today?", op:[{t:"Yes, I learned many words!", r:"Excellent! I'm proud of you."}, {t:"Yes, I learned the days!", r:"Very good! Well done."}]},
+      {op:[{t:"Can I come back tomorrow?", r:"Of course! School is open every day."}, {t:"Did I do well?", r:"You did very well!"}]}]}
+  ],
   titulo: "School",
   lugar: {texto:"school", silabas:["school"]},
   bienvenida: "Here we are at school!",

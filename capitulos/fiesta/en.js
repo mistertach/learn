@@ -7,6 +7,28 @@
 (()=>{
 const may = s => s.charAt(0).toUpperCase()+s.slice(1);
 registrarTextos('fiesta', 'en', {
+  charlas: [
+    {titulo:"Chatting about the invitation", chau:"See you at the party!", pasos:[
+      {di:"Hello! You're invited to a party! Do you want to come?", op:[{t:"Yes, I want to come!", r:"Hooray! It's going to be fun."}, {t:"Yes, thank you for inviting me!", r:"You're welcome! We're happy you're coming."}]},
+      {op:[{t:"Where is the party?", r:"In the big garden!"}, {t:"Who else is coming?", r:"All our friends!"}]},
+      {di:"What will you bring?", op:[{t:"I'll bring a present.", r:"How lovely! Thank you."}, {t:"I'll bring a big smile.", r:"The best present of all!"}]},
+      {op:[{t:"What time does it start?", r:"At four o'clock!"}, {t:"Will there be cake?", r:"Yes, a big cake!"}]}]},
+    {titulo:"Chatting at the calendar", chau:"Happy birthday in advance! See you soon!", pasos:[
+      {di:"Which season is your birthday in?", op:[{t:"In summer!", r:"Summer birthdays are the best!"}, {t:"In winter!", r:"How cozy! Hot chocolate!"}]},
+      {op:[{t:"When is your birthday?", r:"In the month of May!"}, {t:"How many months are in a year?", r:"Twelve months!"}]},
+      {di:"How old will you be this year?", op:[{t:"I'll be six!", r:"Six! You're getting so big."}, {t:"I'll be five!", r:"Five! What a great age."}]},
+      {op:[{t:"How old are you?", r:"I'm a little older than you!"}, {t:"Can I come to your birthday?", r:"Of course! You're invited."}]}]},
+    {titulo:"Chatting about the present", chau:"You're welcome! Enjoy your present!", pasos:[
+      {di:"Look at this big box! It's a present for you. Do you want to open it?", op:[{t:"Yes, I want to open it!", r:"Open it carefully!"}, {t:"Yes, what is it?", r:"It's a surprise!"}]},
+      {op:[{t:"Who is it from?", r:"It's from all your friends!"}, {t:"Is it big?", r:"Yes, very big!"}]},
+      {di:"It's a toy! Do you like it?", op:[{t:"Yes, I love it! Thank you!", r:"I'm so glad you like it!"}, {t:"Yes, it's beautiful!", r:"It's for you, with love."}]},
+      {op:[{t:"Can we play with it together?", r:"Yes! Let's play."}, {t:"Can I give you a hug?", r:"Yes, a big hug!"}]}]},
+    {titulo:"Chatting at the birthday party", chau:"Happy birthday! We love you!", pasos:[
+      {di:"Surprise! All your friends are here! Happy birthday!", op:[{t:"Thank you, everybody!", r:"You're welcome! We love you."}, {t:"Wow, what a surprise!", r:"We wanted to surprise you!"}]},
+      {op:[{t:"Where is the cake?", r:"Right here, with candles!"}, {t:"Can we sing?", r:"Yes! Let's sing together."}]},
+      {di:"Make a wish and blow out the candles!", op:[{t:"I made a wish!", r:"I hope it comes true!"}, {t:"One, two, three… blow!", r:"Hooray! What a big breath!"}]},
+      {op:[{t:"Can I have a piece of cake?", r:"Of course! The biggest piece."}, {t:"Did you have fun?", r:"It was the best party ever!"}]}]}
+  ],
   titulo: "The party",
   lugar: {texto:"the party", silabas:["the", "par", "ty"]},
   bienvenida: "Today is your birthday!",

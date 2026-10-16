@@ -12,6 +12,28 @@ const U = (...ps) => ps.map(L).join('') + '|' + ps.map(A).join('');
 const FIN = {punto:" bidh-dhabt.| بالضبط.", cuarto:" w rub'.| وربع.", media:" w nus.| ونص.", menos:" illa rub'.| إلا ربع."};
 
 registrarTextos('reloj', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya sani' as-saa'aat|نسولف ويا صانع الساعات", chau:"al-waqt yitiir! nshoofak qareeb!|الوقت يطير! نشوفك قريب!", pasos:[
+      {di:"marhaba! tijibik saa'aati?|مرحبا! تعجبك ساعاتي؟", op:[{t:"aywa, hilwa wayed!|أيوا، حلوة وايد!", r:"shukran! ana sawwaitha.|شكراً! أنا سويتها."}, {t:"aywa, tijibni as-saa'a al-kabeera!|أيوا، تعجبني الساعة الكبيرة!", r:"hiya al-mufaddala indi ba'd.|هي المفضلة عندي بعد."}]},
+      {op:[{t:"kam as-saa'a?|كم الساعة؟", r:"as-saa'a thalatha!|الساعة ثلاثة!"}, {t:"kam saa'a 'indak?|كم ساعة عندك؟", r:"'indi miyyat saa'a!|عندي مية ساعة!"}]},
+      {di:"tibi tisma' tik-tak as-saa'a?|تبي تسمع تك تك الساعة؟", op:[{t:"aywa, tik-tak!|أيوا، تك تك!", r:"tik-tak, tik-tak!|تك تك، تك تك!"}, {t:"aywa, abi asma'.|أيوا، أبي أسمع.", r:"sh-sh... tik-tak, tik-tak.|ش ش... تك تك، تك تك."}]},
+      {op:[{t:"hiya tidigg?|هي تدق؟", r:"aywa, kil saa'a!|أيوا، كل ساعة!"}, {t:"agdar alimis al-'aqarib?|أقدر ألمس العقارب؟", r:"aywa, bi-rifq!|أيوا، برفق!"}]}]},
+    {titulo:"nsawlif as-saa'a thalatha|نسولف الساعة ثلاثة", chau:"hana al-waqt! nshoofak as-saa'a arba'a!|حان الوقت! نشوفك الساعة أربعة!", pasos:[
+      {di:"as-saa'a thalatha! waqt al-wajba al-khafeefa. inta jou'an?|الساعة ثلاثة! وقت الوجبة الخفيفة. إنت جوعان؟", op:[{t:"aywa, ana jou'an!|أيوا، أنا جوعان!", r:"yalla nakil shi!|يلا ناكل شي!"}, {t:"aywa, abi biskwit!|أيوا، أبي بسكويت!", r:"hatha biskwitak.|هذا بسكويتك."}]},
+      {op:[{t:"kam as-saa'a?|كم الساعة؟", r:"as-saa'a thalatha.|الساعة ثلاثة."}, {t:"mita nitghadda?|متى نتعشى؟", r:"as-saa'a thamaniya.|الساعة ثمانية."}]},
+      {di:"shu tsawwi as-saa'a thalatha?|شو تسوي الساعة ثلاثة؟", op:[{t:"al'ab bil-al'aab.|ألعب بالألعاب.", r:"ya hilw!|يا حلو!"}, {t:"akil wajba khafeefa.|آكل وجبة خفيفة.", r:"mm! wana ba'd.|مم! وأنا بعد."}]},
+      {op:[{t:"wain al-'aqrab as-saghir al-heen?|وين العقرب الصغير الحين؟", r:"'ala ar-raqm thalatha!|على الرقم ثلاثة!"}, {t:"al-waqt mit'akhkhir?|الوقت متأخر؟", r:"la, lissa badri.|لا، لسا بدري."}]}]},
+    {titulo:"nsawlif as-saa'a sab'a illa rub'|نسولف الساعة سبعة إلا ربع", chau:"al-'asha jahiz! sahha wa afya!|العشا جاهز! صحة وعافية!", pasos:[
+      {di:"as-saa'a sab'a illa rub'. qareeb al-'asha. inta jou'an?|الساعة سبعة إلا ربع. قريب العشا. إنت جوعان؟", op:[{t:"aywa, jou'an wayed!|أيوا، جوعان وايد!", r:"al-'asha taqreeban jahiz.|العشا تقريباً جاهز."}, {t:"aywa, shu al-'asha?|أيوا، شو العشا؟", r:"shorba w khubz!|شوربة وخبز!"}]},
+      {op:[{t:"mita al-'asha?|متى العشا؟", r:"as-saa'a sab'a.|الساعة سبعة."}, {t:"kam baqi 'ala al-'asha?|كم باقي على العشا؟", r:"rub' saa'a bas!|ربع ساعة بس!"}]},
+      {di:"nghsil idiinna awwal?|نغسل إيدينا أول؟", op:[{t:"aywa, yalla nghsil idiinna!|أيوا، يلا نغسل إيدينا!", r:"saboon, saboon w maay!|صابون، صابون ومي!"}, {t:"aywa, wasikha!|أيوا، وسخة!", r:"yalla nnadhdhifha zain.|يلا ننظفها زين."}]},
+      {op:[{t:"agdar asa'id fi tajheez as-sufra?|أقدر أساعد في تجهيز السفرة؟", r:"aywa! jeeb al-atbaaq min fadlak.|أيوا! جيب الأطباق من فضلك."}, {t:"al-waqt jaa?|الوقت جا؟", r:"taqreeban! intadhir shway.|تقريباً! انتظر شوي."}]}]},
+    {titulo:"nsawlif fil-jaras|نسولف في الجرس", chau:"ding dong! nshoofak bukra!|دنغ دونغ! نشوفك بكرة!", pasos:[
+      {di:"as-saa'a ithna'ash! kam as-saa'a?|الساعة اثنعش! كم الساعة؟", op:[{t:"as-saa'a ithna'ash!|الساعة اثنعش!", r:"sah! waqt al-ajraas.|صح! وقت الأجراس."}, {t:"al-dhuhr!|الظهر!", r:"aywa! rah tidigg al-ajraas.|أيوا! راح تدق الأجراس."}]},
+      {op:[{t:"agdar adigg al-ajraas?|أقدر أدق الأجراس؟", r:"aywa! ishid al-habl.|أيوا! اشد الحبل."}, {t:"kam marra tidigg?|كم مرة تدق؟", r:"ithna'ash marra!|اثنعش مرة!"}]},
+      {di:"ta'allamt as-saa'a al-yoom?|تعلمت الساعة اليوم؟", op:[{t:"aywa, a'rif as-saa'a bil-zabt w an-nisf!|أيوا، أعرف الساعة بالضبط والنصف!", r:"mumtaz! inta khabeer saa'aat.|ممتاز! إنت خبير ساعات."}, {t:"aywa, ahibb as-saa'aat!|أيوا، أحب الساعات!", r:"wana ba'd! al-waqt mumti'.|وأنا بعد! الوقت ممتع."}]},
+      {op:[{t:"kam as-saa'a al-heen?|كم الساعة الحين؟", r:"waqt ar-rujoo' lil-bait!|وقت الرجوع للبيت!"}, {t:"tu'allimni ziyada?|تعلمني زيادة؟", r:"akeed! irja' bukra.|أكيد! ارجع بكرة."}]}]}
+  ],
   titulo: "burj as-sa'a|برج الساعة",
   lugar: {texto:"burj as-sa'a|برج الساعة", silabas:["burj|بُرْج", "as|اَسْ", "sa|سَا", "'a|عَة"]},
   bienvenida: "wsalna burj as-sa'a!|وصلنا برج الساعة!",

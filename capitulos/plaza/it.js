@@ -5,6 +5,28 @@
    silabas / partes = cómo se corta la palabra o la frase para repetir.
    ========================================================= */
 registrarTextos('plaza', 'it', {
+  charlas: [
+    {titulo:"Parlare all'altalena", chau:"Che divertimento! Ci vediamo al parco!", pasos:[
+      {di:"Vuoi salire sull'altalena?", op:[{t:"Sì, spingimi, per favore!", r:"Via! Evviva!"}, {t:"Sì! So dondolarmi senza aiuto.", r:"Come stai crescendo!"}]},
+      {op:[{t:"È alta?", r:"Non troppo. Tieniti forte!"}, {t:"Anche tu ti dondoli?", r:"Sì! Dondoliamoci insieme."}]},
+      {di:"Più in alto o più piano?", op:[{t:"Più in alto, per favore!", r:"Su, più in alto! Tieniti forte!"}, {t:"Più piano, per favore.", r:"Va bene, pianissimo."}]},
+      {op:[{t:"Ti piace l'altalena?", r:"Mi piace tantissimo!"}, {t:"Dopo andiamo allo scivolo?", r:"Sì! Andiamo."}]}]},
+    {titulo:"Parlare con il giocatore di palla", chau:"Bella partita! A presto!", pasos:[
+      {di:"Guarda, ho una palla! Vuoi giocare?", op:[{t:"Sì, giochiamo a palla!", r:"Fantastico! Prendila!"}, {t:"Sì, lanciamela!", r:"Eccola!"}]},
+      {op:[{t:"Di che colore è la palla?", r:"È rossa!"}, {t:"Te la lancio?", r:"Sì, lanciala in alto!"}]},
+      {di:"La calciamo o la lanciamo?", op:[{t:"Calciamola!", r:"Gol! L'hai calciata lontano."}, {t:"Lanciamola!", r:"Bel lancio!"}]},
+      {op:[{t:"Giochiamo ancora?", r:"Sì! Ancora, ancora!"}, {t:"Sei stanco?", r:"No, potrei giocare tutto il giorno!"}]}]},
+    {titulo:"Parlare alle bolle", chau:"Ciao, bolle! A presto!", pasos:[
+      {di:"Guarda quante bolle! Ti piacciono?", op:[{t:"Sì, sono bellissime!", r:"Brillano come arcobaleni."}, {t:"Sì, voglio farle scoppiare!", r:"Pop, pop, pop!"}]},
+      {op:[{t:"Posso fare le bolle?", r:"Sì! Soffia piano piano."}, {t:"Di che cosa sono fatte le bolle?", r:"Di acqua e sapone!"}]},
+      {di:"Che cosa vedi nelle bolle?", op:[{t:"Vedo tanti colori!", r:"Quanti colori!"}, {t:"Vedo bolle grandi!", r:"E anche piccoline!"}]},
+      {op:[{t:"Ti piacciono le bolle?", r:"Mi piacciono tantissimo!"}, {t:"Ne facciamo ancora?", r:"Sì! Tantissime!"}]}]},
+    {titulo:"Parlare con l'animatrice del parco", chau:"Che bravura! Sei fortissimo!", pasos:[
+      {di:"Giochiamo a Un, due, tre, stella?", op:[{t:"Sì, giochiamo!", r:"Fantastico! Ascolta bene."}, {t:"Sì, adoro questo gioco!", r:"Anch'io! Cominciamo?"}]},
+      {op:[{t:"Come si gioca?", r:"Fai solo quello che dice chi comanda!"}, {t:"Posso dare io gli ordini?", r:"Sì! Adesso comandi tu."}]},
+      {di:"Si comanda: salta!", op:[{t:"Salto! Boing, boing!", r:"Che salto! Salti in alto."}, {t:"Guarda come salto!", r:"Che bel salto!"}]},
+      {op:[{t:"Giochiamo ancora?", r:"Sì, ancora una volta!"}, {t:"Ho giocato bene?", r:"Hai giocato benissimo!"}]}]}
+  ],
   titulo: "Il parco giochi",
   lugar: {texto:"il parco", silabas:["il", "par", "co"]},
   bienvenida: "Eccoci al parco giochi!",

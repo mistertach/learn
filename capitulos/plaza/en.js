@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('plaza', 'en', {
+  charlas: [
+    {titulo:"Chatting at the swing", chau:"That was fun! See you at the playground!", pasos:[
+      {di:"Do you want to go on the swing?", op:[{t:"Yes, push me, please!", r:"Here we go! Wheee!"}, {t:"Yes! I can swing by myself.", r:"How big you are!"}]},
+      {op:[{t:"Is it high?", r:"Not too high. Hold on tight!"}, {t:"Can you swing too?", r:"Yes! Let's swing together."}]},
+      {di:"Higher or slower?", op:[{t:"Higher, please!", r:"Up we go! Hold tight!"}, {t:"Slower, please.", r:"Okay, nice and slow."}]},
+      {op:[{t:"Do you like the swing?", r:"I love it!"}, {t:"Can we go on the slide next?", r:"Yes! Let's go."}]}]},
+    {titulo:"Chatting with the ball player", chau:"Good game! See you soon!", pasos:[
+      {di:"Look, I have a ball! Do you want to play?", op:[{t:"Yes, let's play ball!", r:"Great! Catch it!"}, {t:"Yes, throw it to me!", r:"Here it comes!"}]},
+      {op:[{t:"What color is the ball?", r:"It's red!"}, {t:"Can I throw it to you?", r:"Yes, throw it high!"}]},
+      {di:"Shall we kick it or throw it?", op:[{t:"Let's kick it!", r:"Goal! You kicked it far."}, {t:"Let's throw it!", r:"Nice throw!"}]},
+      {op:[{t:"Can we play again?", r:"Yes! Again, again!"}, {t:"Are you tired?", r:"No, I could play all day!"}]}]},
+    {titulo:"Chatting at the bubbles", chau:"Bye-bye, bubbles! See you soon!", pasos:[
+      {di:"Look at all these bubbles! Do you like them?", op:[{t:"Yes, they're beautiful!", r:"They shine like rainbows."}, {t:"Yes, I want to pop them!", r:"Pop, pop, pop!"}]},
+      {op:[{t:"Can I blow bubbles?", r:"Yes! Blow very gently."}, {t:"What are bubbles made of?", r:"Of water and soap!"}]},
+      {di:"What can you see in the bubbles?", op:[{t:"I see lots of colors!", r:"So many colors!"}, {t:"I see big bubbles!", r:"And little ones too!"}]},
+      {op:[{t:"Do you like bubbles?", r:"I love them!"}, {t:"Can we blow more?", r:"Yes! Lots more!"}]}]},
+    {titulo:"Chatting with the playground leader", chau:"Well done! You're a champion!", pasos:[
+      {di:"Shall we play Simon says?", op:[{t:"Yes, let's play!", r:"Great! Listen carefully."}, {t:"Yes, I love that game!", r:"Me too! Ready?"}]},
+      {op:[{t:"How do we play?", r:"Do only what Simon says!"}, {t:"Can I give the orders?", r:"Yes! Now you're Simon."}]},
+      {di:"Simon says: jump!", op:[{t:"I jump! Boing, boing!", r:"Very good! You jump high."}, {t:"Look, I'm jumping!", r:"What a great jump!"}]},
+      {op:[{t:"Can we play again?", r:"Yes, once more!"}, {t:"Did I do well?", r:"You did great!"}]}]}
+  ],
   titulo: "The playground",
   lugar: {texto:"the playground", silabas:["the", "play", "ground"]},
   bienvenida: "Here we are at the playground!",

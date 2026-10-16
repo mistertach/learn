@@ -5,6 +5,28 @@
    (se empareja por posición, así que tiene que tener la misma forma que los demás).
    ========================================================= */
 registrarTextos('granja', 'en', {
+  charlas: [
+    {titulo:"Chatting with the farmer", chau:"Thanks for visiting the cow! See you soon!", pasos:[
+      {di:"Good morning! Do you want to see the cow?", op:[{t:"Yes, I want to see the cow!", r:"Come on, she's over here."}, {t:"Yes, please!", r:"Follow me!"}]},
+      {op:[{t:"What does the cow say?", r:"The cow says moo!"}, {t:"What does the cow eat?", r:"She eats grass."}]},
+      {di:"Would you like some fresh milk?", op:[{t:"Yes, please!", r:"Here's a glass of milk."}, {t:"Yes, I love milk!", r:"Me too! It's very fresh."}]},
+      {op:[{t:"Where does milk come from?", r:"From the cow!"}, {t:"Is the cow big?", r:"Yes, very big and very gentle."}]}]},
+    {titulo:"Chatting with the rooster's friend", chau:"Cock-a-doodle-doo! See you tomorrow morning!", pasos:[
+      {di:"Cock-a-doodle-doo! Good morning! Did you hear the rooster?", op:[{t:"Yes, I heard it!", r:"It sings very loud!"}, {t:"No, I was asleep.", r:"Then the rooster just woke you up!"}]},
+      {op:[{t:"When does the rooster wake up?", r:"Very early, when the sun comes up!"}, {t:"Does the rooster have friends?", r:"Yes, all the hens!"}]},
+      {di:"Can you sing like the rooster?", op:[{t:"Yes! Cock-a-doodle-doo!", r:"Wonderful! You sing so well!"}, {t:"I'll try! Cock-a-doodle-doo!", r:"Very good! Louder!"}]},
+      {op:[{t:"Do you like the farm?", r:"I love the farm!"}, {t:"Shall we sing together?", r:"Yes! Cock-a-doodle-doo!"}]}]},
+    {titulo:"Chatting with the horse's friend", chau:"The horse says goodbye! See you soon!", pasos:[
+      {di:"Do you want to pet the horse?", op:[{t:"Yes, softly!", r:"Very good! Gently, gently."}, {t:"Yes, I'm not scared.", r:"How brave you are!"}]},
+      {op:[{t:"What's the horse's name?", r:"His name is Thunder."}, {t:"What does the horse eat?", r:"He eats hay and apples."}]},
+      {di:"Shall we give the horse an apple?", op:[{t:"Yes, here's an apple!", r:"He loves it! Crunch, crunch."}, {t:"Yes, one for him!", r:"He says thank you! Neigh!"}]},
+      {op:[{t:"Can the horse run fast?", r:"Yes, very fast!"}, {t:"Can I ride the horse?", r:"When you're bigger, yes!"}]}]},
+    {titulo:"Chatting with the farmer at night", chau:"Good night! Sweet dreams!", pasos:[
+      {di:"It's night time. Shall we say good night to the animals?", op:[{t:"Yes, good night, animals!", r:"Good night! Sleep well!"}, {t:"Yes, they're sleepy.", r:"Shh, let's whisper."}]},
+      {op:[{t:"Are all the animals asleep?", r:"Almost all of them!"}, {t:"What do the animals dream about?", r:"They dream about green grass."}]},
+      {di:"Did you like the farm?", op:[{t:"Yes, I loved it!", r:"I'm so happy!"}, {t:"Yes, I loved the animals!", r:"They loved you too!"}]},
+      {op:[{t:"Can I come back tomorrow?", r:"Of course! The animals will be waiting."}, {t:"Will you tell me a secret?", r:"Shh… the animals love you."}]}]}
+  ],
   titulo: "The farm",
   lugar: {texto:"the farm", silabas:["the", "farm"]},
   bienvenida: "Here we are at the farm!",

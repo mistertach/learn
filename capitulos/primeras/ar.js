@@ -9,6 +9,28 @@ const L = s => { s=String(s); const i=s.indexOf('|'); return i<0 ? s : s.slice(0
 const A = s => { s=String(s); const i=s.indexOf('|'); return i<0 ? s : s.slice(i+1); };
 const U = (...ps) => ps.map(L).join('') + '|' + ps.map(A).join('');
 registrarTextos('primeras', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya al-arnoba|نسولف ويا الأرنبة", chau:"tsharrafna! nshoofik qareeb!|تشرفنا! نشوفك قريب!", pasos:[
+      {di:"marhaba! shismik?|مرحبا! شسمك؟", op:[{t:"ismi {N}.|اسمي {N}.", r:"ya hilw al-ism!|يا حلو الاسم!"}, {t:"marhaba! ana {N}.|مرحبا! أنا {N}.", r:"tsharrafna, {N}!|تشرفنا، {N}!"}]},
+      {op:[{t:"shlonik?|شلونك؟", r:"zaina, shukran!|زينة، شكراً!"}, {t:"wenti, shismik?|وإنتي، شسمك؟", r:"ismi bumba.|اسمي بمبا."}]},
+      {di:"tihibb tal'ab?|تحب تلعب؟", op:[{t:"aywa, ahibb al-la'ib!|أيوا، أحب اللعب!", r:"wana ba'd! al-la'ib ahla shi.|وأنا بعد! اللعب أحلى شي."}, {t:"aywa, wayed!|أيوا، وايد!", r:"wana ba'd! ahibbah wayed.|وأنا بعد! أحبه وايد."}]},
+      {op:[{t:"tibi tkoonin sadeeqti?|تبي تكونين صديقتي؟", r:"aywa! sirna asdiqa'!|أيوا! صرنا أصدقاء!"}, {t:"shu tihibbin tal'abin?|شو تحبين تلعبين؟", r:"ahibb al-makhabba.|أحب المخبأ."}]}]},
+    {titulo:"nsawlif wiyya al-qitta|نسولف ويا القطة", chau:"shukran ya sadeeqi! ma'a as-salama!|شكراً يا صديقي! مع السلامة!", pasos:[
+      {di:"shoof, ladai hadiyya lak!|شوف، لدي هدية لك!", op:[{t:"shukran!|شكراً!", r:"afwan!|عفواً!"}, {t:"shukran jazeelan!|شكراً جزيلاً!", r:"afwan ya sadeeqi!|عفواً يا صديقي!"}]},
+      {op:[{t:"shu hatha?|شو هذا؟", r:"hathi najma saghira!|هذي نجمة صغيرة!"}, {t:"hiya li?|هي لي؟", r:"aywa, hiya lak!|أيوا، هي لك!"}]},
+      {di:"tibi tishaarikha wiyyaai?|تبي تشاركها وياي؟", op:[{t:"aywa, nishaarik!|أيوا، نشارك!", r:"ma ahla! al-musharaka jameela.|ما أحلى! المشاركة جميلة."}, {t:"aywa, min fadlik!|أيوا، من فضلك!", r:"tafaddal, an-nisf lak wan-nisf li.|تفضل، النصف لك والنصف لي."}]},
+      {op:[{t:"tijibik?|تعجبك؟", r:"ahibbaha wayed!|أحبها وايد!"}, {t:"agdar ahdhinik?|أقدر أحضنك؟", r:"aywa, hidhin kabeer!|أيوا، حضن كبير!"}]}]},
+    {titulo:"nsawlif wiyya ad-dubb|نسولف ويا الدب", chau:"kan munsha'! nshoofak qareeb!|كان منعش! نشوفك قريب!", pasos:[
+      {di:"ana atshaan. tibi maay?|أنا عطشان. تبي مي؟", op:[{t:"aywa, maay min fadlak!|أيوا، مي من فضلك!", r:"tafaddal. sahha!|تفضل. صحة!"}, {t:"aywa, ana atshaan ba'd!|أيوا، أنا عطشان بعد!", r:"hatha kaas lak.|هذا كاس لك."}]},
+      {op:[{t:"al-maay baarid?|المي بارد؟", r:"aywa, baarid wayed!|أيوا، بارد وايد!"}, {t:"min wain yiji al-maay?|من وين يجي المي؟", r:"min al-hanafiyya wal-matar!|من الحنفية والمطر!"}]},
+      {di:"tibi ziyada?|تبي زيادة؟", op:[{t:"aywa, ziyada min fadlak!|أيوا، زيادة من فضلك!", r:"akeed! hatha ziyada.|أكيد! هذا زيادة."}, {t:"la, shukran. shbi'at.|لا، شكراً. شبعت.", r:"tamam. shukran li-shurbak wiyyaai.|تمام. شكراً لشربك وياي."}]},
+      {op:[{t:"tihibb al-maay?|تحب المي؟", r:"aywa, huwa al-mufaddal indi!|أيوا، هو المفضل عندي!"}, {t:"nal'ab?|نلعب؟", r:"aywa! yalla nal'ab!|أيوا! يلا نلعب!"}]}]},
+    {titulo:"nsawlif 'ind al-baab|نسولف عند الباب", chau:"ma'a as-salama ya sadeeqi! nshoofak fil-mughamara!|مع السلامة يا صديقي! نشوفك في المغامرة!", pasos:[
+      {di:"inta ta'rif kalimaat wayed al-heen! nroh mughamara?|إنت تعرف كلمات وايد الحين! نروح مغامرة؟", op:[{t:"aywa, yalla!|أيوا، يلا!", r:"hurra! ta'al wiyyaai.|هورا! تعال وياي."}, {t:"aywa, ana jahiz!|أيوا، أنا جاهز!", r:"mumtaz! yalla nimshi.|ممتاز! يلا نمشي."}]},
+      {op:[{t:"wain nroh?|وين نروح؟", r:"li-amakin jadeeda wayed!|لأماكن جديدة وايد!"}, {t:"min yiji wiyyana?|من يجي وياينا؟", r:"kil asdiqa'ak!|كل أصدقاءك!"}]},
+      {di:"inta farhaan?|إنت فرحان؟", op:[{t:"aywa, ana farhaan wayed!|أيوا، أنا فرحان وايد!", r:"wana ba'd! shu hal-farha.|وأنا بعد! شو هالفرحة."}, {t:"aywa, ahibb al-mughamarat!|أيوا، أحب المغامرات!", r:"wana ba'd! al-mughamarat mumti'a.|وأنا بعد! المغامرات ممتعة."}]},
+      {op:[{t:"wenti farhaana ba'd?|وإنتي فرحانة بعد؟", r:"aywa, farhaana wayed!|أيوا، فرحانة وايد!"}, {t:"nigdar nroh al-heen?|نقدر نروح الحين؟", r:"aywa! yalla nimshi!|أيوا! يلا نمشي!"}]}]}
+  ],
   titulo: "marhaba!|مرحبا!",
   lugar: {texto:"bait ash-shajara|بيت الشجرة", silabas:["bait|بَيْت", "ash|اَشْ", "sha|شَ", "ja|جَ", "ra|رَة"]},
   bienvenida: "wasalna bait ash-shajara!|وصلنا بيت الشجرة!",
