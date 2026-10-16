@@ -5,6 +5,28 @@
    ⚠ Para revisar con alguien que hable el árabe del Golfo antes de usarlo con chicos.
    ========================================================= */
 registrarTextos('doctor', 'ar', {
+  charlas: [
+    {titulo:"nsawlif wiyya al-mumarridha|نسولف ويا الممرضة", chau:"hatha al-hazz, ya doktor! nshoofak ba'dain!|حظ سعيد، يا دكتور! نشوفك بعدين!", pasos:[
+      {di:"marhaba, ya doktor! kil shi jahiz lil-yoom?|مرحبا، يا دكتور! كل شي جاهز لليوم؟", op:[{t:"aywa, kil shi jahiz!|أيوا، كل شي جاهز!", r:"mumtaz! al-mardha yantadhiroon.|ممتاز! المرضى ينتظرون."}, {t:"aywa, 'indi ridaa'i al-abyadh!|أيوا، عندي ردائي الأبيض!", r:"tibayyin doktor haqeeqi!|تبين دكتور حقيقي!"}]},
+      {op:[{t:"min awwal mareedh?|من أول مريض؟", r:"dubb saghir yooja'uh raasah.|دب صغير يوجعه راسه."}, {t:"wain as-sammaa'a?|وين السماعة؟", r:"hathi, 'ala raqabtak!|هذي، على رقبتك!"}]},
+      {di:"tihtaaj shi thaani?|تحتاج شي ثاني؟", op:[{t:"lizqa min fadlik.|لزقة من فضلك.", r:"hathi lizqa mulawwana.|هذي لزقة ملونة."}, {t:"miqyaas al-harara min fadlik.|مقياس الحرارة من فضلك.", r:"hatha miqyaas al-harara.|هذا مقياس الحرارة."}]},
+      {op:[{t:"tsa'ideeni?|تساعديني؟", r:"akeed! ana daayman hini lil-musaa'ada.|أكيد! أنا دايماً هني للمساعدة."}, {t:"fi naas wayed yintadhiroon?|في ناس وايد ينتظرون؟", r:"aywa, laakin kilhum farhaaneen.|أيوا، لكن كلهم فرحانين."}]}]},
+    {titulo:"nsawlif wiyya ad-dubb|نسولف ويا الدب", chau:"shukran ya doktor! ahiss ahsan al-heen!|شكراً يا دكتور! أحس أحسن الحين!", pasos:[
+      {di:"ya doktor, ma ahiss zain.|يا دكتور، ما أحس زين.", op:[{t:"shu fik?|شو فيك؟", r:"raasi yooja'ni wayed.|راسي يوجعني وايد."}, {t:"wain yooja'ak?|وين يوجعك؟", r:"hini, fi raasi.|هني، في راسي."}]},
+      {op:[{t:"'indak sukhoona?|عندك سخونة؟", r:"la, ma azunn.|لا، ما أظن."}, {t:"nimt zain?|نمت زين؟", r:"la, nimt sayyi'.|لا، نمت سيء."}]},
+      {di:"hal hatha khateer ya doktor?|هل هذا خطير يا دكتور؟", op:[{t:"la, mu khateer.|لا، مو خطير.", r:"oof! irtaaht.|أوف! ارتحت."}, {t:"ishrab maay wartaah.|اشرب مي وارتاح.", r:"tamam, rah artaah.|تمام، راح أرتاح."}]},
+      {op:[{t:"tiss ahsan al-heen?|تحس أحسن الحين؟", r:"aywa, ahsan wayed! shukran!|أيوا، أحسن وايد! شكراً!"}, {t:"tibi hidhin?|تبي حضن؟", r:"aywa, min fadlak!|أيوا، من فضلك!"}]}]},
+    {titulo:"nsawlif wiyya al-arnoba|نسولف ويا الأرنبة", chau:"shukran ya doktor! atsha... ma'a as-salama!|شكراً يا دكتور! عطسة... مع السلامة!", pasos:[
+      {di:"atsha! ya doktor, anfi ahmar.|عطسة! يا دكتور، أنفي أحمر.", op:[{t:"yarhamkum allah!|يرحمكم الله!", r:"shukran!|شكراً!"}, {t:"'indik zukaam?|عندك زكام؟", r:"aywa, azunn.|أيوا، أظن."}]},
+      {op:[{t:"halgik yooja'ik?|حلقك يوجعك؟", r:"shway.|شوي."}, {t:"'indik mandeel?|عندك منديل؟", r:"aywa, hatha.|أيوا، هذا."}]},
+      {di:"shu asawwi ya doktor?|شو أسوي يا دكتور؟", op:[{t:"ishrabi shaay haar.|اشربي شاي حار.", r:"mm, shaay haar. fikra zaina!|مم، شاي حار. فكرة زينة!"}, {t:"khalli nafsik dafya wartahi.|خلي نفسك دافية وارتاحي.", r:"tamam, abga fis-sareer.|تمام، أبقى في السرير."}]},
+      {op:[{t:"tibeen dawa?|تبين دواء؟", r:"aywa, min fadlak! ahibb dawa al-faraawla.|أيوا، من فضلك! أحب دواء الفراولة."}, {t:"tissin ahsan?|تحسين أحسن؟", r:"aywa, agdar ashumm az-zuhoor mirra thaniya!|أيوا، أقدر أشم الزهور مرة ثانية!"}]}]},
+    {titulo:"nsawlif wiyya ad-dubb al-mahshu|نسولف ويا الدب المحشو", chau:"shukran 'ala i'tinaa'ak bi! ahibbak ya doktor!|شكراً على اعتناءك بي! أحبك يا دكتور!", pasos:[
+      {di:"ya doktor... ana hazeen.|يا دكتور... أنا حزين.", op:[{t:"la tihzan ya dubb.|لا تحزن يا دب.", r:"shukran ya doktor.|شكراً يا دكتور."}, {t:"ra'ai'tak wiyyaai.|راح أعتني بك.", r:"ahiss bil-amaan wiyyak.|أحس بالأمان وياك."}]},
+      {op:[{t:"wain yooja'ak?|وين يوجعك؟", r:"hini, shway.|هني، شوي."}, {t:"inta khaayif?|إنت خايف؟", r:"shway, laakin ana shuja'.|شوي، لكن أنا شجاع."}]},
+      {di:"tkhalli li lizqa?|تحط لي لزقة؟", op:[{t:"aywa, tafaddal.|أيوا، تفضل.", r:"shukran! hiya hilwa wayed.|شكراً! هي حلوة وايد."}, {t:"aywa, w hidhin kabeer!|أيوا، وحضن كبير!", r:"ahibb al-ahdhaan!|أحب الأحضان!"}]},
+      {op:[{t:"tiss ahsan?|تحس أحسن؟", r:"aywa, ana farhaan al-heen!|أيوا، أنا فرحان الحين!"}, {t:"tibi tal'ab?|تبي تلعب؟", r:"aywa! yalla nal'ab!|أيوا! يلا نلعب!"}]}]}
+  ],
   titulo: "fil-'iyada|في العيادة",
   lugar: {texto:"al-'iyada|العيادة", silabas:["al|اَلْ", "'i|عِي", "ya|يَا", "da|دَة"]},
   bienvenida: "wasalna al-'iyada!|وصلنا العيادة!",
