@@ -37,7 +37,7 @@ registrarIdioma({
     conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,
     seguir: 'Next', otraVez: 'Again', loDije: 'I said it!', apretado: 'Press and hold', unCuento: 'A story!', atras: 'Back',
     fin: 'The end!', bueno: 'OK', otroViajeB: 'Another trip', inicio: 'Home', vamos: "Let's go!", listo: 'Done!',
-    peces: n => n === 1 ? '1 little fish' : `${n} little fish`,
+    peces: n => n === 1 ? 'one little fish' : `${n} little fish`,
     pez: 'Look! A little fish!', pezQ: 'A little fish! To eat it, answer:', casi: 'Almost! Try again.', nam: 'Yum, yum!',
     premio: s => `You won ${s}!`,
     cuentaDi: 'Ask a grown-up to sign in.', quienJuega: "Who's playing?", capPrimero: w => `First finish ${w}.`, capCerrado: 'This place is still closed.',

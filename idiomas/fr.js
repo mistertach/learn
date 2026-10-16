@@ -34,7 +34,7 @@ registrarIdioma({
     conNombre: (f, n) => f.replace(/\s*!\s*$/, '') + `, ${n} !`,
     seguir: 'Suivant', otraVez: 'Encore', loDije: "Je l'ai dit !", apretado: 'Appuie longtemps', unCuento: 'Une histoire !', atras: 'Retour',
     fin: 'Fin !', bueno: "D'accord", otroViajeB: 'Encore un voyage', inicio: 'Accueil', vamos: 'On y va !', listo: 'Fini !',
-    peces: n => n === 1 ? '1 petit poisson' : `${n} petits poissons`,
+    peces: n => n === 1 ? 'un petit poisson' : `${n} petits poissons`,
     pez: 'Regarde ! Un petit poisson !', pezQ: 'Un petit poisson ! Pour le manger, réponds :', casi: 'Presque ! Essaie encore.', nam: 'Miam, miam !',
     premio: s => `Tu gagnes ${s} !`,
     cuentaDi: 'Demande à un adulte de se connecter.', quienJuega: 'Qui joue ?', capPrimero: w => `D’abord, termine ${w}.`, capCerrado: 'Cet endroit est encore fermé.',

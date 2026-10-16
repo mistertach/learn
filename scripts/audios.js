@@ -327,6 +327,7 @@ function extraerPrompts(capId, lang, datos) {
     for (let n = 1; n <= 10; n++) {
       add(`peces-${n}`, T.tenesPeces(T.peces(n)));
       add(`pecesCount-${n}`, T.peces(n));
+      if (n <= 6) { if (T.premio) add(`premio-peces-${n}`, T.premio(T.peces(n))); if (T.cuesta) add(`cuesta-peces-${n}`, T.cuesta(T.peces(n))); if (T.noAlcanza) add(`noAlcanza-peces-${n}`, T.noAlcanza(T.peces(n))); }
     }
   }
 
@@ -485,8 +486,124 @@ window.STATIC_PROMPTS = ${JSON.stringify(staticPrompts, null, 2)};
   fs.writeFileSync(promptsFile, content);
 }
 
+/* =========================================================
+   SÍLABAS CON CONTROL DE CALIDAD
+   La voz de Google a veces deletrea una sílaba suelta ("fe" → "efe", "ba" → "b-a"), la dice en silencio ("bien") o la corta.
+   Por eso cada sílaba se prueba de varias formas (IPA con <phoneme>, texto plano, la pista de `sonido` del idioma, el viejo "¡x!")
+   y se mide el audio con ffmpeg (que haya voz, un solo golpe de voz y una duración razonable); se queda la mejor.
+   Uso: node scripts/audios.js --silabas [--solo=es,fr] [--todas]   (sin --todas solo rehace es/fr/it y las que fallan en los demás)
+   ========================================================= */
+const { spawnSync } = require('child_process');
+function medirAudio(buf) {
+  const r = spawnSync('ffmpeg', ['-v', 'quiet', '-i', 'pipe:0', '-f', 's16le', '-ac', '1', '-ar', '16000', 'pipe:1'], { input: buf, maxBuffer: 1 << 26 });
+  const n = Math.floor((r.stdout || []).length / 2); if (n < 400) return { pico: 0, activo: 0, golpes: 0 };
+  const a = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = r.stdout.readInt16LE(i * 2) / 32768;
+  const win = 160, e = []; let pico = 0;
+  for (let i = 0; i + win <= n; i += win) { let s = 0; for (let j = 0; j < win; j++) { s += a[i + j] * a[i + j]; if (Math.abs(a[i + j]) > pico) pico = Math.abs(a[i + j]); } e.push(Math.sqrt(s / win)); }
+  const mx = Math.max(...e, 0), thr = Math.max(0.02, mx * 0.12), on = e.map(x => x > thr);
+  let golpes = 0, gap = 99, prev = false; for (const x of on) { if (x && !prev && gap >= 7) golpes++; gap = x ? 0 : gap + 1; prev = x; }
+  return { pico, activo: on.filter(Boolean).length * 0.01, golpes };
+}
+const puntajeAudio = m => (m.pico < 0.2 ? 100 : 0) + (m.activo < 0.1 ? 40 : 0) + (m.activo > 0.6 ? 20 : 0) + Math.max(0, m.golpes - 1) * 12 + (m.golpes === 0 ? 50 : 0);
+const buenoAudio = m => m.pico >= 0.25 && m.golpes === 1 && m.activo >= 0.1 && m.activo <= 0.55;
+const sinAcentos = s => s.normalize('NFD').replace(/[̀-́]/g, '').normalize('NFC');
+// IPA a partir de la ortografía (solo para sílabas sueltas; devuelve null si no se anima)
+function ipaSilaba(sl, lang) {
+  let s = sl.trim().toLowerCase();
+  if (lang === 'es') {
+    s = sinAcentos(s); if (/(rr?|ll|y|x|w)/.test(s) && !/^(y)$/.test(s)) return null;
+    const m = [[/qu(?=[ei])/g, 'k'], [/gu(?=[ei])/g, 'g'], [/gü/g, 'gw'], [/ch/g, 'tʃ'], [/ñ/g, 'ɲ'], [/c(?=[ei])/g, 's'], [/c/g, 'k'], [/z/g, 's'], [/j/g, 'x'], [/g(?=[ei])/g, 'x'], [/h/g, ''], [/v/g, 'b'], [/q/g, 'k'], [/ü/g, 'u']];
+    for (const [re, to] of m) s = s.replace(re, to); return s || null;
+  }
+  if (lang === 'it') {
+    s = sinAcentos(s); if (/(gl|gn|sc|qu|z|h)/.test(s)) { const m2 = [[/sch/g, 'sk'], [/sc(?=[ei])/g, 'ʃ'], [/gli/g, 'ʎi'], [/gl(?=[aeou])/g, 'ʎ'], [/gn/g, 'ɲ'], [/qu/g, 'kw'], [/z/g, 'ts'], [/h/g, '']]; for (const [re, to] of m2) s = s.replace(re, to); }
+    const m = [[/ch(?=[ei])/g, 'k'], [/gh(?=[ei])/g, 'g'], [/c(?=i[aeou])/g, 'tʃ'], [/c(?=[ei])/g, 'tʃ'], [/c/g, 'k'], [/g(?=i[aeou])/g, 'dʒ'], [/g(?=[ei])/g, 'dʒ'], [/(tʃ|dʒ)i(?=[aeou])/g, '$1']];
+    for (const [re, to] of m) s = s.replace(re, to); return s || null;
+  }
+  return null;
+}
+function variantesSilaba(sl, lang, pack) {
+  const k = sl.trim().toLowerCase(), v = [], add = (t, tag) => { if (t && !v.some(x => x.t === t)) v.push({ t, tag }); };
+  const llano = (pack && pack.sinTilde) || ['es', 'it'].includes(lang) ? sinAcentos(sl) : sl;
+  if (lang === 'ar') { add(llano, 'plano'); add(llano + '.', 'punto'); return v; }
+  const regla = (PRONUNCIACION_SILABAS[lang] || {})[k], sonido = pack && pack.sonido && pack.sonido[k];
+  if (sonido) add(sonido, 'sonido');
+  const ipa = ipaSilaba(sl, lang); if (ipa) add(`<speak><phoneme alphabet="ipa" ph="${ipa}">${llano}</phoneme></speak>`, 'ipa');
+  add(llano, 'plano'); if (regla) add(regla, 'regla'); add(llano + '.', 'punto'); add(`¡${llano}!`, 'exclamacion'); add(llano + ',', 'coma'); add('… ' + llano, 'puntos'); add(llano + '…', 'puntos2');
+  if (/^[aeiouáéíóú]$/i.test(sl.trim())) { const l1 = llano.toLowerCase(); add(l1 + 'h', 'vocal-h'); add(l1 + l1, 'vocal-doble'); if (ipa) add(`<speak><phoneme alphabet="ipa" ph="${ipa}ː">${llano}</phoneme></speak>`, 'ipa-larga'); }
+  return v;
+}
+async function generarSilaba(S, voz, sl, lang, pack, previo) {
+  let mejor = previo ? { buf: previo, m: medirAudio(previo), tag: 'previo' } : null;
+  if (mejor) mejor.p = puntajeAudio(mejor.m);
+  for (const c of variantesSilaba(sl, lang, pack)) {
+    let buf; try { buf = await S.generar(c.t, lang, voz); } catch (e) { if (/429|RESOURCE_EXHAUSTED/i.test(e.message)) { await new Promise(r => setTimeout(r, 9000)); try { buf = await S.generar(c.t, lang, voz); } catch (e2) { continue; } } else continue; }
+    const m = medirAudio(buf), p = puntajeAudio(m);
+    if (!mejor || p < mejor.p) mejor = { buf, m, p, tag: c.tag };
+    if (buenoAudio(m)) break;
+    await new Promise(r => setTimeout(r, 150));
+  }
+  return mejor;
+}
+/* clips (palabras, frases, partes) que la voz dejó mudos: se rehacen con otras formas de escribir el mismo texto */
+async function repararMudos() {
+  const S = SERVICIOS.google; if (!S.configurado()) { console.error('Falta GOOGLE_TTS_API_KEY'); process.exit(1); }
+  const caps = [...obtenerCapitulosDisponibles(), 'nivel0'];
+  for (const lang of IDIOMAS) {
+    const voz = `${GOOGLE_LOCAL[lang]}-Chirp3-HD-Leda`; let n = 0, ok = 0, mal = [];
+    for (const capId of caps) {
+      const datos = cargarCapitulo(capId);
+      for (const it of extraerItemsCapitulo(capId, lang, datos)) {
+        if (it.esSilaba) continue; const dest = path.join(RAIZ, it.relPath); if (!fs.existsSync(dest)) continue;
+        const m0 = medirAudio(fs.readFileSync(dest)); if (m0.pico >= 0.12 && m0.activo >= 0.08) continue;
+        n++; let mejor = { m: m0, buf: null };
+        const t0 = it.texto.replace(/[¡!]/g, '').trim();
+        for (const t of [it.texto, t0 + '.', `¡${t0}!`, t0 + '…', t0 + ',', '… ' + t0, t0 + ' ' + t0.split(' ')[0].slice(0, 0)]) {
+          let buf; try { buf = await S.generar(t, lang, voz); } catch (e) { await new Promise(r => setTimeout(r, 4000)); continue; }
+          const m = medirAudio(buf); if (!mejor.buf || m.pico > mejor.m.pico) mejor = { m, buf };
+          if (m.pico >= 0.25 && m.activo >= 0.1) break; await new Promise(r => setTimeout(r, 200));
+        }
+        if (mejor.buf && mejor.m.pico > m0.pico) { fs.writeFileSync(dest, mejor.buf); }
+        if (mejor.m.pico >= 0.25) ok++; else mal.push(`${it.relPath} «${it.texto}»`);
+        process.stdout.write('.');
+      }
+    }
+    console.log(`\n[${lang}] mudos: ${n}, arreglados: ${ok}${mal.length ? ', sin arreglar:\n  ' + mal.join('\n  ') : ''}`);
+  }
+}
+async function regenerarSilabas() {
+  const S = SERVICIOS.google, todas = !!arg('todas');
+  if (!S.configurado()) { console.error('Falta GOOGLE_TTS_API_KEY en .env'); process.exit(1); }
+  const caps = [...obtenerCapitulosDisponibles(), 'nivel0'];
+  for (const lang of IDIOMAS) {
+    const voz = `${GOOGLE_LOCAL[lang]}-Chirp3-HD-Leda`, pack = null, porSlug = new Map();
+    let pk = null;
+    for (const capId of caps) {
+      const datos = cargarCapitulo(capId); pk = datos.PACKS[lang];
+      for (const it of extraerItemsCapitulo(capId, lang, datos)) if (it.esSilaba && !porSlug.has(it.sSlug)) porSlug.set(it.sSlug, it);
+    }
+    const dir = path.join(AUDIO_DIR, lang, 'silabas'); fs.mkdirSync(dir, { recursive: true });
+    const lista = [...porSlug.values()]; let rehechas = 0, mejoradas = 0, malas = [], i = 0;
+    console.log(`\n[${lang}] ${lista.length} sílabas`);
+    const trabajar = async () => { while (i < lista.length) {
+      const it = lista[i++], dest = path.join(dir, `${it.sSlug}.mp3`), actual = fs.existsSync(dest) ? fs.readFileSync(dest) : null;
+      const bueno = actual && buenoAudio(medirAudio(actual));
+      if ((arg('malas') || (!todas && !['es', 'fr', 'it'].includes(lang))) && bueno) continue;
+      const r = await generarSilaba(S, voz, it.rawText, lang, pk, (['es', 'fr', 'it'].includes(lang) && !arg('malas')) ? null : actual);
+      if (!r) continue;
+      if (r.buf !== actual) { fs.writeFileSync(dest, r.buf); rehechas++; if (r.tag !== 'previo') mejoradas++; }
+      if (!buenoAudio(r.m)) malas.push(`${it.rawText}(${r.tag}: pico ${r.m.pico.toFixed(2)}, golpes ${r.m.golpes}, ${r.m.activo.toFixed(2)}s)`);
+      process.stdout.write('.');
+    } };
+    await Promise.all([trabajar(), trabajar()]);
+    console.log(`\n[${lang}] ${rehechas} regeneradas; sin resolver del todo: ${malas.length}`); if (malas.length) console.log('  ' + malas.join('\n  '));
+  }
+}
+
 // EJECUCIÓN PRINCIPAL
 (async () => {
+  if (arg('mudos')) { await repararMudos(); console.log('\nListo.'); return; }
+  if (arg('silabas')) { await regenerarSilabas(); console.log('\nListo.'); return; }
   if (ES_CUOTA) {
     mostrarCuota();
     return;
@@ -580,7 +697,7 @@ window.STATIC_PROMPTS = ${JSON.stringify(staticPrompts, null, 2)};
           let intentos = 0;
           while (intentos < 5) {
             try {
-              const audioBuf = await S.generar(it.texto, lang, vozLeda);
+              const audioBuf = it.esSilaba ? (await generarSilaba(S, vozLeda, it.rawText, lang, datos.PACKS[lang], null)).buf : await S.generar(it.texto, lang, vozLeda);
               fs.writeFileSync(dest, audioBuf);
               nuevos++;
               process.stdout.write('.');

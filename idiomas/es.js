@@ -37,7 +37,7 @@ registrarIdioma({
     conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,
     seguir: 'Seguir', otraVez: 'Otra vez', loDije: '¡Lo dije!', apretado: 'Mantené apretado', unCuento: '¡Un cuento!', atras: 'Atrás',
     fin: '¡Fin!', bueno: 'Bueno', otroViajeB: 'Otro viaje', inicio: 'Inicio', vamos: '¡Vamos!', listo: '¡Listo!',
-    peces: n => n === 1 ? '1 pececito' : `${n} pececitos`,
+    peces: n => n === 1 ? 'un pececito' : `${n} pececitos`,
     pez: '¡Mirá! ¡Un pececito!', pezQ: '¡Un pececito! Para comerlo, contestá:', casi: '¡Casi! Probá otra vez.', nam: '¡Ñam, ñam!',
     premio: s => `¡Ganaste ${s}!`,
     cuentaDi: 'Pedile a un grande que entre con su cuenta.', quienJuega: '¿Quién juega?', capPrimero: w => `Primero terminá ${w}.`, capCerrado: 'Este lugar todavía está cerrado.',
