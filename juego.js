@@ -1440,9 +1440,9 @@ function dibujoFlorcita(x,y,c){ return `<g transform="translate(${x.toFixed(0)} 
 function dibujoCartel(x,y,flecha){ return `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="0" cy="4" rx="22" ry="5" fill="#22314F" opacity=".14"/><rect x="-3" y="-30" width="6" height="34" rx="2" fill="#9C6B3D"/><rect x="-26" y="-48" width="52" height="26" rx="5" fill="#D9A066" stroke="#8A5E3B" stroke-width="2"/>${flecha?'<path d="M-14 -35h20M0 -43l12 8-12 8" fill="none" stroke="#8A5E3B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>':'<path d="M-14 -35h28" stroke="#8A5E3B" stroke-width="4" stroke-linecap="round"/>'}</g>`; }
 function construirCamino(box){
   const items=[]; if(n0Grupos().length) items.push({t:'n0'}); CAP_LIST.forEach(c=>items.push({t:'cap', c}));
-  const N=items.length, W=400, H=CAMINO_PASO*N+240;
-  const pos=items.map((_,i)=>({x:200+104*Math.sin(i*1.9+.5), y:H-170-i*CAMINO_PASO}));
-  const pts=[{x:pos[0].x-60,y:H+20},{x:pos[0].x-10,y:pos[0].y+130},...pos,{x:pos[N-1].x+30,y:-30}];
+  const N=items.length, W=400, H=CAMINO_PASO*N+250;
+  const pos=items.map((_,i)=>({x:200+104*Math.sin(i*1.9+.5), y:190+i*CAMINO_PASO}));   // el primero arriba: el camino baja
+  const pts=[{x:pos[0].x-60,y:-20},{x:pos[0].x-10,y:pos[0].y-130},...pos,{x:pos[N-1].x+30,y:H+30}];
   const seg=[]; for(let i=0;i<pts.length-1;i++){ const a=pts[Math.max(i-1,0)],b=pts[i],c=pts[i+1],e=pts[Math.min(i+2,pts.length-1)]; seg.push([b,{x:b.x+(c.x-a.x)/6,y:b.y+(c.y-a.y)/6},{x:c.x-(e.x-b.x)/6,y:c.y-(e.y-b.y)/6},c]); }
   const f=v=>v.toFixed(1), d=`M${f(pts[0].x)} ${f(pts[0].y)}`+seg.map(s=>`C${f(s[1].x)} ${f(s[1].y)} ${f(s[2].x)} ${f(s[2].y)} ${f(s[3].x)} ${f(s[3].y)}`).join('');
   const mu=[]; seg.forEach(s=>{ for(let t=0;t<1;t+=.04){ const u=1-t; mu.push({x:u*u*u*s[0].x+3*u*u*t*s[1].x+3*u*t*t*s[2].x+t*t*t*s[3].x, y:u*u*u*s[0].y+3*u*u*t*s[1].y+3*u*t*t*s[2].y+t*t*t*s[3].y}); } });
@@ -1450,22 +1450,22 @@ function construirCamino(box){
   const rnd=rngSemilla(N*7919+3); let deco='';
   const lejos=(x,y,r)=>mu.every(p=>(p.x-x)**2+(p.y-y)**2>r*r);
   for(let i=0;i<150;i++){ const x=14+rnd()*372, y=20+rnd()*(H-40); if(!lejos(x,y,70) || Math.abs(y-yr)<46) continue;
-    const nieve=y<yr-30, q=rnd(), s=.8+rnd()*.5;
+    const nieve=y>yr+30, q=rnd(), s=.8+rnd()*.5;
     if(nieve){ deco += q<.38 ? dibujoNieve(x,y,s) : q<.7 ? dibujoArbol(x,y,s,true) : q<.85 ? dibujoArbusto(x,y,s,true) : dibujoRoca(x,y,s*.9,true); }
     else { deco += q<.34 ? dibujoArbol(x,y,s,false) : q<.6 ? dibujoArbusto(x,y,s,false) : q<.72 ? dibujoRoca(x,y,s*.8,false) : dibujoFlorcita(x,y,['#FF8FB8','#fff','#FFC93C','#FF6F59'][i%4])+dibujoFlorcita(x+9,y+5,['#fff','#FFC93C'][i%2]); } }
   // el nivel 0 es opcional: solo es "la parada actual" mientras no se empezó ningún lugar
   const n0ok=!items[0] || items[0].t!=='n0' || n0Grupos().every(g=>g.palabras.every(n0Hecha)), ningunLugar=!CAP_LIST.some(c=>capEmpezado(c));
   let cur=items.findIndex((it,i)=>it.t==='n0' ? (!n0ok && ningunLugar) : !capSave(it.c.id).final); if(cur<0) cur=N-1;
-  const fondo=`<defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF8FF"/><stop offset=".3" stop-color="#D4F0E2"/><stop offset=".5" stop-color="#98D96E"/><stop offset="1" stop-color="#AEDD4B"/></linearGradient>
-    <linearGradient id="cs" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#D8C58B"/><stop offset="1" stop-color="#FFCF5A"/></linearGradient>
-    <linearGradient id="cb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#AE9560"/><stop offset="1" stop-color="#E1A93D"/></linearGradient></defs>
+  const fondo=`<defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#AEDD4B"/><stop offset=".5" stop-color="#98D96E"/><stop offset=".7" stop-color="#D4F0E2"/><stop offset="1" stop-color="#EAF8FF"/></linearGradient>
+    <linearGradient id="cs" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#FFCF5A"/><stop offset="1" stop-color="#D8C58B"/></linearGradient>
+    <linearGradient id="cb" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${H}"><stop offset="0" stop-color="#E1A93D"/><stop offset="1" stop-color="#AE9560"/></linearGradient></defs>
     <rect width="${W}" height="${H}" fill="url(#cf)"/>`;
   const rio=`<path d="M-20 ${f(yr+8)}Q90 ${f(yr-26)} 200 ${f(yr+4)}T420 ${f(yr-10)}" fill="none" stroke="#0E8BCB" stroke-width="46" stroke-linecap="round"/><path d="M-20 ${f(yr+8)}Q90 ${f(yr-26)} 200 ${f(yr+4)}T420 ${f(yr-10)}" fill="none" stroke="#33B8F5" stroke-width="38" stroke-linecap="round"/><path d="M-20 ${f(yr-4)}Q90 ${f(yr-38)} 200 ${f(yr-8)}T420 ${f(yr-22)}" fill="none" stroke="#7CD6FF" stroke-width="5" stroke-linecap="round" opacity=".7"/>`;
   const puente=`<g transform="translate(${f(nearR.x)} ${f(yr+2)})"><rect x="-40" y="-26" width="80" height="52" rx="12" fill="#A99FB3"/><path d="M-34 -19h68v38h-68z" fill="#8A5E3B"/>${[...Array(8)].map((_,i)=>`<rect x="${-32+i*8.3}" y="-19" width="2.6" height="38" fill="#A87848"/>`).join('')}<rect x="-40" y="-26" width="80" height="8" rx="4" fill="#C2BAC9"/><rect x="-40" y="18" width="80" height="8" rx="4" fill="#C2BAC9"/></g>`;
   box.innerHTML=`<div class="camino" style="aspect-ratio:${W}/${H}"><svg class="cam-bg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${fondo}${rio}
     <path d="${d}" fill="none" stroke="#B4A682" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#E4DCC0" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
     <path class="cam-on" d="${d}" fill="none" stroke="url(#cb)" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/><path class="cam-on" d="${d}" fill="none" stroke="url(#cs)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
-    ${puente}${dibujoCartel(pos[0].x+(pos[0].x>200?-70:70),pos[0].y+86,true)}${deco}${dibujoCartel(pos[N-1].x+(pos[N-1].x>200?-72:72),pos[N-1].y-70,false)}</svg></div>`;
+    ${puente}${dibujoCartel(pos[0].x+(pos[0].x>200?-72:72),pos[0].y-60,true)}${deco}${dibujoCartel(pos[N-1].x+(pos[N-1].x>200?-72:72),pos[N-1].y+95,false)}</svg></div>`;
   const cam=box.querySelector('.camino'); const vistas=save.vistas||(save.vistas=Object.fromEntries(CAP_LIST.map(c=>[c.id,piezasDe(c)])));
   items.forEach((it,i)=>{
     const p=pos[i], b=document.createElement('button'); b.className='nodo'; b.style.left=`${p.x/W*100}%`; b.style.top=`${p.y/H*100}%`;
@@ -1490,7 +1490,7 @@ function construirCamino(box){
   persist();
   // el sendero iluminado hasta donde llegó
   const on=[...box.querySelectorAll('.cam-on')], base=on[0]; const L=base.getTotalLength(), yc=pos[cur].y; let largo=0;
-  for(let s=0;s<=L;s+=L/400){ largo=s; if(base.getPointAtLength(s).y<=yc) break; }
+  for(let s=0;s<=L;s+=L/400){ largo=s; if(base.getPointAtLength(s).y>=yc) break; }
   if(CAP_LIST.every(c=>capSave(c.id).final)) largo=L;
   on.forEach(el=>{ el.style.strokeDasharray=`${largo} ${L+10}`; });
   // el personaje, parado en la parada actual
@@ -1520,7 +1520,8 @@ function goHome(){
   hush(); show('home'); updateNames();
   const box=$('#weeks'); box.innerHTML='';
   const actual=construirCamino(box);
-  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } },80);
+  const hs=$('#scr-home'); hs.classList.remove('compact'); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs.classList.toggle('compact',hs.scrollTop>40),{passive:true}); }
+  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } hs.classList.toggle('compact',hs.scrollTop>40); },80);
   $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
   sayAll([T.holaDi(save.name)]);
   if(!save.tour) setTimeout(()=>{ if(!scr.home.hidden && modal.hidden) abrirTour(); },900);
