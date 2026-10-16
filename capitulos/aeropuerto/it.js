@@ -7,7 +7,7 @@
 registrarTextos('aeropuerto', 'it', {
   charlas: [
     {titulo:"Parlare al banco informazioni", chau:"Buon viaggio!", pasos:[
-      {di:"Ciao! Posso aiutarti?", op:[{t:"Sì, dov'è il bagno?", r:"In fondo al corridoio, a destra."}, {t:"Sì, dov'è l'aereo?", r:"Al gate 5! Segui le frecce gialle."}]},
+      {di:"Ciao! Posso aiutarti?", op:[{t:"Sì, dov'è il bagno?", r:"In fondo al corridoio, a destra."}, {t:"Sì, dov'è l'aereo?", r:"Al gate cinque! Segui le frecce gialle."}]},
       {op:[{t:"Dov'è il bar?", r:"Proprio là, vicino alla finestra."}, {t:"A che ora parte l'aereo?", r:"Tra un'ora!"}]},
       {di:"Hai il biglietto?", op:[{t:"Sì, ecco il mio biglietto.", r:"Perfetto! È tutto pronto."}, {t:"Sì, è nel mio zaino.", r:"Ottimo! Non perderlo."}]},
       {op:[{t:"Posso avere una mappa, per favore?", r:"Certo! Ecco una mappa."}, {t:"È lontano?", r:"No, è molto vicino."}]}]},

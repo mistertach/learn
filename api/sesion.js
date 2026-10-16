@@ -28,6 +28,20 @@ async function cambiarClave(uid, clave){
   return u;
 }
 
+/* límite de intentos: pocas contraseñas equivocadas por email y por dirección, y pocos registros / pedidos de recupero por hora */
+const ipDe = req => String(String(req.headers['x-forwarded-for'] || '').split(',')[0] || (req.socket && req.socket.remoteAddress) || 'sin-ip').trim().slice(0, 64);
+async function limitar(clave, max, minutos){
+  const [r] = await q(`SELECT n FROM intentos WHERE clave=$1 AND desde > NOW() - ($2 || ' minutes')::interval`, [clave, String(minutos)]);
+  if(r && r.n >= max) throw error(429, 'Demasiados intentos. Esperá unos minutos.', 'demasiados_intentos');
+}
+async function anotar(clave, minutos){
+  await q(`INSERT INTO intentos (clave, n, desde) VALUES ($1, 1, NOW())
+    ON CONFLICT (clave) DO UPDATE SET
+      n = CASE WHEN intentos.desde > NOW() - ($2 || ' minutes')::interval THEN intentos.n + 1 ELSE 1 END,
+      desde = CASE WHEN intentos.desde > NOW() - ($2 || ' minutes')::interval THEN intentos.desde ELSE NOW() END`, [clave, String(minutos)]);
+}
+const olvidar = clave => q('DELETE FROM intentos WHERE clave=$1', [clave]);
+
 module.exports = manejar({
   async GET(req){
     const u = await usuarioDe(req);
@@ -44,10 +58,17 @@ module.exports = manejar({
       ponerSesion(res, u.id, u.clave_ver);
       return {usuario: publico(u), alumnos: await alumnosDe(u.id)};
     }
-    if(b.accion === 'cambiar_clave'){
-      const yo = await exigirUsuario(req), clave = claveValida(b.clave);
+    if(b.accion === 'borrar_cuenta'){
+      const yo = await exigirUsuario(req); await limitar(`cc:${yo.id}`, 8, 15);
       const [u0] = await q('SELECT hash FROM usuarios WHERE id=$1', [yo.id]);
-      if(!claveOk(String(b.actual||''), u0.hash)) throw error(401, 'La contraseña actual no coincide', 'clave_actual');
+      if(!claveOk(String(b.clave||''), u0.hash)){ await anotar(`cc:${yo.id}`, 15); throw error(401, 'La contraseña no coincide', 'clave_actual'); }
+      await q('DELETE FROM usuarios WHERE id=$1', [yo.id]);   // los chicos, las grabaciones y los pedidos de recupero se borran con la cuenta
+      borrarSesion(res); return {ok:true};
+    }
+    if(b.accion === 'cambiar_clave'){
+      const yo = await exigirUsuario(req), clave = claveValida(b.clave); await limitar(`cc:${yo.id}`, 8, 15);
+      const [u0] = await q('SELECT hash FROM usuarios WHERE id=$1', [yo.id]);
+      if(!claveOk(String(b.actual||''), u0.hash)){ await anotar(`cc:${yo.id}`, 15); throw error(401, 'La contraseña actual no coincide', 'clave_actual'); }
       const u = await cambiarClave(yo.id, clave);
       ponerSesion(res, u.id, u.clave_ver);
       return {ok:true};
@@ -56,7 +77,7 @@ module.exports = manejar({
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw error(400, 'Ese email no parece válido', 'email_invalido');
     if(b.accion === 'olvide'){
       // siempre responde lo mismo, haya o no una cuenta con ese email
-      exigirCorreo();
+      exigirCorreo(); await limitar(`olv:${ipDe(req)}`, 10, 60); await anotar(`olv:${ipDe(req)}`, 60);
       const [u] = await q('SELECT id, nombre FROM usuarios WHERE email=$1', [email]);
       if(!u) return {ok:true};
       const [reciente] = await q(`SELECT 1 FROM recuperos WHERE usuario_id=$1 AND creado > NOW() - INTERVAL '2 minutes'`, [u.id]);
@@ -69,7 +90,7 @@ module.exports = manejar({
       return {ok:true};
     }
     if(b.accion === 'registro'){
-      claveValida(clave);
+      claveValida(clave); await limitar(`reg:${ipDe(req)}`, 10, 60); await anotar(`reg:${ipDe(req)}`, 60);
       const nombre = String(b.nombre||'').trim().slice(0, 60);
       const ya = await q('SELECT 1 FROM usuarios WHERE email=$1', [email]);
       if(ya.length) throw error(409, 'Ya hay una cuenta con ese email. Probá entrar.', 'email_existe');
@@ -79,8 +100,10 @@ module.exports = manejar({
       return {usuario: publico(u), alumnos: []};
     }
     if(b.accion === 'entrar'){
+      const ip = ipDe(req); await limitar(`ent:${email}`, 8, 15); await limitar(`ip:${ip}`, 40, 15);
       const [u] = await q('SELECT id, email, nombre, hash, es_admin, clave_ver FROM usuarios WHERE email=$1', [email]);
-      if(!u || !claveOk(clave, u.hash)) throw error(401, 'El email o la contraseña no coinciden', 'credenciales');
+      if(!u || !claveOk(clave, u.hash)){ await anotar(`ent:${email}`, 15); await anotar(`ip:${ip}`, 15); throw error(401, 'El email o la contraseña no coinciden', 'credenciales'); }
+      await olvidar(`ent:${email}`);
       if(esAdminEmail(email) && !u.es_admin){ await q('UPDATE usuarios SET es_admin=TRUE WHERE id=$1', [u.id]); u.es_admin = true; }
       ponerSesion(res, u.id, u.clave_ver);
       return {usuario: publico(u), alumnos: await alumnosDe(u.id)};

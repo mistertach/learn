@@ -1,0 +1,16 @@
+{
+  "name": "Las Aventuras",
+  "short_name": "Aventuras",
+  "description": "Aprender idiomas jugando y hablando",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#CBEBFC",
+  "theme_color": "#7CC6F0",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

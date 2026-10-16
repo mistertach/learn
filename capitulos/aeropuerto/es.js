@@ -7,7 +7,7 @@
 registrarTextos('aeropuerto', 'es', {
   charlas: [
     {titulo:"Charlar en informes", chau:"¡Que tengas un buen viaje!", pasos:[
-      {di:"¡Hola! ¿Te puedo ayudar?", op:[{t:"Sí, ¿dónde está el baño?", r:"Por el pasillo, a la derecha."}, {t:"Sí, ¿dónde está el avión?", r:"¡En la puerta 5! Seguí las flechas amarillas."}]},
+      {di:"¡Hola! ¿Te puedo ayudar?", op:[{t:"Sí, ¿dónde está el baño?", r:"Por el pasillo, a la derecha."}, {t:"Sí, ¿dónde está el avión?", r:"¡En la puerta cinco! Seguí las flechas amarillas."}]},
       {op:[{t:"¿Dónde está el kiosco?", r:"Allá, al lado de la ventana."}, {t:"¿A qué hora sale el avión?", r:"¡En una hora!"}]},
       {di:"¿Tenés tu pasaje?", op:[{t:"Sí, acá está mi pasaje.", r:"¡Perfecto! Está todo listo."}, {t:"Sí, está en mi mochila.", r:"¡Genial! No lo pierdas."}]},
       {op:[{t:"¿Me das un mapa, por favor?", r:"¡Claro! Acá tenés un mapa."}, {t:"¿Queda lejos?", r:"No, queda muy cerca."}]}]},

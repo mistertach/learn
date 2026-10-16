@@ -22,6 +22,20 @@ const PIES=(c)=>E(34,62,10,16,c,-8)+E(66,38,10,16,c,8)+[0,1,2,3].map(i=>C(26+i*5
 const COLORES=['#E8483B','#2E6BD9','#FFC93C','#2FBF8F','#8B6FE8','#FF9B3D','#FF8FB8','#2B2B36','#FFFFFF'];
 const PUNTOS=n=>{ const m={1:[[50,50]],2:[[36,50],[64,50]],3:[[50,30],[34,62],[66,62]],4:[[34,34],[66,34],[34,66],[66,66]],5:[[34,32],[66,32],[50,50],[34,68],[66,68]],6:[[34,28],[66,28],[34,50],[66,50],[34,72],[66,72]]}; return `<g transform="translate(-17 -1) scale(.92)">${(m[n]||[]).map(([x,y])=>C(x,y,9,'#FFC93C')).join('')}</g>`; };
 
+
+/* una marquita distinta por color (para que no dependa solo del tono: ayuda a quienes no distinguen bien los colores) */
+const MARCA='stroke="#22314F" stroke-opacity=".38" fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"', MARCA_B='stroke="#fff" stroke-opacity=".7" fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"';
+window.PATRONES_COLOR=[
+  (b)=>[[36,40],[60,34],[48,58],[68,60],[32,66]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4.5" fill="${b?'#fff':'#22314F'}" fill-opacity="${b?.7:.38}"/>`).join(''),
+  (b)=>`<path d="M22 40q7-8 14 0t14 0t14 0t14 0M22 58q7-8 14 0t14 0t14 0t14 0" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<path d="M24 38H76M22 52H78M24 66H76" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<path d="M28 70L52 30M44 74L68 34M58 76L76 46" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<path d="M24 46l8 12 8-12 8 12 8-12 8 12 8-12" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<path d="M32 38v14M25 45h14M60 52v14M53 59h14M62 30v10M57 35h10" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<path d="M36 44c-5-5-12 0-6 7l6 6 6-6c6-7-1-12-6-7zM62 56c-4-4-10 0-5 6l5 5 5-5c5-6-1-10-5-6z" ${b?MARCA_B:MARCA}/>`,
+  (b)=>`<circle cx="50" cy="52" r="14" ${MARCA_B}/><circle cx="50" cy="52" r="26" ${MARCA_B}/>`,
+  (b)=>`<circle cx="50" cy="52" r="14" ${MARCA}/><circle cx="50" cy="52" r="26" ${MARCA}/>`
+];
 window.NIVEL0_COLORES=['#7C5CFF','#2FBF8F','#FF8A3D','#2E86DE','#FF6F8F','#8B6FE8','#E8483B','#F2A007'];
 window.NIVEL0_ARTE=[
 [ // preguntas
@@ -96,7 +110,7 @@ window.NIVEL0_ARTE=[
  c=>PIES(c)+PIES('#FFC93C').replace(/<ellipse/g,'<ellipse opacity=".0"'),
  c=>ARR(50,86,50,22,c,14)+E(50,92,26,6,'#22314F').replace('fill="#22314F"','fill="#22314F" opacity=".16"')+C(50,40,0,'#fff')
 ],
-[...COLORES.map(col=>()=>E(50,86,30,6,'#22314F').replace('fill="#22314F"','fill="#22314F" opacity=".14"')+P('M50 12C74 12 86 30 86 52S72 88 50 88 14 74 14 52 26 12 50 12Z',col)+E(36,34,12,7,'#fff',-30).replace('<ellipse','<ellipse opacity=".55"'))],
+[...COLORES.map((col,ci)=>()=>E(50,86,30,6,'#22314F').replace('fill="#22314F"','fill="#22314F" opacity=".14"')+P('M50 12C74 12 86 30 86 52S72 88 50 88 14 74 14 52 26 12 50 12Z',col)+window.PATRONES_COLOR[ci](ci===7||ci===1||ci===4||ci===0)+E(36,34,12,7,'#fff',-30).replace('<ellipse','<ellipse opacity=".55"'))],
 [1,2,3,4,5,6].map(n=>c=>R(8,8,84,84,'#FFF6DC',14)+PUNTOS(n)+T(String(n),78,72,44,c))
 ];
 // al terminar el árbol, los dibujos que quedaron sin color propio usan el del grupo

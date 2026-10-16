@@ -53,6 +53,11 @@ const ESQUEMA = [
      usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
      creado TIMESTAMPTZ NOT NULL DEFAULT NOW(),
      vence TIMESTAMPTZ NOT NULL)`,
+  // límite de intentos (entrar, registrarse, "olvidé mi contraseña"): clave, cuántos y desde cuándo
+  `CREATE TABLE IF NOT EXISTS intentos (
+     clave TEXT PRIMARY KEY,
+     n INTEGER NOT NULL DEFAULT 1,
+     desde TIMESTAMPTZ NOT NULL DEFAULT NOW())`,
   `CREATE INDEX IF NOT EXISTS grabaciones_global ON grabaciones(global) WHERE global`,
   // audios de la prueba de voces (voces.html): se guardan para no pagar dos veces el mismo
   `CREATE TABLE IF NOT EXISTS voces_prueba (

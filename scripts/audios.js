@@ -45,6 +45,8 @@ const FORZAR = !!arg('forzar');
 
 const IDIOMAS = (SOLO_ARG || 'es,en,fr,it,ar').split(',');
 const NOMBRE_DEFECTO = 'Luna';
+// la voz de cada personaje de las charlas (base.js: `voz`), una voz Chirp 3 HD de Google (están en todos los idiomas); el relator es Leda
+const VOCES_PERSONAJE = { papa: 'Charon', mama: 'Kore', nina: 'Zephyr', mayor: 'Gacrux', chico: 'Puck', sabio: 'Orus', amable: 'Aoede' };
 
 // Cargar lista de capítulos registrados
 function obtenerCapitulosDisponibles() {
@@ -274,13 +276,13 @@ function extraerPrompts(capId, lang, datos) {
   const orden = (datos.base && datos.base.orden) || [];
   const lista = [];
 
-  const add = (slugPrefix, rawText) => {
+  const add = (slugPrefix, rawText, voz) => {
     if (!rawText) return;
     const textoHablado = textoHabla(rawText, lang);
     if (!textoHablado) return;
-    const slug = `${slugPrefix}-${slugify(rawText)}`;
+    const slug = `${slugPrefix}${voz ? '-' + voz : ''}-${slugify(rawText)}`;
     if (lista.some(x => x.slug === slug)) return;
-    lista.push({ slugPrefix, rawText, textoHablado, slug, archivo: `${slug}.mp3` });
+    lista.push({ slugPrefix, rawText, textoHablado, slug, voz, archivo: `${slug}.mp3` });
   };
 
   const comunes = [
@@ -294,7 +296,7 @@ function extraerPrompts(capId, lang, datos) {
     'repasoMerienda', 'repasoMeriendaDi', 'ganasteGalletita', 'animalesGalletita', 'valeTres',
     'pez', 'pezQ', 'nam', 'escapo', 'cuantos',
     'charlasDi', 'charlaCerrada', 'charlaResponde', 'charlaPregunta', 'charlaFin',
-    'nivel0', 'nivel0Titulo', 'nivel0Di', 'nivel0Hecho', 'nivel0Todas', 'nivel0Grupo'
+    'nivel0', 'nivel0Titulo', 'nivel0Di', 'nivel0Hecho', 'nivel0Todas', 'nivel0Grupo', 'dilo'
   ];
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
@@ -373,10 +375,15 @@ function extraerPrompts(capId, lang, datos) {
       }
     }
     // conversaciones (las líneas con el nombre del chico no se graban: las dice la voz del navegador)
-    for (const ch of (tc.charlas || [])) {
-      const linea = x => { if (x && !String(x).includes('{N}')) add('charla', x); };
-      linea(ch.titulo); linea(ch.chau);
-      for (const p of (ch.pasos || [])) { linea(p.di); for (const o of (p.op || [])) { linea(o.t); linea(o.r); } }
+    const cDatosBase = cDatos.base;
+    for (const [ci, ch] of (tc.charlas || []).entries()) {
+      // lo que dice el amigo va con su propia voz (ch.voz, del base.js); lo que dice el chico y los títulos, con la del relator
+      const bch = ((datos.base && datos.base.orden) ? null : null);
+      const linea = (x, voz) => { if (x && !String(x).includes('{N}')) add('charla', x, voz); };
+      const voz = (cDatosBase && cDatosBase.charlas && cDatosBase.charlas[ci] && cDatosBase.charlas[ci].voz) || null;
+      linea(ch.titulo);
+      linea(ch.chau, voz);
+      for (const p of (ch.pasos || [])) { linea(p.di, voz); for (const o of (p.op || [])) { linea(o.t); linea(o.r, voz); } }
     }
 
     for (const n of (tc.niveles || [])) {
@@ -446,6 +453,16 @@ function mostrarCuota() {
 }
 
 // Actualizar audio.js y manifest.json
+/* Un archivo por idioma, para que el navegador cargue solo el que necesita (el que aprende y el de ayuda):
+   audio/audio-<idioma>.js (id → mp3 de cada palabra, sílaba y frase de los lugares) y audio/prompts-<idioma>.js (texto → mp3 de las consignas y charlas).
+   audio/manifest.json guarda todo junto (no lo carga el navegador). */
+const IDIOMAS_AUDIO = ['es', 'fr', 'it', 'en', 'ar'];
+function escribirAudioJs(manifest) {
+  for (const l of IDIOMAS_AUDIO) {
+    const e = Object.entries(manifest).filter(([k]) => k.startsWith(l + ':'));
+    fs.writeFileSync(path.join(AUDIO_DIR, `audio-${l}.js`), `/* Generado automáticamente por scripts/audios.js */\n(window.STATIC_AUDIO = window.STATIC_AUDIO || new Map());\n${JSON.stringify(e)}.forEach(([k, v]) => window.STATIC_AUDIO.set(k, v));\n`);
+  }
+}
 function sincronizarManifest(nuevasEntradas) {
   const manifestFile = path.join(AUDIO_DIR, 'manifest.json');
   let manifest = {};
@@ -454,36 +471,17 @@ function sincronizarManifest(nuevasEntradas) {
   }
   Object.assign(manifest, nuevasEntradas);
   fs.writeFileSync(manifestFile, JSON.stringify(manifest, null, 2));
-
-  const audioJsContent = `/* Generado automáticamente por scripts/audios.js */
-window.STATIC_AUDIO = new Map(${JSON.stringify(Object.entries(manifest))});
-`;
-  fs.writeFileSync(path.join(AUDIO_DIR, 'audio.js'), audioJsContent);
+  escribirAudioJs(manifest);
 }
-
-// Actualizar prompts.js
+function leerPromptsIdioma(l) {
+  const f = path.join(AUDIO_DIR, `prompts-${l}.js`); if (!fs.existsSync(f)) return {};
+  try { const txt = fs.readFileSync(f, 'utf8'); return JSON.parse(txt.slice(txt.indexOf('] = ') + 4, txt.lastIndexOf(';'))); } catch (e) { return {}; }
+}
+function escribirPromptsIdioma(l, mapa) {
+  fs.writeFileSync(path.join(AUDIO_DIR, `prompts-${l}.js`), `/* Generado automáticamente por scripts/audios.js */\n(window.STATIC_PROMPTS = window.STATIC_PROMPTS || {});\nwindow.STATIC_PROMPTS[${JSON.stringify(l)}] = ${JSON.stringify(mapa)};\n`);
+}
 function sincronizarPrompts(nuevosPrompts) {
-  const promptsFile = path.join(AUDIO_DIR, 'prompts.js');
-  let staticPrompts = {};
-  if (fs.existsSync(promptsFile)) {
-    try {
-      const txt = fs.readFileSync(promptsFile, 'utf8');
-      const jsonStart = txt.indexOf('{');
-      const jsonEnd = txt.lastIndexOf('}');
-      if (jsonStart >= 0 && jsonEnd > jsonStart) {
-        staticPrompts = JSON.parse(txt.slice(jsonStart, jsonEnd + 1));
-      }
-    } catch (e) {}
-  }
-
-  for (const l of Object.keys(nuevosPrompts)) {
-    staticPrompts[l] = Object.assign(staticPrompts[l] || {}, nuevosPrompts[l]);
-  }
-
-  const content = `/* Generado automáticamente por scripts/audios.js */
-window.STATIC_PROMPTS = ${JSON.stringify(staticPrompts, null, 2)};
-`;
-  fs.writeFileSync(promptsFile, content);
+  for (const l of Object.keys(nuevosPrompts)) escribirPromptsIdioma(l, Object.assign(leerPromptsIdioma(l), nuevosPrompts[l]));
 }
 
 /* =========================================================
@@ -761,13 +759,14 @@ async function regenerarSilabas() {
           const dest = path.join(targetDir, it.archivo);
           const relPath = `audio/${lang}/prompts/${it.archivo}`;
 
-          nuevosPrompts[lang][normKey(it.rawText)] = relPath;
+          const pv = it.voz ? `${it.voz}~` : '';
+          nuevosPrompts[lang][pv + normKey(it.rawText)] = relPath;
           if (it.rawText.includes('|')) {
             const [lat, arab] = it.rawText.split('|');
-            nuevosPrompts[lang][normKey(lat)] = relPath;
-            nuevosPrompts[lang][normKey(arab)] = relPath;
+            nuevosPrompts[lang][pv + normKey(lat)] = relPath;
+            nuevosPrompts[lang][pv + normKey(arab)] = relPath;
           }
-          nuevosPrompts[lang][normKey(it.textoHablado)] = relPath;
+          nuevosPrompts[lang][pv + normKey(it.textoHablado)] = relPath;
 
           if (!FORZAR && fs.existsSync(dest) && fs.statSync(dest).size > 500) {
             yaEstaban++;
@@ -784,7 +783,7 @@ async function regenerarSilabas() {
             let intentos = 0;
             while (intentos < 5) {
               try {
-                const audioBuf = await S.generar(it.textoHablado, lang, vozLeda);
+                const audioBuf = await S.generar(it.textoHablado, lang, it.voz && VOCES_PERSONAJE[it.voz] ? `${GOOGLE_LOCAL[lang]}-Chirp3-HD-${VOCES_PERSONAJE[it.voz]}` : vozLeda);
                 fs.writeFileSync(dest, audioBuf);
                 nuevos++;
                 process.stdout.write('.');
@@ -821,13 +820,14 @@ async function regenerarSilabas() {
           const dest = path.join(targetDir, it.archivo);
           if (fs.existsSync(dest)) {
             const relPath = `audio/${lang}/prompts/${it.archivo}`;
-            nuevosPrompts[lang][normKey(it.rawText)] = relPath;
+            const pv = it.voz ? `${it.voz}~` : '';
+            nuevosPrompts[lang][pv + normKey(it.rawText)] = relPath;
             if (it.rawText.includes('|')) {
               const [lat, arab] = it.rawText.split('|');
-              nuevosPrompts[lang][normKey(lat)] = relPath;
-              nuevosPrompts[lang][normKey(arab)] = relPath;
+              nuevosPrompts[lang][pv + normKey(lat)] = relPath;
+              nuevosPrompts[lang][pv + normKey(arab)] = relPath;
             }
-            nuevosPrompts[lang][normKey(it.textoHablado)] = relPath;
+            nuevosPrompts[lang][pv + normKey(it.textoHablado)] = relPath;
           }
         }
         sincronizarPrompts({ [lang]: nuevosPrompts[lang] });

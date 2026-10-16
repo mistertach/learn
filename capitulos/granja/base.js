@@ -132,10 +132,10 @@ registrarCapitulo({
         esc(H(.3,{gesto:"saludo"}), N("Y",.72,-1), E("corazones",.5,.4))]}
   },
   charlas: [
-    {npc:{kind:"dog", fur:"#C08552", fur2:"#F5E1C8", ear:"#8A5636", hat:"#E8C66A", seed:0.5}, arte:"vaca", est:"V", color:"#FFFFFF"},
-    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#E8483B", seed:0.9}, arte:"gallo", est:"K", color:"#E8483B"},
-    {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#2E86DE", seed:1.8}, arte:"caballo", est:"B", color:"#A8744E"},
-    {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8C66A", seed:1.1}, arte:"granero", est:"final", color:"#E8C66A"}],
+    {npc:{kind:"dog", fur:"#C08552", fur2:"#F5E1C8", ear:"#8A5636", hat:"#E8C66A", seed:0.5}, arte:"vaca", est:"V", voz:"sabio", color:"#FFFFFF"},
+    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#E8483B", seed:0.9}, arte:"gallo", est:"K", voz:"chico", color:"#E8483B"},
+    {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#2E86DE", seed:1.8}, arte:"caballo", est:"B", voz:"papa", color:"#A8744E"},
+    {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8C66A", seed:1.1}, arte:"granero", est:"final", voz:"sabio", color:"#E8C66A"}],
   final: {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8C66A", seed:1.1}, arte:"granero", icono:"granero", anim:"desfile",
     desfile:["vaca", "chancho", "oveja", "gallo", "caballo", "pato", "pollito"]},
   microjuego: {id:"comida", arte:"pollito", precio:3, color:"#8CCB6B", ingredientes:["vaca", "chancho", "oveja", "gallo", "caballo", "pato"]},

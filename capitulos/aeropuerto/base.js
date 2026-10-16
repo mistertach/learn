@@ -323,10 +323,10 @@ registrarCapitulo({
     }
   },
   charlas: [
-    {npc:{kind:"bunny", fur:"#E6E0F5", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#2E86DE", seed:0.4}, arte:"mapa", est:"I", color:"#2E86DE"},
-    {npc:{kind:"cat", fur:"#B9805A", fur2:"#F6E3CF", stripes:"#8A5636", hat:"#FF6F59", seed:2.1}, arte:"alfajor", est:"K", color:"#FF6F59"},
-    {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#22314F", seed:2.5}, arte:"pasaporte", est:"S", color:"#5C6A86"},
-    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#FFFFFF", seed:0.2}, arte:"avion", est:"W", color:"#7CC6F0"}],
+    {npc:{kind:"bunny", fur:"#E6E0F5", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#2E86DE", seed:0.4}, arte:"mapa", est:"I", voz:"nina", color:"#2E86DE"},
+    {npc:{kind:"cat", fur:"#B9805A", fur2:"#F6E3CF", stripes:"#8A5636", hat:"#FF6F59", seed:2.1}, arte:"alfajor", est:"K", voz:"mama", color:"#FF6F59"},
+    {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#22314F", seed:2.5}, arte:"pasaporte", est:"S", voz:"papa", color:"#5C6A86"},
+    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#FFFFFF", seed:0.2}, arte:"avion", est:"W", voz:"sabio", color:"#7CC6F0"}],
   final: {npc:{kind:"bunny", fur:"#D9C4AE", fur2:"#FFF6EC", inner:"#FFB3C7", hat:"#2FBF8F", seed:1.9}, arte:"pasaje"},
   microjuego: {id:"vuelo", arte:"avion", precio:3, color:"#2E86DE"},
   palabrasExtra: ["ascensor", "escalera", "puerta", "gorra", "mochila"],

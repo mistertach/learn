@@ -124,10 +124,10 @@ registrarCapitulo({
         esc(H(.35,{gesto:"saltar"}), N("T",.7,-1,"aplaudir"), E("corazones",.5,.4))]}
   },
   charlas: [
-    {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#2E86DE", seed:0.4}, arte:"hamaca", est:"H", color:"#2E86DE"},
-    {npc:{kind:"dog", fur:"#E8D3B0", fur2:"#FFF7EA", ear:"#B48A5A", hat:"#E8483B", seed:2.1}, arte:"pelota", est:"O", color:"#E8483B"},
-    {npc:{kind:"bunny", fur:"#C9B8A8", fur2:"#F2EAE0", inner:"#FFB3C7", hat:"#7CC6F0", seed:2.6}, arte:"burbujas", est:"B", color:"#7CC6F0"},
-    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#2FBF8F", seed:1.4}, arte:"silbato", est:"final", color:"#2FBF8F"}],
+    {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#2E86DE", seed:0.4}, arte:"hamaca", est:"H", voz:"papa", color:"#2E86DE"},
+    {npc:{kind:"dog", fur:"#E8D3B0", fur2:"#FFF7EA", ear:"#B48A5A", hat:"#E8483B", seed:2.1}, arte:"pelota", est:"O", voz:"chico", color:"#E8483B"},
+    {npc:{kind:"bunny", fur:"#C9B8A8", fur2:"#F2EAE0", inner:"#FFB3C7", hat:"#7CC6F0", seed:2.6}, arte:"burbujas", est:"B", voz:"nina", color:"#7CC6F0"},
+    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#2FBF8F", seed:1.4}, arte:"silbato", est:"final", voz:"amable", color:"#2FBF8F"}],
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#2FBF8F", seed:1.4}, arte:"silbato", icono:"silbato", anim:"simon",
     ordenes:["saltar", "girar", "aplaudir", "agacharse", "arriba"]},
   microjuego: {id:"barrilete", arte:"barrilete", precio:3, color:"#7CC6F0"},

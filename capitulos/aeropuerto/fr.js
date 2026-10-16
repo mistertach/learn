@@ -7,7 +7,7 @@
 registrarTextos('aeropuerto', 'fr', {
   charlas: [
     {titulo:"Parler au guichet d'information", chau:"Bon voyage !", pasos:[
-      {di:"Bonjour ! Je peux t'aider ?", op:[{t:"Oui, où sont les toilettes ?", r:"Au bout du couloir, à droite."}, {t:"Oui, où est l'avion ?", r:"À la porte 5 ! Suis les flèches jaunes."}]},
+      {di:"Bonjour ! Je peux t'aider ?", op:[{t:"Oui, où sont les toilettes ?", r:"Au bout du couloir, à droite."}, {t:"Oui, où est l'avion ?", r:"À la porte cinq ! Suis les flèches jaunes."}]},
       {op:[{t:"Où est le snack ?", r:"Juste là-bas, à côté de la fenêtre."}, {t:"À quelle heure part l'avion ?", r:"Dans une heure !"}]},
       {di:"Tu as ton billet ?", op:[{t:"Oui, voici mon billet.", r:"Parfait ! Tout est prêt."}, {t:"Oui, il est dans mon sac.", r:"Super ! Ne le perds pas."}]},
       {op:[{t:"Je peux avoir un plan, s'il vous plaît ?", r:"Bien sûr ! Voici un plan."}, {t:"C'est loin ?", r:"Non, c'est tout près."}]}]},

@@ -135,10 +135,10 @@ registrarCapitulo({
         esc(H(.3,{gesto:"bailar"}), N("T",.72,-1,"bailar"), E("corazones",.5,.4))]}
   },
   charlas: [
-    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#FF8FB8", seed:0.4}, arte:"invitacion", est:"I", color:"#FFC93C"},
-    {npc:{kind:"cat", fur:"#9E9E9E", fur2:"#F2F2F2", stripes:"#6E6E6E", hat:"#8B6FE8", seed:1.7}, arte:"calendario", est:"K", color:"#8B6FE8"},
-    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#2E86DE", seed:0.8}, arte:"regalo", est:"R", color:"#2E86DE"},
-    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", est:"final", color:"#FF8FB8"}],
+    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#FF8FB8", seed:0.4}, arte:"invitacion", est:"I", voz:"nina", color:"#FFC93C"},
+    {npc:{kind:"cat", fur:"#9E9E9E", fur2:"#F2F2F2", stripes:"#6E6E6E", hat:"#8B6FE8", seed:1.7}, arte:"calendario", est:"K", voz:"amable", color:"#8B6FE8"},
+    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#2E86DE", seed:0.8}, arte:"regalo", est:"R", voz:"papa", color:"#2E86DE"},
+    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", est:"final", voz:"nina", color:"#FF8FB8"}],
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", icono:"fiesta", anim:"fiesta"},
   microjuego: {id:"velas", arte:"torta", precio:3, color:"#FF8FB8"},
   palabrasExtra: ["pinata", "caramelo", "vaso"],

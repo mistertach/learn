@@ -7,7 +7,7 @@
 registrarTextos('aeropuerto', 'en', {
   charlas: [
     {titulo:"Chatting at the information desk", chau:"Have a nice trip!", pasos:[
-      {di:"Hello! Can I help you?", op:[{t:"Yes, where is the bathroom?", r:"Down the hall, on the right."}, {t:"Yes, where is the plane?", r:"At gate 5! Follow the yellow arrows."}]},
+      {di:"Hello! Can I help you?", op:[{t:"Yes, where is the bathroom?", r:"Down the hall, on the right."}, {t:"Yes, where is the plane?", r:"At gate five! Follow the yellow arrows."}]},
       {op:[{t:"Where is the snack stand?", r:"Right over there, next to the window."}, {t:"What time does the plane leave?", r:"In one hour!"}]},
       {di:"Do you have your ticket?", op:[{t:"Yes, here's my ticket.", r:"Perfect! You're all set."}, {t:"Yes, it's in my bag.", r:"Great! Don't lose it."}]},
       {op:[{t:"Can I have a map, please?", r:"Of course! Here's a map."}, {t:"Is it far?", r:"No, it's very close."}]}]},

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#7CC6F0">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 <title>Las Aventuras de Nico</title>
@@ -435,6 +441,24 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 
 
 
+
+.mbtn.star.escucha{box-shadow:0 5px 0 rgba(34,49,79,.2),0 0 0 calc(var(--v,0)*10px) rgba(47,191,143,.65);transition:box-shadow .1s}
+/* informe, puerta y privacidad (rincón de los grandes) */
+.informe{background:#EEF6FF;border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.informe h3{margin:0;font-size:20px}
+.inf-semana{display:flex;gap:8px;align-items:flex-end;height:96px}
+.inf-dia{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;font-size:12px;color:var(--ink2);font-weight:700}
+.inf-dia i{width:70%;max-width:34px;background:#C9D6E8;border-radius:8px 8px 3px 3px;display:block}.inf-dia i.on{background:var(--mint)}
+.inf-cifras{display:flex;gap:10px;flex-wrap:wrap}
+.inf-cifras div{flex:1 1 90px;background:#fff;border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.inf-cifras b{font-size:22px}.inf-cifras span{font-size:12px;color:var(--ink2);font-weight:700}
+.inf-rep{margin:0;font-size:14px;line-height:1.9}.inf-chip{background:#FFF1D6;border-radius:999px;padding:2px 10px;font-weight:700;white-space:nowrap}.inf-chip em{font-style:normal;color:var(--ink2);font-size:12px}
+.puerta-cuenta{font-size:clamp(44px,12vw,76px);font-weight:800;line-height:1;margin:6px 0}
+.puerta-op{min-width:96px;font-size:34px}.puerta-op.wrong{animation:shake .45s;background:#C9D2DF}
+.card.puerta{align-items:center;text-align:center}
+.chk.priv{align-items:flex-start;font-size:14px}.chk.priv .linkbtn{display:inline;padding:0}
+.linkbtn.inl{font:inherit;text-decoration:underline;color:var(--blue);background:none;border:0;cursor:pointer}
+.priv-aviso h2{margin:0 0 6px}.priv-aviso p{margin:0 0 10px;font-size:16px;line-height:1.45;font-weight:600;color:var(--ink2)}
 /* nivel 0: lecciones por grupo */
 .n0grupos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;width:min(980px,100%);margin:0 auto}
 .n0g{border:0;border-radius:28px;background:#fff;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;text-align:left;box-shadow:0 8px 0 rgba(34,49,79,.16);position:relative;transition:transform .15s;min-width:0}
@@ -749,8 +773,6 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 
 <script src="capitulos.js"></script>
 <script src="escenas.js"></script>
-<script src="audio/audio.js"></script>
-<script src="audio/prompts.js"></script>
 <script src="juego.js"></script>
 <script src="microjuegos.js"></script>
 

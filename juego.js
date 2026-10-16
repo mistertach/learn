@@ -254,6 +254,9 @@ const sonido = sl => { const m=(LANG&&LANG.sonido)||{}, k=sl.trim().toLowerCase(
 const palabraDe = (c,k) => c.palabras.find(p=>p.est===k);
 const fraseDe = (c,k) => c.frases.find(p=>p.est===k);
 function cargarScript(src){ return new Promise(res=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>{ console.warn('No se pudo cargar', src); res(); }; document.head.appendChild(s); }); }
+/* los índices de audio van por idioma: se carga el que se aprende y el de ayuda (no los 5, que pesan ~1.5 MB) */
+const AUDIO_CARGADO = {};
+function cargarAudio(l){ if(!l) return Promise.resolve(); return AUDIO_CARGADO[l] || (AUDIO_CARGADO[l] = Promise.all([cargarScript(`audio/audio-${l}.js`), cargarScript(`audio/prompts-${l}.js`)])); }
 async function cargarTodo(){
   const langs=window.IDIOMAS||['es'], ids=window.CAPITULOS||[];
   await Promise.all([
@@ -272,6 +275,7 @@ const idiomasDisponibles = () => (window.IDIOMAS||['es']).filter(l=>PACKS[l]);
 function setLang(code, guardar=true){
   if(!PACKS[code]) code=idiomasDisponibles()[0]||'es';
   LANG=PACKS[code]; if(guardar){ save.lang=code; persist(); }
+  cargarAudio(code); try{ cargarAudio(ayuda()); }catch(e){}
   document.documentElement.lang=code;
   CAP_LIST=(window.CAPITULOS||[]).map(id=>buildCap(id,code)).filter(Boolean);
   CAP_LIST.forEach((c,i)=>c.num=i+1);   // el número de semana sale del orden de capitulos.js
@@ -326,6 +330,16 @@ function persist(){
   if(NUBE.alumno) nubeGuardarLuego();
 }
 let save = loadSave();
+/* el informe de los grandes: minutos jugados por día (solo cuenta mientras el chico toca algo) y las palabras que más se le complican */
+const hoyClave = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+let ultimaActividad=Date.now(), tickInforme=0;
+['pointerdown','keydown','touchstart'].forEach(e=>addEventListener(e,()=>{ ultimaActividad=Date.now(); },{passive:true,capture:true}));
+setInterval(()=>{
+  if(document.hidden || Date.now()-ultimaActividad>45000 || !save || !save.lang) return;
+  const dias=save.dias||(save.dias={}), h=hoyClave(); dias[h]=(dias[h]||0)+5;
+  if(++tickInforme%12===0){ const k=Object.keys(dias).sort(); while(k.length>120) delete dias[k.shift()]; persist(); }
+},5000);
+function fallo(t){ if(!t) return; const f=save.fallos||(save.fallos={}), k=`${langCode()}:${String(t).slice(0,60)}`; f[k]=(f[k]||0)+1; const ks=Object.keys(f); if(ks.length>300) delete f[ks[0]]; }
 function capSave(id){ const k=`${langCode()}:${id}`; if(!save.caps[k]) save.caps[k]={sellos:{}, final:false, pos:null}; return save.caps[k]; }
 const char = () => CHARACTERS.find(c=>c.id===save.charId) || CHARACTERS[0];
 
@@ -335,22 +349,24 @@ function normPromptKey(s){
     .replace(/[¡!¿?.,:«»"']/g, '')
     .replace(/\s+/g, ' ');
 }
-function promptAudioUrl(lang, text){
+/* voz: el personaje que habla (papa, mama, nina, mayor, chico, sabio, amable); si no hay grabación con su voz, se usa la del relator */
+function promptAudioUrl(lang, text, voz){
   if(!text || !window.STATIC_PROMPTS) return null;
   const map = window.STATIC_PROMPTS[lang];
   if(!map) return null;
+  const get = k => (voz && map[`${voz}~${k}`]) || map[k] || null;
   const k = normPromptKey(text);
-  if(map[k]) return map[k];
+  if(get(k)) return get(k);
   if(window.save && save.name && text.includes(save.name)){
     const kNico = normPromptKey(text.replace(save.name, 'Nico'));
-    if(map[kNico]) return map[kNico];
+    if(get(kNico)) return get(kNico);
     const kSin = normPromptKey(text.replace(save.name, ''));
-    if(map[kSin]) return map[kSin];
+    if(get(kSin)) return get(kSin);
   }
   const h = caraHablada(text);
   if(h !== text){
     const kh = normPromptKey(h);
-    if(map[kh]) return map[kh];
+    if(get(kh)) return get(kh);
   }
   return null;
 }
@@ -446,7 +462,8 @@ function voiceFor(code){
   list.sort((a,b)=>multi(a)-multi(b) || ((pack?pack.rankVoz(normLang(a.lang)):0)-(pack?pack.rankVoz(normLang(b.lang)):0)) || nice(a)-nice(b));
   return list[0]||null;
 }
-async function speak(text, rate=.85, code=langCode()){
+const TONO_VOZ = {papa:.78, mama:1.12, nina:1.3, mayor:.95, chico:1.2, sabio:.85, amable:1.18};
+async function speak(text, rate=.85, code=langCode(), voz){
   await ensureVoices();
   return new Promise(res=>{
     if(!('speechSynthesis' in window)) return setTimeout(res, 400);
@@ -454,7 +471,7 @@ async function speak(text, rate=.85, code=langCode()){
     const u=new SpeechSynthesisUtterance(caraHablada(text)); const v=voiceFor(code);
     u.lang = v ? v.lang : (PACKS[code] ? PACKS[code].tag : code);
     if(v) u.voice=v;
-    u.rate=rate; u.pitch=1.05; u.onend=fin; u.onerror=fin;
+    u.rate=rate; u.pitch=TONO_VOZ[voz]||1.05; u.onend=fin; u.onerror=fin;
     const tm=setTimeout(fin, 2500+text.length*120);
     try{ speechSynthesis.speak(u); }catch(e){ fin(); }
   });
@@ -470,12 +487,12 @@ async function sayAll(parts){
   for(let p of parts){
     if(my!==sayTok) return false;
     if(typeof p==='string') p={t:p};
-    const sUrl = (p.id ? staticAudioUrl(p.id) : null) || (p.t ? promptAudioUrl(p.lang||langCode(), p.t) : null);
+    const sUrl = (p.id ? staticAudioUrl(p.id) : null) || (p.t ? promptAudioUrl(p.lang||langCode(), p.t, p.voz) : null);
     const b = (!sUrl && p.id && clips.has(p.id)) ? await clips.get(p.id) : null;
     if(my!==sayTok) return false;
     if(sUrl) await playUrl(sUrl);
     else if(b) await playBlob(b);
-    else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode());
+    else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz);
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
     if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else await speak(tr, .9, ayuda()); } }
   }
@@ -1732,7 +1749,33 @@ function record(stream, maxMs){ return new Promise((res,rej)=>{ let rec; try{ re
 function stopRecording(){ if(curRec) curRec.stop(); }
 
 /* la estrella (con o sin control de un grande) */
+/* escucha opcional (rincón de los grandes): el micrófono solo mide si el chico habla (nada se graba ni se envía).
+   Si toca la estrella sin haber dicho nada, el relator le pide una vez que lo diga en voz alta. */
+async function abrirEscucha(){
+  try{
+    const st=await getMic(), a=actx(); if(!a) return null;
+    const src=a.createMediaStreamSource(st), an=a.createAnalyser(); an.fftSize=1024; src.connect(an);
+    const buf=new Float32Array(an.fftSize), o={ms:0, piso:0, n:0, reset(){ this.ms=0; }, parar(){ clearInterval(id); try{ src.disconnect(); }catch(e){} }};
+    const id=setInterval(()=>{ an.getFloatTimeDomainData(buf); let s=0; for(const x of buf) s+=x*x; const rms=Math.sqrt(s/buf.length); o.n++;
+      if(o.n<=5){ o.piso=Math.max(o.piso,rms); return; } if(rms>Math.max(0.025,o.piso*2.5)) o.ms+=100; },100);
+    return o;
+  }catch(e){ return null; }
+}
 function starPress(){
+  if(!save.escucha || save.grownup) return starPressBase();
+  return (async()=>{
+    const esc=await abrirEscucha(); if(!esc) return starPressBase();
+    const star=card.querySelector('.star'); let avisado=false;
+    if(star) star.classList.add('escucha');
+    const t=setInterval(()=>{ if(!star || !star.isConnected){ clearInterval(t); return; } if(star.disabled){ esc.reset(); star.style.setProperty('--v',0); } else star.style.setProperty('--v',Math.min(1,esc.ms/600)); },100);
+    try{
+      for(;;){ await starPressBase(); const ok=esc.ms>=500;
+        if(ok || avisado){ const e=save.escuchas||(save.escuchas={si:0,no:0}); ok ? e.si++ : e.no++; persist(); return; }
+        avisado=true; sayAll([T.dilo]); }
+    } finally { clearInterval(t); esc.parar(); releaseMic(); }
+  })();
+}
+function starPressBase(){
   return new Promise(res=>{
     const star=card.querySelector('.star');
     if(save.grownup){ star.classList.add('holdable'); star.querySelector('span').textContent=T.apretado; holdify(star,1100,()=>res()); }
@@ -1788,7 +1831,7 @@ async function runStation(key){
   for(;;){
     const {btn}=await waitAct('pick'); if(!alive()) return;
     if(btn.dataset.k===key){ btn.classList.add('right'); sfx.yay(); await sayAll([{t:praise(), id:`${CAP.key}:${key}:respuesta`}]); if(!alive()) return; break; }
-    btn.classList.add('wrong'); sfx.oops(); setTimeout(()=>btn.classList.remove('wrong'),500);
+    fallo(w.texto); btn.classList.add('wrong'); sfx.oops(); setTimeout(()=>btn.classList.remove('wrong'),500);
     sayAll(st.buscar ? [T.casi, st.buscar] : [T.ups(w.texto)]);
   }
   // 3 · decí la frase en partes
@@ -2137,7 +2180,8 @@ function drawFish(f,t){
   drawImg(c,'pez',X,Y,T*.72,Math.sin(t*3)*.12);
 }
 const COLORES=[{k:'rojo',c:'#E8483B'},{k:'azul',c:'#2E6BD9'},{k:'amarillo',c:'#FFC93C'},{k:'verde',c:'#2FBF8F'},{k:'violeta',c:'#8B6FE8'},{k:'naranja',c:'#FF9B3D'},{k:'rosa',c:'#FF8FB8'},{k:'negro',c:'#2B2B36'},{k:'blanco',c:'#FFFFFF'}];
-const blob = c => `<img src="${svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10c24 0 40 16 40 38S74 90 50 90 10 72 10 48 26 10 50 10z" fill="${c}" stroke="#22314F" stroke-opacity=".15" stroke-width="3"/><ellipse cx="36" cy="34" rx="10" ry="6" fill="#fff" opacity=".5"/></svg>`)}" alt="">`;
+const marcaColor = c => { const i=COLORES.findIndex(x=>x.c===c); const f=(window.PATRONES_COLOR||[])[i]; return f ? f([0,1,4,7].includes(i)) : ''; };
+const blob = c => `<img src="${svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10c24 0 40 16 40 38S74 90 50 90 10 72 10 48 26 10 50 10z" fill="${c}" stroke="#22314F" stroke-opacity=".15" stroke-width="3"/>${marcaColor(c)}<ellipse cx="36" cy="34" rx="10" ry="6" fill="#fff" opacity=".5"/></svg>`)}" alt="">`;
 const pick1 = a => a[Math.floor(Math.random()*a.length)];
 function makeQuestion(){
   const r=Math.random(), qs=CAP.preguntas||[];
@@ -2657,7 +2701,7 @@ async function runRepasoMerienda(){
           if(!alive()) return;
           break;
         }
-        btn.classList.add('wrong'); btn.disabled = true; sfx.oops();
+        fallo(w.texto); btn.classList.add('wrong'); btn.disabled = true; sfx.oops();
         narrar(()=>sayAll([{t:o.w.texto, id:o.w.id}, pregunta])).then(()=>{ btn.disabled=true; });
       }
     }
@@ -2692,7 +2736,7 @@ async function runRepasoPalabras(){
       const {btn}=await waitAct('pick'); if(!alive()) return;
       const o=ops[+btn.dataset.i];
       if(o.ok){ btn.classList.add('right'); sfx.yay(); setWait(true); C[w.id]=(C[w.id]||0)+1; await sayAll([praise(), {t:w.texto, id:w.id}]); if(!alive()) return; break; }
-      btn.classList.add('wrong'); btn.disabled=true; sfx.oops();
+      fallo(w.texto); btn.classList.add('wrong'); btn.disabled=true; sfx.oops();
       narrar(()=>sayAll([{t:o.w.texto, id:o.w.id}, pregunta])).then(()=>{ btn.disabled=true; });
     }
   }
@@ -2755,6 +2799,30 @@ function resetProgress(){
   CAP=null; cs=null; modal.hidden=true; card.innerHTML=''; busy=false; flowTok++; hush();
   setLang(save.lang||'es', false); show('start'); rotarInicio(); setTimeout(()=>$('#playBtn').focus(),60);
 }
+/* baja todos los audios de los idiomas en uso a la memoria del navegador (el service worker los usa sin internet) */
+async function descargarAudio(btn){
+  if(!('caches' in window)){ btn.textContent='Este navegador no puede guardarlos'; return; }
+  btn.disabled=true; const langs=[...new Set([langCode(), ayuda()].filter(Boolean))];
+  try{
+    await Promise.all(langs.map(cargarAudio));
+    const urls=new Set(); for(const l of langs){ for(const [k,v] of (window.STATIC_AUDIO||new Map())) if(k.startsWith(l+':')) urls.add(v); for(const v of Object.values((window.STATIC_PROMPTS||{})[l]||{})) urls.add(v); }
+    const lista=[...urls].filter(u=>/\.mp3$/.test(u)), c=await caches.open('audio-'+AUDIO_VERSION_CLIENTE); let hechos=0, i=0;
+    const trabajar=async()=>{ while(i<lista.length){ const u='/'+lista[i++]; try{ if(!(await c.match(u))){ const r=await fetch(u); if(r.ok) await c.put(u,r); } }catch(e){} hechos++; if(hechos%40===0||hechos===lista.length) btn.textContent=`Descargando… ${Math.round(hechos/lista.length*100)}%`; } };
+    await Promise.all([trabajar(),trabajar(),trabajar(),trabajar(),trabajar(),trabajar()]);
+    btn.textContent='Listo: ya funciona sin internet';
+  }catch(e){ btn.textContent='No se pudo descargar'; btn.disabled=false; }
+}
+const AUDIO_VERSION_CLIENTE='v3';   // igual que AUDIO_VERSION en sw.js
+/* una cuenta de sumar antes de entrar al rincón de los grandes (mantener apretado el engranaje no alcanza: un chico puede) */
+function puertaGrandes(){
+  if(!modal.hidden && card.classList.contains('parent')) return;
+  const a=3+Math.floor(Math.random()*7), b=3+Math.floor(Math.random()*7), ok=a+b;
+  const ops=shuffle([ok, ok+1+Math.floor(Math.random()*3), ok-1-Math.floor(Math.random()*3), ok+4]).filter((x,i,arr)=>arr.indexOf(x)===i);
+  busy=true; ++flowTok; hush();
+  openModal(`${X_BTN}<h2 class="mtitle">Solo para grandes</h2><div class="center"><div class="puerta-cuenta">${a} + ${b} = ?</div></div>
+    <div class="center">${ops.map(n=>`<button class="mbtn go puerta-op" data-act="pn" data-n="${n}"><span>${n}</span></button>`).join('')}</div>`,'puerta');
+  onAct('pn',(btn)=>{ if(+btn.dataset.n===ok){ closeModal(); openParent(); } else { sfx.oops(); btn.disabled=true; btn.classList.add('wrong'); } });
+}
 function openParent(){
   if(!modal.hidden && card.classList.contains('parent')) return;
   busy=true; ++flowTok; hush();
@@ -2762,7 +2830,12 @@ function openParent(){
   const langOpts=idiomasDisponibles().map(l=>`<option value="${l}" ${l===code?'selected':''}>${esc(PACKS[l].nombre)}</option>`).join('');
   openModal(`<button class="xbtn" data-act="pclose" aria-label="Cerrar">${ICON.close}</button>
     <h2>Rincón de los grandes</h2>
+    ${informeHtml()}
     ${cuentaHtml()}
+    <div class="reset">
+      <div><b>Jugar sin internet</b><span>Baja a este aparato el audio de ${esc(PACKS[code].nombre)}${ayuda()?` y de ${esc(PACKS[ayuda()].nombre)}`:''} (unos 30 MB por idioma) para jugar sin conexión. Hace falta que el juego esté instalado o abierto desde su dirección.</span></div>
+      <button class="pbtn" id="p-offline">Descargar el audio</button>
+    </div>
     <div class="reset">
       <div><b>Recorrido de la app</b><span>Una vuelta rápida por todo lo que ofrece el juego y cómo se usa.</span></div>
       <button class="pbtn" id="p-tour">Ver recorrido</button>
@@ -2779,6 +2852,8 @@ function openParent(){
       <button class="pbtn" id="p-test">Probar la voz</button>
     </div>
     ${vs.length?'':`<p class="note warn">Este navegador no tiene ninguna voz en ${esc(PACKS[code].nombre.toLowerCase())}, así que la pronunciación va a salir mal (con acento inglés). Abrí el juego en Microsoft Edge, que trae voces de todos estos idiomas, o grabá tu voz abajo.</p>`}
+    <label class="chk"><input type="checkbox" id="p-escucha" ${save.escucha?'checked':''}> Escuchar al chico: el micrófono solo mide si habla en voz alta antes de dar la estrella (no graba ni envía nada). Si no dice nada, el relator se lo pide una vez.</label>
+    <p class="note warn" id="p-escnote" hidden>No se pudo usar el micrófono. Revisá el permiso del navegador.</p>
     <label class="chk"><input type="checkbox" id="p-grown" ${save.grownup?'checked':''}> Yo controlo cuando habla: la estrella se mantiene apretada un segundo para dar el sello.</label>
     <label class="chk"><input type="checkbox" id="p-todo" ${save.todoAbierto?'checked':''}> Abrir todos los lugares (si no, cada lugar se abre al terminar el anterior).</label>
     <label class="chk ayuda">Idioma de ayuda: <select id="p-ayuda"><option value="">Sin ayuda</option>${idiomasDisponibles().filter(c=>c!==langCode()).map(c=>`<option value="${c}" ${ayuda()===c?'selected':''}>${esc(PACKS[c].nombre)}</option>`).join('')}</select>
@@ -2791,6 +2866,7 @@ function openParent(){
     <div class="tablewrap"><table><tbody>${recRows().map(recRowHtml).join('')}</tbody></table></div>
     <div class="prow"><button class="pbtn danger" id="p-clips">Borrar todas mis grabaciones</button></div>`,'parent');
   onAct('pclose',()=>{ closeModal(); if(!scr.home.hidden) goHome(); else if(!scr.start.hidden) applyLang(); });
+  $('#p-escucha').addEventListener('change',async e=>{ if(!e.target.checked){ save.escucha=false; persist(); return; } try{ await getMic(); releaseMic(); save.escucha=true; $('#p-escnote').hidden=true; }catch(err){ e.target.checked=false; save.escucha=false; $('#p-escnote').hidden=false; } persist(); });
   $('#p-name').addEventListener('input',e=>{ save.name=fmtName(e.target.value); persist(); updateNames(); if(NUBE.alumno && save.name){ NUBE.alumno.nombre=save.name; nubeRenombrar(); } });
   $('#p-lang').addEventListener('change',e=>{
     setLang(e.target.value); const inGame=!scr.game.hidden || !scr.lib.hidden || !scr.shop.hidden;
@@ -2802,9 +2878,10 @@ function openParent(){
   $('#p-grown').addEventListener('change',e=>{ save.grownup=e.target.checked; persist(); });
   $('#p-ingles').addEventListener('change',e=>{ save.ingles=e.target.checked; persist(); });
   $('#p-todo').addEventListener('change',e=>{ save.todoAbierto=e.target.checked; persist(); });
-  $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a) sayAll([{t:PACKS[a].nombre, lang:a}]); });
+  $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a){ cargarAudio(a); sayAll([{t:PACKS[a].nombre, lang:a}]); } });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
+  $('#p-offline').addEventListener('click',e=>descargarAudio(e.currentTarget));
   $('#p-tour').addEventListener('click',()=>{ closeModal(); if(scr.home.hidden){ save.tour=true; goHome(); } setTimeout(abrirTour,scr.home.hidden?0:500); });
   armConfirm($('#p-reset'),resetProgress);
   conectarCuentaParent();
@@ -2902,7 +2979,8 @@ function renderCuenta(msg='', bien=false){
   const campos = m==='olvide' ? campoEmail
     : m==='nueva' ? `<label>${esc(G.claveNueva)}<input name="clave" type="password" autocomplete="new-password" minlength="8" required></label>`
     : `${reg?`<label>${esc(G.tuNombre)}<input name="nombre" autocomplete="name" maxlength="60" value="${esc(prev.nombre||'')}"></label>`:''}${campoEmail}
-      <label>${esc(reg?G.claveMin:G.clave)}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>`;
+      <label>${esc(reg?G.claveMin:G.clave)}<input name="clave" type="password" autocomplete="${reg?'new-password':'current-password'}" minlength="${reg?8:1}" required></label>
+      ${reg?`<label class="chk priv"><input type="checkbox" name="priv" required> <span>${esc(G.privAcepto)} <button type="button" class="linkbtn inl" id="privLink">${esc(G.privLink)}</button></span></label>`:''}`;
   const boton = m==='olvide' ? G.enviar : m==='nueva' ? G.guardarClave : reg ? G.crear : G.entrar;
   $('#cuentaBox').innerHTML=`
     <div class="uilangs" role="group" aria-label="${esc(G.idiomaGrandes)}">${idiomasGrandes().map(c=>`<button type="button" class="uilang ${c===uiLang?'on':''}" data-l="${c}" lang="${c}" aria-pressed="${c===uiLang}"><img src="${svgUri(banderaDe(c))}" alt=""><span>${esc(window.GRANDES[c].nombre)}</span></button>`).join('')}</div>
@@ -2918,6 +2996,7 @@ function renderCuenta(msg='', bien=false){
     <button class="linkbtn" id="sinCuenta">${esc(G.sinCuenta)}</button>`;
   $('#cuentaBox').querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>{ cuentaModo=b.dataset.m; renderCuenta(); }));
   $('#cuentaBox').querySelectorAll('.uilang').forEach(b=>b.addEventListener('click',()=>{ elegirUi(b.dataset.l); renderCuenta(); }));
+  $('#privLink')?.addEventListener('click',avisoPrivacidad);
   $('#sinCuenta').addEventListener('click',()=>{ NUBE.sinCuenta=true; lsSet(SIN_CUENTA_KEY,'1'); nextStep(); });
   $('#cuentaForm').addEventListener('submit',async e=>{
     e.preventDefault(); const f=new FormData(e.target), btn=e.target.querySelector('button'); btn.disabled=true;
@@ -2935,6 +3014,11 @@ function renderCuenta(msg='', bien=false){
     }catch(err){ btn.disabled=false; renderCuenta(errTxt(err)); }
   });
   setTimeout(()=>$('#cuentaBox input')?.focus(),60);
+}
+function avisoPrivacidad(){
+  const prev=!modal.hidden;
+  openModal(`<button class="xbtn" data-act="pclose" aria-label="Close">${ICON.close}</button><div class="priv-aviso" lang="${uiLang}"><h2>${esc(G.privTitulo)}</h2>${String(G.privTexto).split('\n\n').map(p=>`<p>${esc(p)}</p>`).join('')}</div><div class="actions"><button class="pbtn" data-act="pclose">OK</button></div>`,'parent');
+  onAct('pclose',()=>{ closeModal(); });
 }
 /* el link del email de "olvidé mi contraseña" trae ?clave=<token>: se guarda y se saca de la barra de direcciones */
 let tokenClave = new URLSearchParams(location.search).get('clave');
@@ -2966,15 +3050,33 @@ function goAlumnos(){
   if(PACKS[uiLang] || save.lang) sayAll([T.quienJuega]);
 }
 /* en el rincón de los grandes */
+function informeHtml(){
+  const G=new Proxy({}, {get:(_,k)=>(window.GRANDES.es||{})[k]});   // el rincón de los grandes va en castellano
+  const dias=save.dias||{}, hoy=new Date(), sem=[];
+  for(let i=6;i>=0;i--){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; sem.push({k, min:Math.round((dias[k]||0)/60), dia:d.toLocaleDateString('es',{weekday:'narrow'})}); }
+  const max=Math.max(10,...sem.map(x=>x.min)); let racha=0; for(let i=0;i<120;i++){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; if((dias[k]||0)>=30) racha++; else if(i>0) break; }
+  const lugares=CAP_LIST.filter(c=>capSave(c.id).final).length, sellos=CAP_LIST.reduce((a,c)=>a+c.orden.filter(k=>capSave(c.id).sellos[k]).length,0), totSellos=CAP_LIST.reduce((a,c)=>a+c.orden.length,0);
+  const charlas=CAP_LIST.reduce((a,c)=>a+c.charlas.filter((_,i)=>charlaHecha(c,i)).length,0), totCharlas=CAP_LIST.reduce((a,c)=>a+c.charlas.length,0);
+  const g0=n0Grupos(), n0=g0.filter(n0GrupoHecho).length;
+  const dificiles=Object.entries(save.fallos||{}).filter(([k])=>k.startsWith(langCode()+':')).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,n])=>[k.slice(langCode().length+1),n]);
+  return `<div class="informe" lang="es"><h3>${esc(G.infTitulo)} · ${esc(save.name||'')} (${esc(PACKS[langCode()].nombre)})</h3>
+    <div class="inf-semana" aria-label="${esc(G.infSemana)}">${sem.map(x=>`<div class="inf-dia"><i style="height:${Math.max(4,Math.round(x.min/max*56))}px" class="${x.min?'on':''}"></i><b>${x.min}′</b><span>${esc(x.dia)}</span></div>`).join('')}</div>
+    <p class="note">${esc(G.infSemana)}</p>
+    <div class="inf-cifras"><div><b>${racha}</b><span>${esc(G.infRacha)}</span></div><div><b>${lugares}/${CAP_LIST.length}</b><span>${esc(G.infLugares)}</span></div><div><b>${sellos}/${totSellos}</b><span>${esc(G.infSellos)}</span></div><div><b>${charlas}/${totCharlas}</b><span>${esc(G.infCharlas)}</span></div><div><b>${n0}/${g0.length}</b><span>${esc(G.infNivel0)}</span></div></div>
+    ${(save.escuchas&&(save.escuchas.si+save.escuchas.no))?`<p class="note"><b>${esc(G.infVoz)}:</b> ${save.escuchas.si} / ${save.escuchas.si+save.escuchas.no}</p>`:''}
+    <p class="inf-rep"><b>${esc(G.infRepasar)}:</b> ${dificiles.length ? dificiles.map(([t,n])=>`<span class="inf-chip">${esc(caraLatina(t))} <em>×${n}</em></span>`).join(' ') : esc(G.infNada)}</p></div>`;
+}
 function cuentaHtml(){
   if(!NUBE.on) return '';
   if(!NUBE.usuario) return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuentaSin)}</b><span>${esc(G.cuentaSinTxt)}</span></div><button class="pbtn" id="p-login">${esc(G.cuentaEntrar)}</button></div>`;
   const u=NUBE.usuario;
   return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuenta(u.nombre||u.email))}</b><span>${esc(u.email)}${NUBE.alumno?` · ${esc(G.juega(NUBE.alumno.nombre))}`:''}. ${esc(G.online)}</span></div>
-    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn" id="p-clave">${esc(G.cambiarClave)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div>
+    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn danger" id="p-borrar">${esc(G.borrarCuenta)}</button><button class="pbtn" id="p-clave">${esc(G.cambiarClave)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div>
     <form class="cform pclave" id="p-claveForm" hidden><label>${esc(G.claveActual)}<input name="actual" type="password" autocomplete="current-password" required></label>
       <label>${esc(G.claveNueva)}<input name="clave" type="password" autocomplete="new-password" minlength="8" required></label>
-      <p class="cmsg" hidden></p><button class="pbtn" type="submit">${esc(G.guardarClave)}</button></form></div>`;
+      <p class="cmsg" hidden></p><button class="pbtn" type="submit">${esc(G.guardarClave)}</button></form>
+    <form class="cform pclave" id="p-borrarForm" hidden><p class="note warn">${esc(G.borrarTxt)}</p><label>${esc(G.borrarPide)}<input name="clave" type="password" autocomplete="current-password" required></label>
+      <p class="cmsg" hidden></p><button class="pbtn danger" type="submit">${esc(G.borrarBtn)}</button></form></div>`;
 }
 function conectarCuentaParent(){
   $('#p-login')?.addEventListener('click',()=>{ NUBE.sinCuenta=false; lsSet(SIN_CUENTA_KEY,null); closeModal(); goCuenta(); });
@@ -2984,6 +3086,14 @@ function conectarCuentaParent(){
     try{ await api('sesion',{method:'POST', body:{accion:'cambiar_clave', actual:f.actual.value, clave:f.clave.value}}); f.reset(); msg.textContent=G.claveCambiada; msg.classList.add('bien'); }
     catch(err){ msg.textContent=errTxt(err); msg.classList.remove('bien'); }
     msg.hidden=false; btn.disabled=false;
+  });
+  $('#p-borrar')?.addEventListener('click',()=>{ const f=$('#p-borrarForm'); f.hidden=!f.hidden; if(!f.hidden) f.querySelector('input').focus(); });
+  $('#p-borrarForm')?.addEventListener('submit',async e=>{
+    e.preventDefault(); const f=e.target, msg=f.querySelector('.cmsg'), btn=f.querySelector('button'); btn.disabled=true;
+    try{
+      await api('sesion',{method:'POST', body:{accion:'borrar_cuenta', clave:f.clave.value}});
+      NUBE.usuario=null; NUBE.alumno=null; NUBE.alumnos=[]; lsSet(ALUMNO_KEY,null); save=loadSave(); await clips.cargarNube(); closeModal(); setLang(save.lang||'es', false); goCuenta(); renderCuenta(G.borrada, true);
+    }catch(err){ msg.textContent=errTxt(err); msg.classList.remove('bien'); msg.hidden=false; btn.disabled=false; }
   });
   $('#p-kids')?.addEventListener('click',async()=>{ await nubeGuardar(); NUBE.alumno=null; lsSet(ALUMNO_KEY,null); closeModal(); goAlumnos(); });
   $('#p-logout')?.addEventListener('click',async()=>{
@@ -3135,7 +3245,7 @@ async function runCharla(c, i){
   const marcar=k=>card.querySelectorAll('.steps i').forEach((el,j)=>{ el.className = j<k?'done':j===k?'on':''; });
   for(let k=0;k<q.pasos.length;k++){
     const p=q.pasos[k]; marcar(k);
-    const lead = p.di ? fill(p.di) : null, intro = p.di ? T.charlaResponde : T.charlaPregunta;
+    const lead = p.di ? {t:fill(p.di), voz:q.voz} : null, intro = p.di ? T.charlaResponde : T.charlaPregunta;
     dice(p.di || T.charlaPregunta);
     opts.innerHTML=p.op.map((o,j)=>`<button class="dicho" data-act="pick" data-i="${j}">${ICON.speaker}<b${enAttr(enDe(o.t) && fill(enDe(o.t)))}>${esc(fill(o.t))}</b></button>`).join('');
     // el amigo habla, y se leen las opciones una por una
@@ -3156,7 +3266,7 @@ async function runCharla(c, i){
     await starPress(); if(!alive()) return;
     turno(false); sfx.yay(); acts$.innerHTML=''; opts.innerHTML='';
     // el amigo contesta
-    dice(o.r); await narrar(()=>sayAll([fill(o.r)])); if(!alive()) return;
+    dice(o.r); await narrar(()=>sayAll([{t:fill(o.r), voz:q.voz}])); if(!alive()) return;
     await sleep(350); if(!alive()) return;
   }
   marcar(q.pasos.length); dice(q.chau); sfx.yay();
@@ -3166,7 +3276,7 @@ async function runCharla(c, i){
     opts.innerHTML=`<div class="premio">${img('galletita')}</div>`; sfx.stamp(); setTimeout(()=>sfx.yay(),300);
   }
   acts$.innerHTML=B('back','back',T.atras,'go');
-  await narrar(()=>sayAll(primera ? [fill(q.chau), T.charlaFin, T.ganasteGalletita, T.valeTres] : [fill(q.chau), T.charlaFin])); if(!alive()) return;
+  await narrar(()=>sayAll(primera ? [{t:fill(q.chau), voz:q.voz}, T.charlaFin, T.ganasteGalletita, T.valeTres] : [{t:fill(q.chau), voz:q.voz}, T.charlaFin])); if(!alive()) return;
   await waitAct('back'); if(!alive()) return;
   closeModal(); if(!scr.lib.hidden && libMode==='charlas') goCharlas();
 }
@@ -3270,7 +3380,7 @@ async function runLeccion0(gi){
     for(;;){
       const {btn}=await waitAct('pick'); if(!alive()) return;
       if(+btn.dataset.w===meta.wi){ btn.classList.add('right'); sfx.yay(); card.querySelectorAll('[data-act="pick"]').forEach(b=>b.disabled=true); await sayAll([praise()]); if(!alive()) return; break; }
-      btn.classList.add('wrong'); sfx.oops(); btn.disabled=true; sayAll([T.casi, q]);
+      fallo(meta.texto); btn.classList.add('wrong'); sfx.oops(); btn.disabled=true; sayAll([T.casi, q]);
     }
   }
   // 4 · terminado: tilde, premio y confeti
@@ -3464,10 +3574,10 @@ $('#btnCharlas').addEventListener('click',()=>{ closeSidebar(); goCharlas(); });
 $('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
 $('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
 $('#tourBtn').addEventListener('click',abrirTour);
-holdify($('#gearHome'),1500,openParent);
+holdify($('#gearHome'),1500,puertaGrandes);
 /* un toque corto no abre nada (para que no entren los chicos): le avisamos al grande qué hacer */
 ['#gearHome','#gearGame'].forEach(id=>$(id).addEventListener('click',e=>{ if(!modal.hidden && card.classList.contains('parent')) return; showTip(e.currentTarget, G.engranaje, 'ℹ'); }));
-holdify($('#gearGame'),1500,()=>{ if(!modal.hidden) closeModal(); openParent(); });
+holdify($('#gearGame'),1500,()=>{ if(!modal.hidden) closeModal(); puertaGrandes(); });
 live($('#shopCv'),(c,w,h,t)=>{
   const it=(window.TIENDA||[]).find(x=>x.id===shopSel);
   const S=Math.min(h*.9, w*.62);
@@ -3492,3 +3602,5 @@ Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
   if(tokenClave && NUBE.on){ cuentaModo='nueva'; goCuenta(); }
 });
 requestAnimationFrame(frame);
+
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));

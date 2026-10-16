@@ -119,10 +119,10 @@ registrarCapitulo({
         esc(H(.3,{gesto:"saludo"}), E("corazones",.5,.42))]}
   },
   charlas: [
-    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#FFC93C", seed:0.4}, arte:"mano", est:"H", color:"#FFC93C"},
-    {npc:{kind:"cat", fur:"#F2C46B", fur2:"#FFF3D6", hat:"#FF8FB8", seed:0.8}, arte:"corazon", est:"G", color:"#FF8FB8"},
-    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#7CC6F0", seed:1.6}, arte:"vaso", est:"A", color:"#7CC6F0"},
-    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#8B6FE8", seed:1.4}, arte:"casita", est:"final", color:"#8B6FE8"}],
+    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#FFC93C", seed:0.4}, arte:"mano", est:"H", voz:"nina", color:"#FFC93C"},
+    {npc:{kind:"cat", fur:"#F2C46B", fur2:"#FFF3D6", hat:"#FF8FB8", seed:0.8}, arte:"corazon", est:"G", voz:"amable", color:"#FF8FB8"},
+    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#7CC6F0", seed:1.6}, arte:"vaso", est:"A", voz:"papa", color:"#7CC6F0"},
+    {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#8B6FE8", seed:1.4}, arte:"casita", est:"final", voz:"nina", color:"#8B6FE8"}],
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#8B6FE8", seed:1.4}, arte:"casita", icono:"casita", anim:"saludo"},
   microjuego: {id:"burbujitas", arte:"burbujas", precio:3, color:"#7CC6F0"},
   palabrasExtra: ["manchaRoja", "manchaAzul", "manchaAmarilla", "manchaVerde"],

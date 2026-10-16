@@ -125,10 +125,10 @@ registrarCapitulo({
         esc(H(.3,{gesto:"saltar"}), N("N",.72,-1,"saltar"), E("estrellas",.5,.4))]}
   },
   charlas: [
-    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"mochila", est:"M", color:"#E8483B"},
-    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#2E86DE", seed:2.0}, arte:"libro", est:"B", color:"#2E86DE"},
-    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#FF8FB8", seed:2.4}, arte:"calendario", est:"K", color:"#FF8FB8"},
-    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"pizarron", est:"final", color:"#8B6FE8"}],
+    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"mochila", est:"M", voz:"papa", color:"#E8483B"},
+    {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", hat:"#2E86DE", seed:2.0}, arte:"libro", est:"B", voz:"nina", color:"#2E86DE"},
+    {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#FF8FB8", seed:2.4}, arte:"calendario", est:"K", voz:"sabio", color:"#FF8FB8"},
+    {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"pizarron", est:"final", voz:"sabio", color:"#8B6FE8"}],
   final: {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"pizarron", icono:"pizarron", anim:"semana"},
   microjuego: {id:"tren", arte:"triangulo", precio:3, color:"#FFC93C", ingredientes:["circulo", "cuadrado", "triangulo", "estrella", "corazon"]},
   palabrasExtra: ["circulo", "cuadrado", "triangulo", "estrella", "pizarron"],
