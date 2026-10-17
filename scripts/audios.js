@@ -276,13 +276,27 @@ function extraerPrompts(capId, lang, datos) {
   const orden = (datos.base && datos.base.orden) || [];
   const lista = [];
 
-  const add = (slugPrefix, rawText, voz) => {
+  const add = (slugPrefix, rawText, voz, hablado) => {
     if (!rawText) return;
-    const textoHablado = textoHabla(rawText, lang);
+    const textoHablado = hablado ?? textoHabla(rawText, lang);
     if (!textoHablado) return;
     const slug = `${slugPrefix}${voz ? '-' + voz : ''}-${slugify(rawText)}`;
     if (lista.some(x => x.slug === slug)) return;
     lista.push({ slugPrefix, rawText, textoHablado, slug, voz, archivo: `${slug}.mp3` });
+  };
+  // una frase con el nombre del chico ({N}) se graba en dos pedazos (antes y después del nombre); el juego los une con el
+  // nombre grabado aparte (api/nombre.js). El pedazo es exactamente lo que queda a cada lado, para que la búsqueda coincida.
+  const addN = (slugPrefix, tpl, voz) => {
+    tpl = String(tpl || ''); if (!tpl.includes('{N}')) return;
+    const caras = (lang === 'ar' && tpl.includes('|')) ? tpl.split('|') : [tpl];
+    const cortes = caras.map(c => c.split('{N}'));
+    if (cortes.some(c => c.length !== 2)) return;
+    for (const i of [0, 1]) {
+      const raw = caras.length === 2 ? `${cortes[0][i]}|${cortes[1][i]}` : cortes[0][i];
+      const hab = textoHabla(raw, lang).replace(/^[\s!¡?¿.,;:،؟]+/, '').replace(/\s+/g, ' ').trim();
+      if (!/\p{L}/u.test(hab)) continue;
+      add(`${slugPrefix}-n${i}`, raw, voz, hab);
+    }
   };
 
   const comunes = [
@@ -302,6 +316,9 @@ function extraerPrompts(capId, lang, datos) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
   }
 
+  // frases con el nombre
+  for (const f of ['holaX', 'holaDi']) if (T[f]) addN(f, T[f]('{N}'));
+  for (const el of (T.elogios || [])) if (T.elogio) addN('elogio', T.elogio(el, '{N}'));
   // el saludo de la pantalla de inicio lleva el nombre: se graba sin nombre (el juego busca esta versión)
   if (T.holaDi) add('holaDi', T.holaDi('').replace(/\s*[,،]\s*(?=[!！])/g, '').replace(/\s{2,}/g, ' '));
 
@@ -389,12 +406,17 @@ function extraerPrompts(capId, lang, datos) {
     for (const [ci, ch] of (tc.charlas || []).entries()) {
       // lo que dice el amigo va con su propia voz (ch.voz, del base.js); lo que dice el chico y los títulos, con la del relator
       const bch = ((datos.base && datos.base.orden) ? null : null);
-      const linea = (x, voz) => { if (x && !String(x).includes('{N}')) add('charla', x, voz); };
+      const linea = (x, voz) => { if (!x) return; if (String(x).includes('{N}')) addN('charla', x, voz); else add('charla', x, voz); };
       const voz = (cDatosBase && cDatosBase.charlas && cDatosBase.charlas[ci] && cDatosBase.charlas[ci].voz) || null;
       linea(ch.titulo);
       linea(ch.chau, voz);
       for (const p of (ch.pasos || [])) { linea(p.di, voz); for (const o of (p.op || [])) { linea(o.t); linea(o.r, voz); } }
     }
+
+    // cualquier otro texto del lugar con el nombre del chico (la despedida, la canción de la fiesta…); los cuentos y las charlas ya van aparte
+    const recorrer = (o, k) => { if (typeof o === 'string') { if (o.includes('{N}')) addN('nombre', o); } else if (Array.isArray(o)) o.forEach(x => recorrer(x)); else if (o && typeof o === 'object') for (const [kk, v] of Object.entries(o)) if (!['cuento', 'charlas', 'estaciones'].includes(kk)) recorrer(v, kk); };
+    recorrer(tc.final); recorrer(tc.microjuego);
+    if (T.conNombre && tc.final && tc.final.despedida) addN('despedida', T.conNombre(tc.final.despedida, '{N}'));
 
     for (const n of (tc.niveles || [])) {
       if (T.piso) add(`piso-${cid}-${n.numTexto}`, T.piso(n.numTexto, n.nombre));

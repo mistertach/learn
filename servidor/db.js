@@ -60,6 +60,11 @@ const ESQUEMA = [
      desde TIMESTAMPTZ NOT NULL DEFAULT NOW())`,
   `CREATE INDEX IF NOT EXISTS grabaciones_global ON grabaciones(global) WHERE global`,
   // audios de la prueba de voces (voces.html): se guardan para no pagar dos veces el mismo
+  // el nombre de cada chico dicho con la voz natural (api/nombre.js), compartido entre quienes se llaman igual
+  `CREATE TABLE IF NOT EXISTS nombres_voz (
+     clave TEXT PRIMARY KEY,
+     audio TEXT NOT NULL,
+     creado TIMESTAMPTZ NOT NULL DEFAULT NOW())`,
   `CREATE TABLE IF NOT EXISTS voces_prueba (
      clave TEXT PRIMARY KEY,
      servicio TEXT NOT NULL,

@@ -357,12 +357,6 @@ function promptAudioUrl(lang, text, voz){
   const get = k => (voz && map[`${voz}~${k}`]) || map[k] || null;
   const k = normPromptKey(text);
   if(get(k)) return get(k);
-  if(typeof save!=="undefined" && save && save.name && text.includes(save.name)){
-    const kNico = normPromptKey(text.split(save.name).join('Nico'));
-    if(get(kNico)) return get(kNico);
-    const kSin = normPromptKey(text.split(save.name).join('').replace(/\s*[,،]\s*(?=[!！])/g,'').replace(/\s{2,}/g,' '));
-    if(get(kSin)) return get(kSin);
-  }
   const h = caraHablada(text);
   if(h !== text){
     const kh = normPromptKey(h);
@@ -481,6 +475,63 @@ let curAudio=null, curAudioDone=null;
 function playBlob(b){ return new Promise(res=>{ const url=URL.createObjectURL(b); const a=new Audio(url); curAudio=a; const done=()=>{ URL.revokeObjectURL(url); if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function playUrl(url){ return new Promise(res=>{ const a=new Audio(url); curAudio=a; const done=()=>{ if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function stopAudio(){ if(curAudio){ try{ curAudio.pause(); }catch(e){} curAudioDone && curAudioDone(); } }
+/* ---------- el nombre del chico con voz natural ----------
+   api/nombre.js lo genera una vez con Google y lo guarda; acá se pide, se guarda en el aparato (cache del navegador) y
+   se arma la frase con pedacitos grabados: «¡Hola,» + [nombre] + «! ¿A dónde vamos?». Sin servidor o sin los pedacitos, habla la voz de la compu. */
+const NOMBRE_URL = new Map(), NOMBRE_PEND = new Map(), NOMBRE_FALLO = new Map();
+async function nombreClip(lang, nombre){
+  nombre=String(nombre||'').trim(); if(!nombre || !lang || location.protocol==='file:') return null;
+  const k=lang+'|'+nombre.toLowerCase();
+  if(NOMBRE_URL.has(k)) return NOMBRE_URL.get(k);
+  if(NOMBRE_PEND.has(k)) return NOMBRE_PEND.get(k);
+  if(Date.now()-(NOMBRE_FALLO.get(k)||0)<60000) return null;
+  const pr=(async()=>{
+    let blob=null; const url=`/api/nombre?n=${encodeURIComponent(nombre)}&l=${lang}`;
+    try{
+      const cache='caches' in window ? await caches.open('nombres-v1') : null;
+      let r=cache ? await cache.match(url) : null;
+      if(!r){ const f=await fetch(url); if(f.ok && /audio/.test(f.headers.get('Content-Type')||'')){ if(cache) await cache.put(url,f.clone()); r=f; } }
+      if(r) blob=await r.blob();
+    }catch(e){}
+    const u=blob && blob.size>300 ? URL.createObjectURL(blob) : null;
+    if(u) NOMBRE_URL.set(k,u); else NOMBRE_FALLO.set(k,Date.now());
+    NOMBRE_PEND.delete(k); return u;
+  })();
+  NOMBRE_PEND.set(k,pr); return pr;
+}
+/* pide ya el nombre (en el idioma que aprende y el de ayuda) para que esté listo cuando haga falta */
+function precargarNombre(){ if(save && save.name){ for(const l of new Set([langCode(), ayuda()].filter(Boolean))) nombreClip(l, save.name); } }
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+/* una frase que lleva el nombre → [url del principio, url del nombre, url del final] (o null si falta algo) */
+async function partesConNombre(texto, lang, voz){
+  const nombre=save && save.name; if(!nombre || !texto || !texto.includes(nombre)) return null;
+  const re=new RegExp(`(?<![\\p{L}\\p{M}])${escRe(nombre)}(?![\\p{L}\\p{M}])`,'u');
+  const caras = (lang==='ar' && texto.includes('|')) ? texto.split('|') : [texto];
+  const cortes = caras.map(c=>{ const m=re.exec(c); return (m && !re.test(c.slice(m.index+nombre.length))) ? [c.slice(0,m.index), c.slice(m.index+nombre.length)] : null; });
+  if(cortes.some(c=>!c)) return null;
+  const pieza = i => caras.length===2 ? `${cortes[0][i]}|${cortes[1][i]}` : cortes[0][i];
+  const trae = p => normPromptKey(p.replace(/\|/g,'')) !== '';   // si es solo puntuación, no hay nada que decir
+  const pre=pieza(0), post=pieza(1), urls=[];
+  if(trae(pre)){ const u=promptAudioUrl(lang, pre, voz); if(!u) return null; urls.push(u); }
+  const nu=await Promise.race([nombreClip(lang,nombre), new Promise(r=>setTimeout(()=>r(null),2500))]);
+  if(!nu) return null;
+  urls.push(nu);
+  if(trae(post)){ const u=promptAudioUrl(lang, post, voz); if(!u) return null; urls.push(u); }
+  return urls;
+}
+/* la grabación de la misma frase sin el nombre («¡Hola! ¿A dónde vamos?»), por si el nombre no está disponible */
+function promptSinNombre(lang, texto, voz){
+  const nombre=save && save.name; if(!nombre || !texto || !texto.includes(nombre)) return null;
+  const sin=texto.split(nombre).join('').replace(/\s*[,،]\s*(?=[!！])/g,'').replace(/\s{2,}/g,' ');
+  return promptAudioUrl(lang, sin, voz);
+}
+/* una línea sin grabación propia: con el nombre armado con pedacitos, o con la voz de la compu */
+async function hablarTexto(t, lang, rate, voz, my){
+  const partes=await partesConNombre(t, lang, voz); if(my!==sayTok) return;
+  if(partes){ for(const u of partes){ await playUrl(u); if(my!==sayTok) return; } return; }
+  const sin=promptSinNombre(lang, t, voz); if(sin){ await playUrl(sin); return; }
+  anotarVozCompu(t, lang); await speak(t, rate, lang, voz, my);
+}
 let sayTok=0, nCompu=0, sinVozFoco=false;
 /* poner el foco desde el código (para las flechas) no debe hablar: taparía el saludo */
 const focoSilencioso = (el,o) => { if(!el) return; sinVozFoco=true; try{ el.focus(o); }finally{ sinVozFoco=false; } };
@@ -504,9 +555,9 @@ async function sayAll(parts){
     if(my!==sayTok) return false;
     if(sUrl) await playUrl(sUrl);
     else if(b) await playBlob(b);
-    else { anotarVozCompu(p.t, p.lang||langCode()); await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz, my); }
+    else await hablarTexto(p.t, p.lang||langCode(), p.lento ? .62 : .85, p.voz, my);
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
-    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else { anotarVozCompu(tr, ayuda()); await speak(tr, .9, ayuda(), undefined, my); } } }
+    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else await hablarTexto(tr, ayuda(), .9, undefined, my); } }
   }
   return my===sayTok;
 }
@@ -1628,7 +1679,7 @@ async function runRevelar(c){
   closeModal();
 }
 function goHome(){
-  hush(); show('home'); updateNames();
+  hush(); show('home'); updateNames(); precargarNombre();
   const box=$('#weeks'); box.innerHTML='';
   const actual=construirCamino(box);
   const hs=$('#scr-home'); const compacta=()=>hs.classList.toggle('compact',hs.scrollTop>40 || innerWidth>=900); compacta(); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs._cmp&&hs._cmp(),{passive:true}); addEventListener('resize',()=>hs._cmp&&hs._cmp()); } hs._cmp=compacta;
@@ -2982,6 +3033,7 @@ function openParent(){
   onAct('pclose',()=>{ closeModal(); if(!scr.home.hidden) goHome(); else if(!scr.start.hidden) applyLang(); });
   $('#p-escucha').addEventListener('change',async e=>{ if(!e.target.checked){ save.escucha=false; persist(); return; } try{ await getMic(); releaseMic(); save.escucha=true; $('#p-escnote').hidden=true; }catch(err){ e.target.checked=false; save.escucha=false; $('#p-escnote').hidden=false; } persist(); });
   $('#p-name').addEventListener('input',e=>{ save.name=fmtName(e.target.value); persist(); updateNames(); if(NUBE.alumno && save.name){ NUBE.alumno.nombre=save.name; nubeRenombrar(); } });
+  $('#p-name').addEventListener('change',()=>precargarNombre());
   $('#p-lang').addEventListener('change',e=>{
     setLang(e.target.value); const inGame=!scr.game.hidden || !scr.lib.hidden || !scr.shop.hidden;
     closeModal(); if(inGame || !scr.home.hidden) goHome(); openParent();
@@ -3293,7 +3345,7 @@ function goName(){
 }
 function confirmName(){
   const n=fmtName(nameDraft).trim(); if(!n) return;
-  save.name=n; persist(); updateNames(); sfx.yay();
+  save.name=n; persist(); updateNames(); precargarNombre(); sfx.yay();
   sayAll([T.holaX(n)]).then(()=>{ if(!scr.name.hidden) nextStep(); });
 }
 
