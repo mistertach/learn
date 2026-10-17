@@ -535,12 +535,14 @@ function drawImg(c,id,x,y,size,rot=0){ const im=imgEl(id); if(!im||!im.complete|
 const fx0 = s => s*.26*.14;   // el centro de la cara (para las manos al aplaudir)
 function drawAnimal(c,a,x,y,s,o={}){
   const t=(o.t||0)+(a.seed||0), f=o.facing||1, walk=o.walk||o.accion==='correr';
-  const bob = walk ? Math.abs(Math.sin(t*14))*s*.06 : Math.sin(t*2.2)*s*.012;
-  if(!o.noShadow){ c.save(); c.globalAlpha=.16; ell(c,x,y,s*.26,s*.06,'#000'); c.restore(); }
+  const bob = o.nada ? Math.sin(t*3)*s*.018 : walk ? Math.abs(Math.sin(t*14))*s*.06 : Math.sin(t*2.2)*s*.012;
+  if(!o.noShadow && !o.nada){ c.save(); c.globalAlpha=.16; ell(c,x,y,s*.26,s*.06,'#000'); c.restore(); }
   // acciones (Simón dice, la plaza): saltar, girar, aplaudir, agacharse, arriba, bailar, correr
   const ac=o.accion, salto=ac==='saltar'?Math.abs(Math.sin(t*5))*s*.22:0;
   const sx=ac==='girar'?Math.cos(t*7):1, sy=ac==='agacharse'?.72+.28*Math.abs(Math.cos(t*3)):1;
   c.save(); c.translate(x,y-bob-(o.lift||0)-salto); if(ac==='bailar') c.rotate(Math.sin(t*6)*.16); c.scale(f*sx,sy);
+  // nadando (bajo el agua): el cuerpo se acuesta hacia adelante, las piernas patalean y los brazos braceaan
+  if(o.nada){ const mov=!!o.walk, bal=Math.sin(t*(mov?7:2))*(mov?.07:.12); c.translate(0,-s*.32); c.rotate((mov?1.15:.55)+bal); c.translate(0,s*.32); }
   const fur=a.fur, fur2=a.fur2||'#fff';
   if(a.kind==='cat'){ c.strokeStyle=fur; c.lineWidth=s*.085; c.lineCap='round'; const w=Math.sin(t*3)*s*.05; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.42,-s*.14,-s*.40+w,-s*.42,-s*.30+w,-s*.52); c.stroke(); }
   if(a.kind==='tiger'){ c.strokeStyle=fur; c.lineWidth=s*.085; c.lineCap='round'; const w=Math.sin(t*3)*s*.05; c.beginPath(); c.moveTo(-s*.15,-s*.16); c.bezierCurveTo(-s*.42,-s*.14,-s*.40+w,-s*.42,-s*.30+w,-s*.52); c.stroke(); ell(c,-s*.29+w,-s*.51,s*.035,s*.035,'#1E2436'); }
@@ -552,7 +554,7 @@ function drawAnimal(c,a,x,y,s,o={}){
   const R=o.ropa||{};
   if(R.espalda) drawCapa(c,R.espalda,s,t);
   else if(o.backpack){ c.fillStyle='#FF6F59'; rr(c,-s*.31,-s*.45,s*.15,s*.26,s*.05); c.fill(); c.fillStyle='#E04E39'; rr(c,-s*.30,-s*.33,s*.13,s*.08,s*.03); c.fill(); }
-  const st = walk ? Math.sin(t*14)*s*.04 : 0;
+  const st = o.nada ? Math.sin(t*(walk?16:6))*s*(walk?.07:.035) : walk ? Math.sin(t*14)*s*.04 : 0;
   ell(c,-s*.09+st,-s*.03,s*.08,s*.05,fur2); ell(c,s*.10-st,-s*.03,s*.08,s*.05,fur2);
   ell(c,0,-s*.22,s*.2,s*.2,fur);
   ell(c,s*.03,-s*.19,s*.12,s*.14,fur2);
@@ -572,6 +574,7 @@ function drawAnimal(c,a,x,y,s,o={}){
   if(R.piernas) drawPiernas(c,R.piernas,s,st);
   if(R.torso) drawTorso(c,R.torso,s);
   if(ac==='arriba'||ac==='saltar'||ac==='bailar'){ for(const sd of [1,-1]){ const ang=-.8+Math.sin(t*8+sd)*.18; c.save(); c.translate(sd*s*.12,-s*.3); c.scale(sd,1); c.rotate(ang); ell(c,s*.15,0,s*.16,s*.055,fur); c.restore(); } }
+  else if(o.nada){ for(const k of [0,1]){ c.save(); c.translate(s*.1,-s*.3); c.rotate(-1.15+Math.sin(t*(walk?9:3)+k*Math.PI)*(walk?.95:.35)); ell(c,s*.14,0,s*.15,s*.05,fur); c.restore(); } }
   else if(o.wave){ const ang=-1.9+Math.sin(t*8)*.35; c.save(); c.translate(s*.14,-s*.3); c.rotate(ang); ell(c,s*.09,0,s*.1,s*.05,fur); c.restore(); if(R.torso) ell(c,s*.14,-s*.3,s*.055,s*.05,R.torso.color); }
   else {
     ell(c,s*.16,-s*.22,s*.05,s*.085,fur,-.3); if(R.torso) ell(c,s*.15,-s*.275,s*.058,s*.045,R.torso.color,-.3);
@@ -1044,7 +1047,7 @@ function renderGadgetParticles(c, now, t){
 let COLS=15, ROWS=9; const T_STEP=170;
 function medirPiso(){ if(!CAP) return; const m=CAP.niveles[cur].mapa; ROWS=m.length; COLS=Math.max(...m.map(r=>r.length)); }
 const esVacio = ch => ch===' ';
-const esPared = ch => ch==='#' || ch==='~' || ch==='G' || ch==='W';
+const esPared = ch => ch==='#' || ch==='=' || ch==='~' || ch==='G' || ch==='W';
 const WALK=new Set(['.','P','U','D','L']);
 const PASS=new Set(['.','P']);
 let CAP=null, cs=null, cur=0;
@@ -1097,6 +1100,7 @@ function drawWorld(t){
     const X=x*T, Y=y*T;
     if(esPared(ch)){
       if(!esquina) esquina={x,y};
+      if(ch==='='){ drawMarTile(c,x,y,X,Y,T,t); continue; }
       c.fillStyle=L.pared; c.fillRect(X,Y,T+.5,T+.5);
       const arriba=tileAt(cur,x,y-1), abajo=tileAt(cur,x,y+1);
       if(!esPared(arriba)){ c.fillStyle='rgba(255,255,255,.2)'; c.fillRect(X,Y,T+.5,T*.3); }
@@ -1113,7 +1117,7 @@ function drawWorld(t){
   for(let y=0;y<ROWS;y++){
     for(let x=0;x<COLS;x++) drawTileObj(tileAt(cur,x,y), x, y, t);
     const fz=fishes[cur]; if(fz && fz.y===y) drawFish(fz,t);
-    if(y===pr) drawHero(c,player.rx*T+T*.5,player.ry*T+T*.92-(L.agua?T*.08+Math.sin(t*2.4)*T*.05:0),T*.95,{t,facing:player.facing,walk:!!player.moving||!!L.agua,backpack:true});
+    if(y===pr) drawHero(c,player.rx*T+T*.5,player.ry*T+T*.92-(L.agua?T*.08+Math.sin(t*2.4)*T*.05:0),T*.95,{t,facing:player.facing,walk:!!player.moving,nada:!!L.agua,backpack:true});
   }
   for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++) drawSign(tileAt(cur,x,y),x,y,t);
   if(L.agua) aguaBurbujas(c,T,t);
@@ -1125,6 +1129,30 @@ function drawWorld(t){
     if(nb){ const bnc=Math.sin(t*7)*T*.08, ux=-nb[0], uy=-nb[1]; drawArrow(c,(gx+nb[0])*T+T*.5+ux*(T*.05+bnc),(g.y+nb[1])*T+T*.5+uy*(T*.05+bnc),Math.atan2(uy,ux)+Math.PI/2,T); }
   }
   c.restore();
+}
+/* el mar de la playa: agua que ondea, con espuma donde toca la arena */
+function drawMarTile(c,x,y,X,Y,T,t){
+  c.fillStyle=((x+y)&1)?'#3FB5F0':'#4AC0F6'; c.fillRect(X,Y,T+.5,T+.5);
+  c.save(); c.beginPath(); c.rect(X,Y,T+.5,T+.5); c.clip(); c.strokeStyle='rgba(255,255,255,.55)'; c.lineWidth=T*.045; c.lineCap='round';
+  for(let k=0;k<2;k++){ const yy=Y+T*(.28+k*.42), ph=t*1.4+x*1.3+y*.7+k*2; c.beginPath(); for(let i=0;i<=8;i++){ const xx=X+T*i/8, yv=yy+Math.sin(ph+i*.9)*T*.045; i?c.lineTo(xx,yv):c.moveTo(xx,yv); } c.stroke(); }
+  const ab=tileAt(cur,x,y+1);
+  if(!esPared(ab) && !esVacio(ab)){ c.fillStyle='rgba(255,255,255,.92)'; c.beginPath(); c.moveTo(X,Y+T); for(let i=0;i<=8;i++){ const xx=X+T*i/8, yv=Y+T*(.76+Math.sin(t*2+x+i*.8)*.05+((i%2)?.04:0)); c.lineTo(xx,yv); } c.lineTo(X+T,Y+T); c.closePath(); c.fill(); c.fillStyle='rgba(170,220,250,.85)'; c.fillRect(X,Y+T*.94,T+.5,T*.06); }
+  c.restore();
+}
+/* la entrada al agua (en vez de una escalera): un pocito con ondas en la orilla, y desde abajo, la luz de la superficie */
+function drawPortal(c,X,Y,T,t,agua){
+  const cx=X+T*.5, cy=Y+T*.58;
+  if(!agua){
+    ell(c,cx,cy+T*.04,T*.48,T*.36,'#EBD08A'); ell(c,cx,cy,T*.42,T*.3,'#1E8BD0'); ell(c,cx,cy-T*.02,T*.34,T*.23,'#3FB5F0');
+    for(let k=0;k<3;k++){ const p=(t*.7+k/3)%1; c.save(); c.globalAlpha=(1-p)*.85; c.strokeStyle='#fff'; c.lineWidth=T*.03; c.beginPath(); c.ellipse(cx,cy,T*(.08+.3*p),T*(.05+.2*p),0,0,Math.PI*2); c.stroke(); c.restore(); }
+    c.strokeStyle='rgba(255,255,255,.95)'; c.lineWidth=T*.05; c.beginPath(); c.ellipse(cx,cy,T*.43,T*.31,0,0,Math.PI*2); c.stroke();
+    for(let k=0;k<3;k++){ const p=(t*.6+k*.33)%1; c.save(); c.globalAlpha=1-p; ell(c,cx+Math.sin(p*6+k)*T*.12,cy-p*T*.5,T*.04,T*.04,'rgba(255,255,255,.95)'); c.restore(); }
+  } else {
+    const g=c.createRadialGradient(cx,cy,0,cx,cy,T*.62); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.55,'rgba(255,255,255,.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle=g; c.fillRect(X-T*.2,Y-T*.2,T*1.4,T*1.4);
+    for(let k=0;k<5;k++){ c.save(); c.globalAlpha=.22; c.fillStyle='#fff'; c.translate(cx,cy); c.rotate(-.9+k*.45); c.fillRect(-T*.02,-T*.7,T*.04,T*.6); c.restore(); }
+    const bob=Math.sin(t*3)*T*.05; poly(c,[cx,cy-T*.12+bob, cx-T*.14,cy+T*.08+bob, cx+T*.14,cy+T*.08+bob],'#FFC93C');
+    for(let k=0;k<3;k++){ const p=(t*.5+k*.33)%1; c.save(); c.globalAlpha=1-p; c.strokeStyle='rgba(255,255,255,.9)'; c.lineWidth=T*.02; c.beginPath(); c.arc(cx+Math.sin(p*5+k)*T*.14,cy-p*T*.6,T*.045,0,Math.PI*2); c.stroke(); c.restore(); }
+  }
 }
 /* bajo el mar: rayitos de luz que ondean en el piso y burbujas que suben */
 function aguaFondo(c,T,t){
@@ -1195,6 +1223,7 @@ function drawTileObj(ch,x,y,t){
     return;
   }
   if(ch==='~'){ c.fillStyle='#CFEFFF'; c.fillRect(X+T*.05,Y+T*.12,T*.9,T*.6); c.strokeStyle='#9FD3EE'; c.lineWidth=T*.04; c.strokeRect(X+T*.05,Y+T*.12,T*.9,T*.6); return; }
+  if((ch==='U'||ch==='D') && CAP.niveles[cur].portal){ drawPortal(c,X,Y,T,t,!!CAP.niveles[cur].agua); return; }
   if(ch==='U'||ch==='D'){
     c.fillStyle='#8A96AA'; rr(c,X+T*.1,Y+T*.02,T*.8,T*.96,T*.12); c.fill();
     c.fillStyle='#4E586B'; rr(c,X+T*.2,Y+T*.08,T*.6,T*.86,T*.06); c.fill();
@@ -1274,6 +1303,7 @@ function drawSign(ch,x,y,t){
   if(ch==='W'){ if(tileAt(cur,x-1,y)==='W') return; const [a,b]=windowSpan(cur,y); bubble(((a+b)/2)*T+T*.5, Y-T*.98+bob, CAP.estaciones.W.item, cs.sellos.W); return; }
   if(isStation(ch)){ bubble(X+T*.5, Y-T*.44+bob, CAP.estaciones[ch].item, cs.sellos[ch]); return; }
   if(ch==='G'){ bubble(X+T*.45, Y-T*.62+bob, CAP.final.icono, cs.final); return; }
+  if((ch==='U'||ch==='D') && CAP.niveles[cur].portal){ bubble(X+T*.5, Y-T*.5+bob, CAP.niveles[cur].portal, false); return; }   // un globito con el dibujo de la entrada (las antiparras / el sol)
   if(ch==='U'||ch==='D'||ch==='L'){
     const by=Y-T*.3; c.fillStyle=ch==='L'?'#5C6A86':'#FFC93C'; rr(c,X+T*.16,by-T*.16,T*.68,T*.32,T*.14); c.fill();
     const fc=ch==='L'?'#fff':'#22314F';
@@ -2161,7 +2191,7 @@ function drawScene(c,w,h,cap,esc2,t){
   const escY=(p)=>gy+p*(h*.24-gy);
   for(const a of esc2.actores||[]){
     if(a.tipo==='escalera'){ c.save(); c.strokeStyle='#5C6A86'; c.lineWidth=h*.14; c.lineCap='round'; c.beginPath(); c.moveTo(w*.12,gy); c.lineTo(w*.86,h*.24); c.stroke(); c.strokeStyle='#A8B3C6'; c.lineWidth=3; for(let k=0;k<12;k++){ const p=((k/12)+t*.15)%1; const x=w*.12+p*w*.74, y=escY(p); c.beginPath(); c.moveTo(x-12,y-6); c.lineTo(x+12,y+6); c.stroke(); } c.restore(); }
-    else if(a.tipo==='heroe'){ const lift=a.gesto==='salto'?Math.abs(Math.sin(t*4))*h*.1:0; drawHero(c,(a.x??.4)*w,gy,S*(a.tam||1),{t,lift,facing:a.mira||1,backpack:true,uniforme:(a.uniforme&&cap.uniforme)?cap.uniforme.ropa:null,wave:a.gesto==='saludo',mood:a.gesto==='sorpresa'?'wow':a.gesto==='triste'?'triste':null,accion:ACCIONES.includes(a.gesto)?a.gesto:null}); }
+    else if(a.tipo==='heroe'){ const lift=a.gesto==='salto'?Math.abs(Math.sin(t*4))*h*.1:0; drawHero(c,(a.x??.4)*w,gy-(esc2.fondo==='mar'?h*.1:0),S*(a.tam||1),{t,lift,facing:a.mira||1,nada:esc2.fondo==='mar'&&!a.gesto,backpack:true,uniforme:(a.uniforme&&cap.uniforme)?cap.uniforme.ropa:null,wave:a.gesto==='saludo',mood:a.gesto==='sorpresa'?'wow':a.gesto==='triste'?'triste':null,accion:ACCIONES.includes(a.gesto)?a.gesto:null}); }
     else if(a.tipo==='npc'){ const n=a.de==='final'?cap.final.npc:cap.estaciones[a.de].npc; drawAnimal(c,n,(a.x??.7)*w,gy,S*(a.tam||.95),{t,facing:a.mira||1,hat:n.hat,mood:a.gesto==='triste'?'triste':a.gesto==='sorpresa'?'wow':null,wave:a.gesto==='saludo',accion:ACCIONES.includes(a.gesto)?a.gesto:null}); }
     else if(a.tipo==='cosa'){
       let x=(a.x??.5)*w, y=(a.y??.65)*h, s=(a.tam??.3)*h, rot=0, sc=1;
@@ -2501,7 +2531,7 @@ function drawDesfile(c,w,h,u,t,conf,F,S,uni){
   if(F.fondo==='mar') bgMar(c,w,h,t); else bgGranja(c,w,h,t,true);
   const gy=h*.97, an=F.desfile||[];
   drawAnimal(c,F.npc,w*.9,gy,h*.42,{t,hat:F.npc.hat,facing:-1,wave:!!S.fin});
-  drawHero(c,w*.1,gy-(F.fondo==='mar'?h*.04+Math.sin(t*2.2)*h*.02:0),h*.44,{t,facing:1,uniforme:uni?uni.ropa:null,wave:!S.fin,accion:S.fin?'bailar':null});
+  drawHero(c,w*.1,gy-(F.fondo==='mar'?h*.12+Math.sin(t*2.2)*h*.02:0),h*.44,{t,facing:1,nada:F.fondo==='mar'&&!S.fin,uniforme:uni?uni.ropa:null,wave:!S.fin&&F.fondo!=='mar',accion:S.fin?'bailar':null});
   for(let i=0;i<S.n;i++){ const x=w*(.24+i*(.52/Math.max(1,an.length-1))), ult=i===S.n-1&&!S.fin, sal=(ult||S.fin)?Math.abs(Math.sin(t*(S.fin?4:6)+i))*h*.06:0; drawImg(c,an[i],x,h*.72-sal,h*(ult?.2:.16)); }
   if(S.texto && !S.fin){ c.save(); c.font=`800 ${Math.round(h*.1)}px 'Baloo 2',sans-serif`; c.textAlign='center'; c.lineWidth=h*.02; c.strokeStyle='#22314F'; c.strokeText(S.texto,w/2,h*.2); c.fillStyle='#fff'; c.fillText(S.texto,w/2,h*.2); c.restore(); }
   if(S.fin){ const kk=t-S.fin; conf.forEach(p=>{ const y=((p.x*h*1.3 + kk*p.s*h*.35) % (h+40))-20; const x=p.x*w+Math.sin(kk*2+p.r)*14; c.save(); c.translate(x,y); c.rotate(kk*3*p.s+p.r); c.fillStyle=p.c; c.fillRect(-5,-3,10,6); c.restore(); });

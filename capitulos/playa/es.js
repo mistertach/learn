@@ -184,5 +184,5 @@ registrarTextos('playa', 'es', {
     {p:"¿Qué brilla en el cielo?", r:"¡El sol!"},
     {p:"¿Qué guarda un tesoro?", r:"¡El cofre!"}
   ],
-  objetos: {"#":"el mar","y":"la palmera","n":"la sombrilla","i":"la roca","v":"el alga","w":"el coral","~":"la puerta"}
+  objetos: {"#":"las rocas","=":"el mar","y":"la palmera","n":"la sombrilla","i":"la roca","v":"el alga","w":"el coral","~":"la puerta"}
 });

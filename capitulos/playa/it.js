@@ -184,5 +184,5 @@ registrarTextos('playa', 'it', {
     {p:"Che cosa brilla nel cielo?", r:"Il sole!"},
     {p:"Che cosa custodisce un tesoro?", r:"Lo scrigno!"}
   ],
-  objetos: {"#":"il mare","y":"la palma","n":"l'ombrellone","i":"lo scoglio","v":"l'alga","w":"il corallo","~":"la porta"}
+  objetos: {"#":"gli scogli","=":"il mare","y":"la palma","n":"l'ombrellone","i":"lo scoglio","v":"l'alga","w":"il corallo","~":"la porta"}
 });

@@ -185,5 +185,5 @@ registrarTextos('playa', 'ar', {
     {p:"shu illi yilma' fis-sama?|شو اللي يلمع في السما؟", r:"ash-shams!|الشمس!"},
     {p:"shu illi yihfadh al-kanz?|شو اللي يحفظ الكنز؟", r:"as-sandooq!|الصندوق!"}
   ],
-  objetos: {"#":"al-bahar|البحر","y":"an-nakhla|النخلة","n":"al-mizalla|المظلة","i":"as-sakhra|الصخرة","v":"al-ushb|العشب","w":"al-murjaan|المرجان","~":"al-baab|الباب"}
+  objetos: {"#":"as-sukhoor|الصخور","=":"al-bahar|البحر","y":"an-nakhla|النخلة","n":"al-mizalla|المظلة","i":"as-sakhra|الصخرة","v":"al-ushb|العشب","w":"al-murjaan|المرجان","~":"al-baab|الباب"}
 });

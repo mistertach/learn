@@ -6,6 +6,8 @@
 
    La leyenda del mapa y de las escenas está en capitulos/aeropuerto/base.js. Además:
      mapa:    y palmera · n sombrilla · i roca · v alga · w coral   (todos decorados: no se pisan)
+              = mar (pared que ondea; la orilla tiene espuma) · la U de la playa es un "pocito" en la orilla para zambullirse y la D de abajo, la luz de la superficie
+     niveles: `portal:'<dibujo>'` cambia la escalera por una entrada al agua (el dibujo flota encima, en un globito)
      niveles: `agua:true` = bajo el mar (burbujas, luz que ondea, el personaje flota)
      escenas: fondo 'playa' (arena y mar) | 'mar' (bajo el agua)
    uniforme: la malla y las antiparras con snorkel, desde la estación N (las antiparras).
@@ -45,29 +47,29 @@ registrarCapitulo({
     ropa: {
       torso: {lugar:"torso", estilo:"malla", color:"#2E86DE", color2:"#FFC93C"},
       piernas: {lugar:"piernas", estilo:"short", color:"#FF6F59"},
-      anteojos: {lugar:"anteojos", estilo:"buceo", color:"#2FBF8F"}
+      cara: {lugar:"cara", estilo:"buceo", color:"#2FBF8F"}
     }
   },
   niveles: [
-    {num:0, piso:["#F7E3A8","#F1D98F"], pared:"#4FC3F7", paredOscura:"#2C9BD3", mapa:[
-      "  ########  ",
-      " ##S...y.## ",
-      "##..n....A.#",
+    {num:0, portal:"antiparras", piso:["#F7E3A8","#F1D98F"], pared:"#E3C27E", paredOscura:"#C9A55A", mapa:[
+      "============",
+      "============",
+      "#==========#",
+      "#..S..U...A#",
       "#y......i..#",
       "#..n.....y.#",
       "#O.......N.#",
-      "#.y..D..n..#",
-      "##........##",
-      " ##..P...## ",
-      "  ########  "]},
-    {num:1, agua:true, piso:["#7FD0F2","#72C6EC"], pared:"#1F6FB5", paredOscura:"#14508A", mapa:[
+      "#.y..n..n..#",
+      "##...P....##",
+      " ########## "]},
+    {num:1, agua:true, portal:"sol", piso:["#7FD0F2","#72C6EC"], pared:"#1F6FB5", paredOscura:"#14508A", mapa:[
       "  ########  ",
       " ##F..w..## ",
       "##...v....##",
       "#w....i...C#",
       "#..v.......#",
       "#....w..v..#",
-      "#T...U.....G",
+      "#T...D.....G",
       "#..v.....w.#",
       "##........##",
       "  ########  "]}

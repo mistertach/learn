@@ -184,5 +184,5 @@ registrarTextos('playa', 'en', {
     {p:"What shines in the sky?", r:"The sun!"},
     {p:"What keeps a treasure?", r:"The chest!"}
   ],
-  objetos: {"#":"the sea","y":"the palm tree","n":"the umbrella","i":"the rock","v":"the seaweed","w":"the coral","~":"the door"}
+  objetos: {"#":"the rocks","=":"the sea","y":"the palm tree","n":"the umbrella","i":"the rock","v":"the seaweed","w":"the coral","~":"the door"}
 });

@@ -184,5 +184,5 @@ registrarTextos('playa', 'fr', {
     {p:"Qu'est-ce qui brille dans le ciel ?", r:"Le soleil !"},
     {p:"Qu'est-ce qui garde un trésor ?", r:"Le coffre !"}
   ],
-  objetos: {"#":"la mer","y":"le palmier","n":"le parasol","i":"le rocher","v":"l'algue","w":"le corail","~":"la porte"}
+  objetos: {"#":"les rochers","=":"la mer","y":"le palmier","n":"le parasol","i":"le rocher","v":"l'algue","w":"le corail","~":"la porte"}
 });
