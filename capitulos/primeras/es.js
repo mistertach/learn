@@ -27,7 +27,7 @@ registrarTextos('primeras', 'es', {
       {di:"¿Estás feliz?", op:[{t:"¡Sí, estoy muy feliz!", r:"¡Yo también! Qué alegría."}, {t:"¡Sí, me encantan las aventuras!", r:"¡A mí también! Las aventuras son divertidas."}]},
       {op:[{t:"¿Vos también estás contenta?", r:"¡Sí, muy contenta!"}, {t:"¿Podemos ir ahora?", r:"¡Sí! ¡Vamos!"}]}]}
   ],
-  titulo: "¡Hola!",
+  titulo: "La casita del árbol",
   lugar: {texto:"la casita", silabas:["la", "ca", "si", "ta"]},
   bienvenida: "¡Llegamos a la casita del árbol!",
   niveles: [{nombre:"El jardín", numTexto:"cero"}, {nombre:"El tronco", numTexto:"uno"}, {nombre:"La casita", numTexto:"dos"}],

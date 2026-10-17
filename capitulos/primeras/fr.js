@@ -27,7 +27,7 @@ registrarTextos('primeras', 'fr', {
       {di:"Tu es heureux ?", op:[{t:"Oui, je suis très heureux !", r:"Moi aussi ! Quelle joie."}, {t:"Oui, j'adore les aventures !", r:"Moi aussi ! Les aventures, c'est amusant."}]},
       {op:[{t:"Toi aussi, tu es contente ?", r:"Oui, très contente !"}, {t:"On peut y aller maintenant ?", r:"Oui ! En route !"}]}]}
   ],
-  titulo: "Bonjour !",
+  titulo: "La cabane dans l'arbre",
   lugar: {texto:"la cabane", silabas:["la", "ca", "bane"]},
   bienvenida: "Nous voilà à la cabane dans l'arbre !",
   niveles: [{nombre:"Le jardin", numTexto:"zéro"}, {nombre:"Le tronc", numTexto:"un"}, {nombre:"La cabane", numTexto:"deux"}],

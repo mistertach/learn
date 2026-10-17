@@ -380,6 +380,7 @@ function extraerPrompts(capId, lang, datos) {
     }
     if (tc.lugar?.texto && T.mira) add(`mira-lugar-${cid}`, T.mira(tc.lugar.texto));
     if (tc.lugar?.texto && T.cualEs) add(`cualEs-lugar-${cid}`, T.cualEs(tc.lugar.texto));
+    if (tc.titulo) add(`titulo-${cid}`, tc.titulo);   // el nombre del lugar en el camino de la pantalla de inicio
     if (tc.lugar?.texto && T.si) add(`si-lugar-${cid}`, T.si(tc.lugar.texto));
 
     for (const px of (tc.palabrasExtra || [])) {

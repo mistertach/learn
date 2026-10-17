@@ -31,7 +31,7 @@ registrarTextos('primeras', 'ar', {
       {di:"inta farhaan?|إنت فرحان؟", op:[{t:"aywa, ana farhaan wayed!|أيوا، أنا فرحان وايد!", r:"wana ba'd! shu hal-farha.|وأنا بعد! شو هالفرحة."}, {t:"aywa, ahibb al-mughamarat!|أيوا، أحب المغامرات!", r:"wana ba'd! al-mughamarat mumti'a.|وأنا بعد! المغامرات ممتعة."}]},
       {op:[{t:"wenti farhaana ba'd?|وإنتي فرحانة بعد؟", r:"aywa, farhaana wayed!|أيوا، فرحانة وايد!"}, {t:"nigdar nroh al-heen?|نقدر نروح الحين؟", r:"aywa! yalla nimshi!|أيوا! يلا نمشي!"}]}]}
   ],
-  titulo: "marhaba!|مرحبا!",
+  titulo: "al-bayt 'ala ash-shajara|البيت على الشجرة",
   lugar: {texto:"bait ash-shajara|بيت الشجرة", silabas:["bait|بَيْت", "ash|اَشْ", "sha|شَ", "ja|جَ", "ra|رَة"]},
   bienvenida: "wasalna bait ash-shajara!|وصلنا بيت الشجرة!",
   niveles: [{nombre:"al-hadeega|الحديقة", numTexto:"sifr|صفر"}, {nombre:"al-jidh'|الجذع", numTexto:"wahid|واحد"}, {nombre:"bait ash-shajara|بيت الشجرة", numTexto:"ithnain|اثنين"}],

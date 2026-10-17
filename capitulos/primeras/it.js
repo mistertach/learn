@@ -27,7 +27,7 @@ registrarTextos('primeras', 'it', {
       {di:"Sei felice?", op:[{t:"Sì, sono felicissimo!", r:"Anch'io! Che gioia."}, {t:"Sì, adoro le avventure!", r:"Anch'io! Le avventure sono divertenti."}]},
       {op:[{t:"Anche tu sei contenta?", r:"Sì, contentissima!"}, {t:"Possiamo andare adesso?", r:"Sì! Si parte."}]}]}
   ],
-  titulo: "Ciao!",
+  titulo: "La casa sull'albero",
   lugar: {texto:"la casetta", silabas:["la", "ca", "set", "ta"]},
   bienvenida: "Eccoci alla casetta sull'albero!",
   niveles: [{nombre:"Il giardino", numTexto:"zero"}, {nombre:"Il tronco", numTexto:"uno"}, {nombre:"La casetta", numTexto:"due"}],

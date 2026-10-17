@@ -27,7 +27,7 @@ registrarTextos('primeras', 'en', {
       {di:"Are you happy?", op:[{t:"Yes, I'm very happy!", r:"Me too! I'm so glad."}, {t:"Yes, I love adventures!", r:"Me too! Adventures are fun."}]},
       {op:[{t:"Are you happy too?", r:"Yes, very happy!"}, {t:"Can we go now?", r:"Yes! Off we go."}]}]}
   ],
-  titulo: "Hello!",
+  titulo: "The treehouse",
   lugar: {texto:"the treehouse", silabas:["the", "tree", "house"]},
   bienvenida: "Here we are at the treehouse!",
   niveles: [{nombre:"The garden", numTexto:"zero"}, {nombre:"The trunk", numTexto:"one"}, {nombre:"The treehouse", numTexto:"two"}],
