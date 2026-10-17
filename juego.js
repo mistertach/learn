@@ -46,7 +46,9 @@ const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
    en pantalla se ven las letras latinas y abajo, chiquita, la escritura árabe (partirDobles). */
 const caraLatina = s => { s=String(s??''); const i=s.indexOf('|'); return i<0 ? s : s.slice(0,i); };
 const caraHablada = s => { s=String(s??''); const i=s.indexOf('|'); return i<0 ? s : s.slice(i+1); };
-const esDoble = s => typeof s==='string' && s.includes('|') && /[\u0600-\u06FF]/.test(s);
+const CIR=/[\u0400-\u04FF]/, ARAB=/[\u0600-\u06FF]/;
+const esDoble = s => typeof s==='string' && s.includes('|') && (ARAB.test(s) || CIR.test(s));   // las dos caras: árabe y ruso (latino|escritura propia)
+const peqDoble = (hablada, f=esc) => { const c=CIR.test(hablada); return `<small class="${c?'cir':'arab'}" lang="${c?'ru':'ar'}" dir="${c?'ltr':'rtl'}">${f(hablada)}</small>`; };
 function partirDobles(raiz){
   if(!raiz) return;
   if(raiz.nodeType===3){ if(esDoble(raiz.nodeValue)) partirNodo(raiz); return; }
@@ -57,7 +59,7 @@ function partirDobles(raiz){
 function partirNodo(n){
   if(!n.parentNode || n.parentNode.closest && n.parentNode.closest('title,script,style,option')) return;
   const v=n.nodeValue, i=v.indexOf('|'), f=document.createDocumentFragment(), sm=document.createElement('small');
-  sm.className='arab'; sm.lang='ar'; sm.dir='rtl'; sm.textContent=v.slice(i+1);
+  const cir=CIR.test(v); sm.className=cir?'cir':'arab'; sm.lang=cir?'ru':'ar'; sm.dir=cir?'ltr':'rtl'; sm.textContent=v.slice(i+1);
   f.append(v.slice(0,i), sm); n.replaceWith(f);
 }
 if(typeof MutationObserver!=='undefined') new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='characterData') partirDobles(m.target); else m.addedNodes.forEach(partirDobles); } }).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
@@ -93,6 +95,10 @@ const charDisplayName = ch => {
   }
   if(lang === 'it'){
     if(ch.id === 'jirafa') return 'Raffa';
+  }
+  if(lang === 'ru'){
+    const m = {luna:'Луна', toby:'Тоби', coco:'Коко', tigre:'Тигр', leon:'Лео', jirafa:'Рафа'};
+    if(m[ch.id]) return (window.ruTranslit ? ruTranslit(m[ch.id]) : ch.name) + '|' + m[ch.id];
   }
   if(lang === 'ar'){
     if(ch.id === 'tigre') return 'an-nimr|النمر';
@@ -259,10 +265,11 @@ const AUDIO_CARGADO = {};
 function cargarAudio(l){ if(!l) return Promise.resolve(); return AUDIO_CARGADO[l] || (AUDIO_CARGADO[l] = Promise.all([cargarScript(`audio/audio-${l}.js`), cargarScript(`audio/prompts-${l}.js`)])); }
 async function cargarTodo(){
   const langs=window.IDIOMAS||['es'], ids=window.CAPITULOS||[];
+  if(langs.includes('ru')) await cargarScript('idiomas/ru.js');   // trae ruDoble/ruP, que usan todos los textos del ruso: antes que el resto
   await Promise.all([
-    ...[...new Set([...langs,'en'])].map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
+    ...[...new Set([...langs,'en'])].filter(l=>l!=='ru').map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
-    Promise.all([cargarScript('idiomas/nivel0.js'), cargarScript('idiomas/nivel0-arte.js')]).then(()=>cargarScript('idiomas/nivel0b.js')),   // la parte B de la intro se suma a la A
+    Promise.all([cargarScript('idiomas/nivel0.js'), cargarScript('idiomas/nivel0-arte.js')]).then(()=>langs.includes('ru') ? cargarScript('idiomas/nivel0-ru.js') : 0).then(()=>cargarScript('idiomas/nivel0b.js')),   // la parte B de la intro se suma a la A
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
     cargarScript('idiomas/grandes.js').then(()=>cargarScript('idiomas/rincon.js')),
@@ -290,7 +297,7 @@ function rotarInicio(){
     if(save.lang || scr.start.hidden){ clearInterval(rotTm); if(save.lang) applyLang(); return; }
     i=(i+1)%langs.length; const code=langs[i], t=PACKS[code].t, els=scr.start.querySelectorAll('[data-t]');
     els.forEach(el=>el.classList.add('swap'));
-    setTimeout(()=>els.forEach(el=>{ const v=t[el.dataset.t]; if(typeof v==='string'){ if(esDoble(v)){ el.innerHTML=`${esc(caraLatina(v))}<small class="arab" lang="ar" dir="rtl">${esc(caraHablada(v))}</small>`; } else { el.textContent=v; } } el.lang=code; el.classList.remove('swap'); }), 280);
+    setTimeout(()=>els.forEach(el=>{ const v=t[el.dataset.t]; if(typeof v==='string'){ if(esDoble(v)){ el.innerHTML=`${esc(caraLatina(v))}${peqDoble(caraHablada(v))}`; } else { el.textContent=v; } } el.lang=code; el.classList.remove('swap'); }), 280);
   }, 3000);
 }
 function applyLang(){
@@ -298,7 +305,7 @@ function applyLang(){
     const v=T[el.dataset.t];
     if(typeof v==='string'){
       if(esDoble(v)){
-        el.innerHTML=`${esc(caraLatina(v))}<small class="arab" lang="ar" dir="rtl">${esc(caraHablada(v))}</small>`;
+        el.innerHTML=`${esc(caraLatina(v))}${peqDoble(caraHablada(v))}`;
       } else {
         el.textContent=v;
       }
@@ -504,9 +511,10 @@ const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 /* una frase que lleva el nombre → [url del principio, url del nombre, url del final] (o null si falta algo) */
 async function partesConNombre(texto, lang, voz){
   const nombre=save && save.name; if(!nombre || !texto || !texto.includes(nombre)) return null;
-  const re=new RegExp(`(?<![\\p{L}\\p{M}])${escRe(nombre)}(?![\\p{L}\\p{M}])`,'u');
-  const caras = (lang==='ar' && texto.includes('|')) ? texto.split('|') : [texto];
-  const cortes = caras.map(c=>{ const m=re.exec(c); return (m && !re.test(c.slice(m.index+nombre.length))) ? [c.slice(0,m.index), c.slice(m.index+nombre.length)] : null; });
+  const dobles = (lang==='ar' || lang==='ru') && texto.includes('|');
+  const reDe = n => new RegExp(`(?<![\\p{L}\\p{M}])${escRe(n)}(?![\\p{L}\\p{M}])`,'u');
+  const caras = dobles ? texto.split('|') : [texto], nombres = dobles && lang==='ru' ? [window.ruTranslit?ruTranslit(nombre):nombre, nombre] : [nombre, nombre];
+  const cortes = caras.map((c,ci)=>{ const re=reDe(nombres[ci]), n=nombres[ci], m=re.exec(c); return (m && !re.test(c.slice(m.index+n.length))) ? [c.slice(0,m.index), c.slice(m.index+n.length)] : null; });
   if(cortes.some(c=>!c)) return null;
   const pieza = i => caras.length===2 ? `${cortes[0][i]}|${cortes[1][i]}` : cortes[0][i];
   const trae = p => normPromptKey(p.replace(/\|/g,'')) !== '';   // si es solo puntuación, no hay nada que decir
@@ -2099,7 +2107,7 @@ function runPassport(){
    ========================================================= */
 const storyFill = s => s.replace(/\{N\}/g, charDisplayName(char()) || char().name);
 const marcarCuento = s => esc(s).replace(/\*(.+?)\*/g,'<mark>$1</mark>');
-const storyHtml = s => { const f=storyFill(s); return esDoble(f) ? `${marcarCuento(caraLatina(f))}<small class="arab" lang="ar" dir="rtl">${marcarCuento(caraHablada(f))}</small>` : marcarCuento(f); };
+const storyHtml = s => { const f=storyFill(s); return esDoble(f) ? `${marcarCuento(caraLatina(f))}${peqDoble(caraHablada(f), marcarCuento)}` : marcarCuento(f); };
 const storySpeech = s => storyFill(s).replace(/\*/g,'');
 
 function buildStorySpeechParts(texto, pgId){

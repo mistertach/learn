@@ -10,7 +10,7 @@
    Uso: node scripts/gen-intro-b.js */
 const fs = require('fs'), path = require('path');
 const DIR = path.join(__dirname, 'datos', 'intro-b'), SALIDA = path.join(__dirname, '..', 'idiomas', 'nivel0b.js');
-const LANGS = ['es', 'en', 'fr', 'it', 'ar'];
+const LANGS = ['es', 'en', 'fr', 'it', 'ar'];   // las 5 columnas de cada línea; el ruso va en ru/<mismo archivo>.txt (una celda por palabra, en el mismo orden)
 
 /* ---- sílabas del español ---- */
 const V = 'aeiouáéíóúü', FUERTE = 'aeoáéíúó'.replace('í', '').replace('ú', ''), DEBIL = 'iuü';
@@ -94,6 +94,21 @@ for (const f of fs.readdirSync(DIR).filter(x => x.endsWith('.txt')).sort()) {
     g.filas.push(celdas);
   }
 }
+/* ruso: una carpeta aparte con el mismo nombre de archivo; cada grupo: "N ru: Nombre || Intro" y una palabra por línea ("texto" o "texto=sí-la-bas") */
+const ruGrupos = [];
+for (const f of fs.readdirSync(DIR).filter(x => x.endsWith('.txt')).sort()) {
+  const fr = path.join(DIR, 'ru', f); if (!fs.existsSync(fr)) throw new Error(`falta intro-b/ru/${f}`);
+  let g = null;
+  for (const raw of fs.readFileSync(fr, 'utf8').split('\n')) {
+    const l = raw.trim(); if (!l || l.startsWith('#')) continue;
+    if (l.startsWith('===')) { g = { nombre: '', intro: '', filas: [] }; ruGrupos.push(g); continue; }
+    const m = l.match(/^N ru:\s*(.*?)\s*\|\|\s*(.*)$/); if (m) { g.nombre = m[1]; g.intro = m[2]; continue; }
+    g.filas.push(l);
+  }
+}
+if (ruGrupos.length !== grupos.length) throw new Error(`ruso: ${ruGrupos.length} grupos y en el resto hay ${grupos.length}`);
+ruGrupos.forEach((g, i) => { if (g.filas.length !== grupos[i].filas.length) throw new Error(`ruso: el grupo ${i + 1} (${g.nombre}) tiene ${g.filas.length} palabras y en el resto ${grupos[i].filas.length}`); });
+
 let n = 0, sal = `/* GENERADO por scripts/gen-intro-b.js desde scripts/datos/intro-b/*.txt: no se edita a mano.
    Parte B de la intro: grupos que se suman a los de la parte A (idiomas/nivel0.js). */
 (()=>{
@@ -107,8 +122,9 @@ for (const l of LANGS) {
     return { nombre: g.nombre[l], intro: g.intro[l], palabras: g.filas.map(r => celda(r[1 + LANGS.indexOf(l)], l)) };
   });
 }
+data.langs.ru = ruGrupos.map(g => ({ nombre: g.nombre, intro: g.intro, palabras: g.filas.map(c => { const i = c.lastIndexOf('='); return i < 0 ? { texto: c } : { texto: c.slice(0, i).trim(), silabas: c.slice(i + 1).trim().split('-') }; }) }));
 sal += `const ARTE_B = ${JSON.stringify(data.arte)};\nconst COL_B = ${JSON.stringify(data.colores)};\nconst LANG_B = ${JSON.stringify(data.langs)};\n`;
-sal += `ARTE_B.forEach((g,gi)=>{ A.push(g.map(emo)); COL.push(COL_B[gi]); });\nfor (const l in LANG_B) window.NIVEL0[l].grupos.push(...LANG_B[l]);\nwindow.NIVEL0_PARTE_B = ${grupos.length};   // cuántos grupos son de la parte B (los últimos)\n})();\n`;
+sal += `ARTE_B.forEach((g,gi)=>{ A.push(g.map(emo)); COL.push(COL_B[gi]); });\nfor (const l in LANG_B) window.NIVEL0[l].grupos.push(...(l === 'ru' ? ruDoble(LANG_B.ru.map(g => ({...g, palabras: g.palabras.map(w => w.silabas ? w : ruP(w.texto))}))) : LANG_B[l]));\nwindow.NIVEL0_PARTE_B = ${grupos.length};   // cuántos grupos son de la parte B (los últimos)\n})();\n`;
 if (ERRORES.length) { console.error(ERRORES.join('\n')); process.exit(1); }
 fs.writeFileSync(SALIDA, sal);
 console.log(`nivel0b.js: ${grupos.length} grupos, ${grupos.reduce((a, g) => a + g.filas.length, 0)} palabras`);

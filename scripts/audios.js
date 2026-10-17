@@ -30,6 +30,7 @@ try {
 } catch (e) {}
 
 const { GOOGLE_LOCAL, SERVICIOS } = require('../servidor/voces');
+const DOBLES = ['ar', 'ru'];   // idiomas con dos caras "latino|escritura propia"
 
 const arg = n => {
   const a = process.argv.find(x => x === '--' + n || x.startsWith('--' + n + '='));
@@ -46,6 +47,8 @@ const FORZAR = !!arg('forzar');
 const IDIOMAS = (SOLO_ARG || 'es,en,fr,it,ar').split(',');
 const NOMBRE_DEFECTO = 'Luna';
 // la voz de cada personaje de las charlas (base.js: `voz`), una voz Chirp 3 HD de Google (están en todos los idiomas); el relator es Leda
+// voces que un idioma no tiene (en ruso no existe Gacrux, la de la abuela)
+const VOCES_ALTERNA = { ru: { mayor: 'Aoede' } };
 const VOCES_PERSONAJE = { papa: 'Charon', mama: 'Kore', nina: 'Zephyr', mayor: 'Gacrux', chico: 'Puck', sabio: 'Orus', amable: 'Aoede' };
 
 // Cargar lista de capítulos registrados
@@ -69,12 +72,13 @@ function cargarCapitulo(capId) {
   ctx.window = ctx;
   vm.createContext(ctx);
 
-  for (const l of ['es', 'en', 'fr', 'it', 'ar']) {
+  for (const l of ['es', 'en', 'fr', 'it', 'ar', 'ru']) {
     const f = path.join(RAIZ, 'idiomas', `${l}.js`);
     if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx);
   }
 
   vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0.js'), 'utf8'), ctx);
+  if (fs.existsSync(path.join(RAIZ, 'idiomas', 'nivel0-ru.js'))) vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0-ru.js'), 'utf8'), ctx);
   // la parte B de la intro (generada) se suma a los grupos; en el generador no hacen falta los dibujos
   ctx.NIVEL0_ARTE = []; ctx.NIVEL0_COLORES = [];
   vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0b.js'), 'utf8'), ctx);
@@ -82,7 +86,7 @@ function cargarCapitulo(capId) {
   const fBase = path.join(RAIZ, 'capitulos', capId, 'base.js');
   if (fs.existsSync(fBase)) vm.runInContext(fs.readFileSync(fBase, 'utf8'), ctx);
 
-  for (const l of ['es', 'en', 'fr', 'it', 'ar']) {
+  for (const l of ['es', 'en', 'fr', 'it', 'ar', 'ru']) {
     const fLang = path.join(RAIZ, 'capitulos', capId, `${l}.js`);
     if (fs.existsSync(fLang)) vm.runInContext(fs.readFileSync(fLang, 'utf8'), ctx);
   }
@@ -92,7 +96,7 @@ function cargarCapitulo(capId) {
 
 function textoHabla(s, lang) {
   s = String(s ?? '').replace(/\{N\}/g, NOMBRE_DEFECTO).replace(/\{n\}/g, '5').replace(/\*/g, '');
-  if (lang === 'ar' && s.includes('|')) {
+  if (DOBLES.includes(lang) && s.includes('|')) {
     const i = s.indexOf('|');
     return s.slice(i + 1).trim();
   }
@@ -291,7 +295,7 @@ function extraerPrompts(capId, lang, datos) {
   // nombre grabado aparte (api/nombre.js). El pedazo es exactamente lo que queda a cada lado, para que la búsqueda coincida.
   const addN = (slugPrefix, tpl, voz) => {
     tpl = String(tpl || ''); if (!tpl.includes('{N}')) return;
-    const caras = (lang === 'ar' && tpl.includes('|')) ? tpl.split('|') : [tpl];
+    const caras = (DOBLES.includes(lang) && tpl.includes('|')) ? tpl.split('|') : [tpl];
     const cortes = caras.map(c => c.split('{N}'));
     if (cortes.some(c => c.length !== 2)) return;
     for (const i of [0, 1]) {
@@ -440,7 +444,7 @@ function mostrarCuota() {
   const porIdioma = {};
 
   if (fs.existsSync(AUDIO_DIR)) {
-    for (const l of ['es', 'en', 'fr', 'it', 'ar']) {
+    for (const l of ['es', 'en', 'fr', 'it', 'ar', 'ru']) {
       const lDir = path.join(AUDIO_DIR, l);
       if (!fs.existsSync(lDir)) continue;
       let count = 0, bytes = 0;
@@ -491,7 +495,7 @@ function mostrarCuota() {
 /* Un archivo por idioma, para que el navegador cargue solo el que necesita (el que aprende y el de ayuda):
    audio/audio-<idioma>.js (id → mp3 de cada palabra, sílaba y frase de los lugares) y audio/prompts-<idioma>.js (texto → mp3 de las consignas y charlas).
    audio/manifest.json guarda todo junto (no lo carga el navegador). */
-const IDIOMAS_AUDIO = ['es', 'fr', 'it', 'en', 'ar'];
+const IDIOMAS_AUDIO = ['es', 'fr', 'it', 'en', 'ar', 'ru'];
 function escribirAudioJs(manifest) {
   for (const l of IDIOMAS_AUDIO) {
     const e = Object.entries(manifest).filter(([k]) => k.startsWith(l + ':'));
@@ -818,7 +822,7 @@ async function regenerarSilabas() {
             let intentos = 0;
             while (intentos < 5) {
               try {
-                const audioBuf = await S.generar(it.textoHablado, lang, it.voz && VOCES_PERSONAJE[it.voz] ? `${GOOGLE_LOCAL[lang]}-Chirp3-HD-${VOCES_PERSONAJE[it.voz]}` : vozLeda);
+                const audioBuf = await S.generar(it.textoHablado, lang, it.voz && VOCES_PERSONAJE[it.voz] ? `${GOOGLE_LOCAL[lang]}-Chirp3-HD-${((VOCES_ALTERNA[lang] || {})[it.voz]) || VOCES_PERSONAJE[it.voz]}` : vozLeda);
                 fs.writeFileSync(dest, audioBuf);
                 nuevos++;
                 process.stdout.write('.');

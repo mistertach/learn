@@ -7,7 +7,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm'), { spawnSync } = require('child_process');
 const RAIZ = path.join(__dirname, '..');
 const arg = n => { const a = process.argv.find(x => x === '--' + n || x.startsWith('--' + n + '=')); return a == null ? null : (a.split('=')[1] ?? true); };
-const IDIOMAS = (arg('solo') || 'es,fr,it,en,ar').split(','), REF = 'es';
+const IDIOMAS = (arg('solo') || 'es,fr,it,en,ar,ru').split(','), REF = 'es';
 const errores = [], avisos = [];
 const mal = (m) => errores.push(m), aviso = (m) => avisos.push(m);
 
@@ -16,14 +16,14 @@ const PACKS = {}, BASES = {}, TEXTOS = {};
 const ctx = { console, registrarIdioma: o => { PACKS[o.codigo] = o; }, registrarCapitulo: o => { BASES[o.id] = o; }, registrarTextos: (id, l, o) => { (TEXTOS[id] = TEXTOS[id] || {})[l] = o; } };
 ctx.window = ctx; vm.createContext(ctx);
 const cargar = f => { try { vm.runInContext(fs.readFileSync(path.join(RAIZ, f), 'utf8'), ctx, { filename: f }); } catch (e) { mal(`${f}: no se pudo cargar (${e.message})`); } };
-['capitulos.js', 'escenas.js', 'idiomas/nivel0.js', 'idiomas/nivel0-arte.js', 'idiomas/nivel0b.js'].forEach(cargar);
-for (const l of ['es', 'fr', 'it', 'en', 'ar']) cargar(`idiomas/${l}.js`);
+for (const l of ['es', 'fr', 'it', 'en', 'ar', 'ru']) cargar(`idiomas/${l}.js`);
+['capitulos.js', 'escenas.js', 'idiomas/nivel0.js', 'idiomas/nivel0-arte.js', 'idiomas/nivel0-ru.js', 'idiomas/nivel0b.js'].forEach(cargar);
 cargar('idiomas/grandes.js');
 cargar('idiomas/rincon.js');
 const CAPS = ctx.CAPITULOS || [];
 const ARTE_BASE = new Set(); { const j = fs.readFileSync(path.join(RAIZ, 'juego.js'), 'utf8'), a = j.indexOf('const ART = {'), b = j.indexOf('\n};', a); for (const m of j.slice(a, b).matchAll(/^  ([A-Za-z0-9_]+):`/gm)) ARTE_BASE.add(m[1]); }
 const hayArte = k => ARTE_BASE.has(k) || Object.values(BASES).some(o => (o.arte || {})[k]);
-for (const id of CAPS) { cargar(`capitulos/${id}/base.js`); for (const l of ['es', 'fr', 'it', 'en', 'ar']) if (fs.existsSync(path.join(RAIZ, `capitulos/${id}/${l}.js`))) cargar(`capitulos/${id}/${l}.js`); }
+for (const id of CAPS) { cargar(`capitulos/${id}/base.js`); for (const l of ['es', 'fr', 'it', 'en', 'ar', 'ru']) if (fs.existsSync(path.join(RAIZ, `capitulos/${id}/${l}.js`))) cargar(`capitulos/${id}/${l}.js`); }
 
 /* ---- forma de un dato: claves y largos, sin los textos ---- */
 const IGNORAR = new Set(['ingles']);
@@ -54,6 +54,7 @@ function hojas(x, ruta, f) {
 }
 const CLAVES_SIN_VOZ = new Set(['nombre', 'tag', 'bandera', 'codigo', 'letras', 'sonido', 'rankVoz', 'numTexto']);
 const arabe = /[؀-ۿ]/;
+const DOBLE = { ar: /[؀-ۿ]/, ru: /[Ѐ-ӿ]/ };   // idiomas con dos caras "latino|escritura propia" (el latino del ruso se arma solo)
 
 /* ---- 1 · cada lugar y cada idioma ---- */
 for (const id of CAPS) {
@@ -61,7 +62,7 @@ for (const id of CAPS) {
   if (!b) { mal(`${id}: falta base.js`); continue; }
   if (!T[REF]) { mal(`${id}: falta ${REF}.js`); continue; }
   for (const l of IDIOMAS) {
-    if (!T[l]) { if (l !== 'ar') mal(`${id}: falta ${l}.js`); else aviso(`${id}: sin árabe`); continue; }
+    if (!T[l]) { if (!DOBLE[l]) mal(`${id}: falta ${l}.js`); else aviso(`${id}: sin ${l}`); continue; }
     const dif = []; comparar(T[REF], T[l], id, l, dif); dif.slice(0, 6).forEach(mal); if (dif.length > 6) mal(`${id} ${l}: …y ${dif.length - 6} diferencias más`);
     // largos que deben coincidir con la base
     for (const [k, kb] of [['palabrasExtra', 'palabrasExtra'], ['frasesExtra', 'frasesExtra'], ['preguntas', 'preguntas']]) if ((b[kb] || []).length !== (T[l][k] || []).length) mal(`${id} ${l}: ${k} tiene ${(T[l][k] || []).length}, la base ${(b[kb] || []).length}`);
@@ -77,13 +78,13 @@ for (const id of CAPS) {
       if (CLAVES_SIN_VOZ.has(clave) || /\.ingles/.test(r) || /\.silabas|\.partes/.test(r) && false) return;
       const sin = s.replace(/\{[nN]\}/g, '');
       if (/\d/.test(sin)) mal(`${r}: tiene un número ("${s.slice(0, 40)}"): la voz lo lee mal; escribilo con letras`);
-      if (l === 'ar') { if (!s.includes('|') || !arabe.test(s)) { if (!/\.numTexto/.test(r)) mal(`${r}: en árabe falta una de las dos caras ("${s.slice(0, 40)}")`); } }
-      else { if (s.includes('|')) mal(`${r}: tiene "|" fuera del árabe`); if (arabe.test(s)) mal(`${r}: letras árabes fuera del árabe`); }
+      if (DOBLE[l]) { if (!s.includes('|') || !DOBLE[l].test(s)) { if (!/\.numTexto/.test(r)) mal(`${r}: en ${l} falta una de las dos caras ("${s.slice(0, 40)}")`); } }
+      else { if (s.includes('|')) mal(`${r}: tiene "|" fuera de los idiomas de dos caras`); for (const [k, re] of Object.entries(DOBLE)) if (re.test(s)) mal(`${r}: letras de ${k} fuera de ${k}`); }
     });
     // {n} (números) en el mismo lugar en todos los idiomas; en árabe, {N}/{n} en las dos caras
     const cuenta = (x) => { const o = {}; hojas(x, '', (t, r) => { const n = (t.match(/\{n\}/g) || []).length; if (n) o[r] = n; }); return o; };
-    const cr = cuenta(T[REF]), co = cuenta(T[l]); for (const k of new Set([...Object.keys(cr), ...Object.keys(co)])) if (l !== 'ar' && cr[k] !== co[k]) mal(`${id} ${l}${k}: {n} ${co[k] || 0} veces (en ${REF}: ${cr[k] || 0})`);
-    if (l === 'ar') hojas(T[l], `${id}/ar`, (t, r) => { if (!t.includes('|')) return; const [lat, arb] = [t.slice(0, t.indexOf('|')), t.slice(t.indexOf('|') + 1)]; for (const m of ['{N}', '{n}']) if (lat.split(m).length !== arb.split(m).length) mal(`${r}: ${m} no está igual en las dos caras ("${t.slice(0, 40)}")`); });
+    const cr = cuenta(T[REF]), co = cuenta(T[l]); for (const k of new Set([...Object.keys(cr), ...Object.keys(co)])) if (!DOBLE[l] && cr[k] !== co[k]) mal(`${id} ${l}${k}: {n} ${co[k] || 0} veces (en ${REF}: ${cr[k] || 0})`);
+    if (DOBLE[l]) hojas(T[l], `${id}/${l}`, (t, r) => { if (!t.includes('|')) return; const [lat, arb] = [t.slice(0, t.indexOf('|')), t.slice(t.indexOf('|') + 1)]; for (const m of ['{N}', '{n}']) if (lat.split(m).length !== arb.split(m).length) mal(`${r}: ${m} no está igual en las dos caras ("${t.slice(0, 40)}")`); });
   }
   // dibujos y escenas
   const art = b.arte || {};
@@ -98,7 +99,7 @@ for (const l of IDIOMAS) {
   if (!N0[l]) { mal(`nivel0: falta ${l}`); continue; }
   const dif = []; comparar(N0[REF], N0[l], 'nivel0', l, dif); dif.slice(0, 5).forEach(mal);
   N0[l].grupos.forEach((g, gi) => { if (!g.intro) mal(`nivel0 ${l} grupo ${gi}: sin intro`); g.palabras.forEach((w, wi) => { if (!w.silabas || !w.silabas.length) mal(`nivel0 ${l} ${gi}:${wi}: sin sílabas`);
-    if (/\d/.test(w.texto)) mal(`nivel0 ${l} ${gi}:${wi}: número en "${w.texto}"`); if ((l === 'ar') !== w.texto.includes('|')) mal(`nivel0 ${l} ${gi}:${wi}: caras ("${w.texto}")`); }); });
+    if (/\d/.test(w.texto)) mal(`nivel0 ${l} ${gi}:${wi}: número en "${w.texto}"`); if (!!DOBLE[l] !== w.texto.includes('|')) mal(`nivel0 ${l} ${gi}:${wi}: caras ("${w.texto}")`); }); });
 }
 (N0[REF] ? N0[REF].grupos : []).forEach((g, gi) => { if ((ARTE[gi] || []).length !== g.palabras.length) mal(`nivel0-arte: grupo ${gi} tiene ${(ARTE[gi] || []).length} dibujos y ${g.palabras.length} palabras`); });
 for (const gi in ARTE) ARTE[gi].forEach((f, wi) => { try { const s = f('#000'); if (/undefined|NaN|\[object/.test(s)) mal(`nivel0-arte ${gi}:${wi}: dibujo roto`); } catch (e) { mal(`nivel0-arte ${gi}:${wi}: ${e.message}`); } });

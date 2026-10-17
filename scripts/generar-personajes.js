@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Genera los audios de los nombres de los 6 personajes en los 5 idiomas */
+/* Genera los audios de los nombres de los 6 personajes en los 6 idiomas */
 
 const fs = require('fs');
 const path = require('path');
@@ -18,15 +18,16 @@ try {
 
 const { GOOGLE_LOCAL, SERVICIOS } = require('../servidor/voces');
 
-const IDIOMAS = ['es', 'en', 'fr', 'it', 'ar'];
+const SOLO = (process.argv.find(a => a.startsWith('--solo=')) || '').slice(7).split(',').filter(Boolean);   // --solo=ru: solo ese idioma (no se regraban los demás)
+const IDIOMAS = ['es', 'en', 'fr', 'it', 'ar', 'ru'].filter(l => !SOLO.length || SOLO.includes(l));
 
 const NOMBRES = {
-  luna:   { es: 'Luna',   en: 'Luna',  fr: 'Luna',  it: 'Luna',  ar: 'luna|لونا' },
-  toby:   { es: 'Toby',   en: 'Toby',  fr: 'Toby',  it: 'Toby',  ar: 'toby|توبي' },
-  coco:   { es: 'Coco',   en: 'Coco',  fr: 'Coco',  it: 'Coco',  ar: 'coco|كوكو' },
-  tigre:  { es: 'Tigre',  en: 'Tiger', fr: 'Tigre', it: 'Tigre', ar: 'an-nimr|النمر' },
-  leon:   { es: 'Leo',    en: 'Leo',   fr: 'Léo',   it: 'Leo',   ar: 'layth|ليث' },
-  jirafa: { es: 'Rafa',   en: 'Raffi', fr: 'Rafa',  it: 'Raffa', ar: 'zarafa|زرافة' }
+  luna:   { es: 'Luna',   en: 'Luna',  fr: 'Luna',  it: 'Luna',  ar: 'luna|لونا', ru: 'Луна' },
+  toby:   { es: 'Toby',   en: 'Toby',  fr: 'Toby',  it: 'Toby',  ar: 'toby|توبي', ru: 'Тоби' },
+  coco:   { es: 'Coco',   en: 'Coco',  fr: 'Coco',  it: 'Coco',  ar: 'coco|كوكو', ru: 'Коко' },
+  tigre:  { es: 'Tigre',  en: 'Tiger', fr: 'Tigre', it: 'Tigre', ar: 'an-nimr|النمر', ru: 'Тигр' },
+  leon:   { es: 'Leo',    en: 'Leo',   fr: 'Léo',   it: 'Leo',   ar: 'layth|ليث', ru: 'Лео' },
+  jirafa: { es: 'Rafa',   en: 'Raffi', fr: 'Rafa',  it: 'Raffa', ar: 'zarafa|زرافة', ru: 'Рафа' }
 };
 
 function textoHabla(s, lang) {

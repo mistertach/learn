@@ -1,8 +1,8 @@
 /* Voces generadas: ElevenLabs y Google (Chirp 3 HD). Lo usan api/voces.js (en Vercel) y scripts/voces-prueba.js (en tu compu).
    Variables: ELEVENLABS_API_KEY, GOOGLE_TTS_API_KEY (y opcionales ELEVENLABS_MODELO, ELEVENLABS_VOZ[_ES…], GOOGLE_VOZ_ES…). */
-const IDIOMAS = ['es', 'fr', 'it', 'en', 'ar'];
+const IDIOMAS = ['es', 'fr', 'it', 'en', 'ar', 'ru'];
 // Google no tiene castellano rioplatense en Chirp 3 HD: el más cercano es el latinoamericano (es-US)
-const GOOGLE_LOCAL = {es:'es-US', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-XA'};
+const GOOGLE_LOCAL = {es:'es-US', fr:'fr-FR', it:'it-IT', en:'en-US', ar:'ar-XA', ru:'ru-RU'};
 
 const ELEVEN = 'https://api.elevenlabs.io/v1', GOOGLE = 'https://texttospeech.googleapis.com/v1';
 
