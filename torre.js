@@ -10,16 +10,19 @@
 const COLS=11, FILAS=9;
 /* los 8 temas: grupos de la intro (índices de n0Grupos(): 0-7 parte A, 8-42 parte B) */
 const TEMAS=[
-  {emo:'🎮', gi:[0,1,2,3,4,5,6,7,8], req:[0,1,2,4],         bg:['#1B1038','#3A1F6B'], piso:['#6E55B5','#7B63C4'], pared:['#2B1A52','#3F2A78'], deco:['💎','🔮','✨']},
-  {emo:'🦁', gi:[9,10,11,12],                bg:['#0E2A12','#256B2E'], piso:['#5FAE5A','#6BBB66'], pared:['#1F5A2B','#2E7D3C'], deco:['🌲','🌿','🍄']},
-  {emo:'👕', gi:[13,14,18,19],               bg:['#3A1A0A','#8A4A22'], piso:['#E0A06A','#EBB07A'], pared:['#8A4A2A','#A85E36'], deco:['🧸','🧦','🎀']},
-  {emo:'🍎', gi:[15,16,20,21,22,23],         bg:['#3A2A08','#8A6A1F'], piso:['#E8C46A','#F0D07A'], pared:['#8A6A1F','#A8802A'], deco:['🥕','🍞','🧁']},
-  {emo:'🌈', gi:[24,25,30,31,32],            bg:['#0B1F3F','#1F5CA8'], piso:['#6FB0E8','#7FBDF0'], pared:['#1F4F8A','#2C66AE'], deco:['☁️','🌈','⛰️']},
-  {emo:'🤗', gi:[17,26,27,28,29],            bg:['#08272B','#0F5560'], piso:['#3FB5AE','#4DC4BC'], pared:['#0F5A56','#17756F'], deco:['🎈','🪁','⚽']},
-  {emo:'💬', gi:[33,34,35,36,37,38],         bg:['#3A0F2E','#8A2D6B'], piso:['#D45AA6','#E070B4'], pared:['#5A1B47','#7C2A63'], deco:['🍭','🧁','💬']},
-  {emo:'⭐', gi:[39,40,41,42],               bg:['#2B1408','#6B3315'], piso:['#C97A3A','#D68A4A'], pared:['#4E2410','#6E3418'], deco:['⭐','🔥','💡']}
+  {emo:'🎮', gi:[0,1,2,3,4,5,6,7,8], req:[0,1,2,4]},
+  {emo:'🦁', gi:[9,10,11,12],},
+  {emo:'👕', gi:[13,14,18,19],},
+  {emo:'🍎', gi:[15,16,20,21,22,23],},
+  {emo:'🌈', gi:[24,25,30,31,32],},
+  {emo:'🤗', gi:[17,26,27,28,29],},
+  {emo:'💬', gi:[33,34,35,36,37,38],},
+  {emo:'⭐', gi:[39,40,41,42],}
 ];
-const HALL={bg:['#241046','#4B2A86'], piso:['#E9D9A8','#F2E4B8'], pared:['#6B4F8A','#85629F'], deco:['✨']};
+/* los colores y adornos de cada piso: torre-estilos.js (se ve igual en el editor) */
+const EST=window.TORRE_ESTILOS||[];
+TEMAS.forEach((t,i)=>Object.assign(t,EST[i+1]||{}));
+const HALL=EST[0]||{bg:['#241046','#4B2A86'], piso:['#E9D9A8','#F2E4B8'], pared:['#6B4F8A','#85629F'], deco:['✨']};
 const FILA_HALL=[
   '###########',
   '#1#2#3#4#5#',

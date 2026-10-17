@@ -14,7 +14,10 @@
   .fila{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;align-items:center}
   .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
   #grid{display:grid;gap:2px;background:#C9D5E6;padding:2px;border-radius:10px;touch-action:none;user-select:none}
-  .c{display:grid;place-items:center;border-radius:5px;cursor:crosshair;background:#fff;overflow:hidden;line-height:1}
+  .c{display:grid;place-items:center;border-radius:4px;cursor:crosshair;background:#fff;overflow:hidden;line-height:1}
+  .pu{display:grid;place-items:center;width:78%;height:92%;border-radius:50% 50% 8px 8px;font:800 .7em system-ui;color:#22314F;background:#FFF8E6;border:4px solid #4A90E2}
+  .pu.or{border-color:#FFC93C;background:#FFF3C4}
+  .est{display:grid;place-items:center;width:82%;height:82%;border-radius:8px;background:#D8F5E8;color:#0F6B4B;font:800 .75em system-ui}
   .c.p{background:#4B3A78}.c.v{background:#DDE3EE}.c.d{background:#FFE9A8}.c.s{background:#D8F5E8;font-weight:800;color:#0F6B4B}.c.g{background:#FFF1B0}.c.k{background:#FFE0F0}.c.a{background:#CFE5FF}.c.t{background:#FBE3DE}.c.n{background:#fff}
   .grupo{margin:6px 0 2px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4A5A7A}
   .pal{display:flex;flex-wrap:wrap;gap:5px;max-width:560px}
@@ -50,6 +53,7 @@
   </div>
 </div>
 <script src="capitulos.js"></script>
+<script src="torre-estilos.js"></script>
 <script src="torre-mapas.js"></script>
 <script src="mapas-lugares.js"></script>
 <script>
@@ -118,24 +122,37 @@ document.getElementById('tam').onclick=e=>{ const b=e.target.closest('button'); 
   mapasActuales()[piso]=n; refrescar(); };
 
 /* la grilla */
-const claseDe=ch=>ch==='#'?'p':ch===' '?'v':(ch==='U'||ch==='D'||ch==='L')?'d':ch==='G'?'g':ch==='*'?'k':ch==='='||ch==='~'||ch==='W'?'a':(ch==='P')?'s':'';
-function celdaHtml(ch){
-  if(ch==='#'||ch==='.'||ch===' ') return ['',claseDe(ch)];
-  if(ch==='P') return ['📍','s'];
-  if(ch==='D') return ['🪜','d']; if(ch==='U') return ['🔼','d']; if(ch==='L') return ['🛗','d']; if(ch==='G') return ['🟩','g']; if(ch==='*') return ['🎁','k']; if(ch==='=') return ['🌊','a']; if(ch==='~') return ['🪟','a']; if(ch==='W') return ['🖼️','a'];
-  const o=OBJ.find(x=>x[0]===ch); if(o) return [o[2],'t'];
-  if(esTorre()) return [ch,'a'];
-  return [ch,'s'];
+/* cada baldosa se ve como en el juego: los colores del piso y de la pared de ese mapa, las puertas como puertas, los objetos dibujados */
+const EMO_TEMA=['🎮','🦁','👕','🍎','🌈','🤗','💬','⭐'];
+function colores(){
+  if(esTorre()){ const e=(window.TORRE_ESTILOS||[])[piso]||{}; return {piso:e.piso||['#ddd','#eee'], pared:e.pared||['#555','#777'], vacio:'#16102e'}; }
+  const n=(BASE[quien].niveles[piso])||{}; return {piso:n.piso||['#eee','#ddd'], pared:[n.pared||'#555', n.paredOscura||'#333'], vacio:'#16203a'};
+}
+function pintaCelda(d,ch,x,y,col){
+  const fl=col.piso[(x+y)&1]; let bg=fl, html='', css='';
+  const puerta=(txt,oro)=>`<span class="pu ${oro?'or':'az'}">${txt}</span>`;
+  if(ch==='#'){ bg=col.pared[0]; css='box-shadow:inset 0 7px 0 rgba(255,255,255,.2),inset 0 -5px 0 rgba(0,0,0,.18);'; }
+  else if(ch===' '){ bg=col.vacio; css='opacity:.55;'; }
+  else if(ch==='.'){ }
+  else if(ch==='P') html='📍';
+  else if(ch==='D') html='🪜'; else if(ch==='U') html='🔼'; else if(ch==='L') html='🛗';
+  else if(ch==='G'){ bg='#2FBF8F'; html='🚪'; }
+  else if(ch==='='){ bg='#3FB5F0'; html='🌊'; } else if(ch==='~'){ bg='#CFEFFF'; html='🪟'; } else if(ch==='W'){ bg='#CFEFFF'; html='🖼️'; }
+  else if(ch==='*') html='🎁';
+  else if(ch==='t'){ bg=['#E8483B','#2E86DE','#8B6FE8'][(x+y)%3]; css='box-shadow:inset 0 0 0 5px rgba(255,255,255,.55);'; }
+  else if(esTorre()&&'12345678'.includes(ch)){ html= piso===0 ? puerta(EMO_TEMA[+ch-1],false) : puerta(ch, +ch>4); }
+  else { const o=OBJ.find(z=>z[0]===ch); if(o) html=o[2]; else html=`<span class="est">${ch}</span>`; }
+  d.className='c'; d.style.cssText=`background:${bg};${css}`+(d.dataset.fs?`font-size:${d.dataset.fs}px;`:''); if(d.innerHTML!==html) d.innerHTML=html;
 }
 /* pinta de nuevo solo las baldosas (sin rehacer la grilla: así el mouse no se "queda apretado") */
 function celdas(){
-  const m=mapa(), w=Math.max(...m.map(f=>f.length)), kids=document.getElementById('grid').children;
-  m.forEach((f,y)=>{ for(let x=0;x<w;x++){ const d=kids[y*w+x]; if(!d) continue; const [t,c]=celdaHtml(f[x]||' '); if(d.className!=='c '+c) d.className='c '+c; if(d.textContent!==t) d.textContent=t; } });
+  const mm=mapa(), w=Math.max(...mm.map(f=>f.length)), kids=document.getElementById('grid').children, col=colores();
+  mm.forEach((f,y)=>{ for(let x=0;x<w;x++){ const d=kids[y*w+x]; if(d) pintaCelda(d,f[x]||' ',x,y,col); } });
 }
 function grilla(){
-  const m=mapa(), w=Math.max(...m.map(f=>f.length)), g=document.getElementById('grid'), tam=Math.max(26,Math.min(44,Math.floor(760/w)));
+  const mm=mapa(), w=Math.max(...mm.map(f=>f.length)), g=document.getElementById('grid'), tam=Math.max(26,Math.min(44,Math.floor(760/w))), col=colores();
   g.style.gridTemplateColumns=`repeat(${w},${tam}px)`; g.style.gridAutoRows=tam+'px'; g.innerHTML='';
-  m.forEach((f,y)=>{ for(let x=0;x<w;x++){ const ch=f[x]||' ', [t,c]=celdaHtml(ch), d=document.createElement('div'); d.className='c '+c; d.textContent=t; d.style.fontSize=Math.round(tam*.55)+'px'; d.dataset.x=x; d.dataset.y=y; g.appendChild(d); } });
+  mm.forEach((f,y)=>{ for(let x=0;x<w;x++){ const d=document.createElement('div'); d.dataset.fs=Math.round(tam*.58); d.dataset.x=x; d.dataset.y=y; pintaCelda(d,f[x]||' ',x,y,col); g.appendChild(d); } });
   valida(); guardaBorrador();
 }
 const UNICOS=()=>esTorre()?(piso===0?'P12345678':'D1234'+'5678*'.slice(0,0)):'P'+(BASE[quien].orden||[]).join('')+'G';
