@@ -357,10 +357,10 @@ function promptAudioUrl(lang, text, voz){
   const get = k => (voz && map[`${voz}~${k}`]) || map[k] || null;
   const k = normPromptKey(text);
   if(get(k)) return get(k);
-  if(window.save && save.name && text.includes(save.name)){
-    const kNico = normPromptKey(text.replace(save.name, 'Nico'));
+  if(typeof save!=="undefined" && save && save.name && text.includes(save.name)){
+    const kNico = normPromptKey(text.split(save.name).join('Nico'));
     if(get(kNico)) return get(kNico);
-    const kSin = normPromptKey(text.replace(save.name, ''));
+    const kSin = normPromptKey(text.split(save.name).join('').replace(/\s*[,،]\s*(?=[!！])/g,'').replace(/\s{2,}/g,' '));
     if(get(kSin)) return get(kSin);
   }
   const h = caraHablada(text);

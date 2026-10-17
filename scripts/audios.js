@@ -288,7 +288,7 @@ function extraerPrompts(capId, lang, datos) {
   const comunes = [
     'repeti', 'todoJunto', 'fraseAhora', 'estrella', 'estrellaGrande',
     'hola', 'intro1', 'casi', 'ascensor', 'queDecimos', 'todos',
-    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces',
+    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces', 'juegosDi',
     'unPececito', 'teToca', 'aQuePiso',
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
@@ -301,6 +301,9 @@ function extraerPrompts(capId, lang, datos) {
   for (const k of comunes) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
   }
+
+  // el saludo de la pantalla de inicio lleva el nombre: se graba sin nombre (el juego busca esta versión)
+  if (T.holaDi) add('holaDi', T.holaDi('').replace(/\s*[,،]\s*(?=[!！])/g, '').replace(/\s{2,}/g, ' '));
 
   for (const el of (T.elogios || [])) {
     if (T.elogio) {
