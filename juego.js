@@ -1475,7 +1475,7 @@ async function goFloor(n, arriveAt){
 /* =========================================================
    PANTALLAS
    ========================================================= */
-const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),informe:$('#scr-informe'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
+const scr={lab:$('#scr-lab'),cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),informe:$('#scr-informe'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
 const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}${save.galletitas?`<i class="gal">${img('galletita')}<b>${save.galletitas}</b></i>`:''}`;
 /* lo que tiene para gastar: cada caballito vale 2 pececitos, cada galletita vale 3 pececitos */
@@ -1633,9 +1633,9 @@ function construirCamino(box){
     let titulo, num, tile, estrellas, abierto, hecho;
     if(it.t==='n0'){
       const g=n0Grupos(), hechos=g.filter(n0GrupoHecho).length;
-      titulo=T.nivel0Titulo; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
+      titulo=T.laberinto; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
       estrellas=[hechos>=Math.ceil(g.length/3), hechos>=Math.ceil(g.length*2/3), hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
-      b.addEventListener('click',goNivel0);
+      b.addEventListener('click',goLaberinto);
     } else {
       const c=it.c; abierto=capAbierto(c); const n=abierto?piezasDe(c):0, desde=abierto?(vistas[c.id]||0):0; hecho=abierto && capSave(c.id).final;
       titulo=c.titulo; num=c.num; tile=escenaSVG(c.id,n,n>desde?desde:-1);
@@ -1681,6 +1681,7 @@ function goHome(){
   hush(); show('home'); updateNames(); precargarNombre();
   const box=$('#weeks'); box.innerHTML='';
   const actual=construirCamino(box);
+  if(n0Grupos().length){ box.insertAdjacentHTML('afterbegin', palabraDiaHtml()); $('#pddBtn').addEventListener('click',runPalabraDia); $('#pddBtn').addEventListener('focus',()=>sayAll([T.palabraDia])); }
   const hs=$('#scr-home'); const compacta=()=>hs.classList.toggle('compact',hs.scrollTop>40 || innerWidth>=900); compacta(); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs._cmp&&hs._cmp(),{passive:true}); addEventListener('resize',()=>hs._cmp&&hs._cmp()); } hs._cmp=compacta;
   setTimeout(()=>{ if(actual){ focoSilencioso(actual,{preventScroll:true}); actual.scrollIntoView({block:'center'}); } compacta(); },80);
   $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
@@ -3501,6 +3502,16 @@ function n0Grupos(){
   const d=(window.NIVEL0||{})[langCode()]; if(!d) return [];
   return d.grupos.map((g,gi)=>({nombre:g.nombre, intro:g.intro, gi, palabras:g.palabras.map((w,wi)=>({id:`${langCode()}:n0:${gi}:${wi}`, texto:w.texto, silabas:w.silabas, gi, wi}))}));
 }
+/* las salas del laberinto mágico: cada grupo de la intro se parte en salas de 3 a 5 palabras */
+function labSalas(){
+  const out=[];
+  n0Grupos().forEach(g=>{
+    const n=g.palabras.length, k=n<=5?1:Math.round(n/4), base=Math.floor(n/k); let extra=n%k, d=0;
+    for(let i=0;i<k;i++){ const m=base+(i<extra?1:0); out.push({gi:g.gi, desde:d, hasta:d+m, id:`${langCode()}:${g.gi}:${d}`, nombre:g.nombre}); d+=m; }
+  });
+  return out;
+}
+const labHecha = s => !!(save.lab||{})[s.id];
 const n0Hecha = w => !!(save.nivel0||{})[w.id];
 const n0GrupoHecho = g => !!(save.nivel0||{})[`g:${langCode()}:${g.gi}`];
 const N0_GUIA = gi => ({kind:'cat', fur:'#F2C46B', fur2:'#FFF3D6', hat:(window.NIVEL0_COLORES||[])[gi]||'#7C5CFF', seed:.6});
@@ -3557,22 +3568,23 @@ async function runPractica0(w){
   sfx.yay(); (save.nivel0||(save.nivel0={}))[w.id]=true; persist(); closeModal(); busy=false;
 }
 /* una lección por grupo: la guía explica, se ve y se repite cada palabra con su dibujito, y un jueguito de "¿cuál es…?" */
-async function runLeccion0(gi){
+async function runLeccion0(gi, sala){
   const tok=++flowTok, alive=()=>tok===flowTok; busy=true;
-  const g=n0Grupos()[gi], col=NIVEL0_COLORES[gi], guia=N0_GUIA(gi), n=g.palabras.length, rondas=Math.min(4,n), total=1+n+rondas;
+  const g0=n0Grupos()[gi], g=sala ? {...g0, palabras:g0.palabras.slice(sala.desde, sala.hasta)} : g0, col=NIVEL0_COLORES[gi], guia=N0_GUIA(gi), n=g.palabras.length, rondas=Math.min(4,n), total=1+n+rondas;
+  const explica = !sala || sala.desde===0;
   const n0=save.nivel0||(save.nivel0={});
   // 1 · la guía explica de qué se trata
-  openModal(shell({steps:total, step:0, npc:guia, bubble:esc(g.intro), en:enDe(g.intro), sub:n0Trad(g.intro)||'',
+  openModal(shell({steps:total, step:0, npc:guia, bubble:esc(explica?g.intro:g.nombre), en:enDe(explica?g.intro:g.nombre), sub:(explica?n0Trad(g.intro):'')||'',
     center:`<div class="n0-fila" style="--ac:${col}">${g.palabras.slice(0,6).map(w=>n0Dibujo(gi,w.wi,'chico')).join('')}</div>`,
     actions:B('go','next',T.vamos,'go')}));
   liveNpc(guia); sfx.stamp();
-  narrar(()=>sayAll([g.nombre, g.intro]));
+  narrar(()=>sayAll(explica?[g.nombre, g.intro]:[g.nombre]));
   await waitAct('go'); if(!alive()) return;
   // 2 · cada palabra, con su dibujo
   for(let i=0;i<n;i++){
     const w=g.palabras[i], tr=n0Trad(w.texto);
     openModal(shell({steps:total, step:1+i,
-      center:`<div class="stack"><div class="n0-big" style="--ac:${col}">${n0Dibujo(gi,i)}</div>${chipsWord(w)}${tr?`<div class="word"><small>${esc(tr)}</small></div>`:''}${turnHtml()}</div>`,
+      center:`<div class="stack"><div class="n0-big" style="--ac:${col}">${n0Dibujo(gi,w.wi)}</div>${chipsWord(w)}${tr?`<div class="word"><small>${esc(tr)}</small></div>`:''}${turnHtml()}</div>`,
       actions:B('again','replay',T.otraVez)+B('go','next',T.seguir,'go')}));
     liveMe(); onAct('again',()=>narrar(()=>silabear(w,[])));
     narrar(()=>silabear(w,[T.repeti]));
@@ -3595,9 +3607,14 @@ async function runLeccion0(gi){
     }
   }
   // 4 · terminado: tilde, premio y confeti
-  const clave=`g:${langCode()}:${gi}`, nuevo=!n0[clave]; n0[clave]=true;
+  const clave=`g:${langCode()}:${gi}`;
+  let nuevoSala=false;
+  if(sala){ const lab=save.lab||(save.lab={}); nuevoSala=!lab[sala.id]; lab[sala.id]=true; }
+  const grupoCompleto = !sala || labSalas().filter(s=>s.gi===gi).every(labHecha);
+  const nuevo=grupoCompleto && !n0[clave]; if(grupoCompleto) n0[clave]=true;
   const todos=n0Grupos().every(x=>x.gi===gi || n0GrupoHecho(x)), primeraVez=nuevo && todos && !n0['todo:'+langCode()];
-  if(nuevo){ save.puntos=(save.puntos||0)+2; }
+  const premio=(nuevoSala?1:0)+(nuevo?(sala?1:2):0);
+  if(premio){ save.puntos=(save.puntos||0)+premio; }
   if(primeraVez){ n0['todo:'+langCode()]=true; save.galletitas=(save.galletitas||0)+1; }
   persist(); updateNames();
   const col2=['#FFC93C','#FF6F8F','#2E86DE','#2FBF8F','#8B6FE8','#FF9B3D'];
@@ -3606,9 +3623,55 @@ async function runLeccion0(gi){
     <div class="center"><div class="n0-fila grande" style="--ac:${col}">${g.palabras.slice(0,5).map(w=>n0Dibujo(gi,w.wi,'chico')).join('')}<i class="n0g-ok gigante">${ICON.check}</i></div></div>
     <div class="actions">${B('back','back',T.atras,'go')}</div>`);
   sfx.stamp(); setTimeout(()=>sfx.yay(),300);
-  await narrar(()=>sayAll([T.nivel0Grupo, praise(true), ...(nuevo?[T.premio(T.peces(2))]:[]), ...(primeraVez?[T.nivel0Hecho, T.ganasteGalletita]:[])])); if(!alive()) return;
+  await narrar(()=>sayAll([...(grupoCompleto?[T.nivel0Grupo]:[]), praise(true), ...(premio?[T.premio(T.peces(premio))]:[]), ...(primeraVez?[T.nivel0Hecho, T.ganasteGalletita]:[])])); if(!alive()) return;
   await waitAct('back'); if(!alive()) return;
-  closeModal(); busy=false; if(!scr.lib.hidden && libMode==='nivel0') goNivel0();
+  closeModal(); busy=false; if(sala && sala.alTerminar) sala.alTerminar(); else if(!scr.lib.hidden && libMode==='nivel0') goNivel0();
+}
+
+
+/* =========================================================
+   LA PALABRA DEL DÍA — una palabra de la intro por día, para ir cerrando de a poco las palabras que faltan
+   save.palabraDia = {dia, id, hecha}; save.palabraRacha = {n, ult} (días seguidos)
+   ========================================================= */
+function palabraDelDia(){
+  const hoy=hoyClave(), cur=save.palabraDia;
+  const todas=n0Grupos().flatMap(g=>g.palabras);
+  if(cur && cur.dia===hoy && cur.lang===langCode()){ const w=todas.find(x=>x.id===cur.id); if(w) return {w, hecha:!!cur.hecha}; }
+  const pendientes=todas.filter(w=>!n0Hecha(w) && w.texto.split(' ').length<=2), lista=pendientes.length?pendientes:todas;
+  let h=0; for(const ch of hoy+langCode()) h=(h*31+ch.charCodeAt(0))>>>0;
+  const w=lista[h%lista.length]; save.palabraDia={dia:hoy, id:w.id, lang:langCode(), hecha:false}; persist();
+  return {w, hecha:false};
+}
+function palabraDiaHtml(){
+  const {w,hecha}=palabraDelDia(), racha=(save.palabraRacha||{}).n||0;
+  return `<button class="pdd ${hecha?'hecha':''}" id="pddBtn" aria-label="${esc(T.palabraDia)}"><span class="pdd-art">${n0Dibujo(w.gi,w.wi)}</span><span class="pdd-txt"><em>✨</em><b>${esc(caraLatina(w.texto))}</b></span>${hecha?`<i class="pdd-ok">${ICON.check}</i>`:'<i class="pdd-star">★</i>'}${racha>1?`<span class="pdd-racha">🔥 ${racha}</span>`:''}</button>`;
+}
+async function runPalabraDia(){
+  if(busy || !modal.hidden) return;
+  const {w,hecha}=palabraDelDia(), tok=++flowTok, alive=()=>tok===flowTok, col=NIVEL0_COLORES[w.gi], guia=N0_GUIA(w.gi); busy=true; hush();
+  openModal(shell({steps:2, step:0, npc:guia, bubble:esc(hecha?T.palabraDiaHecha:T.palabraDia), en:enT('palabraDia'),
+    center:`<div class="stack"><div class="n0-big" style="--ac:${col}">${n0Dibujo(w.gi,w.wi)}</div>${chipsWord(w)}${turnHtml()}</div>`,
+    actions:B('again','replay',T.otraVez)+B('go','next',T.seguir,'go')}));
+  liveNpc(guia); liveMe(); sfx.stamp(); onAct('again',()=>narrar(()=>silabear(w,[])));
+  narrar(()=>silabear(w,[T.palabraDia, T.repeti]));
+  await waitAct('go'); if(!alive()) return;
+  (save.nivel0||(save.nivel0={}))[w.id]=true;
+  let premio=0;
+  if(!hecha){
+    premio=1; save.palabraDia.hecha=true; save.puntos=(save.puntos||0)+1;
+    const r=save.palabraRacha||{n:0,ult:''}, ayer=new Date(); ayer.setDate(ayer.getDate()-1);
+    const kAyer=`${ayer.getFullYear()}-${String(ayer.getMonth()+1).padStart(2,'0')}-${String(ayer.getDate()).padStart(2,'0')}`;
+    save.palabraRacha={n: r.ult===kAyer ? r.n+1 : 1, ult:hoyClave()};
+  }
+  persist(); updateNames();
+  const col2=['#FFC93C','#FF6F8F','#2E86DE','#2FBF8F','#8B6FE8','#FF9B3D'];
+  openModal(`${X_BTN}<div class="confeti">${[...Array(24)].map((_,i)=>`<i style="left:${(i*41)%100}%;background:${col2[i%6]};animation-delay:${(i%8)*.18}s"></i>`).join('')}</div>
+    <div class="center"><div class="n0-big" style="--ac:${col}">${n0Dibujo(w.gi,w.wi)}</div></div>
+    <div class="actions">${B('back','back',T.atras,'go')}</div>`);
+  sfx.stamp(); setTimeout(()=>sfx.yay(),300);
+  await narrar(()=>sayAll([praise(true), ...(premio?[T.premio(T.peces(1))]:[]), T.palabraDiaHecha])); if(!alive()) return;
+  await waitAct('back'); if(!alive()) return;
+  closeModal(); busy=false; if(!scr.home.hidden) goHome();
 }
 
 /* =========================================================

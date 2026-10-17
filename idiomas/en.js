@@ -18,6 +18,7 @@ registrarIdioma({
     actividades: 'Activities', seccionAprender: 'Learn', seccionJugar: 'Play',
     charlas: 'Chat', charlasDi: "Let's chat! Who do you want to talk to?", charlaCerrada: 'First meet this friend at their place.',
     charlaResponde: 'Your turn to answer!', charlaPregunta: 'Now you ask something!', charlaFin: 'You kept the chat going! Well done!',
+    laberinto: 'The magic maze', laberintoDi: 'The magic maze! Walk to a glowing room and learn new words. Open every door!', salaCerrada: 'This room is closed. Finish the one before it first.', palabraDia: 'The word of the day!', palabraDiaHecha: 'You have today’s word! Come back tomorrow!',
     nivel0: 'Level 0', nivel0Titulo: 'Intro', nivel0Di: 'The intro! Part A has the words of the game. Part B has everyday things and phrases. Pick a group and repeat after me.', nivel0Hecho: 'You know all these words! Very good!',
     nivel0Todas: 'All the words', nivel0Grupo: 'Group complete!',
     contarTitulo: "Let's count the little fish!", contar: "Count",
