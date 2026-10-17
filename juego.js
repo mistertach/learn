@@ -184,7 +184,16 @@ function conTraduccion(f, dameAyuda){
 /* ---------- capítulos: base común + textos por idioma ---------- */
 const BASES = {}, TEXTOS = {};
 let CAP_LIST = [];
+/* los mapas de los lugares se pueden cambiar sin tocar base.js: mapas-lugares.js (hecho con el editor mapas.html) pisa niveles[i].mapa.
+   En localhost también se prueba lo que se guardó con «Probar» en el editor (localStorage). */
+function mapasDeLugar(id){
+  let o=(window.MAPAS_LUGARES||{})[id];
+  try{ if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){ const l=JSON.parse(localStorage.getItem('aventuras.mapasLugares')||'null'); if(l && l[id]) o=l[id]; } }catch(e){}
+  return o;
+}
 function registrarCapitulo(c){
+  const mp=mapasDeLugar(c.id);
+  if(Array.isArray(mp)) (c.niveles||[]).forEach((n,i)=>{ const m=mp[i]; if(Array.isArray(m) && m.length && m.every(f=>typeof f==='string')) n.mapa=m; });
   // los dibujos de todos los lugares comparten nombres: si uno pisa a otro, se ve el dibujo equivocado en otro lugar
   for(const k in c.arte||{}) if(ART[k]) console.warn(`El dibujo "${k}" de ${c.id} pisa otro con el mismo nombre`);
   BASES[c.id]=c; Object.assign(ART, c.arte||{});
@@ -265,7 +274,7 @@ const AUDIO_CARGADO = {};
 function cargarAudio(l){ if(!l) return Promise.resolve(); return AUDIO_CARGADO[l] || (AUDIO_CARGADO[l] = Promise.all([cargarScript(`audio/audio-${l}.js`), cargarScript(`audio/prompts-${l}.js`)])); }
 async function cargarTodo(){
   const langs=window.IDIOMAS||['es'], ids=window.CAPITULOS||[];
-  if(langs.includes('ru')) await cargarScript('idiomas/ru.js');   // trae ruDoble/ruP, que usan todos los textos del ruso: antes que el resto
+  await Promise.all([cargarScript('mapas-lugares.js'), langs.includes('ru') ? cargarScript('idiomas/ru.js') : 0]);   // los mapas cambiados a mano y el ruso: antes que el resto   // trae ruDoble/ruP, que usan todos los textos del ruso: antes que el resto
   await Promise.all([
     ...[...new Set([...langs,'en'])].filter(l=>l!=='ru').map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
@@ -1118,8 +1127,8 @@ let COLS=15, ROWS=9; const T_STEP=170;
 function medirPiso(){ if(!CAP) return; const m=CAP.niveles[cur].mapa; ROWS=m.length; COLS=Math.max(...m.map(r=>r.length)); }
 const esVacio = ch => ch===' ';
 const esPared = ch => ch==='#' || ch==='=' || ch==='~' || ch==='G' || ch==='W';
-const WALK=new Set(['.','P','U','D','L']);
-const PASS=new Set(['.','P']);
+const WALK=new Set(['.','P','U','D','L','t']);
+const PASS=new Set(['.','P','t']);   // t = alfombra (se pisa)
 let CAP=null, cs=null, cur=0;
 const player={x:6,y:6,rx:6,ry:6,facing:1,moving:null,path:null,bump:null,goal:null};
 let busy=false, inputLock=false, keys=[], lastBump=0, flowTok=0, seqTok=0;
@@ -1250,6 +1259,13 @@ function drawTileObj(ch,x,y,t){
       objBounces.delete(x+','+y);
     }
   }
+  // objetos para decorar (d columna · g trofeo · l farol · t alfombra, que se pisa · u cartel · z hongo)
+  if(ch==='d'){ c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.92,T*.36,T*.06,'#000'); c.restore(); c.fillStyle='#E8E2D4'; rr(c,X+T*.3,Y+T*.14,T*.4,T*.7,T*.05); c.fill(); c.fillStyle='#CFC7B4'; c.fillRect(X+T*.5,Y+T*.16,T*.18,T*.66); c.fillStyle='#F6F1E6'; rr(c,X+T*.2,Y+T*.08,T*.6,T*.14,T*.04); c.fill(); rr(c,X+T*.2,Y+T*.78,T*.6,T*.13,T*.04); c.fill(); return; }
+  if(ch==='g'){ c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.92,T*.3,T*.06,'#000'); c.restore(); c.fillStyle='#8A5E3B'; rr(c,X+T*.3,Y+T*.78,T*.4,T*.14,T*.03); c.fill(); c.fillStyle='#FFC93C'; c.beginPath(); c.moveTo(X+T*.28,Y+T*.2); c.lineTo(X+T*.72,Y+T*.2); c.quadraticCurveTo(X+T*.7,Y+T*.58,X+T*.5,Y+T*.62); c.quadraticCurveTo(X+T*.3,Y+T*.58,X+T*.28,Y+T*.2); c.fill(); c.fillRect(X+T*.46,Y+T*.6,T*.08,T*.2); c.strokeStyle='#FFC93C'; c.lineWidth=T*.05; c.beginPath(); c.arc(X+T*.27,Y+T*.28,T*.09,Math.PI*.5,Math.PI*1.5); c.stroke(); c.beginPath(); c.arc(X+T*.73,Y+T*.28,T*.09,-Math.PI*.5,Math.PI*.5); c.stroke(); ell(c,X+T*.42,Y+T*.34,T*.05,T*.1,'rgba(255,255,255,.55)'); return; }
+  if(ch==='l'){ c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.92,T*.2,T*.05,'#000'); c.restore(); c.fillStyle='#5C6A86'; c.fillRect(X+T*.46,Y+T*.34,T*.08,T*.58); const gl=c.createRadialGradient(X+T*.5,Y+T*.26,2,X+T*.5,Y+T*.26,T*.42); gl.addColorStop(0,'rgba(255,230,140,.85)'); gl.addColorStop(1,'rgba(255,230,140,0)'); c.fillStyle=gl; c.beginPath(); c.arc(X+T*.5,Y+T*.26,T*.42,0,7); c.fill(); c.fillStyle='#FFE27A'; rr(c,X+T*.36,Y+T*.12,T*.28,T*.26,T*.08); c.fill(); c.strokeStyle='#5C6A86'; c.lineWidth=T*.04; c.strokeRect(X+T*.36,Y+T*.12,T*.28,T*.26); return; }
+  if(ch==='t'){ c.fillStyle=['#E8483B','#2E86DE','#8B6FE8'][(x+y)%3]; rr(c,X+T*.06,Y+T*.1,T*.88,T*.8,T*.1); c.fill(); c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=T*.05; rr(c,X+T*.16,Y+T*.2,T*.68,T*.6,T*.06); c.stroke(); return; }
+  if(ch==='u'){ c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.92,T*.24,T*.05,'#000'); c.restore(); c.fillStyle='#8A5E3B'; c.fillRect(X+T*.46,Y+T*.4,T*.08,T*.52); c.fillStyle='#C99349'; rr(c,X+T*.16,Y+T*.12,T*.68,T*.34,T*.06); c.fill(); poly(c,[X+T*.3,Y+T*.29, X+T*.5,Y+T*.18, X+T*.5,Y+T*.24, X+T*.7,Y+T*.24, X+T*.7,Y+T*.34, X+T*.5,Y+T*.34, X+T*.5,Y+T*.4],'#fff'); return; }
+  if(ch==='z'){ c.save(); c.globalAlpha=.16; ell(c,X+T*.5,Y+T*.9,T*.34,T*.06,'#000'); c.restore(); c.fillStyle='#F4E9D6'; rr(c,X+T*.4,Y+T*.5,T*.2,T*.38,T*.06); c.fill(); c.fillStyle='#E8483B'; c.beginPath(); c.ellipse(X+T*.5,Y+T*.48,T*.4,T*.3,0,Math.PI,0); c.fill(); for(const [dx,dy,r] of [[.34,.36,.06],[.56,.3,.07],[.68,.42,.05]]) ell(c,X+T*dx,Y+T*dy,T*r,T*r,'#fff'); return; }
   if(ch==='b'){ c.fillStyle='#5A8BEA'; rr(c,X+T*.1,Y+T*.22,T*.8,T*.24,T*.08); c.fill(); c.fillStyle='#3D6FD9'; rr(c,X+T*.08,Y+T*.44,T*.84,T*.26,T*.08); c.fill(); c.fillStyle='#2A4FA8'; c.fillRect(X+T*.16,Y+T*.7,T*.07,T*.18); c.fillRect(X+T*.77,Y+T*.7,T*.07,T*.18); return; }
   if(ch==='p'){ poly(c,[X+T*.28,Y+T*.6, X+T*.72,Y+T*.6, X+T*.64,Y+T*.94, X+T*.36,Y+T*.94],'#D9774A'); ell(c,X+T*.5,Y+T*.42,T*.26,T*.24,'#3CB371'); ell(c,X+T*.36,Y+T*.34,T*.15,T*.15,'#2E9E5E'); ell(c,X+T*.62,Y+T*.28,T*.14,T*.14,'#4FCB83'); return; }
   if(ch==='a'){ drawCar(c,X+T*.5,Y+T*.86,T*.92,t,x+y*3); return; }
@@ -3898,6 +3914,8 @@ Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
   // desde el editor de mapas (mapas.html): ?torre=intro o ?torre=hall abre directo la torre
   const q=(location.search.match(/[?&]torre=(\w+)/)||[])[1];
   if(q && save.lang && save.name && save.charId && window.goTorre){ goHome(); q==='intro' ? goIntro() : goTorre(); }
+  const lg=(location.search.match(/[?&]lugar=(\w+)/)||[])[1];
+  if(lg && save.lang && save.name && save.charId){ const c=CAP_LIST.find(x=>x.id===lg); if(c){ goHome(); enterCap(c); } }
 });
 requestAnimationFrame(frame);
 

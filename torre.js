@@ -60,7 +60,7 @@ function laberintoDe(i){
     const hojas=[]; for(let y=0;y<CH;y++) for(let x=0;x<CW;x++){ if(x===0&&y===CH-1) continue; const tx=x*2+1, ty=y*2+1; const n=[[1,0],[-1,0],[0,1],[0,-1]].filter(d=>g[ty+d[1]][tx+d[0]]==='.').length; if(n===1) hojas.push([tx,ty]); }
     if(hojas.length<9) continue;
     for(let k=hojas.length-1;k>0;k--){ const j=Math.floor(r()*(k+1)); [hojas[k],hojas[j]]=[hojas[j],hojas[k]]; }
-    const letras='1234abcd'; letras.split('').forEach((c,k)=>{ g[hojas[k][1]][hojas[k][0]]=c; });
+    const letras='12345678'; letras.split('').forEach((c,k)=>{ g[hojas[k][1]][hojas[k][0]]=c; });
     hojas.slice(8,10).forEach(([x,y])=>{ g[y][x]='*'; });   // las hojas que sobran: cofres
     // decoración: algunas baldosas del fondo
     g[FILAS-1][1]='D';
@@ -75,19 +75,23 @@ let MAPAS_ARCHIVO = window.TORRE_MAPAS;
 try{ if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o=JSON.parse(localStorage.getItem('aventuras.torreMapas')||'null'); if(Array.isArray(o)&&o.length===9) MAPAS_ARCHIVO=o; } }catch(e){}
 const MAPAS=[FILA_HALL, ...TEMAS.map((_,i)=>laberintoDe(i))].map((gen,p)=>mapaOk((MAPAS_ARCHIVO||[])[p]) ? MAPAS_ARCHIVO[p] : gen);
 window.__torreMapas=MAPAS;
+window.__torreDeco=()=>DECO;
 function buscar(p,ch){ for(let y=0;y<FILAS;y++){ const x=MAPAS[p][y].indexOf(ch); if(x>=0) return {x,y}; } return null; }
 /* una baldosa libre al lado de otra (para pararse al entrar o al volver) */
-function vecinaLibre(p,pt,pref){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const x=pt.x+dx, y=pt.y+dy; if(x>=0&&y>=0&&x<COLS&&y<FILAS&&camina(MAPAS[p][y][x])&&!'123456789abcdD*'.includes(MAPAS[p][y][x])) return {x,y}; } return pref; }
+function vecinaLibre(p,pt,pref){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const x=pt.x+dx, y=pt.y+dy; if(x>=0&&y>=0&&x<COLS&&y<FILAS&&camina(MAPAS[p][y][x])&&!'12345678D*'.includes(MAPAS[p][y][x])) return {x,y}; } return pref; }
 const celda=(p,x,y)=>(MAPAS[p][y]||'')[x]||'#';
-const camina=ch=>ch!=='#' && ch!=='o';   // 'P' es el lugar donde se empieza en el hall (se pisa como cualquier baldosa)
+/* objetos para decorar: cada letra es un dibujito; todos estorban (no se pisan) menos la alfombra t.
+   'P' es el lugar donde se empieza en el hall (se pisa como cualquier baldosa). Las mismas letras que usan los lugares. */
+const DECO={o:'⛲',p:'🪴',r:'🌳',f:'💐',b:'🪑',j:'🧸',k:'📦',y:'🌴',i:'🪨',m:'🍽️',s:'🛋️',h:'🌾',x:'🛏️',a:'🚗',d:'🏛️',g:'🏆',l:'🏮',u:'🪧',z:'🍄',v:'🌿',w:'🪸',e:'⚙️',q:'📚',n:'⛱️',c:'🎁'};   // en los pisos, 1-4 son puertas azules, 5-8 doradas y * un cofre
+const camina=ch=>ch!=='#' && !(ch in DECO);
 
 /* ---- estado ---- */
 function nuevo(tuto){ const h0=buscar(0,'P')||{x:5,y:5}; return {tuto:!!tuto, p:0, x:h0.x, y:h0.y, rx:h0.x, ry:h0.y, camino:[], mira:1, t0:performance.now(), fx:[], last:0, sac:0}; }
 function slotSala(p,ch){
   if(p<1) return null; const {req,extra}=salasDe(p-1);
-  if(st.tuto && 'abcd'.includes(ch)) return null;
+  if(st.tuto && '5678'.includes(ch)) return null;
   if('1234'.includes(ch)) return {sala:req['1234'.indexOf(ch)], oro:false};
-  if('abcd'.includes(ch)){ const pend=extra.filter(s=>!labHecha(s)); const s=pend['abcd'.indexOf(ch)]; return s?{sala:s, oro:true}:null; }
+  if('5678'.includes(ch)){ const pend=extra.filter(s=>!labHecha(s)); const s=pend['5678'.indexOf(ch)]; return s?{sala:s, oro:true}:null; }
   return null;
 }
 function imagenSala(s){
@@ -166,12 +170,13 @@ live(cv,(c,w,h,t)=>{
   for(let y=0;y<FILAS;y++) for(let x=0;x<COLS;x++){ const ch=celda(st.p,x,y), px=X(x), py=Y(y);
     if(ch==='#'){ c.fillStyle=P.pared[0]; rr(c,px+1,py+1,T-2,T-2,T*.14); c.fill(); c.fillStyle=P.pared[1]; rr(c,px+1,py+1,T-2,T*.4,T*.14); c.fill(); continue; }
     c.fillStyle=P.piso[(x+y)%2]; c.fillRect(px,py,T+.5,T+.5);
-    if(ch==='o'){ c.fillStyle='rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(px+T/2,py+T*.62,T*.42,T*.26,0,0,7); c.fill(); c.font=`${Math.round(T*.7)}px sans-serif`; c.fillText('⛲',px+T/2,py+T*.5); }
+    if(ch==='t'){ c.fillStyle=['#E8483B','#2E86DE','#8B6FE8'][(x+y)%3]; rr(c,px+T*.08,py+T*.12,T*.84,T*.76,T*.1); c.fill(); c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=T*.05; rr(c,px+T*.18,py+T*.22,T*.64,T*.56,T*.06); c.stroke(); }
+    else if(ch in DECO){ c.fillStyle='rgba(0,0,0,.14)'; c.beginPath(); c.ellipse(px+T/2,py+T*.82,T*.3,T*.08,0,0,7); c.fill(); c.font=`${Math.round(T*.75)}px sans-serif`; c.fillText(DECO[ch],px+T/2,py+T*.5); }
     else if(ch==='.'&&((x*7+y*13+st.p*5)%11===0)){ c.globalAlpha=.55; c.font=`${Math.round(T*.5)}px sans-serif`; c.fillText(P.deco[(x+y+st.p)%P.deco.length],px+T/2,py+T/2); c.globalAlpha=1; }
     else if(ch==='D'||(st.p===0&&'12345678'.includes(ch)&&false)){ c.font=`${Math.round(T*.7)}px sans-serif`; c.fillText('🪜',px+T/2,py+T/2); }
     else if(ch==='*'&&!st.tuto){ c.font=`${Math.round(T*.7)}px sans-serif`; const ct=(save.torreCofres||{})[`${st.p}:${x},${y}`]; c.globalAlpha=ct?.4:1; c.fillText(ct?'📦':'🎁',px+T/2,py+T/2+Math.sin(t*3+x)*T*.03); c.globalAlpha=1; }
     else if(st.p===0&&'12345678'.includes(ch)){ const i=+ch-1, ss=salasDe(i), hechos=ss.req.filter(labHecha).length; puerta(c,px,py,T,t,{emo:TEMAS[i].emo, hecha:temaHecho(i), dots:{n:4,hechos}}); }
-    else if(st.p>0&&'1234abcd'.includes(ch)){ const s=slotSala(st.p,ch); if(s&&s.sala){ puerta(c,px,py,T,t,{pic:imagenSala(s.sala), oro:s.oro, hecha:labHecha(s.sala), dots:{n:s.sala.hasta-s.sala.desde,hechos:labHecha(s.sala)?s.sala.hasta-s.sala.desde:0}}); } else { c.fillStyle='rgba(0,0,0,.12)'; c.fillRect(px,py,T,T); } }
+    else if(st.p>0&&'12345678'.includes(ch)){ const s=slotSala(st.p,ch); if(s&&s.sala){ puerta(c,px,py,T,t,{pic:imagenSala(s.sala), oro:s.oro, hecha:labHecha(s.sala), dots:{n:s.sala.hasta-s.sala.desde,hechos:labHecha(s.sala)?s.sala.hasta-s.sala.desde:0}}); } else { c.fillStyle='rgba(0,0,0,.12)'; c.fillRect(px,py,T,T); } }
   }
   // efectos
   st.fx=st.fx.filter(f=>ahora-f.t<1400);
