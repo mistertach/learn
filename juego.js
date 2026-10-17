@@ -463,8 +463,9 @@ function voiceFor(code){
   return list[0]||null;
 }
 const TONO_VOZ = {papa:.78, mama:1.12, nina:1.3, mayor:.95, chico:1.2, sabio:.85, amable:1.18};
-async function speak(text, rate=.85, code=langCode(), voz){
+async function speak(text, rate=.85, code=langCode(), voz, tok){
   await ensureVoices();
+  if(tok!==undefined && tok!==sayTok) return;   // otra frase tomó la palabra mientras esperábamos las voces
   return new Promise(res=>{
     if(!('speechSynthesis' in window)) return setTimeout(res, 400);
     let done=false; const fin=()=>{ if(!done){ done=true; clearTimeout(tm); res(); } };
@@ -480,7 +481,9 @@ let curAudio=null, curAudioDone=null;
 function playBlob(b){ return new Promise(res=>{ const url=URL.createObjectURL(b); const a=new Audio(url); curAudio=a; const done=()=>{ URL.revokeObjectURL(url); if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function playUrl(url){ return new Promise(res=>{ const a=new Audio(url); curAudio=a; const done=()=>{ if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function stopAudio(){ if(curAudio){ try{ curAudio.pause(); }catch(e){} curAudioDone && curAudioDone(); } }
-let sayTok=0, nCompu=0;
+let sayTok=0, nCompu=0, sinVozFoco=false;
+/* poner el foco desde el código (para las flechas) no debe hablar: taparía el saludo */
+const focoSilencioso = (el,o) => { if(!el) return; sinVozFoco=true; try{ el.focus(o); }finally{ sinVozFoco=false; } };
 /* cada línea que se dice con la voz de la compu (no hay grabación natural) se anota, para poder grabarlas después */
 function anotarVozCompu(txt, lang){
   txt=String(txt||'').trim(); if(!txt || !lang) return;
@@ -491,6 +494,7 @@ function anotarVozCompu(txt, lang){
 }
 /* parts: textos, o {t:'texto', id:'grabación', lento:true, lang:'fr'} */
 async function sayAll(parts){
+  if(sinVozFoco) return false;
   const my=++sayTok; try{ speechSynthesis.cancel(); }catch(e){} stopAudio();
   for(let p of parts){
     if(my!==sayTok) return false;
@@ -500,9 +504,9 @@ async function sayAll(parts){
     if(my!==sayTok) return false;
     if(sUrl) await playUrl(sUrl);
     else if(b) await playBlob(b);
-    else { anotarVozCompu(p.t, p.lang||langCode()); await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz); }
+    else { anotarVozCompu(p.t, p.lang||langCode()); await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz, my); }
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
-    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else { anotarVozCompu(tr, ayuda()); await speak(tr, .9, ayuda()); } } }
+    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else { anotarVozCompu(tr, ayuda()); await speak(tr, .9, ayuda(), undefined, my); } } }
   }
   return my===sayTok;
 }
@@ -1511,7 +1515,7 @@ function buildPicker(){
     box.appendChild(b);
   });
 }
-function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>$('#chars button')?.focus(),50); sayAll([T.quienDi]); }
+function goPicker(){ hush(); show('pick'); buildPicker(); setTimeout(()=>focoSilencioso($('#chars button')),50); sayAll([T.quienDi]); }
 /* un lugar se abre cuando se terminó el anterior (en el idioma que está aprendiendo), salvo que un grande
    los abra todos desde el rincón; además, el administrador puede cerrar lugares a un chico */
 const capPrevio = c => { const i=CAP_LIST.indexOf(c); return i>0 ? CAP_LIST[i-1] : null; };
@@ -1628,7 +1632,7 @@ function goHome(){
   const box=$('#weeks'); box.innerHTML='';
   const actual=construirCamino(box);
   const hs=$('#scr-home'); const compacta=()=>hs.classList.toggle('compact',hs.scrollTop>40 || innerWidth>=900); compacta(); if(!hs._sc){ hs._sc=1; hs.addEventListener('scroll',()=>hs._cmp&&hs._cmp(),{passive:true}); addEventListener('resize',()=>hs._cmp&&hs._cmp()); } hs._cmp=compacta;
-  setTimeout(()=>{ if(actual){ actual.focus({preventScroll:true}); actual.scrollIntoView({block:'center'}); } compacta(); },80);
+  setTimeout(()=>{ if(actual){ focoSilencioso(actual,{preventScroll:true}); actual.scrollIntoView({block:'center'}); } compacta(); },80);
   $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
   sayAll([T.holaDi(save.name)]);
   if(!save.tour) setTimeout(()=>{ if(!scr.home.hidden && modal.hidden) abrirTour(); },900);
@@ -3142,7 +3146,7 @@ function goAlumnos(){
     catch(err){ const m=add.querySelector('.cmsg'); m.hidden=false; m.textContent=errTxt(err); }
   });
   box.appendChild(add);
-  setTimeout(()=>box.querySelector('button')?.focus(),60);
+  setTimeout(()=>focoSilencioso(box.querySelector('button')),60);
   if(PACKS[uiLang] || save.lang) sayAll([T.quienJuega]);
 }
 /* en el rincón de los grandes */
