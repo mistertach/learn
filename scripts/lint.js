@@ -19,6 +19,7 @@ const cargar = f => { try { vm.runInContext(fs.readFileSync(path.join(RAIZ, f), 
 ['capitulos.js', 'escenas.js', 'idiomas/nivel0.js', 'idiomas/nivel0-arte.js'].forEach(cargar);
 for (const l of ['es', 'fr', 'it', 'en', 'ar']) cargar(`idiomas/${l}.js`);
 cargar('idiomas/grandes.js');
+cargar('idiomas/rincon.js');
 const CAPS = ctx.CAPITULOS || [];
 const ARTE_BASE = new Set(); { const j = fs.readFileSync(path.join(RAIZ, 'juego.js'), 'utf8'), a = j.indexOf('const ART = {'), b = j.indexOf('\n};', a); for (const m of j.slice(a, b).matchAll(/^  ([A-Za-z0-9_]+):`/gm)) ARTE_BASE.add(m[1]); }
 const hayArte = k => ARTE_BASE.has(k) || Object.values(BASES).some(o => (o.arte || {})[k]);

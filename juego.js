@@ -266,7 +266,7 @@ async function cargarTodo(){
     cargarScript('idiomas/nivel0-arte.js'),
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
-    cargarScript('idiomas/grandes.js'),
+    cargarScript('idiomas/grandes.js').then(()=>cargarScript('idiomas/rincon.js')),
     ...(langs.includes('en') ? [] : ids.map(id=>cargarScript(`capitulos/${id}/en.js`)))
   ]);
   armarIngles();
@@ -2862,23 +2862,7 @@ async function premioCaballito(otra){
 /* =========================================================
    RINCÓN DE LOS GRANDES
    ========================================================= */
-function recRows(){
-  const rows=[];
-  CAP_LIST.forEach(c=>{
-    rows.push({group:`Semana ${c.num} · ${c.titulo} · palabras y sílabas (${PACKS[langCode()].nombre})`});
-    c.palabras.forEach(p=>{ rows.push(p); p.silabas.forEach((sl,i)=>rows.push({id:silabaId(p,i), texto:sl, silaba:true})); });
-    rows.push({group:`Semana ${c.num} · ${c.titulo} · frases (${PACKS[langCode()].nombre})`});
-    c.frases.forEach(p=>rows.push(p));
-  });
-  return rows;
-}
-function recRowHtml(r){
-  if(r.group) return `<tr><td class="grp" colspan="3">${esc(r.group)}</td></tr>`;
-  const mine=clips.mia(r.id), shared=!mine && clips.global.has(r.id), st=!!staticAudioUrl(r.id);
-  const pill = mine ? (NUBE.usuario&&NUBE.usuario.admin&&clips.global.has(r.id) ? 'Tu voz · para todos' : 'Tu voz') : shared ? 'Voz compartida' : st ? 'Voz Google' : 'Voz de la compu';
-  return `<tr data-id="${esc(r.id)}" class="${r.silaba?'syl':''}"><td>${r.silaba?`<span class="sylmark">sílaba</span> `:''}<b>${esc(r.texto)}</b></td><td><span class="pill ${mine||shared?'mine':''}">${pill}</span></td><td class="rb"><button data-r="rec">Grabar</button><button data-r="play">Escuchar</button><label class="up">Subir<input type="file" accept="audio/*" data-r="up"></label><button data-r="del" ${mine?'':'disabled'}>Borrar</button></td></tr>`;
-}
-function armConfirm(btn, fn){ btn.addEventListener('click',()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; fn(); return; } btn.dataset.armed='1'; const old=btn.textContent; btn.textContent='Tocá otra vez para confirmar'; setTimeout(()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent=old; } },3500); }); }
+function armConfirm(btn, fn){ btn.addEventListener('click',()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; fn(); return; } btn.dataset.armed='1'; const old=btn.textContent; btn.textContent=G.rc_confirma; setTimeout(()=>{ if(btn.dataset.armed){ delete btn.dataset.armed; btn.textContent=old; } },3500); }); }
 function resetProgress(){
   const keep={grownup:save.grownup, pausa:save.pausa, voces:save.voces, lang:save.lang};
   save=Object.assign(defaultSave(), keep, NUBE.alumno?{name:NUBE.alumno.nombre}:{}); persist();
@@ -2887,16 +2871,16 @@ function resetProgress(){
 }
 /* baja todos los audios de los idiomas en uso a la memoria del navegador (el service worker los usa sin internet) */
 async function descargarAudio(btn){
-  if(!('caches' in window)){ btn.textContent='Este navegador no puede guardarlos'; return; }
+  if(!('caches' in window)){ btn.textContent=G.rc_dl_no; return; }
   btn.disabled=true; const langs=[...new Set([langCode(), ayuda()].filter(Boolean))];
   try{
     await Promise.all(langs.map(cargarAudio));
     const urls=new Set(); for(const l of langs){ for(const [k,v] of (window.STATIC_AUDIO||new Map())) if(k.startsWith(l+':')) urls.add(v); for(const v of Object.values((window.STATIC_PROMPTS||{})[l]||{})) urls.add(v); }
     const lista=[...urls].filter(u=>/\.mp3$/.test(u)), c=await caches.open('audio-'+AUDIO_VERSION_CLIENTE); let hechos=0, i=0;
-    const trabajar=async()=>{ while(i<lista.length){ const u='/'+lista[i++]; try{ if(!(await c.match(u))){ const r=await fetch(u); if(r.ok) await c.put(u,r); } }catch(e){} hechos++; if(hechos%40===0||hechos===lista.length) btn.textContent=`Descargando… ${Math.round(hechos/lista.length*100)}%`; } };
+    const trabajar=async()=>{ while(i<lista.length){ const u='/'+lista[i++]; try{ if(!(await c.match(u))){ const r=await fetch(u); if(r.ok) await c.put(u,r); } }catch(e){} hechos++; if(hechos%40===0||hechos===lista.length) btn.textContent=G.rc_dl_bajando(Math.round(hechos/lista.length*100)); } };
     await Promise.all([trabajar(),trabajar(),trabajar(),trabajar(),trabajar(),trabajar()]);
-    btn.textContent='Listo: ya funciona sin internet';
-  }catch(e){ btn.textContent='No se pudo descargar'; btn.disabled=false; }
+    btn.textContent=G.rc_dl_listo;
+  }catch(e){ btn.textContent=G.rc_dl_fallo; btn.disabled=false; }
 }
 const AUDIO_VERSION_CLIENTE='v3';   // igual que AUDIO_VERSION en sw.js
 /* tocar los pececitos de arriba: cuenta cuántos pececitos tiene en total (cada caballito vale 2 y cada galletita 3), uno por uno */
@@ -2930,52 +2914,46 @@ function puertaGrandes(){
   const a=3+Math.floor(Math.random()*7), b=3+Math.floor(Math.random()*7), ok=a+b;
   const ops=shuffle([ok, ok+1+Math.floor(Math.random()*3), ok-1-Math.floor(Math.random()*3), ok+4]).filter((x,i,arr)=>arr.indexOf(x)===i);
   busy=true; ++flowTok; hush();
-  openModal(`${X_BTN}<h2 class="mtitle">Solo para grandes</h2><div class="center"><div class="puerta-cuenta">${a} + ${b} = ?</div></div>
+  openModal(`${X_BTN}<h2 class="mtitle" lang="${uiLang}">${esc(G.rc_puerta)}</h2><div class="center"><div class="puerta-cuenta">${a} + ${b} = ?</div></div>
     <div class="center">${ops.map(n=>`<button class="mbtn go puerta-op" data-act="pn" data-n="${n}"><span>${n}</span></button>`).join('')}</div>`,'puerta');
   onAct('pn',(btn)=>{ if(+btn.dataset.n===ok){ closeModal(); openParent(); } else { sfx.oops(); btn.disabled=true; btn.classList.add('wrong'); } });
 }
 function openParent(){
   if(!modal.hidden && card.classList.contains('parent')) return;
   busy=true; ++flowTok; hush();
-  const code=langCode(), vs=voicesFor(code), auto=voiceFor(code), pref=(save.voces||{})[code]||'';
+  const code=langCode(), vs=voicesFor(code), auto=voiceFor(code), pref=(save.voces||{})[code]||'', nom=PACKS[code].nombre;
   const langOpts=idiomasDisponibles().map(l=>`<option value="${l}" ${l===code?'selected':''}>${esc(PACKS[l].nombre)}</option>`).join('');
-  openModal(`<button class="xbtn" data-act="pclose" aria-label="Cerrar">${ICON.close}</button>
-    <h2>Rincón de los grandes</h2>
+  const sec=(id,tit,cuerpo,abierta)=>`<details class="psec" id="sec-${id}" ${abierta?'open':''}><summary>${esc(tit)}</summary><div class="psec-b">${cuerpo}</div></details>`;
+  const banderas=`<div class="uilangs" role="group" aria-label="${esc(G.idiomaGrandes)}">${idiomasGrandes().map(c=>`<button type="button" class="uilang ${c===uiLang?'on':''}" data-l="${c}" lang="${c}" aria-pressed="${c===uiLang}"><img src="${svgUri(banderaDe(c))}" alt=""><span>${esc(((G2(c)||{}).nombre)||c)}</span></button>`).join('')}</div>`;
+  openModal(`<button class="xbtn" data-act="pclose" aria-label="${esc(G.rc_cerrar)}">${ICON.close}</button>
+    <div lang="${uiLang}" class="pwrap">
+    <h2>${esc(G.rc_titulo)}</h2>
+    ${banderas}
     ${informeHtml()}
-    ${cuentaHtml()}
-    <div class="reset">
-      <div><b>Jugar sin internet</b><span>Baja a este aparato el audio de ${esc(PACKS[code].nombre)}${ayuda()?` y de ${esc(PACKS[ayuda()].nombre)}`:''} (unos 30 MB por idioma) para jugar sin conexión. Hace falta que el juego esté instalado o abierto desde su dirección.</span></div>
-      <button class="pbtn" id="p-offline">Descargar el audio</button>
-    </div>
-    <div class="reset">
-      <div><b>Recorrido de la app</b><span>Una vuelta rápida por todo lo que ofrece el juego y cómo se usa.</span></div>
-      <button class="pbtn" id="p-tour">Ver recorrido</button>
-    </div>
-    <div class="reset">
-      <div><b>Empezar de cero</b><span>Borra el nombre, el personaje, los sellos, los cuentos abiertos, los pececitos y la ropa. Se guardan las voces y tus grabaciones.</span></div>
-      <button class="pbtn danger" id="p-reset">Empezar de cero</button>
-    </div>
-    <div class="pgrid">
-      <label>Nombre<input type="text" id="p-name" value="${esc(save.name)}" maxlength="14"></label>
-      <label>Idioma que aprende<select id="p-lang">${langOpts}</select></label>
-      <label>Voz (${esc(PACKS[code].nombre)})<select id="p-voice"><option value="">Automática${auto?` (${esc(auto.name)})`:''}</option>${vs.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===pref?'selected':''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('')}</select></label>
-      <label>Tiempo para repetir<select id="p-pausa"><option value="0.75" ${save.pausa==0.75?'selected':''}>Corto</option><option value="1" ${save.pausa==1?'selected':''}>Normal</option><option value="1.5" ${save.pausa==1.5?'selected':''}>Largo</option></select></label>
-      <button class="pbtn" id="p-test">Probar la voz</button>
-    </div>
-    ${vs.length?'':`<p class="note warn">Este navegador no tiene ninguna voz en ${esc(PACKS[code].nombre.toLowerCase())}, así que la pronunciación va a salir mal (con acento inglés). Abrí el juego en Microsoft Edge, que trae voces de todos estos idiomas, o grabá tu voz abajo.</p>`}
-    <label class="chk"><input type="checkbox" id="p-escucha" ${save.escucha?'checked':''}> Escuchar al chico: el micrófono solo mide si habla en voz alta antes de dar la estrella (no graba ni envía nada). Si no dice nada, el relator se lo pide una vez.</label>
-    <p class="note warn" id="p-escnote" hidden>No se pudo usar el micrófono. Revisá el permiso del navegador.</p>
-    <label class="chk"><input type="checkbox" id="p-grown" ${save.grownup?'checked':''}> Yo controlo cuando habla: la estrella se mantiene apretada un segundo para dar el sello.</label>
-    <label class="chk"><input type="checkbox" id="p-todo" ${save.todoAbierto?'checked':''}> Abrir todos los lugares (si no, cada lugar se abre al terminar el anterior).</label>
-    <label class="chk ayuda">Idioma de ayuda: <select id="p-ayuda"><option value="">Sin ayuda</option>${idiomasDisponibles().filter(c=>c!==langCode()).map(c=>`<option value="${c}" ${ayuda()===c?'selected':''}>${esc(PACKS[c].nombre)}</option>`).join('')}</select>
-      <span class="note">Para empezar de cero: el relator dice todo en ${esc(PACKS[langCode()].nombre)} y enseguida lo traduce a este idioma (menos las sílabas, que se repiten tal cual).</span></label>
-    <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> Traducción al inglés: al tocar una frase (el globo, las sílabas, el cuento) aparece en inglés. Solo se lee, el relator no la dice.</label>
-    <div class="prow"><button class="pbtn" id="p-char">Elegir otro personaje</button><button class="pbtn" id="p-fish">Regalar 5 pececitos</button><span class="note" id="p-fishn">Tiene ${save.puntos||0}.</span></div>
-    <h3>Grabar tu voz (${esc(PACKS[code].nombre)})</h3>
-    <p class="note">Tu grabación reemplaza la voz de la compu. Podés grabar la palabra entera, cada sílaba por separado (sirve cuando la compu dice mal una sílaba suelta, como la «ro» de aeropuerto) y las frases enteras (las partes de la frase las sigue diciendo la compu). Hablá despacio. ${NUBE.usuario ? (NUBE.usuario.admin ? 'Como sos el administrador, tus grabaciones se guardan online y las escuchan todos los chicos.' : 'Se guardan online en tu cuenta.') : 'Se guarda solo en este navegador.'}</p>
-    <p class="note warn" id="p-micnote" ${micOK===false?'':'hidden'}>Acá no hay micrófono. Usá «Subir» con un audio del teléfono, o abrí el juego desde los archivos en Chrome o Edge para grabar directo.</p>
-    <div class="tablewrap"><table><tbody>${recRows().map(recRowHtml).join('')}</tbody></table></div>
-    <div class="prow"><button class="pbtn danger" id="p-clips">Borrar todas mis grabaciones</button></div>`,'parent');
+    ${sec('chico',G.rc_sec_chico,`<div class="pgrid">
+        <label>${esc(G.rc_nombre)}<input type="text" id="p-name" value="${esc(save.name)}" maxlength="14"></label>
+        <label>${esc(G.rc_aprende)}<select id="p-lang">${langOpts}</select></label>
+        <label>${esc(G.rc_ayuda)}<select id="p-ayuda"><option value="">${esc(G.rc_sinAyuda)}</option>${idiomasDisponibles().filter(c=>c!==code).map(c=>`<option value="${c}" ${ayuda()===c?'selected':''}>${esc(PACKS[c].nombre)}</option>`).join('')}</select></label>
+      </div>
+      <p class="note">${esc(G.rc_ayudaNota(nom))}</p>
+      <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> ${esc(G.rc_ingles)}</label>
+      <div class="prow"><button class="pbtn" id="p-char">${esc(G.rc_personaje)}</button><button class="pbtn" id="p-fish">${esc(G.rc_regalo)}</button><span class="note" id="p-fishn">${esc(G.rc_tiene(save.puntos||0))}</span></div>`,true)}
+    ${sec('sonido',G.rc_sec_sonido,`<div class="pgrid">
+        <label>${esc(G.rc_voz(nom))}<select id="p-voice"><option value="">${esc(G.rc_auto)}${auto?` (${esc(auto.name)})`:''}</option>${vs.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===pref?'selected':''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('')}</select></label>
+        <label>${esc(G.rc_pausa)}<select id="p-pausa"><option value="0.75" ${save.pausa==0.75?'selected':''}>${esc(G.rc_corto)}</option><option value="1" ${save.pausa==1?'selected':''}>${esc(G.rc_normal)}</option><option value="1.5" ${save.pausa==1.5?'selected':''}>${esc(G.rc_largo)}</option></select></label>
+        <button class="pbtn" id="p-test">${esc(G.rc_probar)}</button>
+      </div>
+      ${vs.length?'':`<p class="note warn">${esc(G.rc_sinVoz(nom))}</p>`}
+      <label class="chk"><input type="checkbox" id="p-escucha" ${save.escucha?'checked':''}> ${esc(G.rc_escucha)}</label>
+      <p class="note warn" id="p-escnote" hidden>${esc(G.rc_escNota)}</p>
+      <label class="chk"><input type="checkbox" id="p-grown" ${save.grownup?'checked':''}> ${esc(G.rc_grown)}</label>
+      <label class="chk"><input type="checkbox" id="p-todo" ${save.todoAbierto?'checked':''}> ${esc(G.rc_todo)}</label>`)}
+    ${NUBE.on ? sec('cuenta',G.rc_sec_cuenta,cuentaHtml()) : ''}
+    ${sec('aparato',G.rc_sec_aparato,`<div class="reset"><div><b>${esc(G.rc_offline)}</b><span>${esc(G.rc_offlineTxt(nom, ayuda()?PACKS[ayuda()].nombre:''))}</span></div><button class="pbtn" id="p-offline">${esc(G.rc_offlineBtn)}</button></div>
+      <div class="reset"><div><b>${esc(G.rc_tour)}</b><span>${esc(G.rc_tourTxt)}</span></div><button class="pbtn" id="p-tour">${esc(G.rc_tourBtn)}</button></div>`)}
+    ${sec('cero',G.rc_sec_cero,`<div class="reset"><div><b>${esc(G.rc_cero)}</b><span>${esc(G.rc_ceroTxt)}</span></div><button class="pbtn danger" id="p-reset">${esc(G.rc_cero)}</button></div>`)}
+    </div>`,'parent');
+  card.querySelectorAll('.uilang').forEach(b=>b.addEventListener('click',()=>{ elegirUi(b.dataset.l); closeModal(); openParent(); }));
   onAct('pclose',()=>{ closeModal(); if(!scr.home.hidden) goHome(); else if(!scr.start.hidden) applyLang(); });
   $('#p-escucha').addEventListener('change',async e=>{ if(!e.target.checked){ save.escucha=false; persist(); return; } try{ await getMic(); releaseMic(); save.escucha=true; $('#p-escnote').hidden=true; }catch(err){ e.target.checked=false; save.escucha=false; $('#p-escnote').hidden=false; } persist(); });
   $('#p-name').addEventListener('input',e=>{ save.name=fmtName(e.target.value); persist(); updateNames(); if(NUBE.alumno && save.name){ NUBE.alumno.nombre=save.name; nubeRenombrar(); } });
@@ -2991,27 +2969,11 @@ function openParent(){
   $('#p-todo').addEventListener('change',e=>{ save.todoAbierto=e.target.checked; persist(); });
   $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a){ cargarAudio(a); sayAll([{t:PACKS[a].nombre, lang:a}]); } });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
-  $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=`Tiene ${save.puntos}.`; sfx.yay(); });
+  $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=G.rc_tiene(save.puntos); sfx.yay(); });
   $('#p-offline').addEventListener('click',e=>descargarAudio(e.currentTarget));
   $('#p-tour').addEventListener('click',()=>{ closeModal(); if(scr.home.hidden){ save.tour=true; goHome(); } setTimeout(abrirTour,scr.home.hidden?0:500); });
   armConfirm($('#p-reset'),resetProgress);
   conectarCuentaParent();
-  armConfirm($('#p-clips'),async()=>{ await clips.clear(); card.querySelector('tbody').innerHTML=recRows().map(recRowHtml).join(''); });
-  const tbody=card.querySelector('tbody');
-  const findRow=id=>recRows().find(x=>x.id===id);
-  const refreshRow=id=>{ const tr=[...tbody.querySelectorAll('tr[data-id]')].find(t=>t.dataset.id===id); const r=findRow(id); if(tr&&r) tr.outerHTML=recRowHtml(r); };
-  tbody.addEventListener('click',async e=>{
-    const b=e.target.closest('button[data-r]'); if(!b) return; const id=b.closest('tr').dataset.id, r=findRow(id), kind=b.dataset.r;
-    if(kind==='play'){ hush(); sayAll([{t:r.silaba?sonido(r.texto):r.texto, id, lento:r.silaba}]); }
-    if(kind==='del'){ await clips.del(id); refreshRow(id); }
-    if(kind==='rec'){
-      if(curRec){ curRec.stop(); return; }
-      hush();
-      try{ const s=await getMic(); tbody.querySelectorAll('button[data-r=rec]').forEach(x=>{ if(x!==b) x.disabled=true; }); b.classList.add('rec'); b.textContent='Parar'; const blob=await record(s,7000); await clips.put(id,blob); refreshRow(id); tbody.querySelectorAll('button[data-r=rec]').forEach(x=>x.disabled=false); await playBlob(blob); }
-      catch(err){ micOK=false; curRec=null; $('#p-micnote').hidden=false; b.classList.remove('rec'); b.textContent='Grabar'; tbody.querySelectorAll('button[data-r=rec]').forEach(x=>x.disabled=false); }
-    }
-  });
-  tbody.addEventListener('change',async e=>{ const inp=e.target.closest('input[data-r=up]'); if(!inp||!inp.files[0]) return; const id=inp.closest('tr').dataset.id; await clips.put(id,inp.files[0]); refreshRow(id); playBlob(inp.files[0]); });
 }
 
 /* =========================================================
@@ -3038,6 +3000,7 @@ const UI_KEY='aventuras.grandes';
 let uiLang = lsGet(UI_KEY) || 'en';
 const G = new Proxy({}, {get:(_,k)=>{ const g=window.GRANDES||{}; const v=(g[uiLang]||{})[k]; return v!==undefined ? v : ((g.en||{})[k] ?? ''); }});
 const errTxt = e => e.sinServidor ? G.sinServidor : (e.codigo && G['err_'+e.codigo]) || e.message;
+const G2 = c => (window.GRANDES||{})[c];
 const idiomasGrandes = () => Object.keys(window.GRANDES||{en:1});
 const banderaDe = code => code==='en' ? (window.BANDERA_EN||'') : (PACKS[code] ? PACKS[code].bandera : '');
 function elegirUi(code){
@@ -3162,15 +3125,14 @@ function goAlumnos(){
 }
 /* en el rincón de los grandes */
 function informeHtml(){
-  const G=new Proxy({}, {get:(_,k)=>(window.GRANDES.es||{})[k]});   // el rincón de los grandes va en castellano
   const dias=save.dias||{}, hoy=new Date(), sem=[];
-  for(let i=6;i>=0;i--){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; sem.push({k, min:Math.round((dias[k]||0)/60), dia:d.toLocaleDateString('es',{weekday:'narrow'})}); }
+  for(let i=6;i>=0;i--){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; sem.push({k, min:Math.round((dias[k]||0)/60), dia:d.toLocaleDateString(uiLang,{weekday:'narrow'})}); }
   const max=Math.max(10,...sem.map(x=>x.min)); let racha=0; for(let i=0;i<120;i++){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; if((dias[k]||0)>=30) racha++; else if(i>0) break; }
   const lugares=CAP_LIST.filter(c=>capSave(c.id).final).length, sellos=CAP_LIST.reduce((a,c)=>a+c.orden.filter(k=>capSave(c.id).sellos[k]).length,0), totSellos=CAP_LIST.reduce((a,c)=>a+c.orden.length,0);
   const charlas=CAP_LIST.reduce((a,c)=>a+c.charlas.filter((_,i)=>charlaHecha(c,i)).length,0), totCharlas=CAP_LIST.reduce((a,c)=>a+c.charlas.length,0);
   const g0=n0Grupos(), n0=g0.filter(n0GrupoHecho).length;
   const dificiles=Object.entries(save.fallos||{}).filter(([k])=>k.startsWith(langCode()+':')).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,n])=>[k.slice(langCode().length+1),n]);
-  return `<div class="informe" lang="es"><h3>${esc(G.infTitulo)} · ${esc(save.name||'')} (${esc(PACKS[langCode()].nombre)})</h3>
+  return `<div class="informe" lang="${uiLang}"><h3>${esc(G.infTitulo)} · ${esc(save.name||'')} (${esc(PACKS[langCode()].nombre)})</h3>
     <div class="inf-semana" aria-label="${esc(G.infSemana)}">${sem.map(x=>`<div class="inf-dia"><i style="height:${Math.max(4,Math.round(x.min/max*56))}px" class="${x.min?'on':''}"></i><b>${x.min}′</b><span>${esc(x.dia)}</span></div>`).join('')}</div>
     <p class="note">${esc(G.infSemana)}</p>
     <div class="inf-cifras"><div><b>${racha}</b><span>${esc(G.infRacha)}</span></div><div><b>${lugares}/${CAP_LIST.length}</b><span>${esc(G.infLugares)}</span></div><div><b>${sellos}/${totSellos}</b><span>${esc(G.infSellos)}</span></div><div><b>${charlas}/${totCharlas}</b><span>${esc(G.infCharlas)}</span></div><div><b>${n0}/${g0.length}</b><span>${esc(G.infNivel0)}</span></div></div>

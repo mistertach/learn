@@ -186,6 +186,15 @@ h2 small{display:block;font-size:.38em;font-weight:600;color:var(--ink2);margin-
 .card.parent{gap:12px}
 .parent h2{font-size:32px;margin:0;line-height:1}
 .parent h3{margin:8px 0 0;font-size:21px;line-height:1.1}
+.psec{border:2px solid #E3E9F2;border-radius:16px;background:#fff;overflow:hidden}
+.psec>summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:19px;font-weight:800;display:flex;justify-content:space-between;align-items:center;min-height:48px}
+.psec>summary::-webkit-details-marker{display:none}
+.psec>summary::after{content:"▾";font-size:18px;color:var(--ink2);transition:transform .15s}
+.psec[open]>summary::after{transform:rotate(180deg)}
+.psec[open]>summary{background:#F5F8FC}
+.psec-b{display:flex;flex-direction:column;gap:12px;padding:14px 16px}
+.parent .pwrap{display:flex;flex-direction:column;gap:14px}
+.parent .psec .reset.acct{margin-bottom:0}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;align-items:end}
 .parent label{display:flex;flex-direction:column;gap:4px;font-size:15px;font-weight:700}
 .parent input[type=text],.parent select{font:inherit;font-size:16px;font-weight:600;padding:8px 12px;border:2px solid #D5DEEA;border-radius:12px;background:#fff;color:var(--ink);min-width:0}
