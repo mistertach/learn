@@ -10,7 +10,7 @@
 const COLS=11, FILAS=9;
 /* los 8 temas: grupos de la intro (índices de n0Grupos(): 0-7 parte A, 8-42 parte B) */
 const TEMAS=[
-  {emo:'🎮', gi:[0,1,2,3,4,5,6,7,8],         bg:['#1B1038','#3A1F6B'], piso:['#6E55B5','#7B63C4'], pared:['#2B1A52','#3F2A78'], deco:['💎','🔮','✨']},
+  {emo:'🎮', gi:[0,1,2,3,4,5,6,7,8], req:[0,1,2,4],         bg:['#1B1038','#3A1F6B'], piso:['#6E55B5','#7B63C4'], pared:['#2B1A52','#3F2A78'], deco:['💎','🔮','✨']},
   {emo:'🦁', gi:[9,10,11,12],                bg:['#0E2A12','#256B2E'], piso:['#5FAE5A','#6BBB66'], pared:['#1F5A2B','#2E7D3C'], deco:['🌲','🌿','🍄']},
   {emo:'👕', gi:[13,14,18,19],               bg:['#3A1A0A','#8A4A22'], piso:['#E0A06A','#EBB07A'], pared:['#8A4A2A','#A85E36'], deco:['🧸','🧦','🎀']},
   {emo:'🍎', gi:[15,16,20,21,22,23],         bg:['#3A2A08','#8A6A1F'], piso:['#E8C46A','#F0D07A'], pared:['#8A6A1F','#A8802A'], deco:['🥕','🍞','🧁']},
@@ -40,12 +40,14 @@ function salasDe(i){
   const todas=labSalas().filter(s=>TEMAS[i].gi.includes(s.gi)).sort((a,b)=>TEMAS[i].gi.indexOf(a.gi)-TEMAS[i].gi.indexOf(b.gi)||a.desde-b.desde);
   const primeras=TEMAS[i].gi.map(g=>todas.find(s=>s.gi===g)).filter(Boolean), n=primeras.length;
   const pidx=new Set([...Array(4)].map((_,k)=>Math.round(k*(n-1)/3)));
-  const req=[...pidx].map(k=>primeras[k]);
+  // el primer piso (las palabras del juego) es la Intro del camino: sus 4 puertas son las básicas
+  const req=TEMAS[i].req ? TEMAS[i].req.map(g=>todas.find(s=>s.gi===g)).filter(Boolean) : [...pidx].map(k=>primeras[k]);
   return {req, extra:todas.filter(s=>!req.includes(s))};
 }
 const temaHecho=i=>salasDe(i).req.every(labHecha);
 window.torreTemasHechos=()=>TEMAS.filter((_,i)=>temaHecho(i)).length;
 window.torreTotalTemas=()=>TEMAS.length;
+window.introHechas=()=>salasDe(0).req.filter(labHecha).length;   // las 4 salas básicas de la Intro (0 a 4)
 
 /* ---- un laberinto chiquito por piso (siempre el mismo para cada tema) ---- */
 function azar(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
@@ -72,9 +74,10 @@ const celda=(p,x,y)=>(MAPAS[p][y]||'')[x]||'#';
 const camina=ch=>ch!=='#' && ch!=='o';
 
 /* ---- estado ---- */
-function nuevo(){ return {p:0, x:5, y:5, rx:5, ry:5, camino:[], mira:1, t0:performance.now(), fx:[], last:0, sac:0}; }
+function nuevo(tuto){ return {tuto:!!tuto, p:0, x:5, y:5, rx:5, ry:5, camino:[], mira:1, t0:performance.now(), fx:[], last:0, sac:0}; }
 function slotSala(p,ch){
   if(p<1) return null; const {req,extra}=salasDe(p-1);
+  if(st.tuto && 'abcd'.includes(ch)) return null;
   if('1234'.includes(ch)) return {sala:req['1234'.indexOf(ch)], oro:false};
   if('abcd'.includes(ch)){ const pend=extra.filter(s=>!labHecha(s)); const s=pend['abcd'.indexOf(ch)]; return s?{sala:s, oro:true}:null; }
   return null;
@@ -108,8 +111,8 @@ function paso(dx,dy){
 function alLlegar(x,y){
   const ch=celda(st.p,x,y); sfx.step();
   if(st.p===0){ if('12345678'.includes(ch)){ const i=+ch-1; busy=true; sfx.whoosh(); sayAll([T.temas[i]]); setTimeout(()=>{ aPiso(i+1,1,FILAS-2); busy=false; },650); } return; }
-  if(ch==='D'){ const i=st.p-1, d=[1,3,5,7,9,1,3,5][i], fila=i<5?2:6; busy=true; sfx.whoosh(); setTimeout(()=>{ aPiso(0, i<5?1+2*i:1+2*(i-5), fila); busy=false; },400); return; }
-  if(ch==='*'){ const k=`${st.p}:${x},${y}`, ct=save.torreCofres||(save.torreCofres={}); if(!ct[k]){ ct[k]=true; save.puntos=(save.puntos||0)+1; persist(); updateNames(); sfx.yay(); st.fx.push({t:performance.now(),x,y,txt:'+1'}); sayAll([T.unPececito]); } return; }
+  if(ch==='D'){ if(st.tuto){ busy=true; sfx.whoosh(); setTimeout(()=>{ busy=false; tok++; goHome(); },300); return; } const i=st.p-1, d=[1,3,5,7,9,1,3,5][i], fila=i<5?2:6; busy=true; sfx.whoosh(); setTimeout(()=>{ aPiso(0, i<5?1+2*i:1+2*(i-5), fila); busy=false; },400); return; }
+  if(ch==='*'){ if(st.tuto) return; const k=`${st.p}:${x},${y}`, ct=save.torreCofres||(save.torreCofres={}); if(!ct[k]){ ct[k]=true; save.puntos=(save.puntos||0)+1; persist(); updateNames(); sfx.yay(); st.fx.push({t:performance.now(),x,y,txt:'+1'}); sayAll([T.unPececito]); } return; }
   const s=slotSala(st.p,ch); if(s&&s.sala){ abrirSala(s.sala); }
 }
 function abrirSala(s){
@@ -124,12 +127,14 @@ function cierre(i){
     sayAll([T.temaListo, ...(todos?[T.torreFin]:[])]);
   }
 }
-window.goLaberinto=window.goTorre=function(){
-  hush(); busy=false; show('lab'); tok++; $('#labTitle').textContent=T.laberinto; st=nuevo();
+function entrar(tuto){
+  hush(); busy=false; show('lab'); tok++; $('#labTitle').textContent=tuto?T.nivel0Titulo:T.laberinto; st=nuevo(tuto); if(tuto) aPiso(1,1,FILAS-2);
   const mio=tok, M={alive:()=>mio===tok&&!scr.lab.hidden};
   teclasJuego(M,k=>{ if(k==='ArrowRight') paso(1,0); else if(k==='ArrowLeft') paso(-1,0); else if(k==='ArrowDown') paso(0,1); else if(k==='ArrowUp') paso(0,-1); });
-  setTimeout(()=>sayAll([T.laberintoDi]),200);
-};
+  setTimeout(()=>sayAll([tuto?T.nivel0Di:T.laberintoDi]),200);
+}
+window.goLaberinto=window.goTorre=()=>entrar(false);   // la torre: todo lo demás, para explorar cuando se quiera
+window.goIntro=()=>entrar(true);                       // la Intro del camino: solo las palabras básicas
 /* ---- dibujo ---- */
 function puerta(c,x,y,T,t,o){   // o: {pic, oro, hecha, n, hechas}
   const w=T*.8, h=T*.92, px=x+(T-w)/2, py=y+T*.04;
@@ -156,7 +161,7 @@ live(cv,(c,w,h,t)=>{
     if(ch==='o'){ c.fillStyle='rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(px+T/2,py+T*.62,T*.42,T*.26,0,0,7); c.fill(); c.font=`${Math.round(T*.7)}px sans-serif`; c.fillText('⛲',px+T/2,py+T*.5); }
     else if(ch==='.'&&((x*7+y*13+st.p*5)%11===0)){ c.globalAlpha=.55; c.font=`${Math.round(T*.5)}px sans-serif`; c.fillText(P.deco[(x+y+st.p)%P.deco.length],px+T/2,py+T/2); c.globalAlpha=1; }
     else if(ch==='D'||(st.p===0&&'12345678'.includes(ch)&&false)){ c.font=`${Math.round(T*.7)}px sans-serif`; c.fillText('🪜',px+T/2,py+T/2); }
-    else if(ch==='*'){ c.font=`${Math.round(T*.7)}px sans-serif`; const ct=(save.torreCofres||{})[`${st.p}:${x},${y}`]; c.globalAlpha=ct?.4:1; c.fillText(ct?'📦':'🎁',px+T/2,py+T/2+Math.sin(t*3+x)*T*.03); c.globalAlpha=1; }
+    else if(ch==='*'&&!st.tuto){ c.font=`${Math.round(T*.7)}px sans-serif`; const ct=(save.torreCofres||{})[`${st.p}:${x},${y}`]; c.globalAlpha=ct?.4:1; c.fillText(ct?'📦':'🎁',px+T/2,py+T/2+Math.sin(t*3+x)*T*.03); c.globalAlpha=1; }
     else if(st.p===0&&'12345678'.includes(ch)){ const i=+ch-1, ss=salasDe(i), hechos=ss.req.filter(labHecha).length; puerta(c,px,py,T,t,{emo:TEMAS[i].emo, hecha:temaHecho(i), dots:{n:4,hechos}}); }
     else if(st.p>0&&'1234abcd'.includes(ch)){ const s=slotSala(st.p,ch); if(s&&s.sala){ puerta(c,px,py,T,t,{pic:imagenSala(s.sala), oro:s.oro, hecha:labHecha(s.sala), dots:{n:s.sala.hasta-s.sala.desde,hechos:labHecha(s.sala)?s.sala.hasta-s.sala.desde:0}}); } else { c.fillStyle='rgba(0,0,0,.12)'; c.fillRect(px,py,T,T); } }
   }
@@ -170,7 +175,7 @@ live(cv,(c,w,h,t)=>{
   if(st.p>0){ const i=st.p-1, ss=salasDe(i), hechos=ss.req.filter(labHecha).length, resto=ss.extra.filter(s=>!labHecha(s)).length;
     c.fillStyle='rgba(255,255,255,.88)'; rr(c,6,6,T*3.6,T*.9,T*.3); c.fill(); c.font=`${Math.round(T*.55)}px sans-serif`; c.textAlign='left'; c.fillStyle='#22314F'; c.fillText(TEMAS[i].emo,12,6+T*.45);
     for(let k=0;k<4;k++){ c.fillStyle=k<hechos?'#FFC93C':'#D5DCE6'; c.beginPath(); c.arc(12+T*.8+k*T*.38,6+T*.45,T*.13,0,7); c.fill(); }
-    if(resto){ c.fillStyle='#8B6FE8'; c.font=`800 ${Math.round(T*.42)}px 'Baloo 2',sans-serif`; c.fillText(`+${resto}`,12+T*2.45,6+T*.47); } c.textAlign='center'; }
+    if(resto && !st.tuto){ c.fillStyle='#8B6FE8'; c.font=`800 ${Math.round(T*.42)}px 'Baloo 2',sans-serif`; c.fillText(`+${resto}`,12+T*2.45,6+T*.47); } c.textAlign='center'; }
 });
 document.querySelector('#labBack').addEventListener('click',()=>{ tok++; goHome(); });
 document.querySelector('#labLista').addEventListener('click',()=>{ tok++; goNivel0(); });

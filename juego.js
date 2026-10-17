@@ -1640,10 +1640,10 @@ function construirCamino(box){
     const p=pos[i], b=document.createElement('button'); b.className='nodo'; b.style.left=`${p.x/W*100}%`; b.style.top=`${p.y/H*100}%`;
     let titulo, num, tile, estrellas, abierto, hecho;
     if(it.t==='n0'){
-      const hechos=window.torreTemasHechos?torreTemasHechos():0, total=window.torreTotalTemas?torreTotalTemas():8;
-      titulo=T.laberinto; num='0'; abierto=true; hecho=hechos===total; tile=`<div class="loseta0">${img('consignas')}</div>`;
-      estrellas=[hechos>=Math.ceil(total/3), hechos>=Math.ceil(total*2/3), hechos===total].map(on=>estrellaHtml(on,'')).join('');
-      b.addEventListener('click',goLaberinto);
+      const hechos=window.introHechas?introHechas():0, total=4;
+      titulo=T.nivel0Titulo; num='0'; abierto=true; hecho=hechos===total; tile=`<div class="loseta0">${img('consignas')}</div>`;
+      estrellas=[hechos>=1, hechos>=3, hechos===total].map(on=>estrellaHtml(on,'')).join('');
+      b.addEventListener('click',goIntro);
     } else {
       const c=it.c; abierto=capAbierto(c); const n=abierto?piezasDe(c):0, desde=abierto?(vistas[c.id]||0):0; hecho=abierto && capSave(c.id).final;
       titulo=c.titulo; num=c.num; tile=escenaSVG(c.id,n,n>desde?desde:-1);
@@ -1695,6 +1695,18 @@ function goHome(){
   $('#tourBtn').setAttribute('aria-label',G.tour_boton); $('#tourBtn').title=G.tour_boton;
   sayAll([T.holaDi(save.name)]);
   if(!save.tour) setTimeout(()=>{ if(!scr.home.hidden && modal.hidden) abrirTour(); },900);
+  else setTimeout(invitarTorre,1800);
+}
+/* una sola vez, después de terminar dos lugares: se le cuenta que hay una torre con muchas palabras más (es opcional) */
+async function invitarTorre(){
+  if(save.torreInvitada || scr.home.hidden || !modal.hidden || busy || !window.goTorre) return;
+  if(CAP_LIST.filter(c=>capSave(c.id).final).length<2) return;
+  save.torreInvitada=true; persist(); busy=true; const tok=++flowTok, guia=N0_GUIA(0);
+  openModal(shell({npc:guia, bubble:esc(T.torreInvita), en:enT('torreInvita'), center:`<div class="center"><div class="hero-item small">${n0Dibujo(0,0)}</div></div>`,
+    actions:B('ir','next',T.vamos,'go')+B('no','back',T.atras,'soft')}));
+  liveNpc(guia); sfx.stamp(); narrar(()=>sayAll([T.torreInvita]));
+  const {act}=await waitAct(['ir','no']); if(tok!==flowTok) return; closeModal();
+  if(act==='ir') goTorre();
 }
 /* =========================================================
    EL RECORRIDO PARA LOS GRANDES (tour)
@@ -3853,6 +3865,7 @@ $('#btnCuentos').addEventListener('click',()=>{ closeSidebar(); goLib('cuentos')
 $('#btnPracticar').addEventListener('click',()=>{ closeSidebar(); goLib('practicar'); });
 $('#btnTienda').addEventListener('click',()=>{ closeSidebar(); goShop(); });
 $('#btnCharlas').addEventListener('click',()=>{ closeSidebar(); goCharlas(); });
+$('#btnTorre').addEventListener('click',()=>{ closeSidebar(); goTorre(); });
 $('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
 $('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
 $('#tourBtn').addEventListener('click',abrirTour);
