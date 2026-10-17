@@ -26,7 +26,7 @@ const FILA_HALL=[
   '#.#.#.#.#.#',
   '#.........#',
   '#....o....#',
-  '#.........#',
+  '#....P....#',
   '#.#.#.#...#',
   '#6#7#8#...#',
   '###########'
@@ -68,13 +68,21 @@ function laberintoDe(i){
   }
   return FILA_HALL;
 }
-const MAPAS=[FILA_HALL, ...TEMAS.map((_,i)=>laberintoDe(i))];
+/* los mapas: los de idiomas/torre-mapas.js (se editan con mapas.html); si falta alguno, el laberinto armado solo.
+   En localhost, además, se prueba lo que se guardó con «Probar» en el editor (localStorage). */
+const mapaOk = m => Array.isArray(m) && m.length===FILAS && m.every(f=>typeof f==='string' && f.length===COLS);
+let MAPAS_ARCHIVO = window.TORRE_MAPAS;
+try{ if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o=JSON.parse(localStorage.getItem('aventuras.torreMapas')||'null'); if(Array.isArray(o)&&o.length===9) MAPAS_ARCHIVO=o; } }catch(e){}
+const MAPAS=[FILA_HALL, ...TEMAS.map((_,i)=>laberintoDe(i))].map((gen,p)=>mapaOk((MAPAS_ARCHIVO||[])[p]) ? MAPAS_ARCHIVO[p] : gen);
 window.__torreMapas=MAPAS;
+function buscar(p,ch){ for(let y=0;y<FILAS;y++){ const x=MAPAS[p][y].indexOf(ch); if(x>=0) return {x,y}; } return null; }
+/* una baldosa libre al lado de otra (para pararse al entrar o al volver) */
+function vecinaLibre(p,pt,pref){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const x=pt.x+dx, y=pt.y+dy; if(x>=0&&y>=0&&x<COLS&&y<FILAS&&camina(MAPAS[p][y][x])&&!'123456789abcdD*'.includes(MAPAS[p][y][x])) return {x,y}; } return pref; }
 const celda=(p,x,y)=>(MAPAS[p][y]||'')[x]||'#';
-const camina=ch=>ch!=='#' && ch!=='o';
+const camina=ch=>ch!=='#' && ch!=='o';   // 'P' es el lugar donde se empieza en el hall (se pisa como cualquier baldosa)
 
 /* ---- estado ---- */
-function nuevo(tuto){ return {tuto:!!tuto, p:0, x:5, y:5, rx:5, ry:5, camino:[], mira:1, t0:performance.now(), fx:[], last:0, sac:0}; }
+function nuevo(tuto){ const h0=buscar(0,'P')||{x:5,y:5}; return {tuto:!!tuto, p:0, x:h0.x, y:h0.y, rx:h0.x, ry:h0.y, camino:[], mira:1, t0:performance.now(), fx:[], last:0, sac:0}; }
 function slotSala(p,ch){
   if(p<1) return null; const {req,extra}=salasDe(p-1);
   if(st.tuto && 'abcd'.includes(ch)) return null;
@@ -110,8 +118,8 @@ function paso(dx,dy){
 /* ---- qué pasa al llegar a una baldosa ---- */
 function alLlegar(x,y){
   const ch=celda(st.p,x,y); sfx.step();
-  if(st.p===0){ if('12345678'.includes(ch)){ const i=+ch-1; busy=true; sfx.whoosh(); sayAll([T.temas[i]]); setTimeout(()=>{ aPiso(i+1,1,FILAS-2); busy=false; },650); } return; }
-  if(ch==='D'){ if(st.tuto){ busy=true; sfx.whoosh(); setTimeout(()=>{ busy=false; tok++; goHome(); },300); return; } const i=st.p-1, d=[1,3,5,7,9,1,3,5][i], fila=i<5?2:6; busy=true; sfx.whoosh(); setTimeout(()=>{ aPiso(0, i<5?1+2*i:1+2*(i-5), fila); busy=false; },400); return; }
+  if(st.p===0){ if('12345678'.includes(ch)){ const i=+ch-1; busy=true; sfx.whoosh(); sayAll([T.temas[i]]); setTimeout(()=>{ const e=vecinaLibre(i+1,buscar(i+1,'D')||{x:1,y:FILAS-1},{x:1,y:FILAS-2}); aPiso(i+1,e.x,e.y); busy=false; },650); } return; }
+  if(ch==='D'){ if(st.tuto){ busy=true; sfx.whoosh(); setTimeout(()=>{ busy=false; tok++; goHome(); },300); return; } const i=st.p-1; busy=true; sfx.whoosh(); setTimeout(()=>{ const e=vecinaLibre(0,buscar(0,String(i+1))||{x:5,y:4},{x:5,y:5}); aPiso(0,e.x,e.y); busy=false; },400); return; }
   if(ch==='*'){ if(st.tuto) return; const k=`${st.p}:${x},${y}`, ct=save.torreCofres||(save.torreCofres={}); if(!ct[k]){ ct[k]=true; save.puntos=(save.puntos||0)+1; persist(); updateNames(); sfx.yay(); st.fx.push({t:performance.now(),x,y,txt:'+1'}); sayAll([T.unPececito]); } return; }
   const s=slotSala(st.p,ch); if(s&&s.sala){ abrirSala(s.sala); }
 }
@@ -128,7 +136,7 @@ function cierre(i){
   }
 }
 function entrar(tuto){
-  hush(); busy=false; show('lab'); tok++; $('#labTitle').textContent=tuto?T.nivel0Titulo:T.laberinto; st=nuevo(tuto); if(tuto) aPiso(1,1,FILAS-2);
+  hush(); busy=false; show('lab'); tok++; $('#labTitle').textContent=tuto?T.nivel0Titulo:T.laberinto; st=nuevo(tuto); if(tuto){ const e=vecinaLibre(1,buscar(1,'D')||{x:1,y:FILAS-1},{x:1,y:FILAS-2}); aPiso(1,e.x,e.y); }
   const mio=tok, M={alive:()=>mio===tok&&!scr.lab.hidden};
   teclasJuego(M,k=>{ if(k==='ArrowRight') paso(1,0); else if(k==='ArrowLeft') paso(-1,0); else if(k==='ArrowDown') paso(0,1); else if(k==='ArrowUp') paso(0,-1); });
   setTimeout(()=>sayAll([tuto?T.nivel0Di:T.laberintoDi]),200);

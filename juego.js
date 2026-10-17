@@ -3895,6 +3895,9 @@ Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
   setLang(save.lang || 'es', false); rotarInicio();
   $('#playBtn').disabled=false; setTimeout(()=>$('#playBtn').focus(),60);
   if(tokenClave && NUBE.on){ cuentaModo='nueva'; goCuenta(); }
+  // desde el editor de mapas (mapas.html): ?torre=intro o ?torre=hall abre directo la torre
+  const q=(location.search.match(/[?&]torre=(\w+)/)||[])[1];
+  if(q && save.lang && save.name && save.charId && window.goTorre){ goHome(); q==='intro' ? goIntro() : goTorre(); }
 });
 requestAnimationFrame(frame);
 

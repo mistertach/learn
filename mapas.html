@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editor de mapas</title>
+<style>
+  :root{ --ink:#22314F; --mist:#EEF2F8; --blue:#2E86DE; --coral:#FF6F59; --mint:#2FBF8F }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.4 system-ui,sans-serif;color:var(--ink);background:#F7F9FC;padding:16px}
+  h1{font-size:24px;margin:0 0 4px} p.sub{margin:0 0 14px;color:#4A5A7A}
+  .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:8px 12px;background:var(--mist);color:var(--ink);cursor:pointer}
+  button.on{background:var(--blue);color:#fff} button.go{background:var(--mint);color:#fff} button.mal{background:#FFE1DC;color:#B53A28}
+  #grid{display:grid;grid-template-columns:repeat(11,44px);grid-auto-rows:44px;gap:2px;background:#C9D5E6;padding:2px;border-radius:10px;touch-action:none;user-select:none}
+  .c{display:grid;place-items:center;font-size:24px;border-radius:5px;cursor:crosshair;background:#fff}
+  .c.p{background:#4B3A78;color:#fff}.c.o{background:#E9F4FF}.c.d{background:#FFE9A8}.c.a{background:#CFE5FF}.c.g{background:#FFF1B0}.c.k{background:#FFE0F0}.c.s{background:#D8F5E8}
+  .pal{display:flex;flex-wrap:wrap;gap:6px;max-width:480px;margin-bottom:12px}
+  .pal button{min-width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px}.pal button b{font-size:22px;font-weight:400}
+  #msg{max-width:460px}.ok{color:#1A8F68}.warn{color:#B53A28}
+  ul{margin:6px 0 0;padding-left:20px}
+  pre{background:#fff;border:2px solid #E3E9F2;border-radius:10px;padding:10px;font-size:13px;max-height:200px;overflow:auto;white-space:pre}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+</style>
+</head>
+<body>
+<h1>Editor de mapas de la torre</h1>
+<p class="sub">Pintá con el mouse (se puede arrastrar). «Probar» guarda en este navegador y lo ves en el juego; «Descargar» baja <code>torre-mapas.js</code> para ponerlo en la carpeta del juego y subirlo.</p>
+<div class="tabs" id="tabs"></div>
+<div class="wrap">
+  <div>
+    <div class="pal" id="pal"></div>
+    <div id="grid"></div>
+    <div class="row">
+      <button id="undo">↶ Deshacer</button>
+      <button id="reset" class="mal">Volver a como estaba en el archivo</button>
+    </div>
+  </div>
+  <div id="msg">
+    <div class="row">
+      <button id="probar" class="go">▶ Probar en el juego</button>
+      <button id="bajar">⬇ Descargar torre-mapas.js</button>
+      <button id="copiar">Copiar el texto</button>
+      <button id="limpiar" class="mal">Quitar la prueba</button>
+    </div>
+    <div id="chk"></div>
+    <pre id="txt"></pre>
+  </div>
+</div>
+<script src="torre-mapas.js"></script>
+<script>
+const COLS=11, FILAS=9, KEY='aventuras.torreMapas';
+const NOMBRES=['El hall','1 · Palabras del juego','2 · Animales','3 · Cuerpo y ropa','4 · Comida y casa','5 · El mundo','6 · Gente y acciones','7 · Frases de todos los días','8 · Más frases'];
+const ARCHIVO=(window.TORRE_MAPAS||[]).map(m=>m.slice());
+let mapas; try{ mapas=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){} if(!Array.isArray(mapas)||mapas.length!==9) mapas=ARCHIVO.map(m=>m.slice());
+let p=0, herr='#', hist=[];
+const PAL_COMUN=[['#','Pared','⬛'],['.','Piso','▫️'],['o','Fuente','⛲']];
+const PAL_HALL=[['P','Inicio','📍'],...[1,2,3,4,5,6,7,8].map(n=>[String(n),'Tema '+n,'🚪'])];
+const PAL_PISO=[['D','Escalera abajo','🪜'],...[1,2,3,4].map(n=>[String(n),'Puerta azul '+n,'🔷']),...'abcd'.split('').map(l=>[l,'Dorada '+l,'⭐']),['*','Cofre','🎁']];
+const clase=ch=>ch==='#'?'p':ch==='o'?'o':ch==='D'?'d':'1234567'.includes(ch)&&p>0?'a':'abcd'.includes(ch)?'g':ch==='*'?'k':ch==='P'||(p===0&&'12345678'.includes(ch))?'s':'';
+const icono=ch=>({'#':'','.':'','o':'⛲','D':'🪜','*':'🎁','P':'📍'}[ch]??(('1234'.includes(ch)&&p>0)?ch:'abcd'.includes(ch)?ch.toUpperCase():ch));
+function pintaTabs(){ document.getElementById('tabs').innerHTML=NOMBRES.map((n,i)=>`<button class="${i===p?'on':''}" data-i="${i}">${n}</button>`).join(''); }
+function pintaPal(){ const l=[...PAL_COMUN,...(p===0?PAL_HALL:PAL_PISO)]; if(!l.some(x=>x[0]===herr)) herr='#';
+  document.getElementById('pal').innerHTML=l.map(([c,n,e])=>`<button class="${c===herr?'on':''}" data-c="${c}"><b>${e}</b>${n}</button>`).join(''); }
+function pintaGrid(){ const g=document.getElementById('grid'); g.innerHTML='';
+  mapas[p].forEach((f,y)=>[...f].forEach((ch,x)=>{ const d=document.createElement('div'); d.className='c '+clase(ch); d.textContent=icono(ch); d.dataset.x=x; d.dataset.y=y; g.appendChild(d); })); valida(); }
+const UNICOS=()=>p===0?'P12345678':'D1234';
+function poner(x,y,ch){ if(x<0||y<0||x>=COLS||y>=FILAS) return; const f=mapas[p]; if(f[y][x]===ch) return;
+  if(UNICOS().includes(ch)) mapas[p]=mapas[p].map(r=>r.replace(ch,'.'));
+  const r=mapas[p][y]; mapas[p][y]=r.slice(0,x)+ch+r.slice(x+1); }
+let pintando=false;
+function guardaHist(){ hist.push(JSON.stringify(mapas)); if(hist.length>60) hist.shift(); }
+document.getElementById('grid').addEventListener('pointerdown',e=>{ const c=e.target.closest('.c'); if(!c) return; guardaHist(); pintando=true; poner(+c.dataset.x,+c.dataset.y,herr); pintaGrid(); });
+document.getElementById('grid').addEventListener('pointerover',e=>{ if(!pintando) return; const c=e.target.closest('.c'); if(c){ poner(+c.dataset.x,+c.dataset.y,herr); pintaGrid(); } });
+addEventListener('pointerup',()=>pintando=false);
+document.getElementById('tabs').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ p=+b.dataset.i; pintaTabs(); pintaPal(); pintaGrid(); } });
+document.getElementById('pal').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){ herr=b.dataset.c; pintaPal(); } });
+document.getElementById('undo').onclick=()=>{ if(hist.length){ mapas=JSON.parse(hist.pop()); pintaGrid(); } };
+document.getElementById('reset').onclick=()=>{ if(confirm('¿Volver este piso a como está en torre-mapas.js?')){ guardaHist(); mapas[p]=ARCHIVO[p].slice(); pintaGrid(); } };
+/* reglas: todo lo que importa se puede alcanzar y no se sale del mapa */
+function valida(){
+  const f=mapas[p], av=[], bien=[], k=(x,y)=>y*COLS+x, libre=ch=>ch!=='#'&&ch!=='o';
+  const cuenta=ch=>f.join('').split(ch).length-1;
+  if(f.some(r=>r.length!==COLS)||f.length!==FILAS) av.push('El mapa debe ser de 11 × 9.');
+  for(let x=0;x<COLS;x++) if(f[0][x]!=='#'||f[FILAS-1][x]!=='#'&&!(p>0&&f[FILAS-1][x]==='D')) av.push('El borde de arriba y de abajo tiene que ser pared (menos la escalera D).'),x=COLS;
+  for(let y=0;y<FILAS;y++) if(f[y][0]!=='#'||f[y][COLS-1]!=='#'){ av.push('El borde de la izquierda y de la derecha tiene que ser pared.'); break; }
+  const esperadas=p===0?'12345678':'1234';
+  for(const ch of esperadas){ const n=cuenta(ch); if(n!==1) av.push(`La puerta ${ch} aparece ${n} veces (tiene que ser 1).`); }
+  let ini=null;
+  if(p===0){ for(let y=0;y<FILAS;y++){ const x=f[y].indexOf('P'); if(x>=0) ini={x,y}; } if(!ini) av.push('Falta el inicio 📍.'); }
+  else { for(let y=0;y<FILAS;y++){ const x=f[y].indexOf('D'); if(x>=0){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const a=x+dx,b=y+dy; if(a>=0&&b>=0&&a<COLS&&b<FILAS&&libre(f[b][a])&&!'1234abcdD*'.includes(f[b][a])){ ini={x:a,y:b}; break; } } if(!ini) av.push('La escalera D no tiene una baldosa libre al lado.'); } } if(!ini&&!av.length) av.push('Falta la escalera D.'); }
+  if(ini){ const vis=new Set([k(ini.x,ini.y)]), cola=[[ini.x,ini.y]];
+    while(cola.length){ const [x,y]=cola.shift(); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const a=x+dx,b=y+dy; if(a<0||b<0||a>=COLS||b>=FILAS||vis.has(k(a,b))||!libre(f[b][a])) continue; vis.add(k(a,b)); cola.push([a,b]); } }
+    f.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(libre(ch)&&ch!=='.'&&ch!=='P'&&!vis.has(k(x,y))) av.push(`No se llega a «${ch}» (fila ${y+1}, columna ${x+1}).`); else if(ch==='.'&&!vis.has(k(x,y))) {} })); }
+  if(p>0){ const dentro=f.join('').replace(/[#.o]/g,''); const pasa=[...f.join('')].filter(c=>'1234abcd'.includes(c)).length; if(pasa<4) av.push('Faltan puertas.'); }
+  if(!av.length) bien.push('Todo en orden: se llega a todas las puertas.');
+  document.getElementById('chk').innerHTML=bien.map(t=>`<p class="ok">✔ ${t}</p>`).join('')+(av.length?`<ul class="warn">${[...new Set(av)].map(t=>`<li>${t}</li>`).join('')}</ul>`:'');
+  document.getElementById('txt').textContent=archivo();
+}
+function archivo(){
+  const cab=(window.__cab||`/* Los mapas de la torre mágica (torre.js): el hall y los 8 pisos, de 11 columnas por 9 filas.
+   Se editan con mapas.html (npm run dev → http://localhost:3000/mapas.html): se pinta, se prueba en el juego y se descarga este archivo.
+   # pared · . piso · o fuente (no se pisa) · P dónde empieza el chico en el hall
+   Hall: 1-8 = la puerta de cada tema.
+   Pisos: D = escalera para bajar (el chico aparece al lado) · 1-4 = puertas azules (las de verdad) · a-d = puertas doradas (extras) · * = cofre */`);
+  return cab+'\nwindow.TORRE_MAPAS = [\n'+mapas.map((m,i)=>`  // ${NOMBRES[i]}\n  [\n`+m.map(r=>`    "${r}"`).join(',\n')+'\n  ]').join(',\n')+'\n];\n';
+}
+document.getElementById('probar').onclick=()=>{ localStorage.setItem(KEY,JSON.stringify(mapas)); window.open('index.html?torre='+(p===1?'intro':'hall'),'_blank'); };
+document.getElementById('limpiar').onclick=()=>{ localStorage.removeItem(KEY); alert('Listo: el juego vuelve a usar torre-mapas.js.'); };
+document.getElementById('bajar').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([archivo()],{type:'text/javascript'})); a.download='torre-mapas.js'; a.click(); };
+document.getElementById('copiar').onclick=async e=>{ try{ await navigator.clipboard.writeText(archivo()); e.target.textContent='¡Copiado!'; setTimeout(()=>e.target.textContent='Copiar el texto',1500); }catch(err){ prompt('Copiá este texto',archivo()); } };
+pintaTabs(); pintaPal(); pintaGrid();
+</script>
+</body>
+</html>
