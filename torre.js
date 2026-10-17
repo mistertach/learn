@@ -75,14 +75,17 @@ function laberintoDe(i){
    En localhost, además, se prueba lo que se guardó con «Probar» en el editor (localStorage). */
 const mapaOk = m => Array.isArray(m) && m.length===FILAS && m.every(f=>typeof f==='string' && f.length===COLS);
 let MAPAS_ARCHIVO = window.TORRE_MAPAS;
-try{ if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o=JSON.parse(localStorage.getItem('aventuras.torreMapas')||'null'); if(Array.isArray(o)&&o.length===9) MAPAS_ARCHIVO=o; } }catch(e){}
-const MAPAS=[FILA_HALL, ...TEMAS.map((_,i)=>laberintoDe(i))].map((gen,p)=>mapaOk((MAPAS_ARCHIVO||[])[p]) ? MAPAS_ARCHIVO[p] : gen);
+try{ if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ const o=JSON.parse(localStorage.getItem('aventuras.torreMapas')||'null'); if(Array.isArray(o)&&o.length>=9) MAPAS_ARCHIVO=o; } }catch(e){}
+/* la Intro (el nivel 0 del camino) tiene su propio mapa, el décimo: todos los pasillos llevan a una de las 4 puertas azules */
+const INTRO_DEFECTO=['###########','#1.......2#','#####.#####','#3.......4#','#####.#####','####...####','###.....###','###.t.t.###','#####D#####'];
+const MAPAS=[FILA_HALL, ...TEMAS.map((_,i)=>laberintoDe(i)), INTRO_DEFECTO].map((gen,p)=>mapaOk((MAPAS_ARCHIVO||[])[p]) ? MAPAS_ARCHIVO[p] : gen);
+const mapaDe=p=>(st&&st.tuto&&p===1)?MAPAS[9]:MAPAS[p];   // en la Intro, el piso 1 es el mapa propio
 window.__torreMapas=MAPAS;
 window.__torreDeco=()=>DECO;
-function buscar(p,ch){ for(let y=0;y<FILAS;y++){ const x=MAPAS[p][y].indexOf(ch); if(x>=0) return {x,y}; } return null; }
+function buscar(p,ch){ for(let y=0;y<FILAS;y++){ const x=mapaDe(p)[y].indexOf(ch); if(x>=0) return {x,y}; } return null; }
 /* una baldosa libre al lado de otra (para pararse al entrar o al volver) */
-function vecinaLibre(p,pt,pref){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const x=pt.x+dx, y=pt.y+dy; if(x>=0&&y>=0&&x<COLS&&y<FILAS&&camina(MAPAS[p][y][x])&&!'12345678D*'.includes(MAPAS[p][y][x])) return {x,y}; } return pref; }
-const celda=(p,x,y)=>(MAPAS[p][y]||'')[x]||'#';
+function vecinaLibre(p,pt,pref){ for(const [dx,dy] of [[0,-1],[1,0],[-1,0],[0,1]]){ const x=pt.x+dx, y=pt.y+dy; if(x>=0&&y>=0&&x<COLS&&y<FILAS&&camina(mapaDe(p)[y][x])&&!'12345678D*'.includes(mapaDe(p)[y][x])) return {x,y}; } return pref; }
+const celda=(p,x,y)=>(mapaDe(p)[y]||'')[x]||'#';
 /* objetos para decorar: cada letra es un dibujito; todos estorban (no se pisan) menos la alfombra t.
    'P' es el lugar donde se empieza en el hall (se pisa como cualquier baldosa). Las mismas letras que usan los lugares. */
 const DECO={o:'⛲',p:'🪴',r:'🌳',f:'💐',b:'🪑',j:'🧸',k:'📦',y:'🌴',i:'🪨',m:'🍽️',s:'🛋️',h:'🌾',x:'🛏️',a:'🚗',d:'🏛️',g:'🏆',l:'🏮',u:'🪧',z:'🍄',v:'🌿',w:'🪸',e:'⚙️',q:'📚',n:'⛱️',c:'🎁'};   // en los pisos, 1-4 son puertas azules, 5-8 doradas y * un cofre

@@ -2,7 +2,7 @@
    Se editan con mapas.html (npm run dev → http://localhost:3000/mapas.html): se pinta, se prueba en el juego y se descarga este archivo.
    # pared · . piso · o fuente (no se pisa) · P dónde empieza el chico en el hall
    Hall: 1-8 = la puerta de cada tema.
-   Pisos: D = escalera para bajar (el chico aparece al lado) · 1-4 = puertas azules (las de verdad) · 5-8 = puertas doradas (extras) (extras) · * = cofre */
+   Pisos: D = escalera para bajar (el chico aparece al lado) · 1-4 = puertas azules (las de verdad) · 5-8 = puertas doradas (extras) · * = cofre */
 window.TORRE_MAPAS = [
   // El hall
   [
@@ -111,5 +111,18 @@ window.TORRE_MAPAS = [
     "#.#.#.#.###",
     "#........4#",
     "#D#########"
+  ]
+  ,
+  // Intro (nivel 0 del camino): todos los pasillos llevan a una de las 4 puertas azules
+  [
+    "###########",
+    "#1.......2#",
+    "#####.#####",
+    "#3.......4#",
+    "#####.#####",
+    "####...####",
+    "###.....###",
+    "###.t.t.###",
+    "#####D#####"
   ]
 ];
