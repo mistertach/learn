@@ -138,7 +138,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8C66A", seed:1.1}, arte:"granero", est:"final", voz:"sabio", color:"#E8C66A"}],
   final: {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#E8C66A", seed:1.1}, arte:"granero", icono:"granero", anim:"desfile",
     desfile:["vaca", "chancho", "oveja", "gallo", "caballo", "pato", "pollito"]},
-  microjuego: {id:"comida", arte:"pollito", precio:3, color:"#8CCB6B", ingredientes:["vaca", "chancho", "oveja", "gallo", "caballo", "pato"]},
+  microjuego: {id:"comida", arte:"pollito", precio:1, color:"#8CCB6B", ingredientes:["vaca", "chancho", "oveja", "gallo", "caballo", "pato"]},
   palabrasExtra: ["huevo", "leche", "tractor", "granero"],
   frasesExtra: ["vaca", "pollito", "caballo", "chancho", "oveja"],
   preguntas: [

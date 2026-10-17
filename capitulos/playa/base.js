@@ -132,7 +132,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#7A4E2D", fur2:"#D9B48F", hat:"#2E9E5E", seed:1.5}, arte:"tortugamar", est:"T", voz:"sabio", color:"#2E9E5E"}],
   final: {npc:{kind:"bear", fur:"#C08552", fur2:"#F5E1C8", hat:"#FFC93C", seed:0.9}, arte:"cofre", icono:"cofre", anim:"desfile", fondo:"mar",
     desfile:["pezmar", "cangrejo", "tortugamar", "estrellamar", "pulpo"]},
-  microjuego: {id:"pesca", arte:"cofre", precio:3, color:"#3FB5F0", ingredientes:["pezmar", "cangrejo", "tortugamar", "estrellamar", "concha", "pulpo"]},
+  microjuego: {id:"pesca", arte:"cofre", precio:1, color:"#3FB5F0", ingredientes:["pezmar", "cangrejo", "tortugamar", "estrellamar", "concha", "pulpo"]},
   palabrasExtra: ["concha", "estrellamar", "pulpo", "barco", "sol"],
   frasesExtra: ["sol", "ola", "antiparras", "tortugamar", "cofre"],
   preguntas: [

@@ -68,6 +68,7 @@ registrarIdioma({
     objetos: {'#':'al-jidar|الجدار', b:'al-kirsi|الكرسي', p:'az-zar\'a|الزرعة', '~':'al-bab|الباب'},
     // la tienda
     tiendaHola: 'marhaba! hatha ad-dukkan. shtibi tishtiri?|مرحبا! هذا الدكان. شتبي تشتري؟', quiero: i => U('abi |أبي ', i, ', law samaht.|، لو سمحت.'),
+    jugarCuesta: s => U('al-la\'ib yikalif |اللعب يكلف ', s, '. nil\'ab?|. نلعب؟'), sinPeces: 'ma \'indak samak kafi lil-la\'ib! dawwir samak akthar w ta\'al.|ما عندك سمك كافي للعب! دوّر سمك أكثر وتعال.',
     cuesta: s => U('si\'rah |سعره ', s, '.|.'), noAlcanza: s => U('tihtaj |تحتاج ', s, ' ba\'ad. dawwir samak akthar!| بعد. دوّر سمك أكثر!'), comprado: i => U('tafadhal! al-heen \'indak |تفضل! الحين عندك ', i, '.|.'),
     queda: 'wayed hilu \'alaik!|وايد حلو عليك!', comprar: 'ishtiri|اشتري', ponerme: 'ilbis|البس', sacarme: 'shil|شيل',
     ropa: {remera_roja:'at-tishirt al-ahmar|التيشيرت الأحمر', remera_rayas:'at-tishirt al-mkhattat|التيشيرت المخطط', remera_estrella:'tishirt an-najma|تيشيرت النجمة', camiseta:'fanilat al-kora|فانيلة الكورة',

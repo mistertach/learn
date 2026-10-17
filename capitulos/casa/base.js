@@ -159,7 +159,7 @@ registrarCapitulo({
     {npc:MAMA, arte:"mama", est:"M", voz:"mama", color:"#E8483B"},
     {npc:{kind:"bunny", fur:"#F2D7E0", fur2:"#FFFFFF", inner:"#FF9EBB", hat:"#8B6FE8", seed:1.7}, arte:"hermana", est:"E", voz:"nina", color:"#8B6FE8"},
     {npc:{kind:"cat", fur:"#C9C9D1", fur2:"#F3F1F7", seed:1.5}, arte:"abuela", est:"final", voz:"mayor", color:"#FF8FB8"}],
-  microjuego: {id:"torta", arte:"torta", precio:3, color:"#FF8FB8", ingredientes:["crema", "frutilla", "chocolate", "confites", "cereza", "vela"]},
+  microjuego: {id:"torta", arte:"torta", precio:1, color:"#FF8FB8", ingredientes:["crema", "frutilla", "chocolate", "confites", "cereza", "vela"]},
   palabrasExtra: ["abuela", "abuelo", "familia", "sofa", "telefono"],
   frasesExtra: ["sol", "globo", "corazon", "corazon", "nochecita"],
   preguntas: [

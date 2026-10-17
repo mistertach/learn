@@ -126,7 +126,7 @@ registrarCapitulo({
     {npc:{kind:"dog", fur:"#6E6A78", fur2:"#DDD9E4", ear:"#45424E", hat:"#2E86DE", seed:0.3}, arte:"balanza", est:"B", voz:"chico", color:"#2E86DE"},
     {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#E8483B", seed:1.1}, arte:"bolsa", est:"final", voz:"sabio", color:"#2FBF8F"}],
   final: {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#E8483B", seed:1.1}, arte:"bolsa", icono:"canasta", anim:"compras"},
-  microjuego: {id:"canasta", arte:"canasta", precio:3, color:"#2FBF8F", ingredientes:["manzana", "banana", "naranja", "frutilla", "pera", "limon"]},
+  microjuego: {id:"canasta", arte:"canasta", precio:1, color:"#2FBF8F", ingredientes:["manzana", "banana", "naranja", "frutilla", "pera", "limon"]},
   palabrasExtra: ["pera", "limon", "canasta", "bolsa"],
   frasesExtra: ["pez", "sandia", "frutilla", "bolsa", "manzana"],
   preguntas: [

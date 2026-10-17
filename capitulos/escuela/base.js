@@ -130,7 +130,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#FF8FB8", seed:2.4}, arte:"calendario", est:"K", voz:"sabio", color:"#FF8FB8"},
     {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"pizarron", est:"final", voz:"sabio", color:"#8B6FE8"}],
   final: {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#8B6FE8", seed:0.5}, arte:"pizarron", icono:"pizarron", anim:"semana"},
-  microjuego: {id:"tren", arte:"triangulo", precio:3, color:"#FFC93C", ingredientes:["circulo", "cuadrado", "triangulo", "estrella", "corazon"]},
+  microjuego: {id:"tren", arte:"triangulo", precio:1, color:"#FFC93C", ingredientes:["circulo", "cuadrado", "triangulo", "estrella", "corazon"]},
   palabrasExtra: ["circulo", "cuadrado", "triangulo", "estrella", "pizarron"],
   frasesExtra: ["mano", "bano", "vaso", "goma", "mochila"],
   preguntas: [

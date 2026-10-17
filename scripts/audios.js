@@ -288,7 +288,7 @@ function extraerPrompts(capId, lang, datos) {
   const comunes = [
     'repeti', 'todoJunto', 'fraseAhora', 'estrella', 'estrellaGrande',
     'hola', 'intro1', 'casi', 'ascensor', 'queDecimos', 'todos',
-    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar',
+    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces',
     'unPececito', 'teToca', 'aQuePiso',
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
@@ -329,7 +329,7 @@ function extraerPrompts(capId, lang, datos) {
     for (let n = 1; n <= 10; n++) {
       add(`peces-${n}`, T.tenesPeces(T.peces(n)));
       add(`pecesCount-${n}`, T.peces(n));
-      if (n <= 6) { if (T.premio) add(`premio-peces-${n}`, T.premio(T.peces(n))); if (T.cuesta) add(`cuesta-peces-${n}`, T.cuesta(T.peces(n))); if (T.noAlcanza) add(`noAlcanza-peces-${n}`, T.noAlcanza(T.peces(n))); }
+      if (n <= 6) { if (T.premio) add(`premio-peces-${n}`, T.premio(T.peces(n))); if (T.jugarCuesta) add(`jugarCuesta-peces-${n}`, T.jugarCuesta(T.peces(n))); if (T.cuesta) add(`cuesta-peces-${n}`, T.cuesta(T.peces(n))); if (T.noAlcanza) add(`noAlcanza-peces-${n}`, T.noAlcanza(T.peces(n))); }
     }
   }
 

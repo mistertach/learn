@@ -141,7 +141,7 @@ registrarCapitulo({
     {npc:{kind:"cat", fur:"#3B3B4A", fur2:"#EDEBF2", eye:"#F5D547", hat:"#FFC93C", seed:2.6}, arte:"r645", est:"Q", voz:"amable", color:"#22314F"},
     {npc:{kind:"bear", fur:"#8B5E3C", fur2:"#DDBA94", hat:"#FFC93C", seed:1.1}, arte:"r1200", est:"final", voz:"papa", color:"#FFC93C"}],
   final: {npc:{kind:"bear", fur:"#8B5E3C", fur2:"#DDBA94", hat:"#FFC93C", seed:1.1}, arte:"r1200", anim:"campanas"},
-  microjuego: {id:"hora", arte:"reloj", precio:3, color:"#8B6FE8"},
+  microjuego: {id:"hora", arte:"reloj", precio:1, color:"#8B6FE8"},
   palabrasExtra: ["n1","n2","n3","n4","n5","n6","n7","n8","n9","n10","n11","n12"],
   frasesExtra: ["reloj", "r100", "r200", "luna"],
   preguntas: [

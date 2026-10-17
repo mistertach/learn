@@ -85,4 +85,73 @@ const R = {
   }
 };
 for (const l in R) window.GRANDES[l] = Object.assign(window.GRANDES[l] || {}, R[l]);
+/* el informe completo (pantalla propia) y lo que se movió del rincón */
+const RI = {
+  en: {
+    rc_informe: "Progress report", rc_informeTxt: "Time played, progress by place and what to practise next.", rc_informeBtn: "Open the full report",
+    rc_cambiarChico: "Change or add a child", rc_chicosTxt: "Each child keeps their own progress in the account.",
+    rc_todo: "Open all places and all games (otherwise each place opens when the one before is finished). Games still cost fish after the first play.",
+    inf_volver: "Back", inf_titulo: n => `${n}'s progress`, inf_28: "Time played, last 4 weeks", inf_min: "min", inf_prom: "7-day average",
+    inf_tot: "Time in 4 weeks", inf_activos: "Active days", inf_charlasTot: "Conversations", inf_juegos: "Games played", inf_frases: "Phrases practised", inf_voz: "Said out loud",
+    inf_dow: "Usual days of the week", inf_lugares: "Progress by place", inf_idiomas: "All languages", inf_lugaresN: n => `${n} places finished`,
+    inf_ideas: "What stands out",
+    i_semana: (a, d) => `${a} min this week${d === 0 ? ", same as last week." : d > 0 ? `, ${d} more than last week.` : `, ${-d} fewer than last week.`}`,
+    i_mejor: d => `Plays most on ${d}.`, i_dias: n => `Played on ${n} of the last 7 days.`,
+    i_sig: p => `Next place: ${p}.`, i_nada: "No activity yet. A few minutes a day work best.", i_todo: "Every place is finished. Time to review and play the games!",
+    inf_dificiles: "Words to practise again", inf_sinDif: "Nothing to review yet. Great!",
+    inf_compu: "Lines read by the computer voice", inf_compuTxt: "These have no pre-recorded natural voice yet (sentences with the child's name are expected). Copy the list to have them recorded.",
+    inf_copiar: "Copy the list", inf_copiado: "Copied", inf_compuVacio: "None so far. Everything was said by the natural voice.", inf_veces: "times",
+    inf_borrar: "Clear this list"
+  },
+  es: {
+    rc_informe: "Informe de progreso", rc_informeTxt: "Tiempo jugado, progreso por lugar y qué practicar después.", rc_informeBtn: "Abrir el informe completo",
+    rc_cambiarChico: "Cambiar o agregar un chico", rc_chicosTxt: "Cada chico guarda su propio progreso en la cuenta.",
+    rc_todo: "Abrir todos los lugares y todos los juegos (si no, cada lugar se abre al terminar el anterior). Los juegos igual cuestan pececitos después de la primera vez.",
+    inf_volver: "Volver", inf_titulo: n => `Progreso de ${n}`, inf_28: "Tiempo jugado, últimas 4 semanas", inf_min: "min", inf_prom: "Promedio de 7 días",
+    inf_tot: "Tiempo en 4 semanas", inf_activos: "Días que jugó", inf_charlasTot: "Charlas", inf_juegos: "Juegos jugados", inf_frases: "Frases practicadas", inf_voz: "Lo dijo en voz alta",
+    inf_dow: "Días de la semana en que suele jugar", inf_lugares: "Progreso por lugar", inf_idiomas: "Todos los idiomas", inf_lugaresN: n => `${n} lugares terminados`,
+    inf_ideas: "Lo que se nota",
+    i_semana: (a, d) => `${a} min esta semana${d === 0 ? ", igual que la anterior." : d > 0 ? `, ${d} más que la semana pasada.` : `, ${-d} menos que la semana pasada.`}`,
+    i_mejor: d => `Juega más los ${d}${/s$/.test(d) ? '' : 's'}.`, i_dias: n => `Jugó ${n} de los últimos 7 días.`,
+    i_sig: p => `Próximo lugar: ${p}.`, i_nada: "Todavía no hay actividad. Lo mejor son unos minutos por día.", i_todo: "¡Terminó todos los lugares! Es hora de repasar y jugar los juegos.",
+    inf_dificiles: "Palabras para volver a practicar", inf_sinDif: "Nada para repasar todavía. ¡Genial!",
+    inf_compu: "Frases dichas con la voz de la compu", inf_compuTxt: "Estas todavía no tienen una voz natural grabada (las frases con el nombre del chico son normales). Copiá la lista para grabarlas.",
+    inf_copiar: "Copiar la lista", inf_copiado: "Copiada", inf_compuVacio: "Ninguna por ahora. Todo lo dijo la voz natural.", inf_veces: "veces",
+    inf_borrar: "Vaciar esta lista"
+  },
+  fr: {
+    rc_informe: "Rapport de progression", rc_informeTxt: "Temps de jeu, progression par lieu et ce qu'il faut pratiquer ensuite.", rc_informeBtn: "Ouvrir le rapport complet",
+    rc_cambiarChico: "Changer ou ajouter un enfant", rc_chicosTxt: "Chaque enfant garde sa propre progression dans le compte.",
+    rc_todo: "Ouvrir tous les lieux et tous les jeux (sinon chaque lieu s'ouvre quand le précédent est terminé). Les jeux coûtent quand même des poissons après la première partie.",
+    inf_volver: "Retour", inf_titulo: n => `Progression de ${n}`, inf_28: "Temps de jeu, 4 dernières semaines", inf_min: "min", inf_prom: "Moyenne sur 7 jours",
+    inf_tot: "Temps en 4 semaines", inf_activos: "Jours de jeu", inf_charlasTot: "Conversations", inf_juegos: "Jeux joués", inf_frases: "Phrases pratiquées", inf_voz: "Dit à voix haute",
+    inf_dow: "Jours de la semaine habituels", inf_lugares: "Progression par lieu", inf_idiomas: "Toutes les langues", inf_lugaresN: n => `${n} lieux terminés`,
+    inf_ideas: "Ce qui ressort",
+    i_semana: (a, d) => `${a} min cette semaine${d === 0 ? ", comme la semaine dernière." : d > 0 ? `, ${d} de plus que la semaine dernière.` : `, ${-d} de moins que la semaine dernière.`}`,
+    i_mejor: d => `Joue surtout le ${d}.`, i_dias: n => `A joué ${n} des 7 derniers jours.`,
+    i_sig: p => `Prochain lieu : ${p}.`, i_nada: "Pas encore d'activité. Quelques minutes par jour, c'est le mieux.", i_todo: "Tous les lieux sont terminés ! C'est le moment de réviser et de jouer.",
+    inf_dificiles: "Mots à retravailler", inf_sinDif: "Rien à réviser pour l'instant. Super !",
+    inf_compu: "Phrases lues par la voix de l'ordinateur", inf_compuTxt: "Elles n'ont pas encore de voix naturelle enregistrée (les phrases avec le prénom de l'enfant sont normales). Copiez la liste pour les faire enregistrer.",
+    inf_copiar: "Copier la liste", inf_copiado: "Copiée", inf_compuVacio: "Aucune pour l'instant. Tout a été dit par la voix naturelle.", inf_veces: "fois",
+    inf_borrar: "Vider cette liste"
+  },
+  it: {
+    rc_informe: "Rapporto sui progressi", rc_informeTxt: "Tempo di gioco, progressi per luogo e cosa esercitare dopo.", rc_informeBtn: "Apri il rapporto completo",
+    rc_cambiarChico: "Cambia o aggiungi un bambino", rc_chicosTxt: "Ogni bambino conserva i propri progressi nell'account.",
+    rc_todo: "Apri tutti i luoghi e tutti i giochi (altrimenti ogni luogo si apre quando finisce il precedente). I giochi costano comunque pesciolini dopo la prima volta.",
+    inf_volver: "Indietro", inf_titulo: n => `Progressi di ${n}`, inf_28: "Tempo di gioco, ultime 4 settimane", inf_min: "min", inf_prom: "Media di 7 giorni",
+    inf_tot: "Tempo in 4 settimane", inf_activos: "Giorni di gioco", inf_charlasTot: "Conversazioni", inf_juegos: "Giochi giocati", inf_frases: "Frasi esercitate", inf_voz: "Detto ad alta voce",
+    inf_dow: "Giorni della settimana abituali", inf_lugares: "Progressi per luogo", inf_idiomas: "Tutte le lingue", inf_lugaresN: n => `${n} luoghi finiti`,
+    inf_ideas: "Cosa si nota",
+    i_semana: (a, d) => `${a} min questa settimana${d === 0 ? ", come la scorsa." : d > 0 ? `, ${d} in più della settimana scorsa.` : `, ${-d} in meno della settimana scorsa.`}`,
+    i_mejor: d => `Gioca di più di ${d}.`, i_dias: n => `Ha giocato ${n} degli ultimi 7 giorni.`,
+    i_sig: p => `Prossimo luogo: ${p}.`, i_nada: "Ancora nessuna attività. Pochi minuti al giorno sono l'ideale.", i_todo: "Tutti i luoghi sono finiti! È ora di ripassare e giocare.",
+    inf_dificiles: "Parole da ripassare", inf_sinDif: "Niente da ripassare per ora. Ottimo!",
+    inf_compu: "Frasi lette dalla voce del computer", inf_compuTxt: "Non hanno ancora una voce naturale registrata (le frasi con il nome del bambino sono normali). Copia l'elenco per farle registrare.",
+    inf_copiar: "Copia l'elenco", inf_copiado: "Copiato", inf_compuVacio: "Nessuna per ora. Tutto detto dalla voce naturale.", inf_veces: "volte",
+    inf_borrar: "Svuota questo elenco"
+  }
+};
+for (const l in RI) Object.assign(window.GRANDES[l], RI[l]);
+
 })();

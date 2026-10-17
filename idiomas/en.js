@@ -59,6 +59,7 @@ registrarIdioma({
     objetos: {'#':'the wall', b:'the bench', p:'the plant', '~':'the door'},
     // shop
     tiendaHola: 'Hello! This is the shop. What would you like to buy?', quiero: i => `I would like ${i}, please.`,
+    jugarCuesta: s => `Playing costs ${s}. Shall we play?`, sinPeces: 'You don’t have enough fish to play yet! Go find more and come back.',
     cuesta: s => `That's ${s}.`, noAlcanza: s => `You need ${s} more. Go find more fish!`, comprado: i => `There you go! Now you have ${i}.`,
     queda: 'It looks great on you!', comprar: 'Buy', ponerme: 'Put on', sacarme: 'Take off',
     ropa: {remera_roja:'the red T-shirt', remera_rayas:'the striped T-shirt', remera_estrella:'the star T-shirt', camiseta:'the soccer shirt',

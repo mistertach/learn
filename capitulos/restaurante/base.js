@@ -372,7 +372,7 @@ registrarCapitulo({
     anim: "propina",
     propina: 5
   },
-  microjuego: {id:"pizza", arte:"pizza", precio:3, color:"#E8483B", ingredientes:["salsa", "queso", "tomate", "aceituna", "albahaca", "hongo"]},
+  microjuego: {id:"pizza", arte:"pizza", precio:1, color:"#E8483B", ingredientes:["salsa", "queso", "tomate", "aceituna", "albahaca", "hongo"]},
   palabrasExtra: ["pizza", "sopa", "vaso", "tenedor", "delantal"],
   frasesExtra: ["restaurante", "plato", "vaso", "vaso", "corazon", "pizza"],
   preguntas: [

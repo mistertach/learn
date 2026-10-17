@@ -142,7 +142,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", seed:1.1}, arte:"cabeza", est:"C", voz:"chico", color:"#FFC93C"},
     {npc:{kind:"bunny", fur:"#F2EDE8", fur2:"#FFFFFF", inner:"#FFB3C7", seed:0.4}, arte:"nariz", est:"N", voz:"nina", color:"#FF9B3D"},
     {npc:{kind:"bear", fur:"#C9955E", fur2:"#F1D5B0", seed:0.7}, arte:"osito", est:"final", voz:"chico", color:"#FF8FB8"}],
-  microjuego: {id:"cuerpo", arte:"osito", precio:3, color:"#FF8FB8", ingredientes:["cabeza", "ojos", "nariz", "boca", "orejas", "panza", "pies"]},
+  microjuego: {id:"cuerpo", arte:"osito", precio:1, color:"#FF8FB8", ingredientes:["cabeza", "ojos", "nariz", "boca", "orejas", "panza", "pies"]},
   palabrasExtra: ["ojos", "orejas", "pies", "curita", "jarabe"],
   frasesExtra: ["feliz", "triste", "miedo", "curita", "corazon"],
   preguntas: [

@@ -140,7 +140,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#A8744E", fur2:"#E8C9A4", hat:"#2E86DE", seed:0.8}, arte:"regalo", est:"R", voz:"papa", color:"#2E86DE"},
     {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", est:"final", voz:"nina", color:"#FF8FB8"}],
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#FF8FB8", seed:1.4}, arte:"fiesta", icono:"fiesta", anim:"fiesta"},
-  microjuego: {id:"velas", arte:"torta", precio:3, color:"#FF8FB8"},
+  microjuego: {id:"velas", arte:"torta", precio:1, color:"#FF8FB8"},
   palabrasExtra: ["pinata", "caramelo", "vaso"],
   frasesExtra: ["regalo", "torta", "globito", "invitacion", "vela"],
   preguntas: [

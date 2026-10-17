@@ -480,7 +480,15 @@ let curAudio=null, curAudioDone=null;
 function playBlob(b){ return new Promise(res=>{ const url=URL.createObjectURL(b); const a=new Audio(url); curAudio=a; const done=()=>{ URL.revokeObjectURL(url); if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function playUrl(url){ return new Promise(res=>{ const a=new Audio(url); curAudio=a; const done=()=>{ if(curAudio===a){ curAudio=null; curAudioDone=null; } res(); }; curAudioDone=done; a.onended=done; a.onerror=done; a.play().catch(done); }); }
 function stopAudio(){ if(curAudio){ try{ curAudio.pause(); }catch(e){} curAudioDone && curAudioDone(); } }
-let sayTok=0;
+let sayTok=0, nCompu=0;
+/* cada línea que se dice con la voz de la compu (no hay grabación natural) se anota, para poder grabarlas después */
+function anotarVozCompu(txt, lang){
+  txt=String(txt||'').trim(); if(!txt || !lang) return;
+  if(save.name && save.name.length>1) txt=txt.split(save.name).join('{N}');
+  const m=save.vozCompu||(save.vozCompu={}), k=lang+'|'+txt;
+  if(!(k in m) && Object.keys(m).length>=400) return;
+  m[k]=(m[k]||0)+1; if(++nCompu%10===0) persist();
+}
 /* parts: textos, o {t:'texto', id:'grabación', lento:true, lang:'fr'} */
 async function sayAll(parts){
   const my=++sayTok; try{ speechSynthesis.cancel(); }catch(e){} stopAudio();
@@ -492,9 +500,9 @@ async function sayAll(parts){
     if(my!==sayTok) return false;
     if(sUrl) await playUrl(sUrl);
     else if(b) await playBlob(b);
-    else await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz);
+    else { anotarVozCompu(p.t, p.lang||langCode()); await speak(p.t, p.lento ? .62 : .85, p.lang||langCode(), p.voz); }
     // idioma de ayuda: enseguida, la traducción (nunca de una sílaba o de un pedazo de frase)
-    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else await speak(tr, .9, ayuda()); } }
+    if(!p.lento && !p.sinTrad && !p.lang && my===sayTok){ const tr=traducir(p.t); if(tr){ await sleep(150); if(my!==sayTok) return false; const tu=promptAudioUrl(ayuda(), tr); if(tu) await playUrl(tu); else { anotarVozCompu(tr, ayuda()); await speak(tr, .9, ayuda()); } } }
   }
   return my===sayTok;
 }
@@ -1413,7 +1421,7 @@ async function goFloor(n, arriveAt){
 /* =========================================================
    PANTALLAS
    ========================================================= */
-const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
+const scr={cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),informe:$('#scr-informe'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
 const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}${save.galletitas?`<i class="gal">${img('galletita')}<b>${save.galletitas}</b></i>`:''}`;
 /* lo que tiene para gastar: cada caballito vale 2 pececitos, cada galletita vale 3 pececitos */
@@ -2949,7 +2957,8 @@ function openParent(){
       </div>
       <p class="note">${esc(G.rc_ayudaNota(nom))}</p>
       <label class="chk"><input type="checkbox" id="p-ingles" ${save.ingles!==false?'checked':''}> ${esc(G.rc_ingles)}</label>
-      <div class="prow"><button class="pbtn" id="p-char">${esc(G.rc_personaje)}</button><button class="pbtn" id="p-fish">${esc(G.rc_regalo)}</button><span class="note" id="p-fishn">${esc(G.rc_tiene(save.puntos||0))}</span></div>`,true)}
+      ${NUBE.usuario?`<div class="reset"><div><b>${esc(G.rc_cambiarChico)}</b><span>${esc(G.rc_chicosTxt)}</span></div><button class="pbtn" id="p-kids">${esc(G.rc_cambiarChico)}</button></div>`:''}
+      <div class="prow"><button class="pbtn" id="p-char">${esc(G.rc_personaje)}</button><button class="pbtn" id="p-fish">${esc(G.rc_regalo)}</button><span class="note" id="p-fishn">${esc(G.rc_tiene(save.puntos||0))}</span></div>`)}
     ${sec('sonido',G.rc_sec_sonido,`<div class="pgrid">
         <label>${esc(G.rc_voz(nom))}<select id="p-voice"><option value="">${esc(G.rc_auto)}${auto?` (${esc(auto.name)})`:''}</option>${vs.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===pref?'selected':''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('')}</select></label>
         <label>${esc(G.rc_pausa)}<select id="p-pausa"><option value="0.75" ${save.pausa==0.75?'selected':''}>${esc(G.rc_corto)}</option><option value="1" ${save.pausa==1?'selected':''}>${esc(G.rc_normal)}</option><option value="1.5" ${save.pausa==1.5?'selected':''}>${esc(G.rc_largo)}</option></select></label>
@@ -2982,6 +2991,7 @@ function openParent(){
   $('#p-ayuda').addEventListener('change',e=>{ save.ayuda=e.target.value||null; TRAD=null; persist(); const a=ayuda(); if(a){ cargarAudio(a); sayAll([{t:PACKS[a].nombre, lang:a}]); } });
   $('#p-char').addEventListener('click',()=>{ closeModal(); goPicker(); });
   $('#p-fish').addEventListener('click',()=>{ save.puntos=(save.puntos||0)+5; persist(); updateNames(); if(CAP) updateHud(); $('#p-fishn').textContent=G.rc_tiene(save.puntos); sfx.yay(); });
+  $('#p-informe').addEventListener('click',()=>{ closeModal(); goInforme(); });
   $('#p-offline').addEventListener('click',e=>descargarAudio(e.currentTarget));
   $('#p-tour').addEventListener('click',()=>{ closeModal(); if(scr.home.hidden){ save.tour=true; goHome(); } setTimeout(abrirTour,scr.home.hidden?0:500); });
   armConfirm($('#p-reset'),resetProgress);
@@ -3136,27 +3146,71 @@ function goAlumnos(){
   if(PACKS[uiLang] || save.lang) sayAll([T.quienJuega]);
 }
 /* en el rincón de los grandes */
+const claveDia = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+/* datos del progreso del chico (para el resumen del rincón y el informe completo) */
+function datosInforme(){
+  const dias=save.dias||{}, hoy=new Date(), serie=[];
+  for(let i=27;i>=0;i--){ const d=new Date(hoy); d.setDate(d.getDate()-i); serie.push({d, min:Math.round((dias[claveDia(d)]||0)/60)}); }
+  const sem=serie.slice(21).reduce((a,x)=>a+x.min,0), semAnt=serie.slice(14,21).reduce((a,x)=>a+x.min,0);
+  let racha=0; for(let i=0;i<120;i++){ const d=new Date(hoy); d.setDate(d.getDate()-i); if(((dias[claveDia(d)])||0)>=30) racha++; else if(i>0) break; }
+  const porDow=Array(7).fill(0); for(let i=0;i<56;i++){ const d=new Date(hoy); d.setDate(d.getDate()-i); porDow[d.getDay()]+=Math.round((dias[claveDia(d)]||0)/60); }
+  return {serie, sem, semAnt, racha, porDow, total:serie.reduce((a,x)=>a+x.min,0), activos:serie.filter(x=>x.min>0).length, ult7:serie.slice(21).filter(x=>x.min>0).length};
+}
+/* en el rincón de los grandes: un resumen y el botón al informe completo */
 function informeHtml(){
-  const dias=save.dias||{}, hoy=new Date(), sem=[];
-  for(let i=6;i>=0;i--){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; sem.push({k, min:Math.round((dias[k]||0)/60), dia:d.toLocaleDateString(uiLang,{weekday:'narrow'})}); }
-  const max=Math.max(10,...sem.map(x=>x.min)); let racha=0; for(let i=0;i<120;i++){ const d=new Date(hoy); d.setDate(d.getDate()-i); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; if((dias[k]||0)>=30) racha++; else if(i>0) break; }
+  const D=datosInforme();
+  return `<div class="informe" lang="${uiLang}"><div class="inf-resumen"><div><b>${esc(G.rc_informe)} · ${esc(save.name||'')}</b><span>${esc(G.i_semana(D.sem, D.sem-D.semAnt))}</span></div><button class="pbtn go" id="p-informe">${esc(G.rc_informeBtn)}</button></div></div>`;
+}
+const svgBarras = (serie, prom, max, ancho=700, alto=190) => {
+  const n=serie.length, bw=ancho/n, base=alto-26, k=(base-14)/max;
+  const barras=serie.map((x,i)=>{ const h=Math.max(x.min?4:2,x.min*k), hoy=i===n-1; return `<rect x="${(i*bw+bw*.16).toFixed(1)}" y="${(base-h).toFixed(1)}" width="${(bw*.68).toFixed(1)}" height="${h.toFixed(1)}" rx="4" fill="${hoy?'#FF9B3D':x.min?'#2E86DE':'#DCE5F1'}"><title>${x.d.toLocaleDateString(uiLang,{day:'numeric',month:'short'})}: ${x.min} ${esc(G.inf_min)}</title></rect><text x="${(i*bw+bw/2).toFixed(1)}" y="${alto-8}" text-anchor="middle" font-size="11" fill="#4A5A7A">${esc(x.d.toLocaleDateString(uiLang,{weekday:'narrow'}))}</text>${x.min?`<text x="${(i*bw+bw/2).toFixed(1)}" y="${(base-h-4).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="#22314F">${x.min}</text>`:''}`; }).join('');
+  const linea=prom.map((v,i)=>`${i?'L':'M'}${(i*bw+bw/2).toFixed(1)} ${(base-v*k).toFixed(1)}`).join('');
+  return `<svg viewBox="0 0 ${ancho} ${alto}" class="inf-svg" role="img" aria-label="${esc(G.inf_28)}"><line x1="0" y1="${base}" x2="${ancho}" y2="${base}" stroke="#C9D5E6"/>${barras}<path d="${linea}" fill="none" stroke="#8B6FE8" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity=".85"/></svg>`;
+};
+function informeCompletoHtml(){
+  const D=datosInforme(), code=langCode(), pn=PACKS[code].nombre;
+  const prom=D.serie.map((_,i)=>{ const a=D.serie.slice(Math.max(0,i-6),i+1); return a.reduce((s,x)=>s+x.min,0)/a.length; });
+  const max=Math.max(10,...D.serie.map(x=>x.min));
   const lugares=CAP_LIST.filter(c=>capSave(c.id).final).length, sellos=CAP_LIST.reduce((a,c)=>a+c.orden.filter(k=>capSave(c.id).sellos[k]).length,0), totSellos=CAP_LIST.reduce((a,c)=>a+c.orden.length,0);
   const charlas=CAP_LIST.reduce((a,c)=>a+c.charlas.filter((_,i)=>charlaHecha(c,i)).length,0), totCharlas=CAP_LIST.reduce((a,c)=>a+c.charlas.length,0);
-  const g0=n0Grupos(), n0=g0.filter(n0GrupoHecho).length;
-  const dificiles=Object.entries(save.fallos||{}).filter(([k])=>k.startsWith(langCode()+':')).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,n])=>[k.slice(langCode().length+1),n]);
-  return `<div class="informe" lang="${uiLang}"><h3>${esc(G.infTitulo)} · ${esc(save.name||'')} (${esc(PACKS[langCode()].nombre)})</h3>
-    <div class="inf-semana" aria-label="${esc(G.infSemana)}">${sem.map(x=>`<div class="inf-dia"><i style="height:${Math.max(4,Math.round(x.min/max*56))}px" class="${x.min?'on':''}"></i><b>${x.min}′</b><span>${esc(x.dia)}</span></div>`).join('')}</div>
-    <p class="note">${esc(G.infSemana)}</p>
-    <div class="inf-cifras"><div><b>${racha}</b><span>${esc(G.infRacha)}</span></div><div><b>${lugares}/${CAP_LIST.length}</b><span>${esc(G.infLugares)}</span></div><div><b>${sellos}/${totSellos}</b><span>${esc(G.infSellos)}</span></div><div><b>${charlas}/${totCharlas}</b><span>${esc(G.infCharlas)}</span></div><div><b>${n0}/${g0.length}</b><span>${esc(G.infNivel0)}</span></div></div>
-    ${(save.escuchas&&(save.escuchas.si+save.escuchas.no))?`<p class="note"><b>${esc(G.infVoz)}:</b> ${save.escuchas.si} / ${save.escuchas.si+save.escuchas.no}</p>`:''}
-    <p class="inf-rep"><b>${esc(G.infRepasar)}:</b> ${dificiles.length ? dificiles.map(([t,n])=>`<span class="inf-chip">${esc(caraLatina(t))} <em>×${n}</em></span>`).join(' ') : esc(G.infNada)}</p></div>`;
+  const juegos=CAP_LIST.filter(c=>c.microjuego && (save.juegos||{})[c.microjuego.id? c.id : c.id] && save.juegos[c.id].jugado).length, totJuegos=CAP_LIST.filter(c=>c.microjuego).length;
+  const frases=Object.keys(save.cuenta||{}).filter(k=>k.startsWith(code+':')).length;
+  const g0=n0Grupos(), n0=g0.filter(n0GrupoHecho).length, es=save.escuchas, voz=es&&(es.si+es.no)?Math.round(es.si/(es.si+es.no)*100):null;
+  const dificiles=Object.entries(save.fallos||{}).filter(([k])=>k.startsWith(code+':')).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,n])=>[k.slice(code.length+1),n]);
+  const sig=CAP_LIST.find(c=>!capSave(c.id).final);
+  const maxDow=Math.max(...D.porDow), mejorDow=maxDow>0?D.porDow.indexOf(maxDow):-1, nomDow=i=>new Date(2024,0,7+i).toLocaleDateString(uiLang,{weekday:'long'});
+  const ideas=[ D.total? G.i_semana(D.sem, D.sem-D.semAnt) : G.i_nada, D.total?G.i_dias(D.ult7):'', mejorDow>=0?G.i_mejor(nomDow(mejorDow)):'', sig?G.i_sig(sig.titulo):G.i_todo ].filter(Boolean);
+  const cifra=(v,t,c='#2E86DE')=>`<div class="inf-card" style="--c:${c}"><b>${v}</b><span>${esc(t)}</span></div>`;
+  const lug=CAP_LIST.map(c=>{ const s=c.orden.filter(k=>capSave(c.id).sellos[k]).length, p=Math.round(s/c.orden.length*100), fin=capSave(c.id).final, ch=c.charlas.filter((_,i)=>charlaHecha(c,i)).length, jg=!!((save.juegos||{})[c.id]||{}).jugado;
+    return `<div class="inf-lug"><span class="inf-n">${esc(c.titulo)}</span><div class="inf-bar"><i style="width:${p}%;background:${fin?'#2FBF8F':'#2E86DE'}"></i></div><em>${s}/${c.orden.length}</em><span class="inf-es" title="${esc(G.infCharlas)}">${ch?'💬'.repeat(1)+ch:''}</span><span class="inf-es">${jg?'🎮':''}</span></div>`; }).join('');
+  const idi=idiomasDisponibles().map(l=>{ const f=Object.keys(save.caps||{}).filter(k=>k.startsWith(l+':') && save.caps[k].final).length; return `<span class="inf-chip"><img src="${svgUri(PACKS[l].bandera)}" alt="" width="22" height="15"> ${esc(PACKS[l].nombre)} · ${esc(G.inf_lugaresN(f))}</span>`; }).join('');
+  const compu=Object.entries(save.vozCompu||{}).sort((a,b)=>b[1]-a[1]);
+  const dow=Array.from({length:7},(_,i)=>(i+1)%7).map(i=>`<div class="inf-dowr"><span>${esc(nomDow(i).slice(0,3))}</span><div class="inf-bar"><i style="width:${maxDow?Math.round(D.porDow[i]/maxDow*100):0}%;background:#8B6FE8"></i></div><em>${D.porDow[i]}′</em></div>`).join('');
+  return `<div class="inf-pg" lang="${uiLang}">
+    <div class="inf-cab"><button class="pbtn" id="inf-volver">← ${esc(G.inf_volver)}</button><h2>${esc(G.inf_titulo(save.name||''))} <small>${esc(pn)}</small></h2></div>
+    <div class="inf-cards">${cifra(D.total+'′',G.inf_tot)}${cifra(D.activos,G.inf_activos,'#8B6FE8')}${cifra(D.racha,G.infRacha,'#FF9B3D')}${cifra(`${lugares}/${CAP_LIST.length}`,G.infLugares,'#2FBF8F')}${cifra(`${sellos}/${totSellos}`,G.infSellos)}${cifra(`${charlas}/${totCharlas}`,G.inf_charlasTot,'#FF6F59')}${cifra(`${juegos}/${totJuegos}`,G.inf_juegos,'#8B6FE8')}${cifra(frases,G.inf_frases,'#FF9B3D')}${cifra(`${n0}/${g0.length}`,G.infNivel0,'#2FBF8F')}${voz!=null?cifra(voz+'%',G.inf_voz,'#FF6F59'):''}</div>
+    <section class="inf-box"><h3>${esc(G.inf_ideas)}</h3><ul class="inf-ideas">${ideas.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></section>
+    <section class="inf-box"><h3>${esc(G.inf_28)} <small><i class="lg b"></i>${esc(G.inf_min)} <i class="lg p"></i>${esc(G.inf_prom)}</small></h3>${svgBarras(D.serie,prom,max)}</section>
+    <div class="inf-2"><section class="inf-box"><h3>${esc(G.inf_dow)}</h3>${dow}</section>
+    <section class="inf-box"><h3>${esc(G.inf_dificiles)}</h3><p class="inf-rep">${dificiles.length?dificiles.map(([t,n])=>`<span class="inf-chip">${esc(caraLatina(t))} <em>×${n}</em></span>`).join(' '):esc(G.inf_sinDif)}</p></section></div>
+    <section class="inf-box"><h3>${esc(G.inf_lugares)} <small>${esc(pn)}</small></h3>${lug}</section>
+    <section class="inf-box"><h3>${esc(G.inf_idiomas)}</h3><div class="inf-chips">${idi}</div></section>
+    <section class="inf-box"><h3>${esc(G.inf_compu)}</h3><p class="note">${esc(G.inf_compuTxt)}</p>
+      ${compu.length?`<div class="inf-compu">${compu.slice(0,60).map(([k,n])=>`<div><span>${esc(k.split('|')[0])}</span><b>${esc(caraLatina(k.slice(k.indexOf('|')+1)))}</b><em>×${n}</em></div>`).join('')}</div><div class="prow"><button class="pbtn" id="inf-copiar">${esc(G.inf_copiar)} (${compu.length})</button><button class="pbtn danger" id="inf-vaciar">${esc(G.inf_borrar)}</button></div>`:`<p class="note">${esc(G.inf_compuVacio)}</p>`}</section>
+  </div>`;
+}
+function goInforme(){
+  hush(); persist(); show('informe'); const box=$('#infBox'); box.innerHTML=informeCompletoHtml(); box.scrollTop=0;
+  $('#inf-volver').addEventListener('click',()=>{ goHome(); openParent(); });
+  $('#inf-copiar')?.addEventListener('click',async e=>{ const txt=Object.entries(save.vozCompu||{}).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`${k}\t${n}`).join('\n'); try{ await navigator.clipboard.writeText(txt); }catch(err){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e2){} ta.remove(); } e.target.textContent=G.inf_copiado; });
+  $('#inf-vaciar')?.addEventListener('click',()=>{ save.vozCompu={}; persist(); goInforme(); });
 }
 function cuentaHtml(){
   if(!NUBE.on) return '';
   if(!NUBE.usuario) return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuentaSin)}</b><span>${esc(G.cuentaSinTxt)}</span></div><button class="pbtn" id="p-login">${esc(G.cuentaEntrar)}</button></div>`;
   const u=NUBE.usuario;
   return `<div class="reset acct" lang="${uiLang}"><div><b>${esc(G.cuenta(u.nombre||u.email))}</b><span>${esc(u.email)}${NUBE.alumno?` · ${esc(G.juega(NUBE.alumno.nombre))}`:''}. ${esc(G.online)}</span></div>
-    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn" id="p-kids">${esc(G.cambiar)}</button><button class="pbtn danger" id="p-borrar">${esc(G.borrarCuenta)}</button><button class="pbtn" id="p-clave">${esc(G.cambiarClave)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div>
+    <div class="prow acctbtns">${u.admin?`<a class="pbtn" href="admin.html" target="_blank" rel="noopener">${esc(G.administrar)}</a>`:''}<button class="pbtn danger" id="p-borrar">${esc(G.borrarCuenta)}</button><button class="pbtn" id="p-clave">${esc(G.cambiarClave)}</button><button class="pbtn" id="p-logout">${esc(G.salir)}</button></div>
     <form class="cform pclave" id="p-claveForm" hidden><label>${esc(G.claveActual)}<input name="actual" type="password" autocomplete="current-password" required></label>
       <label>${esc(G.claveNueva)}<input name="clave" type="password" autocomplete="new-password" minlength="8" required></label>
       <p class="cmsg" hidden></p><button class="pbtn" type="submit">${esc(G.guardarClave)}</button></form>
@@ -3243,7 +3297,7 @@ function confirmName(){
    MICROJUEGOS — uno por lugar (microjuegos.js). Se abren al terminar el lugar
    (con una partida gratis) y después cada partida cuesta pececitos.
    ========================================================= */
-const juegoAbierto = c => pruebaTodo() || Object.keys(save.caps||{}).some(k=>k.split(':')[1]===c.id && save.caps[k].final);
+const juegoAbierto = c => pruebaTodo() || !!save.todoAbierto || Object.keys(save.caps||{}).some(k=>k.split(':')[1]===c.id && save.caps[k].final);
 const juegoGratis = c => pruebaTodo() ? 1 : ((save.juegos||{})[c.id]||{}).gratis||0;
 /* paga la partida (o usa una gratis); false si no alcanzan los peces */
 function pagarJuego(c){
@@ -3255,8 +3309,22 @@ function pagarJuego(c){
   gastar(mj.precio); persist(); updateNames(); if(CAP && !scr.game.hidden) updateHud();
   return {gratis:false};
 }
+/* antes de gastar pececitos: se le dice cuánto cuesta y se confirma; si no alcanzan, se le explica */
+async function confirmarJuego(c){
+  const mj=c.microjuego, cuesta=T.peces(mj.precio), alcanza=riqueza()>=mj.precio;
+  busy=true; const tok=++flowTok; hush();
+  openModal(`${X_BTN}<h3 class="stitle"${enAttr(enDe(mj.titulo))}>${esc(mj.titulo)}</h3>
+    <div class="center"><div class="hero-item small">${img(mj.arte)}</div></div>
+    <div class="center"><b class="cost">${img('pez')} × ${mj.precio}</b></div>
+    <p class="note center">${esc(alcanza?T.jugarCuesta(cuesta):T.sinPeces)}</p>
+    <div class="actions">${alcanza?B('si','check',T.aJugar,'go'):''}${B('no','back',T.atras,alcanza?'soft':'go')}</div>`);
+  narrar(()=>sayAll([alcanza?T.jugarCuesta(cuesta):T.sinPeces]));
+  const {act}=await waitAct(alcanza?['si','no']:['no']); if(tok!==flowTok) return false;
+  closeModal(); return act==='si';
+}
 async function runMicro(c){
   const mj=c.microjuego, juego=(window.MICROJUEGOS||{})[mj && mj.id]; if(!juego) return;
+  if(!pruebaTodo() && juegoGratis(c)<=0){ if(!(await confirmarJuego(c))){ busy=false; return; } }
   const pago=pagarJuego(c); if(!pago){ busy=false; return; }
   const tok=++flowTok; busy=true;
   openModal(`${X_BTN}<h3 class="stitle"${enAttr(enDe(mj.titulo))}>${esc(mj.titulo)}</h3>

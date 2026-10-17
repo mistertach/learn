@@ -59,6 +59,7 @@ registrarIdioma({
     objetos: {'#':'la pared', b:'el banco', p:'la planta', '~':'la puerta'},
     // tienda
     tiendaHola: '¡Hola! Esta es la tienda. ¿Qué querés comprar?', quiero: i => `Quiero ${i}, por favor.`,
+    jugarCuesta: s => `Jugar cuesta ${s}. ¿Jugamos?`, sinPeces: '¡Todavía no te alcanzan los pececitos para jugar! Juntá más y volvé.',
     cuesta: s => `Son ${s}.`, noAlcanza: s => `Te faltan ${s}. ¡Buscá más peces!`, comprado: i => `¡Listo! Ya tenés ${i}.`,
     queda: '¡Te queda bárbaro!', comprar: 'Comprar', ponerme: 'Ponerme', sacarme: 'Sacarme',
     ropa: {remera_roja:'la remera roja', remera_rayas:'la remera a rayas', remera_estrella:'la remera con estrella', camiseta:'la camiseta de fútbol',

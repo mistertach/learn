@@ -56,6 +56,7 @@ registrarIdioma({
     animales: {cat:{f:'la gatta', m:'il gatto'}, dog:{m:'il cane'}, bunny:{m:'il coniglio'}, tiger:{m:'il tigre', f:'la tigre'}, lion:{m:'il leone'}, giraffe:{f:'la giraffa', m:'la giraffa'}},
     objetos: {'#':'il muro', b:'la panchina', p:'la pianta', '~':'la porta'},
     tiendaHola: 'Ciao! Questo è il negozio. Che cosa vuoi comprare?', quiero: i => `Vorrei ${i}, per favore.`,
+    jugarCuesta: s => `Giocare costa ${s}. Giochiamo?`, sinPeces: 'Non hai ancora abbastanza pesciolini per giocare! Cercane altri e torna.',
     cuesta: s => `Sono ${s}.`, noAlcanza: s => `Ti mancano ${s}. Cerca altri pesci!`, comprado: i => `Ecco! Adesso hai ${i}.`,
     queda: 'Ti sta benissimo!', comprar: 'Compra', ponerme: 'Metti', sacarme: 'Togli',
     ropa: {remera_roja:'la maglietta rossa', remera_rayas:'la maglietta a righe', remera_estrella:'la maglietta con la stella', camiseta:'la maglia da calcio',

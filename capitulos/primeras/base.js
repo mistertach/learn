@@ -124,7 +124,7 @@ registrarCapitulo({
     {npc:{kind:"bear", fur:"#D8B48A", fur2:"#F7E7D2", hat:"#7CC6F0", seed:1.6}, arte:"vaso", est:"A", voz:"papa", color:"#7CC6F0"},
     {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#8B6FE8", seed:1.4}, arte:"casita", est:"final", voz:"nina", color:"#8B6FE8"}],
   final: {npc:{kind:"bunny", fur:"#FFD9A8", fur2:"#FFF7EA", inner:"#FFB3C7", hat:"#8B6FE8", seed:1.4}, arte:"casita", icono:"casita", anim:"saludo"},
-  microjuego: {id:"burbujitas", arte:"burbujas", precio:3, color:"#7CC6F0"},
+  microjuego: {id:"burbujitas", arte:"burbujas", precio:1, color:"#7CC6F0"},
   palabrasExtra: ["manchaRoja", "manchaAzul", "manchaAmarilla", "manchaVerde"],
   frasesExtra: ["mano", "sol", "luna", "corazon", "masBolitas"],
   preguntas: [
