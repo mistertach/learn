@@ -8,7 +8,9 @@
     "audios": "node scripts/audios.js",
     "lint": "node scripts/lint.js",
     "test": "node scripts/check.js && node scripts/lint.js",
-    "cobertura": "node scripts/cobertura.js"
+    "cobertura": "node scripts/cobertura.js",
+    "cobertura:check": "node scripts/cobertura.js --lang=es --check && node scripts/cobertura.js --lang=en --check && node scripts/cobertura.js --lang=es --ninos --check",
+    "intro-b": "node scripts/gen-intro-b.js"
   },
   "engines": {
     "node": ">=20"

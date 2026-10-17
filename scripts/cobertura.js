@@ -6,17 +6,18 @@
      OÍDA     = aparece en lo que dice el relator (intros, respuestas, cuentos, lo que contestan los amigos) pero no la repite
      FALTA    = no aparece
    Uso:  node scripts/cobertura.js --lang=es [--top=250] [--md]    (--md imprime el informe en markdown)
+        node scripts/cobertura.js --lang=es --ninos [--md]       (mide contra la lista para chicos, scripts/datos/ninos.txt, por categoría; sirve es y en)
    Es por formas de la palabra (con una tablita de verbos, incluido el voseo); no es un lematizador. */
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const RAIZ = path.join(__dirname, '..');
 const arg = n => { const a = process.argv.find(x => x === '--' + n || x.startsWith('--' + n + '=')); return a == null ? null : (a.split('=')[1] ?? true); };
-const LANG = arg('lang') || 'es', TOP = +(arg('top') || 250), MD = !!arg('md');
+const LANG = arg('lang') || 'es', TOP = +(arg('top') || 250), MD = !!arg('md'), NINOS = !!arg('ninos'), CHECK = !!arg('check');
 
 const PACKS = {}, TEXTOS = {}, BASES = {};
 const ctx = { console, registrarIdioma: o => { PACKS[o.codigo] = o; }, registrarCapitulo: o => { BASES[o.id] = o; }, registrarTextos: (id, l, o) => { (TEXTOS[id] = TEXTOS[id] || {})[l] = o; } };
 ctx.window = ctx; vm.createContext(ctx);
 const cargar = f => vm.runInContext(fs.readFileSync(path.join(RAIZ, f), 'utf8'), ctx, { filename: f });
-cargar('capitulos.js'); cargar('idiomas/nivel0.js'); cargar(`idiomas/${LANG}.js`);
+cargar('capitulos.js'); cargar('idiomas/nivel0.js'); ctx.NIVEL0_ARTE = []; ctx.NIVEL0_COLORES = []; cargar('idiomas/nivel0b.js'); cargar(`idiomas/${LANG}.js`);
 for (const id of ctx.CAPITULOS) { cargar(`capitulos/${id}/base.js`); const f = `capitulos/${id}/${LANG}.js`; if (fs.existsSync(path.join(RAIZ, f))) cargar(f); }
 
 /* ---- el texto del juego: lo que el chico repite (enseñado) y lo que solo oye ---- */
@@ -72,10 +73,30 @@ const RELLENO = new Set(LANG === 'es' ? ['oh', 'eh', 'ah', 'uh', 'vale', 'oye', 
 const NO_APTAS = new Set(LANG === 'es' ? ['mierda', 'maldito', 'maldita', 'muerto', 'matar', 'dinero', 'amor', 'puta', 'joder', 'diablos', 'infierno', 'demonios']
   : ['kill', 'dead', 'hell', 'damn', 'shit', 'fuck', 'god', 'sir', 'money', 'killed', 'die', 'dying', 'death', 'sex']);
 
+
+/* ---- la lista pensada para chicos (colores, animales, cuerpo, comida…) ---- */
+if (NINOS) {
+  const ARTI = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'de', 'del', 'a', 'an', 'the', 'to']);
+  const varia = x => { const b = [x, x + 's', x + 'es', x.replace(/s$/, ''), x.replace(/es$/, '')]; if (/[oa]$/.test(x)) b.push(x.slice(0, -1) + 'o', x.slice(0, -1) + 'a', x.slice(0, -1) + 'os', x.slice(0, -1) + 'as'); if (/y$/.test(x)) b.push(x.slice(0, -1) + 'ies'); return b; };
+  const tiene = (palabra, set) => limpio(palabra).toLowerCase().split(/[^\p{L}']+/u).filter(w => w && !ARTI.has(w)).every(w => varia(w).some(v => cubierta(v, set)));
+  const cats = {}, n = { E: 0, O: 0, F: 0 };
+  for (const l of fs.readFileSync(path.join(__dirname, 'datos', 'ninos.txt'), 'utf8').split('\n')) {
+    if (!l.trim() || l.startsWith('#')) continue; const [cat, resto] = l.split(/:\s*/, 2);
+    for (const it of l.slice(cat.length + 1).split('|')) { const [es, en] = it.split('=').map(x => x.trim()); const w = LANG === 'es' ? es : en; if (!w) continue;
+      const e = tiene(w, tEns) ? 'E' : tiene(w, tOid) ? 'O' : 'F'; n[e]++; (cats[cat] = cats[cat] || { E: [], O: [], F: [] })[e].push(w); }
+  }
+  const tot = n.E + n.O + n.F, pc = x => Math.round(x / tot * 100);
+  console.log(`${MD ? '## ' : ''}Lista para chicos (${LANG}): ${tot} palabras · enseñadas ${n.E} (${pc(n.E)} %) · solo oídas ${n.O} (${pc(n.O)} %) · faltan ${n.F} (${pc(n.F)} %)\n`);
+  for (const [c, v] of Object.entries(cats)) { const t = v.E.length + v.O.length + v.F.length; console.log(`${c.padEnd(13)} ${String(v.E.length).padStart(3)}/${t} enseñadas${v.O.length ? `, ${v.O.length} oídas` : ''}${v.F.length ? `. Faltan: ${v.F.join(', ')}` : ''}${v.O.length ? `. Solo oídas: ${v.O.join(', ')}` : ''}`); }
+  if (CHECK && pc(n.E) < 85) { console.error(`✗ la lista para chicos bajó de 85 % (${pc(n.E)} %)`); process.exit(1); }
+  process.exit(0);
+}
+
 const lista = fs.readFileSync(path.join(__dirname, 'datos', `top250-${LANG}.txt`), 'utf8').split('\n').filter(l => l && !l.startsWith('#')).slice(0, TOP);
 const res = lista.map((w, i) => ({ w, rank: i + 1, estado: NO_APTAS.has(w) ? 'NO_APTA' : RELLENO.has(w) ? 'RELLENO' : cubierta(w, tEns) ? 'ENSEÑADA' : cubierta(w, tOid) ? 'OÍDA' : 'FALTA' }));
 const cuenta = (e, n = TOP) => res.filter(r => r.estado === e && r.rank <= n).length;
 const resumen = n => `top ${n}: enseñadas ${cuenta('ENSEÑADA', n)}, oídas ${cuenta('OÍDA', n)}, faltan ${cuenta('FALTA', n)}, no aptas ${cuenta('NO_APTA', n)}, relleno ${cuenta('RELLENO', n)}`;
+if (CHECK) { const t100 = Math.round(cuenta('ENSEÑADA', 100)), t250 = cuenta('ENSEÑADA', 250); if (t100 < 90 || t250 < 0.8 * TOP) { console.error(`✗ ${LANG}: top 100 enseñadas ${t100}/100 (mínimo 90), top ${TOP} enseñadas ${t250} (mínimo ${Math.round(0.8 * TOP)})`); process.exit(1); } console.log(`✓ ${LANG}: top 100 ${t100}/100, top ${TOP} ${t250}`); process.exit(0); }
 if (MD) {
   console.log(`## ${LANG === 'es' ? 'Español' : 'Inglés'}\n`); for (const n of [50, 100, 250]) if (n <= TOP) console.log(`- ${resumen(n)}`);
   console.log('\n| Estado | Palabras (en orden de frecuencia) |\n|---|---|');

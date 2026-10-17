@@ -1,0 +1,25 @@
+=== #2E86DE
+N es: La ropa de todos los días || Esta es la ropa que nos ponemos. ¿Cuál tenés puesta hoy?
+N en: Everyday clothes || These are the clothes we wear. Which one are you wearing today?
+N fr: Les vêtements de tous les jours || Ce sont les vêtements que nous portons. Lequel portes-tu aujourd'hui ?
+N it: I vestiti di ogni giorno || Questi sono i vestiti che indossiamo. Quale hai addosso oggi?
+N ar: malaabis kil yoom|ملابس كل يوم || hathi al-malaabis illi nilbasha. ayy wahid labis al-yoom?|هذي الملابس اللي نلبسها. أي واحد لابس اليوم؟
+👗 | el vestido | the dress=the-dress | la robe=la-robe | il vestito | fustaan|فستان=fus-taan|فُسْ-تَان
+🧥 | la campera | the jacket=the-jack-et | la veste=la-veste | la giacca | jaakit|جاكيت=jaa-kit|جَا-كِت
+👕 | la remera | the t-shirt=the-t-shirt | le t-shirt=le-t-shirt | la maglietta | tishirt|تيشيرت=ti-shirt|تِي-شِرْت
+👖 | el pantalón | the pants=the-pants | le pantalon=le-pan-ta-lon | i pantaloni | bantaloon|بنطلون=ban-ta-loon|بَنْ-طَ-لُون
+🩳 | el short | the shorts=the-shorts | le short=le-short | i pantaloncini | shoort|شورت=shoort|شُورْت
+🧢 | el gorro | the hat=the-hat | le bonnet=le-bon-net | il cappello | qubba'a|قبعة=qub-ba-'a|قُبْ-بَ-عَة
+🧣 | la bufanda | the scarf=the-scarf | l'écharpe=l'é-char-pe | la sciarpa | eshaarb|إيشارب=e-shaarb|إِي-شَارْب
+🧤 | el guante | the glove=the-glove | le gant=le-gant | il guanto | quffaaz|قفاز=quf-faaz|قُفْ-فَاز
+=== #7CC6F0
+N es: Zapatos y más cosas para ponerse || Estas son más cosas que usamos para salir. ¡Repetí cada una!
+N en: Shoes and more to wear || These are more things we use to go out. Repeat each one!
+N fr: Chaussures et autres choses à porter || Ce sont d'autres choses que nous utilisons pour sortir. Répète chacune !
+N it: Scarpe e altre cose da indossare || Queste sono altre cose che usiamo per uscire. Ripeti ognuna!
+N ar: ahthiya wa-ashyaa' thaniya|أحذية وأشياء ثانية || hathi ashyaa' thaniya nistakhdimha lil-khurooj. karrir kil wahid!|هذي أشياء ثانية نستخدمها للخروج. كرر كل واحد!
+👞 | el zapato | the shoe=the-shoe | la chaussure=la-chaus-sure | la scarpa | hithaa'|حذاء=hi-thaa'|حِ-ذَاء
+👟 | la zapatilla | the sneaker=the-sneak-er | la basket=la-bas-ket | la scarpa da ginnastica | hithaa' riyaadi|حذاء رياضي=hi-thaa'-ri-yaa-di|حِ-ذَاء-رِ-يَا-ضِي
+👢 | las botas | the boots=the-boots | les bottes=les-bot-tes | gli stivali | jazma|جزمة=jaz-ma|جَزْ-مَة
+👓 | los anteojos | the glasses=the-glass-es | les lunettes=les-lu-net-tes | gli occhiali | nazzaara|نظارة=naz-zaa-ra|نَظْ-زَا-رَة
+☂️ | el paraguas | the umbrella=the-um-brel-la | le parapluie=le-pa-ra-pluie | l'ombrello | mazalla|مظلة=ma-zal-la|مَ-ظَلْ-لَة

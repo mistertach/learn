@@ -75,6 +75,9 @@ function cargarCapitulo(capId) {
   }
 
   vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0.js'), 'utf8'), ctx);
+  // la parte B de la intro (generada) se suma a los grupos; en el generador no hacen falta los dibujos
+  ctx.NIVEL0_ARTE = []; ctx.NIVEL0_COLORES = [];
+  vm.runInContext(fs.readFileSync(path.join(RAIZ, 'idiomas', 'nivel0b.js'), 'utf8'), ctx);
   if (capId === 'nivel0') return { PACKS, base: { orden: [] }, textos: {}, nivel0: ctx.NIVEL0 };
   const fBase = path.join(RAIZ, 'capitulos', capId, 'base.js');
   if (fs.existsSync(fBase)) vm.runInContext(fs.readFileSync(fBase, 'utf8'), ctx);

@@ -1,0 +1,24 @@
+=== #FF8A3D
+N es: Mi cuerpo: la cabeza || Estas son partes de la cabeza. Tocate cada una mientras la repetís.
+N en: My body: the head || These are parts of the head. Touch each one while you say it.
+N fr: Mon corps : la tête || Ce sont des parties de la tête. Touche chacune en la répétant.
+N it: Il mio corpo: la testa || Queste sono parti della testa. Toccale una per una mentre le ripeti.
+N ar: jismi: ar-raas|جسمي: الرأس || hathi ajzaa' min ar-raas. limsha w inta tikarrirha.|هذي أجزاء من الرأس. المسها وانت تكررها.
+&body:50,8 | el pelo | the hair=the-hair | les cheveux=les-che-veux | i capelli | sha'r|شعر=sha'r|شَعْر
+🙂 | la cara | the face=the-face | le visage=le-vi-sage | la faccia | wajh|وجه=wajh|وَجْه
+&body:56,21 | la mejilla | the cheek=the-cheek | la joue=la-joue | la guancia | khadd|خد=khadd|خَدّ
+🦷 | el diente | the tooth=the-tooth | la dent=la-dent | il dente | sinn|سن=sinn|سِنّ
+👅 | la lengua | the tongue=the-tongue | la langue=la-langue | la lingua | lisaan|لسان=li-saan|لِ-سَان
+&body:50,28 | el cuello | the neck=the-neck | le cou=le-cou | il collo | raqaba|رقبة=ra-qa-ba|رَ-قَ-بَة
+=== #E8483B
+N es: Mi cuerpo: brazos y piernas || Estas son partes del cuerpo. Señalá cada una en vos.
+N en: My body: arms and legs || These are parts of the body. Point to each one on yourself.
+N fr: Mon corps : bras et jambes || Ce sont des parties du corps. Montre chacune sur toi.
+N it: Il mio corpo: braccia e gambe || Queste sono parti del corpo. Indica ognuna su di te.
+N ar: jismi: adh-dhiraa'ain wa-ar-rijlain|جسمي: الذراعين والرجلين || hathi ajzaa' min al-jism. ashir ila kil wahid fiik.|هذي أجزاء من الجسم. أشر إلى كل واحد فيك.
+&body:38,34 | el hombro | the shoulder=the-shoul-der | l'épaule=l'é-paule | la spalla | katif|كتف=ka-tif|كَ-تِف
+💪 | el brazo | the arm=the-arm | le bras=le-bras | il braccio | thiraa'|ذراع=thi-raa'|ذِ-رَاع
+&body:30,45 | el codo | the elbow=the-el-bow | le coude=le-coude | il gomito | mirfaq|مرفق=mir-faq|مِرْ-فَق
+☝️ | el dedo | the finger=the-fin-ger | le doigt=le-doigt | il dito | isba'|إصبع=is-ba'|إِصْ-بَع
+&body:50,46,back | la espalda | the back=the-back | le dos=le-dos | la schiena | dhahr|ظهر=dhahr|ظَهْر
+🦵 | la pierna | the leg=the-leg | la jambe=la-jambe | la gamba | rijl|رجل=rijl|رِجْل

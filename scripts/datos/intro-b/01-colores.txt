@@ -1,0 +1,11 @@
+=== #FF6F8F
+N es: Más colores || Estos son más colores para pintar el mundo. Mirá cada uno y repetí conmigo.
+N en: More colors || These are more colors to paint the world. Look at each one and repeat after me.
+N fr: Plus de couleurs || Voici d'autres couleurs pour peindre le monde. Regarde chacune et répète avec moi.
+N it: Altri colori || Questi sono altri colori per dipingere il mondo. Guarda ognuno e ripeti con me.
+N ar: alwaan akthar|ألوان أكثر || hathi alwaan thaniya lil-rasm. shoof kil lawn w karrir wiyyaai.|هذي ألوان ثانية للرسم. شوف كل لون وكرر وياي.
+@#8B5A2B | marrón | brown | marron=ma-rron | marrone | bunni|بني=bun-ni|بُنْ-نِي
+@#9AA3AF | gris | gray | gris | grigio | ramaadi|رمادي=ra-maa-di|رَ-مَا-دِي
+@#7CC6F0 | celeste | light blue | bleu clair=bleu-clair | celeste | azraq faatih|أزرق فاتح=az-raq-faa-tih|أَزْ-رَقْ-فَا-تِحْ
+@#FFC93C | dorado | gold | doré=do-ré | dorato | dhahabi|ذهبي=dha-ha-bi|ذَ-هَ-بِي
+@#C9D1DB | plateado | silver | argenté=ar-gen-té | argento | fiddi|فضي=fid-di|فِضْ-ضِي

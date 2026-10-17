@@ -1,0 +1,40 @@
+=== #E8483B
+N es: Lugares de la ciudad || Estos son lugares que hay en una ciudad. ¿A cuál fuiste?
+N en: Places in the city || These are places in a city. Which one have you been to?
+N fr: Les lieux de la ville || Ce sont des endroits de la ville. Dans lequel es-tu allé ?
+N it: Luoghi della città || Questi sono luoghi di una città. In quale sei stato?
+N ar: amaakin al-madeena|أماكن المدينة || hathi amaakin fi al-madeena. ila ayy wahid rihit?|هذي أماكن في المدينة. إلى أي واحد رحت؟
+🏥 | el hospital | the hospital=the-hos-pi-tal | l'hôpital=l'hô-pi-tal | l'ospedale | mustashfa|مستشفى=mus-tash-fa|مُسْ-تَشْ-فَى
+🏙️ | la ciudad | the city=the-ci-ty | la ville=la-ville | la città | madeena|مدينة=ma-dee-na|مَ-دِي-نَة
+🛣️ | la calle | the street=the-street | la rue=la-rue | la strada | shaari'|شارع=shaa-ri'|شَا-رِع
+🎬 | el cine | the cinema=the-cin-e-ma | le cinéma=le-ci-né-ma | il cinema | sinama|سينما=si-na-ma|سِي-نَ-مَا
+🏪 | la tienda | the shop=the-shop | le magasin=le-ma-ga-sin | il negozio | dukkaan|دكان=duk-kaan|دُكْ-كَان
+=== #F2A007
+N es: Cómo es || Estas palabras dicen cómo es algo. ¡Pensá en una cosa para cada una!
+N en: What it is like || These words say what something is like. Think of something for each one!
+N fr: Comment c'est || Ces mots disent comment est quelque chose. Pense à une chose pour chacun !
+N it: Com'è || Queste parole dicono com'è qualcosa. Pensa a una cosa per ognuna!
+N ar: kayf huwa|كيف هو || hathi kalimaat tusif ash-shay'. fakkir fi shay' li-kil wahid!|هذي كلمات تصف الشيء. فكر في شيء لكل واحد!
+💦 | mojado | wet=wet | mouillé=mouil-lé | bagnato | mablool|مبلول=mab-lool|مَبْ-لُول
+🏜️ | seco | dry=dry | sec=sec | asciutto | jaaf|جاف=jaaf|جَاف
+🏋️ | pesado | heavy=heav-y | lourd=lourd | pesante | thaqeel|ثقيل=tha-qeel|ثَ-قِيل
+🦸 | fuerte | strong=strong | fort=fort | forte | qawi|قوي=qa-wi|قَ-وِي
+👴 | viejo | old=old | vieux=vieux | vecchio | 'ajooz|عجوز='a-jooz|عَ-جُوز
+📏 | largo | long=long | long=long | lungo | taweel|طويل=ta-weel|طَ-وِيل
+✨ | limpio | clean=clean | propre=pro-pre | pulito | nadheef|نظيف=na-dheef|نَ-ظِيف
+=== #2FBF8F
+N es: Dónde está || Estas palabras dicen dónde está algo. ¡Mirá cada dibujo!
+N en: Where it is || These words say where something is. Look at each picture!
+N fr: Où c'est || Ces mots disent où se trouve quelque chose. Regarde chaque dessin !
+N it: Dov'è || Queste parole dicono dov'è qualcosa. Guarda ogni disegno!
+N ar: wain huwa|وين هو || hathi kalimaat tusif makaan ash-shay'. shoof kil rasm!|هذي كلمات تصف مكان الشيء. شوف كل رسم!
+&pos:in | adentro | inside=in-side | dedans=de-dans | dentro | daakhil|داخل=daa-khil|دَا-خِل
+&pos:out | afuera | outside=out-side | dehors=de-hors | fuori | khaarij|خارج=khaa-rij|خَا-رِج
+&pos:on | encima | on top=on-top | dessus=des-sus | sopra | foq|فوق=foq|فَوْق
+&pos:under | debajo | under=un-der | dessous=des-sous | sotto | taht|تحت=taht|تَحْت
+&pos:near | cerca | near=near | près=près | vicino | qareeb|قريب=qa-reeb|قَ-رِيب
+&pos:far | lejos | far=far | loin=loin | lontano | ba'eed|بعيد=ba-'eed|بَ-عِيد
+&pos:left | a la izquierda | left=left | à gauche=à-gauche | a sinistra | yasaar|يسار=ya-saar|يَ-سَار
+&pos:right | a la derecha | right=right | à droite=à-droite | a destra | yameen|يمين=ya-meen|يَ-مِين
+&pos:front | adelante | in front=in-front | devant=de-vant | davanti | quddaam|قدام=qud-daam|قُدْ-دَام
+&pos:back | atrás | behind=be-hind | derrière=der-rière | dietro | wara|ورا=wa-ra|وَ-رَا

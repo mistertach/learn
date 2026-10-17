@@ -262,8 +262,7 @@ async function cargarTodo(){
   await Promise.all([
     ...[...new Set([...langs,'en'])].map(l=>cargarScript(`idiomas/${l}.js`)),   // inglés siempre: de ahí salen las traducciones para los grandes
     cargarScript('tienda.js'),
-    cargarScript('idiomas/nivel0.js'),
-    cargarScript('idiomas/nivel0-arte.js'),
+    Promise.all([cargarScript('idiomas/nivel0.js'), cargarScript('idiomas/nivel0-arte.js')]).then(()=>cargarScript('idiomas/nivel0b.js')),   // la parte B de la intro se suma a la A
     ...ids.map(id=>cargarScript(`capitulos/${id}/base.js`)),
     ...ids.flatMap(id=>langs.map(l=>cargarScript(`capitulos/${id}/${l}.js`))),
     cargarScript('idiomas/grandes.js').then(()=>cargarScript('idiomas/rincon.js')),
@@ -1635,7 +1634,7 @@ function construirCamino(box){
     if(it.t==='n0'){
       const g=n0Grupos(), hechos=g.filter(n0GrupoHecho).length;
       titulo=T.nivel0Titulo; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
-      estrellas=[hechos>=3, hechos>=6, hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
+      estrellas=[hechos>=Math.ceil(g.length/3), hechos>=Math.ceil(g.length*2/3), hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
       b.addEventListener('click',goNivel0);
     } else {
       const c=it.c; abierto=capAbierto(c); const n=abierto?piezasDe(c):0, desde=abierto?(vistas[c.id]||0):0; hecho=abierto && capSave(c.id).final;
@@ -3513,10 +3512,13 @@ function goNivel0(){
   const body=$('#libBody'); body.innerHTML='';
   $('#libTitle').textContent=T.nivel0Titulo;
   const grupos=n0Grupos(), prox=grupos.findIndex(g=>!n0GrupoHecho(g));
-  body.innerHTML=`<div class="n0grupos">${grupos.map(g=>{ const hecho=n0GrupoHecho(g), col=NIVEL0_COLORES[g.gi];
+  const nB=window.NIVEL0_PARTE_B||0, nA=grupos.length-nB;
+  const tarjeta=g=>{ const hecho=n0GrupoHecho(g), col=NIVEL0_COLORES[g.gi], n=g.gi<nA?g.gi+1:g.gi-nA+1;
     return `<button class="n0g ${hecho?'hecho':''} ${g.gi===prox?'prox':''}" style="--ac:${col}" data-g="${g.gi}">
-      <span class="n0g-art">${g.palabras.slice(0,4).map(w=>n0Dibujo(g.gi,w.wi)).join('')}<em class="n0g-n">${g.gi+1}</em>${hecho?`<i class="n0g-ok">${ICON.check}</i>`:''}</span>
-      <b>${esc(g.nombre)}</b><span class="n0g-pts">${g.palabras.map(w=>`<i class="${n0Hecha(w)||hecho?'on':''}"></i>`).join('')}</span></button>`; }).join('')}</div>
+      <span class="n0g-art">${g.palabras.slice(0,4).map(w=>n0Dibujo(g.gi,w.wi)).join('')}<em class="n0g-n">${n}</em>${hecho?`<i class="n0g-ok">${ICON.check}</i>`:''}</span>
+      <b>${esc(g.nombre)}</b><span class="n0g-pts">${g.palabras.map(w=>`<i class="${n0Hecha(w)||hecho?'on':''}"></i>`).join('')}</span></button>`; };
+  const parte=(letra,lista,hechos)=>lista.length?`<div class="n0-parte"><span class="n0-letra">${letra}</span><span class="n0-prog">${hechos}/${lista.length}</span></div><div class="n0grupos">${lista.map(tarjeta).join('')}</div>`:'';
+  body.innerHTML=`${parte('A',grupos.slice(0,nA),grupos.slice(0,nA).filter(n0GrupoHecho).length)}${parte('B',grupos.slice(nA),grupos.slice(nA).filter(n0GrupoHecho).length)}
     <div class="center"><button class="n0todas" id="n0todas">${ICON.book}<span>${esc(T.nivel0Todas)}</span></button></div>`;
   body.querySelectorAll('.n0g').forEach(b=>{ const g=grupos[+b.dataset.g];
     b.addEventListener('focus',()=>sayAll([g.nombre])); b.addEventListener('click',()=>runLeccion0(g.gi)); });

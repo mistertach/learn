@@ -1,0 +1,25 @@
+=== #8CCB6B
+N es: Frutas y verduras || Estas son frutas y verduras ricas y sanas. ¡Repetí cada nombre!
+N en: Fruit and vegetables || These are tasty, healthy fruits and vegetables. Repeat each name!
+N fr: Fruits et légumes || Ce sont de bons fruits et légumes pour la santé. Répète chaque nom !
+N it: Frutta e verdura || Questi sono frutta e verdura buone e sane. Ripeti ogni nome!
+N ar: fawaakih wa-khudrawaat|فواكه وخضروات || hathi fawaakih wa-khudrawaat laziza. karrir kil ism!|هذي فواكه وخضروات لذيذة. كرر كل اسم!
+🍇 | la uva | the grape=the-grape | le raisin=le-rai-sin | l'uva | 'inab|عنب='i-nab|عِ-نَب
+🍑 | el durazno | the peach=the-peach | la pêche=la-pê-che | la pesca | khawkh|خوخ=khawkh|خَوْخ
+🧅 | la cebolla | the onion=the-on-ion | l'oignon=l'oi-gnon | la cipolla | basal|بصل=ba-sal|بَ-صَل
+🥬 | la lechuga | the lettuce=the-let-tuce | la laitue=la-lai-tue | la lattuga | khass|خس=khass|خَسّ
+🌽 | el choclo | the corn=the-corn | le maïs=le-ma-ïs | il mais | dhura|ذرة=dhu-ra|ذُ-رَة
+=== #FF9B3D
+N es: Para comer || Estas son cosas ricas para comer. ¿Cuál te gusta más?
+N en: Things to eat || These are yummy things to eat. Which do you like best?
+N fr: Pour manger || Ce sont de bonnes choses à manger. Laquelle tu préfères ?
+N it: Da mangiare || Queste sono cose buone da mangiare. Quale ti piace di più?
+N ar: lil-akl|للأكل || hathi ashyaa' laziza lil-akl. ayy wahid tihibb akthar?|هذي أشياء لذيذة للأكل. أي واحد تحب أكثر؟
+🥩 | la carne | the meat=the-meat | la viande=la-viande | la carne | lahm|لحم=lahm|لَحْم
+🍗 | el pollo | the chicken=the-chick-en | le poulet=le-pou-let | il pollo | dajaaj|دجاج=da-jaaj|دَ-جَاج
+🐟 | el pescado | the fish=the-fish | le poisson=le-pois-son | il pesce | samak|سمك=sa-mak|سَ-مَك
+🍚 | el arroz | the rice=the-rice | le riz=le-riz | il riso | ruzz|رز=ruzz|رُزّ
+🍝 | los fideos | the pasta=the-pas-ta | les pâtes=les-pâ-tes | la pasta | makaroona|معكرونة=ma-ka-roo-na|مَ-كَ-رُو-نَة
+🍯 | la miel | the honey=the-hon-ey | le miel=le-miel | il miele | 'asal|عسل='a-sal|عَ-سَل
+🧂 | la sal | the salt=the-salt | le sel=le-sel | il sale | milh|ملح=milh|مِلْح
+🧈 | la manteca | the butter=the-but-ter | le beurre=le-beurre | il burro | zibda|زبدة=zib-da|زِبْ-دَة

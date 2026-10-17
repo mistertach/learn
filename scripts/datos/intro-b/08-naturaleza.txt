@@ -1,0 +1,27 @@
+=== #7CC6F0
+N es: El cielo y el tiempo || Estas son cosas del cielo y del clima. ¡Mirá por la ventana!
+N en: Sky and weather || These are things of the sky and the weather. Look out the window!
+N fr: Le ciel et la météo || Ce sont des choses du ciel et du temps. Regarde par la fenêtre !
+N it: Il cielo e il tempo || Queste sono cose del cielo e del tempo. Guarda dalla finestra!
+N ar: as-samaa' wa-at-taqs|السماء والطقس || hathi ashyaa' as-samaa' wa-at-taqs. shoof min ash-shubbaak!|هذي أشياء السماء والطقس. شوف من الشباك!
+🌙 | la luna | the moon=the-moon | la lune=la-lune | la luna | qamar|قمر=qa-mar|قَ-مَر
+🌧️ | la lluvia | the rain=the-rain | la pluie=la-pluie | la pioggia | matar|مطر=ma-tar|مَ-طَر
+💨 | el viento | the wind=the-wind | le vent=le-vent | il vento | hawaa'|هواء=ha-waa'|هَ-وَاء
+❄️ | la nieve | the snow=the-snow | la neige=la-neige | la neve | thalj|ثلج=thalj|ثَلْج
+🌈 | el arcoíris | the rainbow=the-rain-bow | l'arc-en-ciel=l'arc-en-ciel | l'arcobaleno | qaws quzah|قوس قزح=qaws-qu-zah|قَوْس-قُ-زَح
+🔥 | el fuego | the fire=the-fire | le feu=le-feu | il fuoco | naar|نار=naar|نَار
+🌍 | la tierra | the earth=the-earth | la terre=la-terre | la terra | ard|أرض=ard|أَرْض
+=== #2FBF8F
+N es: En el campo || Estas son cosas de la naturaleza. ¡Vamos a salir a buscarlas!
+N en: In the countryside || These are things from nature. Let's go out and look for them!
+N fr: À la campagne || Ce sont des choses de la nature. Allons les chercher dehors !
+N it: In campagna || Queste sono cose della natura. Usciamo a cercarle!
+N ar: fi ar-reef|في الريف || hathi ashyaa' min at-tabee'a. yalla nitla' ndawwir 'alayha!|هذي أشياء من الطبيعة. يلا نطلع ندور عليها!
+🌳 | el árbol | the tree=the-tree | l'arbre=l'ar-bre | l'albero | shajara|شجرة=sha-ja-ra|شَ-جَ-رَة
+🌸 | la flor | the flower=the-flow-er | la fleur=la-fleur | il fiore | zahra|زهرة=zah-ra|زَهْ-رَة
+🍃 | la hoja | the leaf=the-leaf | la feuille=la-feuille | la foglia | waraqa|ورقة=wa-ra-qa|وَ-رَ-قَة
+🌱 | el pasto | the grass=the-grass | l'herbe=l'her-be | l'erba | 'ushb|عشب='ushb|عُشْب
+⛰️ | la montaña | the mountain=the-moun-tain | la montagne=la-mon-tagne | la montagna | jabal|جبل=ja-bal|جَ-بَل
+🏞️ | el río | the river=the-riv-er | la rivière=la-ri-vière | il fiume | nahr|نهر=nahr|نَهْر
+🪨 | la piedra | the stone=the-stone | la pierre=la-pierre | il sasso | hajar|حجر=ha-jar|حَ-جَر
+🏝️ | la isla | the island=the-is-land | l'île=l'île | l'isola | jazeera|جزيرة=ja-zee-ra|جَ-زِي-رَة

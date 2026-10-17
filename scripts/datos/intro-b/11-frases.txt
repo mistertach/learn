@@ -1,0 +1,84 @@
+=== #FF6F8F
+N es: Ella, él y nosotros || Estas son frases para hablar de la gente: ella, él, nosotros. Repetí cada frase despacito.
+N en: She, he and we || These are phrases to talk about people: she, he, we. Repeat each phrase slowly.
+N fr: Elle, lui et nous || Ce sont des phrases pour parler des gens : elle, lui, nous. Répète chaque phrase doucement.
+N it: Lei, lui e noi || Queste sono frasi per parlare delle persone: lei, lui, noi. Ripeti ogni frase piano piano.
+N ar: hiya wa-huwa wa-ihna|هي وهو واحنا || hathi jumal lil-hadeeth 'an an-naas: hiya, huwa, ihna. karrir kil jumla bi-hudoo'.|هذي جمل للحديث عن الناس: هي، هو، احنا. كرر كل جملة بهدوء.
+👩 | Ella es mi amiga. | She is my friend.=She-is-my-friend. | Elle est mon amie.=Elle-est-mon-amie. | Lei è la mia amica. | hiya sadiiqati|هي صديقتي=hi-ya-sa-dii-qa-ti|هِ-يَ-صَ-دِي-قَ-تِي
+👨 | Él es mi hermano. | He is my brother.=He-is-my-bro-ther. | Il est mon frère.=Il-est-mon-frère. | Lui è mio fratello. | huwa akhooy|هو أخوي=hu-wa-a-khooy|هُ-وَ-أَ-خُوي
+👫 | Nosotros somos amigos. | We are friends.=We-are-friends. | Nous sommes amis.=Nous-sommes-amis. | Noi siamo amici. | ihna asdiqaa'|احنا أصدقاء=ih-na-as-di-qaa'|إِحْ-نَا-أَصْ-دِ-قَاء
+👨‍👦 | Es mi hijo. | He is my son.=He-is-my-son. | C'est mon fils.=C'est-mon-fils. | È mio figlio. | hatha waladi|هذا ولدي=ha-tha-wa-la-di|هَ-ذَا-وَ-لَ-دِي
+🧑‍🤝‍🧑 | Vení conmigo. | Come with me.=Come-with-me. | Viens avec moi.=Viens-avec-moi. | Vieni con me. | ta'aal wiyyaai|تعال وياي=ta-'aal-wiy-yaa|تَ-عَال-وِيْ-يَّاي
+🤝 | Jugamos juntos. | We play together.=We-play-to-ge-ther. | Nous jouons ensemble.=Nous-jouons-en-sem-ble. | Giochiamo insieme. | nil'ab sawa|نلعب سوا=nil-'ab-sa-wa|نِلْ-عَبْ-سَ-وَا
+🎁 | Esto es nuestro. | This is ours.=This-is-ours. | C'est à nous.=C'est-à-nous. | Questo è nostro. | hatha taba'na|هذا تبعنا=ha-tha-ta-ba'-na|هَ-ذَا-تَ-بَعْ-نَا
+🙋 | Yo también. | Me too.=Me-too. | Moi aussi.=Moi-aus-si. | Anch'io.=An-ch'io. | ana kamaan|أنا كمان=a-na-ka-maan|أَ-نَا-كَ-مَان
+=== #FFC93C
+N es: Porque, entonces y después || Estas frases ayudan a explicar y a ordenar lo que hacemos: primero, después, porque.
+N en: Because, so and then || These phrases help us explain and put things in order: first, then, because.
+N fr: Parce que, alors et après || Ces phrases aident à expliquer et à mettre en ordre ce que nous faisons : d'abord, après, parce que.
+N it: Perché, allora e dopo || Queste frasi aiutano a spiegare e a mettere in ordine quello che facciamo: prima, dopo, perché.
+N ar: li'anna wa-ba'dain|لأن وبعدين || hathi jumal tusaa'idna nashrah w-nratib ma nafa'al: awwalan, ba'dain, li'anna.|هذي جمل تساعدنا نشرح ونرتب ما نفعل: أولا، بعدين، لأن.
+🥣 | Primero comemos, después jugamos. | First we eat, then we play.=First-we-eat,-then-we-play. | D'abord on mange, ensuite on joue.=D'abord-on-mange,-en-suite-on-joue. | Prima mangiamo, dopo giochiamo. | awwal nakil w ba'dain nil'ab|أول ناكل وبعدين نلعب=aw-wal-na-kil-w-ba'-dain-nil-'ab|أَوْ-وَل-نَا-كِل-وْ-بَعْ-دَيْن-نِلْ-عَب
+😴 | Tengo sueño porque es de noche. | I am sleepy because it is night.=I-am-sleep-y-be-cause-it-is-night. | J'ai sommeil parce qu'il fait nuit.=J'ai-som-meil-par-ce-qu'il-fait-nuit. | Ho sonno perché è notte. | 'indi no'aas li'anna al-layl|عندي نعاس لأن الليل=in-di-no-'aas-li-an-na-al-layl|عِنْ-دِي-نُ-عَاس-لِ-أَنْ-نَ-اَلْ-لَيْل
+❓ | ¿Por qué? ¡Porque sí! | Why? Because!=Why?-Be-cause! | Pourquoi ? Parce que !=Pour-quoi ?-Par-ce-que ! | Perché? Perché sì! | laish? li'anna!|ليش؟ لأن!=laish-li-an-na|لَيْش-لِ-أَنْ-نَا
+⏰ | Un momento, por favor. | One moment, please.=One-mo-ment,-please. | Un moment, s'il te plaît.=Un-mo-ment,-s'il-te-plaît. | Un momento, per favore. | lahza min fadlak|لحظة من فضلك=lah-za-min-fad-lak|لَحْ-ظَة-مِنْ-فَضْ-لَك
+🚪 | Si llueve, entonces me quedo adentro. | If it rains, then I stay inside.=If-it-rains,-then-I-stay-in-side. | S'il pleut, alors je reste dedans.=S'il-pleut,-a-lors-je-reste-de-dans. | Se piove, allora resto dentro. | idha amtar abqa jawwa|إذا أمطر أبقى جوا=i-dha-am-tar-ab-qa-jaw-wa|إِ-ذَا-أَمْ-طَر-أَبْ-قَى-جَوْ-وَا
+🔁 | Otra vez, ahora yo. | Again, now me.=A-gain,-now-me. | Encore, maintenant moi.=En-core,-main-te-nant-moi. | Ancora, adesso io. | marra thaniya, al-heen ana|مرة ثانية، الحين أنا=mar-ra-tha-ni-ya-al-heen-a-na|مَرْ-رَة-ثَا-نِ-يَة-أَلْ-حِين-أَ-نَا
+⌛ | Todavía no. | Not yet.=Not-yet. | Pas encore.=Pas-en-core. | Non ancora. | lissa|لسا=lis-sa|لِسْ-سَا
+🏃 | Ya voy. | I am coming.=I-am-co-ming. | J'arrive.=J'ar-ri-ve. | Arrivo subito. | ana jaay|أنا جاي=a-na-jaay|أَ-نَا-جَاي
+=== #2FBF8F
+N es: Creo que sí || Estas frases sirven para decir lo que pensamos y lo que sabemos.
+N en: I think so || These phrases help us say what we think and what we know.
+N fr: Je crois que oui || Ces phrases servent à dire ce que nous pensons et ce que nous savons.
+N it: Credo di sì || Queste frasi servono a dire quello che pensiamo e quello che sappiamo.
+N ar: a'taqid kida|أعتقد كذا || hathi jumal lil-qawl ma nufakkir w-ma na'rif.|هذي جمل للقول ما نفكر وما نعرف.
+🤔 | Creo que sí. | I think so.=I-think-so. | Je crois que oui.=Je-crois-que-oui. | Credo di sì. | a'taqid aywa|أعتقد أيوا=a'-ta-qid-ay-wa|أَعْ-تَ-قِد-أَيْ-وَا
+🙅 | Creo que no. | I don't think so.=I-don't-think-so. | Je crois que non.=Je-crois-que-non. | Credo di no. | a'taqid la|أعتقد لا=a'-ta-qid-la|أَعْ-تَ-قِد-لَا
+✅ | Es verdad. | It is true.=It-is-true. | C'est vrai.=C'est-vrai. | È vero. | haqiqi|حقيقي=ha-qi-qi|حَ-قِي-قِي
+👍 | Claro que sí. | Of course.=Of-course. | Bien sûr.=Bien-sûr. | Certo che sì. | akeed|أكيد=a-keed|أَ-كِيد
+😕 | No entiendo. | I don't understand.=I-don't-un-der-stand. | Je ne comprends pas.=Je-ne-com-prends-pas. | Non capisco. | ma afham|ما أفهم=ma-af-ham|مَا-أَفْ-هَم
+💭 | Me acuerdo. | I remember.=I-re-mem-ber. | Je me souviens.=Je-me-sou-viens. | Mi ricordo. | atthakkar|أتذكر=at-thak-kar|أَتْ-ذَكْ-كَر
+🤷 | No sé. | I don't know.=I-don't-know. | Je ne sais pas.=Je-ne-sais-pas. | Non lo so. | ma adri|ما أدري=ma-ad-ri|مَا-أَدْ-رِي
+💡 | ¡Qué buena idea! | What a good idea!=What-a-good-i-de-a! | Quelle bonne idée !=Quelle-bonne-i-dée ! | Che bella idea! | fikra helwa|فكرة حلوة=fik-ra-hel-wa|فِكْ-رَة-حَلْ-وَة
+=== #7CC6F0
+N es: Cuándo y dónde || Estas frases dicen cuándo y dónde pasan las cosas: ayer, antes, siempre, nunca.
+N en: When and where || These phrases say when and where things happen: yesterday, before, always, never.
+N fr: Quand et où || Ces phrases disent quand et où les choses arrivent : hier, avant, toujours, jamais.
+N it: Quando e dove || Queste frasi dicono quando e dove succedono le cose: ieri, prima, sempre, mai.
+N ar: mata wa-wain|متى وين || hathi jumal tusif mata w-wain tHdhuth al-ashyaa': ams, qabl, daayman, abadan.|هذي جمل تصف متى وأين تحدث الأشياء: أمس، قبل، دائما، أبدا.
+🌙 | Cada noche duermo. | Every night I sleep.=Ev-ery-night-I-sleep. | Chaque nuit, je dors.=Cha-que-nuit,-je-dors. | Ogni notte dormo. | kil layla anaam|كل ليلة أنام=kil-lay-la-a-naam|كِلْ-لَيْ-لَة-أَ-نَام
+📍 | Ahí está el lugar. | There is the place.=There-is-the-place. | Voilà l'endroit.=Voi-là-l'en-droit. | Ecco il posto. | hunaak al-makaan|هناك المكان=hu-naak-al-ma-kaan|هُ-نَاك-اَلْ-مَ-كَان
+📅 | Ayer jugué mucho. | Yesterday I played a lot.=Yes-ter-day-I-played-a-lot. | Hier, j'ai beaucoup joué.=Hier,-j'ai-beau-coup-joué. | Ieri ho giocato tanto. | ams la'abt kitheer|أمس لعبت كثير=ams-la-'abt-kitheer|أَمْس-لَ-عَبْت-كَثِير
+🕐 | Antes de comer me lavo las manos. | Before eating, I wash my hands.=Be-fore-eat-ing,-I-wash-my-hands. | Avant de manger, je me lave les mains.=A-vant-de-man-ger,-je-me-lave-les-mains. | Prima di mangiare mi lavo le mani. | qabl al-akl aghsil ideeya|قبل الأكل أغسل ايديني=qabl-al-akl-agh-sil-i-dee-ya|قَبْل-اَلْ-أَكْل-أَغْ-سِل-إِي-دِي-يَا
+🔥 | Nunca toco el fuego. | I never touch the fire.=I-nev-er-touch-the-fire. | Je ne touche jamais le feu.=Je-ne-tou-che-ja-mais-le-feu. | Non tocco mai il fuoco. | abadan ma alMas an-naar|أبدا ما ألمس النار=a-ba-dan-ma-al-mas-an-naar|أَ-بَ-دَنْ-مَا-أَلْ-مَس-اَنْ-نَار
+💞 | Siempre te ayudo. | I always help you.=I-al-ways-help-you. | Je t'aide toujours.=Je-t'ai-de-tou-jours. | Ti aiuto sempre. | daayman asa'dak|دائما أساعدك=daa-i-man-a-saa-'i-dak|دَا-ئِ-مَنْ-أُ-سَا-عِ-دَك
+🌍 | En todo el mundo. | All over the world.=All-o-ver-the-world. | Dans le monde entier.=Dans-le-mon-de-en-tier. | In tutto il mondo. | fi kil al-'aalam|في كل العالم=fi-kil-al-'aa-lam|فِي-كِلّ-اَلْ-عَا-لَم
+⏭️ | Después de comer, jugamos. | After eating, we play.=Af-ter-eat-ing,-we-play. | Après avoir mangé, on joue.=A-près-a-voir-man-gé,-on-joue. | Dopo mangiato, giochiamo. | ba'd al-akl nil'ab|بعد الأكل نلعب=ba'd-al-akl-nil-'ab|بَعْد-اَلْ-أَكْل-نِلْ-عَب
+=== #8B6FE8
+N es: ¿Qué pasó? || Estas frases cuentan lo que pasó y dónde estamos.
+N en: What happened? || These phrases tell what happened and where we are.
+N fr: Qu'est-ce qui s'est passé ? || Ces phrases racontent ce qui s'est passé et où nous sommes.
+N it: Cos'è successo? || Queste frasi raccontano cosa è successo e dove siamo.
+N ar: shu sar|شو صار || hathi jumal tahki ma hadath w-wain nihna.|هذي جمل تحكي ما حدث وأين نحن.
+🧸 | Había una vez un osito. | Once upon a time there was a little bear.=On-ce-up-on-a-time-there-was-a-lit-tle-bear. | Il était une fois un petit ours.=Il-é-tait-u-ne-fois-un-pe-tit-ours. | C'era una volta un orsetto. | kaan yaama kaan dubb sagheer|كان يا ما كان دب صغير=kaan-yaa-ma-kaan-dubb-sa-gheer|كَان-يَا-مَا-كَان-دُبّ-صَ-غِير
+😲 | ¿Qué pasó? | What happened?=What-hap-pened? | Qu'est-ce qui s'est passé ?=Qu'est-ce-qui-s'est-pas-sé ? | Cos'è successo? | shu sar|شو صار=shu-saar|شُو-صَار
+😊 | Fue un día lindo. | It was a nice day.=It-was-a-nice-day. | C'était une belle journée.=C'é-tait-u-ne-bel-le-jour-née. | È stata una bella giornata. | kaan yoom helw|كان يوم حلو=kaan-yoom-helw|كَان-يُوم-حِلْو
+⏰ | Tenemos tiempo. | We have time.=We-have-time. | Nous avons le temps.=Nous-a-vons-le-temps. | Abbiamo tempo. | 'indna wagt|عندنا وقت=in-dna-waqt|عِنْ-دْنَا-وَقْت
+🏠 | Estamos en casa. | We are at home.=We-are-at-home. | Nous sommes à la maison.=Nous-som-mes-à-la-mai-son. | Siamo a casa. | ihna fi al-bayt|احنا في البيت=ih-na-fi-al-bayt|إِحْ-نَا-فِي-اَلْ-بَيْت
+🎒 | Tenía una mochila. | I had a backpack.=I-had-a-back-pack. | J'avais un sac à dos.=J'a-vais-un-sac-à-dos. | Avevo uno zaino. | kaan 'indi shanta|كان عندي شنطة=kaan-in-di-shan-ta|كَان-عِنْ-دِي-شَنْ-طَة
+🌤️ | Tal vez mañana. | Maybe tomorrow.=May-be-to-mor-row. | Peut-être demain.=Peut-ê-tre-de-main. | Forse domani. | yimkin bukra|يمكن بكرة=yim-kin-buk-ra|يِمْ-كِن-بُكْ-رَة
+✋ | ¡Pará! | Stop!=Stop! | Arrête !=Ar-rête ! | Fermati! | wagqif|وقف=waq-qif|وَقْ-قِف
+=== #FF9B3D
+N es: Hablemos || Estas frases sirven para conversar: preguntar, decir y ponerse de acuerdo.
+N en: Let's talk || These phrases help us have a conversation: asking, telling and agreeing.
+N fr: Parlons || Ces phrases servent à discuter : demander, dire et se mettre d'accord.
+N it: Parliamo || Queste frasi servono per conversare: chiedere, dire e mettersi d'accordo.
+N ar: khalna nitkallam|خلنا نتكلم || hathi jumal lil-hadeeth: nas'al w-nigool w-nattafiq.|هذي جمل للحديث: نسأل ونقول ونتفق.
+🏷️ | ¿Cuál es tu nombre? | What is your name?=What-is-your-name? | Comment tu t'appelles ?=Com-ment-tu-t'ap-pelles ? | Come ti chiami? | shu ismak|شو اسمك=shu-is-mak|شُو-إِسْ-مَك
+🗣️ | Quiero decirte algo. | I want to tell you something.=I-want-to-tell-you-some-thing. | Je veux te dire quelque chose.=Je-veux-te-di-re-quel-que-cho-se. | Voglio dirti una cosa. | abgha agoolak shay|أبغى أقولك شي=ab-gha-a-goo-lak-shay|أَبْ-غَى-أَ-قُو-لَك-شَي
+🙌 | No hay problema. | No problem.=No-prob-lem. | Pas de problème.=Pas-de-pro-blème. | Nessun problema. | ma fi mushkila|ما في مشكلة=ma-fi-mush-ki-la|مَا-فِي-مُشْ-كِ-لَة
+👂 | Hablemos. | Let's talk.=Let's-talk. | Parlons.=Par-lons. | Parliamo. | khalna nitkallam|خلنا نتكلم=khal-na-nit-kal-lam|خَلْ-نَا-نِتْ-كَلْ-لَم
+🎁 | ¿Qué cosa es? | What thing is it?=What-thing-is-it? | C'est quoi, cette chose ?=C'est-quoi,-cet-te-cho-se ? | Che cosa è? | shu hatha ash-shay|شو هذا الشي=shu-ha-tha-ash-shay|شُو-هَ-ذَا-اَشْ-شَي
+🧓 | El señor es amable. | The old man is kind.=The-old-man-is-kind. | Le monsieur est gentil.=Le-mon-sieur-est-gen-til. | Il signore è gentile. | ar-rajul laTeef|الرجل لطيف=ar-ra-jul-la-teef|اَرْ-رَ-جُل-لَ-طِيف
+🟰 | Es lo mismo. | It is the same.=It-is-the-same. | C'est pareil.=C'est-pa-reil. | È lo stesso. | nafs ash-shay|نفس الشي=nafs-ash-shay|نَفْس-اَشْ-شَي
+🚪 | ¿Hay alguien? | Is anyone there?=Is-an-y-one-there? | Il y a quelqu'un ?=Il-y-a-quel-qu'un ? | C'è qualcuno? | fi ahad|في أحد=fi-a-had|فِي-أَ-حَد

@@ -1,0 +1,55 @@
+=== #8CCB6B
+N es: Animales de la casa y la granja || Estos son animales que viven cerca nuestro. Escuchá cómo se llaman.
+N en: Animals at home and on the farm || These are animals that live close to us. Listen to their names.
+N fr: Les animaux de la maison et de la ferme || Ce sont des animaux qui vivent près de nous. Écoute leurs noms.
+N it: Animali di casa e di campagna || Questi sono animali che vivono vicino a noi. Ascolta i loro nomi.
+N ar: hayawaanaat al-bayt wa-al-mazra'a|حيوانات البيت والمزرعة || hathi hayawaanaat taskun gareeb minna. isma' asmaa'ha.|هذي حيوانات تسكن قريب منا. اسمع أسماءها.
+🐦 | el pájaro | the bird=the-bird | l'oiseau=l'oi-seau | l'uccello | tayr|طير=tayr|طَيْر
+🐷 | el cerdo | the pig=the-pig | le cochon=le-co-chon | il maiale | khanzeer|خنزير=khan-zeer|خَنْ-زِير
+🐭 | el ratón | the mouse=the-mouse | la souris=la-sou-ris | il topo | fa'r|فأر=fa'r|فَأْر
+🐱 | el gato | the cat=the-cat | le chat=le-chat | il gatto | qitta|قطة=qit-ta|قِطْ-طَة
+🐔 | la gallina | the hen=the-hen | la poule=la-poule | la gallina | dajaaja|دجاجة=da-jaa-ja|دَ-جَا-جَة
+🐰 | el conejo | the rabbit=the-rab-bit | le lapin=le-la-pin | il coniglio | arnab|أرنب=ar-nab|أَرْ-نَبْ
+🐐 | la cabra | the goat=the-goat | la chèvre=la-chè-vre | la capra | 'anza|عنزة='an-za|عَنْ-زَة
+🦜 | el loro | the parrot=the-par-rot | le perroquet=le-per-ro-quet | il pappagallo | babbagha'|ببغاء=bab-ba-gha'|بَبْ-بَ-غَاء
+=== #FF9B3D
+N es: Animales de la selva || Estos son animales grandes de la selva y la sabana. ¡Escuchá y repetí!
+N en: Jungle animals || These are big animals of the jungle and the savanna. Listen and repeat!
+N fr: Les animaux de la jungle || Ce sont de grands animaux de la jungle et de la savane. Écoute et répète !
+N it: Animali della giungla || Questi sono grandi animali della giungla e della savana. Ascolta e ripeti!
+N ar: hayawaanaat al-gaaba|حيوانات الغابة || hathi hayawaanaat kabeera min al-gaaba. isma' w karrir!|هذي حيوانات كبيرة من الغابة. اسمع وكرر!
+🐘 | el elefante | the elephant=the-el-e-phant | l'éléphant=l'é-lé-phant | l'elefante | feel|فيل=feel|فِيل
+🦓 | la cebra | the zebra=the-ze-bra | le zèbre=le-zè-bre | la zebra | himaar waHshi|حمار وحشي=hi-maar-wah-shi|حِ-مَارْ-وَحْ-شِي
+🦒 | la jirafa | the giraffe=the-gi-raffe | la girafe=la-gi-ra-fe | la giraffa | zaraafa|زرافة=za-raa-fa|زَ-رَا-فَة
+🦁 | el león | the lion=the-li-on | le lion=le-li-on | il leone | asad|أسد=a-sad|أَ-سَدْ
+🐒 | el mono | the monkey=the-mon-key | le singe=le-singe | la scimmia | qird|قرد=qird|قِرْد
+🐯 | el tigre | the tiger=the-ti-ger | le tigre=le-ti-gre | la tigre | nimr|نمر=nimr|نِمْر
+🐻 | el oso | the bear=the-bear | l'ours=l'ours | l'orso | dubb|دب=dubb|دُبّ
+🐊 | el cocodrilo | the crocodile=the-croc-o-dile | le crocodile=le-cro-co-dile | il coccodrillo | timsaah|تمساح=tim-saah|تِمْ-سَاح
+=== #2FBF8F
+N es: Bichitos y reptiles || Estos son animales chiquitos que se arrastran, saltan y vuelan.
+N en: Little creatures || These are small animals that crawl, hop and fly.
+N fr: Les petites bêtes || Ce sont de petits animaux qui rampent, sautent et volent.
+N it: Animaletti || Questi sono piccoli animali che strisciano, saltano e volano.
+N ar: makhlooqaat saghira|مخلوقات صغيرة || hathi hayawaanaat saghira tizhaf w tinut w tiTeer.|هذي حيوانات صغيرة تزحف وتنط وتطير.
+🐸 | la rana | the frog=the-frog | la grenouille=la-gre-nouille | la rana | difda'|ضفدع=dif-da'|ضِفْ-دَع
+🦋 | la mariposa | the butterfly=the-but-ter-fly | le papillon=le-pa-pil-lon | la farfalla | farasha|فراشة=fa-ra-sha|فَ-رَ-شَة
+🐝 | la abeja | the bee=the-bee | l'abeille=l'a-beille | l'ape | nahla|نحلة=nah-la|نَحْ-لَة
+🐜 | la hormiga | the ant=the-ant | la fourmi=la-four-mi | la formica | namla|نملة=nam-la|نَمْ-لَة
+🕷️ | la araña | the spider=the-spi-der | l'araignée=l'a-rai-gnée | il ragno | 'ankabuut|عنكبوت='an-ka-buut|عَنْ-كَ-بُوت
+🐍 | la serpiente | the snake=the-snake | le serpent=le-ser-pent | il serpente | ta'baan|ثعبان=ta'-baan|ثُعْ-بَان
+=== #2E86DE
+N es: Animales del bosque y del mar || Estos son animales del bosque, del mar y de hace mucho tiempo.
+N en: Forest and sea animals || These are animals of the forest, the sea and long, long ago.
+N fr: Animaux de la forêt et de la mer || Ce sont des animaux de la forêt, de la mer et d'il y a très longtemps.
+N it: Animali del bosco e del mare || Questi sono animali del bosco, del mare e di tanto tempo fa.
+N ar: hayawaanaat al-gaaba wa-al-bahar|حيوانات الغابة والبحر || hathi hayawaanaat al-gaaba wa-al-bahar wa-min zamaan.|هذي حيوانات الغابة والبحر ومن زمان.
+🦉 | el búho | the owl=the-owl | le hibou=le-hi-bou | il gufo | boomah|بومة=boo-mah|بُو-مَة
+🐺 | el lobo | the wolf=the-wolf | le loup=le-loup | il lupo | dhi'b|ذئب=dhi'b|ذِئْب
+🦊 | el zorro | the fox=the-fox | le renard=le-re-nard | la volpe | tha'lab|ثعلب=tha'-lab|ثَعْ-لَبْ
+🦌 | el ciervo | the deer=the-deer | le cerf=le-cerf | il cervo | ghazaal|غزال=gha-zaal|غَ-زَال
+🐬 | el delfín | the dolphin=the-dol-phin | le dauphin=le-dau-phin | il delfino | dulfeen|دلفين=dul-feen|دُلْ-فِين
+🐋 | la ballena | the whale=the-whale | la baleine=la-ba-leine | la balena | hoot|حوت=hoot|حُوت
+🦈 | el tiburón | the shark=the-shark | le requin=le-re-quin | lo squalo | qirsh|قرش=qirsh|قِرْش
+🐧 | el pingüino | the penguin=the-pen-guin | le pingouin=le-pin-gouin | il pinguino | bitreeq|بطريق=bit-reeq|بِطْ-رِيق
+🦖 | el dinosaurio | the dinosaur=the-di-no-saur | le dinosaure=le-di-no-saure | il dinosauro | dainasoor|ديناصور=dai-na-soor|دَي-نَا-صُور

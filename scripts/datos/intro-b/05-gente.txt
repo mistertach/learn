@@ -1,0 +1,12 @@
+=== #8B6FE8
+N es: La gente || Estas son personas que vemos todos los días. Escuchá y repetí.
+N en: People || These are people we see every day. Listen and repeat.
+N fr: Les gens || Ce sont des personnes que nous voyons tous les jours. Écoute et répète.
+N it: Le persone || Queste sono persone che vediamo ogni giorno. Ascolta e ripeti.
+N ar: an-naas|الناس || hathi naas nishoofhum kil yoom. isma' w karrir.|هذي ناس نشوفهم كل يوم. اسمع وكرر.
+👨 | el hombre | the man=the-man | l'homme=l'hom-me | l'uomo | rajul|رجل=ra-jul|رَ-جُل
+👩 | la mujer | the woman=the-wom-an | la femme=la-fem-me | la donna | mara|مرأة=ma-ra|مَ-رَة
+👦 | el nene | the boy=the-boy | le garçon=le-gar-çon | il bambino | walad|ولد=wa-lad|وَ-لَد
+👧 | la nena | the girl=the-girl | la fille=la-fille | la bambina | bint|بنت=bint|بِنْت
+🧑‍🏫 | la maestra | the teacher=the-teach-er | la maîtresse=la-maî-tres-se | la maestra | mu'allima|معلمة=mu-'al-li-ma|مُ-عَلْ-لِ-مَة
+🧑‍⚕️ | el doctor | the doctor=the-doc-tor | le docteur=le-doc-teur | il dottore | duktoor|دكتور=duk-toor|دُكْ-تُور

@@ -16,7 +16,7 @@ const PACKS = {}, BASES = {}, TEXTOS = {};
 const ctx = { console, registrarIdioma: o => { PACKS[o.codigo] = o; }, registrarCapitulo: o => { BASES[o.id] = o; }, registrarTextos: (id, l, o) => { (TEXTOS[id] = TEXTOS[id] || {})[l] = o; } };
 ctx.window = ctx; vm.createContext(ctx);
 const cargar = f => { try { vm.runInContext(fs.readFileSync(path.join(RAIZ, f), 'utf8'), ctx, { filename: f }); } catch (e) { mal(`${f}: no se pudo cargar (${e.message})`); } };
-['capitulos.js', 'escenas.js', 'idiomas/nivel0.js', 'idiomas/nivel0-arte.js'].forEach(cargar);
+['capitulos.js', 'escenas.js', 'idiomas/nivel0.js', 'idiomas/nivel0-arte.js', 'idiomas/nivel0b.js'].forEach(cargar);
 for (const l of ['es', 'fr', 'it', 'en', 'ar']) cargar(`idiomas/${l}.js`);
 cargar('idiomas/grandes.js');
 cargar('idiomas/rincon.js');

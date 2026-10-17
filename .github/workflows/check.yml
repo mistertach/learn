@@ -11,3 +11,8 @@ jobs:
         run: node scripts/check.js
       - name: Contenido (idiomas, árabe, dibujos, grabaciones)
         run: node scripts/lint.js
+      - name: Vocabulario (las 250 palabras más frecuentes y la lista para chicos)
+        run: |
+          node scripts/cobertura.js --lang=es --check
+          node scripts/cobertura.js --lang=en --check
+          node scripts/cobertura.js --lang=es --ninos --check

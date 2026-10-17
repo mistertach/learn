@@ -1,0 +1,58 @@
+=== #FF8FB8
+N es: Mío, tuyo y suyo || Estas frases dicen de quién es cada cosa: tuyo, suyo, de ellos.
+N en: Mine, yours and theirs || These phrases say whose things they are: yours, his, hers, theirs.
+N fr: À moi, à toi, à eux || Ces phrases disent à qui sont les choses : à toi, à lui, à eux.
+N it: Mio, tuo e suo || Queste frasi dicono di chi sono le cose: tuo, suo, loro.
+N ar: tabaa'i wa-tabaa'ak wa-tabaa'hum|تبعي وتبعك وتبعهم || hathi jumal tigool li-man kil shay: tabaa'ak, tabaa'ha, tabaa'hum.|هذي جمل تقول لمن كل شي: تبعك، تبعها، تبعهم.
+🎒 | Esta es su mochila. | This is her bag.=This-is-her-bag. | C'est son sac.=C'est-son-sac. | Questa è la sua borsa. | hathi shantatha|هذي شنطتها=ha-thi-shan-ta-tha|هَ-ذِي-شَنْ-طَ-تْهَا
+👟 | Estos son sus zapatos. | These are his shoes.=These-are-his-shoes. | Ce sont ses chaussures.=Ce-sont-ses-chaus-su-res. | Queste sono le sue scarpe. | hathi ahthiyatu|هذي أحذيته=ha-thi-ah-thi-ya-tu|هَ-ذِي-أَحْ-ذِ-يَ-تُه
+🧸 | Sus juguetes están allá. | Their toys are over there.=Their-toys-are-o-ver-there. | Leurs jouets sont là-bas.=Leurs-jou-ets-sont-là-bas. | I loro giochi sono laggiù. | al'aabuhum hunaak|ألعابهم هناك=al-'aa-bu-hum-hu-naak|أَلْ-عَا-بُ-هُمْ-هُ-نَاك
+👢 | Esas son tus botas. | Those are your boots.=Those-are-your-boots. | Ce sont tes bottes.=Ce-sont-tes-bot-tes. | Quelli sono i tuoi stivali. | tilk jazamaatak|تلك جزماتك=til-ka-ja-za-maa-tak|تِلْ-كَ-جَ-زَ-مَا-تَك
+👨 | Mi papá está acá. | My father is here.=My-fa-ther-is-here. | Mon papa est ici.=Mon-pa-pa-est-i-ci. | Il mio papà è qui. | abuuy hina|أبوي هنا=a-buuy-hi-na|أَ-بُوي-هِ-نَا
+🐱 | El gato salta adentro de la caja. | The cat jumps into the box.=The-cat-jumps-in-to-the-box. | Le chat saute dans la boîte.=Le-chat-saute-dans-la-boîte. | Il gatto salta dentro la scatola. | al-qitta tinut jawwa as-sunduuq|القطة تنط جوا الصندوق=al-qit-ta-ti-nut-jaw-wa-as-sun-duuq|اَلْ-قِطْ-طَة-تِ-نُطّ-جَوْ-وَا-اَصْ-صُنْ-دُوق
+📞 | Llamame, por favor. | Call me, please.=Call-me,-please. | Appelle-moi, s'il te plaît.=Ap-pel-le-moi,-s'il-te-plaît. | Chiamami, per favore. | ittisil bi min fadlak|اتصل بي من فضلك=it-ti-sil-bi-min-fad-lak|اِتْ-تَ-صِلْ-بِي-مِنْ-فَضْ-لَك
+🙋 | Mostrame, por favor. | Show me, please.=Show-me,-please. | Montre-moi, s'il te plaît.=Mon-tre-moi,-s'il-te-plaît. | Mostrami, per favore. | wariini min fadlak|وريني من فضلك=wa-rii-ni-min-fad-lak|وَ-رِي-نِي-مِنْ-فَضْ-لَك
+=== #2FBF8F
+N es: Cómo me siento y qué creo || Estas frases dicen cómo me siento, qué creo y qué puede pasar.
+N en: How I feel and what I believe || These phrases say how I feel, what I believe and what might happen.
+N fr: Comment je me sens et ce que je crois || Ces phrases disent comment je me sens, ce que je crois et ce qui peut arriver.
+N it: Come mi sento e cosa credo || Queste frasi dicono come mi sento, cosa credo e cosa può succedere.
+N ar: kayf ash'ur wa-ma a'taqid|كيف أشعر وما أعتقد || hathi jumal tigool kayf ash'ur w-shu a'taqid w-shu mumkin yisir.|هذي جمل تقول كيف أشعر وشو أعتقد وشو ممكن يصير.
+😊 | Me siento bien. | I feel good.=I-feel-good. | Je me sens bien.=Je-me-sens-bien. | Mi sento bene. | ash'ur zain|أشعر زين=ash-'ur-zain|أَشْ-عُر-زَيْن
+🤕 | Me siento mal. | I feel bad.=I-feel-bad. | Je me sens mal.=Je-me-sens-mal. | Mi sento male. | mu zain|مب زين=mu-zain|مُب-زَيْن
+🤞 | Podría ser. | It could be.=It-could-be. | Ça pourrait être.=Ça-pour-rait-ê-tre. | Potrebbe essere. | yimkin|يمكن=yim-kin|يِمْ-كِن
+💯 | ¡Seguro! | Sure!=Sure! | Sûr !=Sûr ! | Sicuro! | akeed|أكيد=a-keed|أَ-كِيد
+🤝 | Te creo. | I believe you.=I-be-lieve-you. | Je te crois.=Je-te-crois. | Ti credo. | asaddiqak|أصدقك=a-sad-di-qak|أُ-صَدْ-دِ-قَك
+🪀 | ¿Tenés algún juguete? | Do you have any toys?=Do-you-have-an-y-toys? | Tu as des jouets ?=Tu-as-des-jou-ets ? | Hai dei giochi? | 'indak al'aab|عندك ألعاب=in-dak-al-'aab|عِنْ-دَك-أَلْ-عَاب
+🔊 | ¡Hay tanto ruido! | So much noise!=So-much-noise! | Il y a tant de bruit !=Il-y-a-tant-de-bruit ! | Che tanto rumore! | fi dajja kitheera|في ضجة كثيرة=fi-daj-ja-ki-thee-ra|فِي-ضَجْ-جَة-كَ-ثِي-رَة
+🚶 | Tal vez voy. | I might go.=I-might-go. | Je pourrais y aller.=Je-pour-rais-y-al-ler. | Potrei andare. | yimkin arooh|يمكن أروح=yim-kin-a-rooh|يِمْ-كِن-أَ-رُوح
+=== #FFC93C
+N es: Más para conversar || Estas frases sirven para preguntar, contar y elegir.
+N en: More to talk about || These phrases help us ask, tell and choose.
+N fr: Encore pour discuter || Ces phrases servent à demander, raconter et choisir.
+N it: Altro per conversare || Queste frasi servono per chiedere, raccontare e scegliere.
+N ar: akthar lil-hadeeth|أكثر للحديث || hathi jumal lil-su'aal wa-al-hikaya wa-al-ikhtiyaar.|هذي جمل للسؤال والحكاية والاختيار.
+🐶 | Hasta el perro está acá. | Even the dog is here.=Even-the-dog-is-here. | Même le chien est là.=Mê-me-le-chien-est-là. | Anche il cane è qui. | hatta al-kalb hina|حتى الكلب هنا=hat-ta-al-kalb-hi-na|حَتْ-تَى-اَلْ-كَلْب-هِ-نَا
+❓ | Preguntame. | Ask me.=Ask-me. | Demande-moi.=De-man-de-moi. | Chiedimi. | is'alni|اسألني=is-'al-ni|اِسْ-أَلْ-نِي
+🏞️ | Ayer fuimos a la plaza. | Yesterday we went to the park.=Yes-ter-day-we-went-to-the-park. | Hier, nous sommes allés au parc.=Hier,-nous-som-mes-al-lés-au-parc. | Ieri siamo andati al parco. | ams rihna al-hadeeqa|أمس رحنا الحديقة=ams-rih-na-al-ha-dee-qa|أَمْس-رِحْ-نَا-اَلْ-حَ-دِي-قَة
+📖 | Ella me contó un cuento. | She told me a story.=She-told-me-a-sto-ry. | Elle m'a raconté une histoire.=Elle-m'a-ra-con-té-u-ne-his-toi-re. | Mi ha raccontato una storia. | hakat li qissa|حكت لي قصة=ha-kat-li-qis-sa|حَ-كَتْ-لِي-قِصْ-سَة
+☝️ | Otro más, por favor. | Another one, please.=An-oth-er-one,-please. | Encore un, s'il te plaît.=En-co-re-un,-s'il-te-plaît. | Un altro, per favore. | waahid thaani min fadlak|واحد ثاني من فضلك=waa-hid-thaa-ni-min-fad-lak|وَا-حِد-ثَا-نِي-مِنْ-فَضْ-لَك
+🛏️ | Tengo mi propia cama. | I have my own bed.=I-have-my-own-bed. | J'ai mon propre lit.=J'ai-mon-pro-pre-lit. | Ho il mio letto. | 'indi sireeri al-khaas|عندي سريري الخاص=in-di-si-ree-ri-al-khaas|عِنْ-دِي-سَ-رِي-رِي-اَلْ-خَاص
+🥛 | ¿Té o leche? | Tea or milk?=Tea-or-milk? | Du thé ou du lait ?=Du-thé-ou-du-lait ? | Tè o latte? | shaay willa haleeb|شاي ولا حليب=shaay-wil-la-ha-leeb|شَاي-وِلْ-لَا-حَ-لِيب
+🧠 | Usá tu mente. | Use your mind.=Use-your-mind. | Utilise ta tête.=U-ti-li-se-ta-tête. | Usa la mente. | istakhdim 'aqlak|استخدم عقلك=is-takh-dim-'aq-lak|اِسْ-تَخْ-دِم-عَقْ-لَك
+=== #8B6FE8
+N es: Frases lindas para todos los días || Estas son frases lindas para usar todos los días con la familia y los amigos.
+N en: Nice phrases for every day || These are nice phrases to use every day with family and friends.
+N fr: De jolies phrases pour tous les jours || Ce sont de jolies phrases à utiliser tous les jours avec la famille et les amis.
+N it: Belle frasi di ogni giorno || Queste sono belle frasi da usare ogni giorno con la famiglia e gli amici.
+N ar: jumal helwa kil yoom|جمل حلوة كل يوم || hathi jumal helwa nistakhdimha kil yoom ma' al-'aa'ila wa-al-asdiqaa'.|هذي جمل حلوة نستخدمها كل يوم مع العائلة والأصدقاء.
+👥 | Ellos son mis amigos. | They are my friends.=They-are-my-friends. | Ils sont mes amis.=Ils-sont-mes-a-mis. | Loro sono i miei amici. | hum asdiqaa'i|هم أصدقائي=hum-as-di-qaa-'i|هُمْ-أَصْ-دِ-قَا-ئِي
+🎁 | Les doy un regalo. | I give them a gift.=I-give-them-a-gift. | Je leur donne un cadeau.=Je-leur-don-ne-un-ca-deau. | Do loro un regalo. | a'tihum hadiya|أعطيهم هدية=a'-ti-hum-had-i-ya|أُعْ-طِي-هُمْ-هَ-دِ-يَّة
+🤗 | Nos queremos mucho. | We love each other a lot.=We-love-each-oth-er-a-lot. | Nous nous aimons beaucoup.=Nous-nous-ai-mons-beau-coup. | Ci vogliamo molto bene. | nihibb ba'd kitheer|نحب بعض كثير=ni-hibb-ba'd-ki-theer|نِ-حِبّ-بَعْد-كَ-ثِير
+😋 | ¡Está tan rico! | It is so yummy!=It-is-so-yum-my! | C'est tellement bon !=C'est-tel-le-ment-bon ! | È così buono! | laziz wayid|لذيذ وايد=la-ziz-wa-yid|لَ-ذِيذ-وَا-يِد
+📚 | El libro está sobre la mesa. | The book is on the table.=The-book-is-on-the-ta-ble. | Le livre est sur la table.=Le-li-vre-est-sur-la-ta-ble. | Il libro è sul tavolo. | al-kitaab 'ala at-tawila|الكتاب على الطاولة=al-ki-taab-'a-la-at-taa-wi-la|اَلْ-كِ-تَاب-عَ-لَى-اَطْ-طَا-وِ-لَة
+👨‍👩‍👧 | Toda mi familia. | All my family.=All-my-fam-i-ly. | Toute ma famille.=Toute-ma-fa-mille. | Tutta la mia famiglia. | kil 'aa'ilti|كل عائلتي=kil-'aa-'i-lti|كِلّ-عَا-ئِ-لْتِي
+🌃 | Era muy tarde. | It was very late.=It-was-ve-ry-late. | Il était très tard.=Il-é-tait-très-tard. | Era molto tardi. | kaan muta'akhkhir|كان متأخر=kaan-mu-ta-akh-khir|كَان-مُ-تَ-أَخْ-خِر
+🫂 | Es bueno estar juntos. | It is good to be together.=It-is-good-to-be-to-ge-ther. | C'est bon d'être ensemble.=C'est-bon-d'ê-tre-en-sem-ble. | È bello stare insieme. | zain nikoon sawa|زين نكون سوا=zain-ni-koon-sa-wa|زَيْن-نِ-كُون-سَ-وَا
+👋 | Hasta luego. | See you later.=See-you-la-ter. | À plus tard.=À-plus-tard. | A dopo. | ila al-liqaa'|إلى اللقاء=i-la-al-li-qaa'|إِ-لَى-اَلْ-لِ-قَاء
+👇 | Hacelo así. | Do it like this.=Do-it-like-this. | Fais-le comme ça.=Fais-le-com-me-ça. | Fallo così. | 'amilha kida|اعملها كذا=a-mil-ha-ki-da|اِعْ-مِلْ-هَا-كِ-ذَا

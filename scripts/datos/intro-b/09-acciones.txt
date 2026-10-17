@@ -1,0 +1,48 @@
+=== #FF8FB8
+N es: Cómo me siento || Estas son las caras de lo que sentimos. ¿Cómo te sentís hoy?
+N en: How I feel || These are the faces of what we feel. How do you feel today?
+N fr: Comment je me sens || Ce sont les visages de ce que nous ressentons. Comment te sens-tu aujourd'hui ?
+N it: Come mi sento || Questi sono i volti di quello che proviamo. Come ti senti oggi?
+N ar: shu'oori|شعوري || hathi wujooh ma nish'ur. kayf tish'ur al-yoom?|هذي وجوه ما نشعر. كيف تشعر اليوم؟
+😄 | feliz | happy=hap-py | heureux=heu-reux | felice | sa'eed|سعيد=sa-'eed|سَ-عِيد
+😢 | triste | sad=sad | triste=tris-te | triste | hazeen|حزين=ha-zeen|حَ-زِين
+😠 | enojado | angry=an-gry | fâché=fâ-ché | arrabbiato | ghadbaan|غضبان=ghad-baan|غَضْ-بَان
+😨 | asustado | scared=scared | effrayé=ef-fra-yé | spaventato | khaa'if|خائف=khaa-'if|خَا-ئِف
+😮 | sorprendido | surprised=sur-prised | surpris=sur-pris | sorpreso | mutafaaji'|متفاجئ=mu-ta-faa-ji'|مُ-تَ-فَا-جِئ
+😴 | con sueño | sleepy=sleep-y | fatigué=fa-ti-gué | assonnato | na'saan|نعسان=na'-saan|نَعْ-سَان
+=== #8B6FE8
+N es: Acciones para hacer || Estas son cosas que hacemos. ¡Hacelas mientras las decís!
+N en: Things to do || These are things we do. Do them while you say them!
+N fr: Actions à faire || Ce sont des choses que nous faisons. Fais-les en les disant !
+N it: Azioni da fare || Queste sono cose che facciamo. Falle mentre le dici!
+N ar: af'aal|أفعال || hathi ashyaa' nafa'alha. 'amilha w inta tigoolha!|هذي أشياء نفعلها. اعملها وانت تقولها!
+🥤 | beber | to drink=to-drink | boire=boire | bere | yishrab|يشرب=yish-rab|يَشْ-رَب
+🧼 | lavar | to wash=to-wash | laver=la-ver | lavare | yighsil|يغسل=yigh-sil|يَغْ-سِل
+😭 | llorar | to cry=to-cry | pleurer=pleu-rer | piangere | yibki|يبكي=yib-ki|يَبْ-كِي
+😂 | reír | to laugh=to-laugh | rire=rire | ridere | yidhak|يضحك=yidh-hak|يَضْ-حَك
+🤔 | pensar | to think=to-think | penser=pen-ser | pensare | yifakkir|يفكر=yi-fak-kir|يُ-فَكْ-كِر
+⏳ | esperar | to wait=to-wait | attendre=at-ten-dre | aspettare | yantazir|ينتظر=yan-ta-zir|يَنْ-تَ-ظِر
+=== #FF9B3D
+N es: Más acciones || Estas son más cosas que hacemos todos los días. ¡Repetí cada una!
+N en: More actions || These are more things we do every day. Repeat each one!
+N fr: Plus d'actions || Ce sont d'autres choses que nous faisons tous les jours. Répète chacune !
+N it: Altre azioni || Queste sono altre cose che facciamo ogni giorno. Ripeti ognuna!
+N ar: af'aal akthar|أفعال أكثر || hathi ashyaa' thaniya nafa'alha kil yoom. karrir kil wahid!|هذي أشياء ثانية نفعلها كل يوم. كرر كل واحد!
+🏃 | correr | to run=to-run | courir=cou-rir | correre | yirkud|يركض=yir-kud|يَرْ-كُض
+👀 | mirar | to look=to-look | regarder=re-gar-der | guardare | yitfarraj|يتفرج=yit-far-raj|يَتْ-فَرْ-رَج
+🗣️ | hablar | to talk=to-talk | parler=par-ler | parlare | yitkallam|يتكلم=yit-kal-lam|يَتْ-كَلْ-لَم
+💬 | decir | to say=to-say | dire=dire | dire | yigool|يقول=yi-gool|يَ-قُول
+💃 | bailar | to dance=to-dance | danser=dan-ser | ballare | yirqus|يرقص=yir-qus|يَرْ-قُص
+✏️ | dibujar | to draw=to-draw | dessiner=des-si-ner | disegnare | yirsim|يرسم=yir-sim|يَرْ-سِم
+=== #2E86DE
+N es: Acciones: subir, buscar y abrir || Estas son cosas que hacemos con el cuerpo y con las cosas.
+N en: Actions: climb, look for and open || These are things we do with our body and with things.
+N fr: Actions : monter, chercher et ouvrir || Ce sont des choses que nous faisons avec notre corps et avec les objets.
+N it: Azioni: salire, cercare e aprire || Queste sono cose che facciamo con il corpo e con le cose.
+N ar: af'aal: yitla' w-yidawwir w-yiftah|أفعال: يطلع ويدور ويفتح || hathi ashyaa' nafa'alha bi-jismna wa-bi-al-ashyaa'.|هذي أشياء نفعلها بجسمنا وبالأشياء.
+🧗 | subir | to climb=to-climb | monter=mon-ter | salire | yitla'|يطلع=yit-la'|يَطْ-لَع
+🪑 | sentarse | to sit=to-sit | s'asseoir=s'as-seoir | sedersi | yiglis|يجلس=yig-lis|يَجْ-لِس
+🔍 | buscar | to look for=to-look-for | chercher=cher-cher | cercare | yidawwir|يدور=yi-daw-wir|يُ-دَوْ-وِر
+📖 | abrir | to open=to-open | ouvrir=ou-vrir | aprire | yiftah|يفتح=yif-tah|يَفْ-تَح
+📕 | cerrar | to close=to-close | fermer=fer-mer | chiudere | yisakkir|يسكر=yi-sak-kir|يُ-سَكْ-كِر
+🥰 | querer | to want=to-want | vouloir=vou-loir | volere | yibghi|يبغي=yib-ghi|يَبْ-غِي

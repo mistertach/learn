@@ -128,3 +128,22 @@ What happened? Stop!*). Cuesta regrabar solo las líneas nuevas.
 
 Decisiones para vos: (a) ¿la meta es esta lista de subtítulos o una lista infantil? (b) ¿hacemos las palabras nuevas en los 5 idiomas a la vez
 (lo que pide el lint) o primero en español e inglés? (c) ¿el nivel 0, parte 2 va en el mismo botón que el nivel 0 o como un nivel nuevo en el camino?
+
+---
+
+## Lo que se hizo (Intro parte B)
+
+Se midió también contra una **lista pensada para chicos** (`scripts/datos/ninos.txt`, ~410 palabras por categoría: colores, animales, cuerpo, comida, ropa, casa, juguetes, vehículos, naturaleza, sentimientos, acciones, lugares, opuestos, posiciones, tiempo, cortesía, preguntas). Al empezar solo el 51 % (es) / 53 % (en) estaba enseñado.
+
+Se sumó la **parte B de la Intro** (la parte A son las 8 lecciones de palabras del juego): 35 grupos lindos con dibujos, que se generan desde `scripts/datos/intro-b/*.txt` (`npm run intro-b`) para los cinco idiomas a la vez:
+- 6 grupos de colores y animales (más colores; casa y granja; selva; bichitos; bosque y mar), cuerpo (2), comida (2), gente, ropa (2), cosas de la casa (2), juguetes, vehículos, cielo y tiempo, naturaleza, sentimientos, acciones (3), lugares, cómo es, dónde está;
+- 10 grupos de **frases de todos los días** (ella/él/nosotros, porque/entonces, creo que sí, cuándo y dónde, qué pasó, hablemos, mío/tuyo/suyo, cómo me siento, más para conversar, frases lindas).
+
+| Medida | Antes (es / en) | Ahora (es / en) |
+|---|---|---|
+| Top 100 enseñadas | 79 / 81 | **96 / 92** |
+| Top 250 enseñadas | 157 / 156 | **217 / 209** (87 % / 84 %) |
+| Top 250 faltan (aptas) | 32 / 29 | 19 / 6 |
+| Lista para chicos enseñada | 51 % / 53 % | **92 % / 89 %** |
+
+Lo que sigue faltando son sobre todo palabras abstractas o de adultos (*dios, vida, razón, realmente*; *sir, god, life*) y las pocas de la lista infantil que no tienen un dibujo claro (tío, tía, primo, pollera, pijama, cinturón, azúcar, jamón, techo, manta…). `npm run cobertura:check` (y el CI) avisa si baja.

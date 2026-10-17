@@ -1,0 +1,50 @@
+=== #F2A007
+N es: Cosas de la casa || Estas son cosas que hay en casa. Buscalas cuando vuelvas.
+N en: Things at home || These are things we have at home. Look for them when you get back.
+N fr: Les objets de la maison || Ce sont des objets que l'on trouve à la maison. Cherche-les en rentrant.
+N it: Cose di casa || Queste sono cose che ci sono in casa. Cercale quando torni.
+N ar: ashyaa' al-bayt|أشياء البيت || hathi ashyaa' fi al-bayt. dawwir 'alayha lamma tirja'.|هذي أشياء في البيت. دور عليها لما ترجع.
+🪑 | la silla | the chair=the-chair | la chaise=la-chaise | la sedia | kursi|كرسي=kur-si|كُرْ-سِي
+💡 | la lámpara | the lamp=the-lamp | la lampe=la-lampe | la lampada | misbaah|مصباح=mis-baah|مِصْ-بَاح
+🪞 | el espejo | the mirror=the-mir-ror | le miroir=le-mi-roir | lo specchio | miraya|مرآة=mi-raa-ya|مِ-رَا-يَة
+🪟 | la ventana | the window=the-win-dow | la fenêtre=la-fe-nê-tre | la finestra | shubbaak|شباك=shub-baak|شُبْ-بَاك
+🔑 | la llave | the key=the-key | la clé=la-clé | la chiave | miftaah|مفتاح=mif-taah|مِفْ-تَاح
+📺 | la televisión | the television=the-tel-e-vi-sion | la télévision=la-té-lé-vi-sion | la televisione | talfaaz|تلفاز=tal-faaz|تَلْ-فَاز
+=== #2FBF8F
+N es: En el baño y en la cocina || Estas son cosas del baño y de la cocina. ¡Repetí cada una!
+N en: In the bathroom and the kitchen || These are things from the bathroom and the kitchen. Repeat each one!
+N fr: Dans la salle de bains et la cuisine || Ce sont des objets de la salle de bains et de la cuisine. Répète chacun !
+N it: In bagno e in cucina || Queste sono cose del bagno e della cucina. Ripeti ognuna!
+N ar: fi al-hammaam wa-al-matbakh|في الحمام والمطبخ || hathi ashyaa' al-hammaam wa-al-matbakh. karrir kil wahid!|هذي أشياء الحمام والمطبخ. كرر كل واحد!
+🚿 | la ducha | the shower=the-show-er | la douche=la-douche | la doccia | dush|دش=dush|دُشّ
+🛁 | la bañera | the bathtub=the-bath-tub | la baignoire=la-bai-gnoire | la vasca | baanyo|بانيو=baan-yo|بَان-يُو
+🧼 | el jabón | the soap=the-soap | le savon=le-sa-von | il sapone | saabuun|صابون=saa-buun|صَا-بُون
+🪥 | el cepillo | the toothbrush=the-tooth-brush | la brosse à dents=la-brosse-à-dents | lo spazzolino | furshaat asnaan|فرشاة أسنان=fur-shaat-as-naan|فُرْ-شَاة-أَسْ-نَان
+🥄 | la cuchara | the spoon=the-spoon | la cuillère=la-cuil-lère | il cucchiaio | mil'aqa|ملعقة=mil-'a-qa|مِلْ-عَ-قَة
+=== #FF6F8F
+N es: Para jugar || Estas son cosas para jugar, dibujar y hacer música.
+N en: Things to play with || These are things for playing, drawing and making music.
+N fr: Pour jouer || Ce sont des choses pour jouer, dessiner et faire de la musique.
+N it: Per giocare || Queste sono cose per giocare, disegnare e fare musica.
+N ar: lil-la'ib|للعب || hathi ashyaa' lil-la'ib wa-ar-rasm wa-al-museeqa.|هذي أشياء للعب والرسم والموسيقى.
+🪆 | la muñeca | the doll=the-doll | la poupée=la-pou-pée | la bambola | dumya|دمية=dum-ya|دُمْ-يَة
+🧩 | el rompecabezas | the puzzle=the-puz-zle | le puzzle=le-puz-zle | il puzzle | baazil|بازل=baa-zil|بَا-زِل
+🎨 | la pintura | the paint=the-paint | la peinture=la-pein-ture | la pittura | dihaan|دهان=di-haan|دِ-هَان
+🚲 | la bicicleta | the bicycle=the-bi-cy-cle | le vélo=le-vé-lo | la bicicletta | daraaja|دراجة=da-raa-ja|دَ-رَا-جَة
+🧱 | los bloques | the blocks=the-blocks | les blocs=les-blocs | i blocchi | makaa'ib|مكعبات=ma-kaa-'ib|مَ-كَا-عِب
+📄 | el papel | the paper=the-pa-per | le papier=le-pa-pier | la carta | waraq|ورق=wa-raq|وَ-رَق
+🎵 | la música | the music=the-mu-sic | la musique=la-mu-sique | la musica | museeqa|موسيقى=mu-see-qa|مُو-سِي-قَى
+🎶 | la canción | the song=the-song | la chanson=la-chan-son | la canzone | ughniya|أغنية=ugh-ni-ya|أُغْ-نِ-يَة
+=== #E8483B
+N es: Vehículos || Estos son vehículos que andan por la calle, por el aire y hasta por el espacio.
+N en: Vehicles || These are vehicles that go on the road, in the air and even into space.
+N fr: Les véhicules || Ce sont des véhicules qui roulent dans la rue, volent dans les airs et même dans l'espace.
+N it: Veicoli || Questi sono veicoli che vanno per strada, in aria e persino nello spazio.
+N ar: wasaa'il an-naql|وسائل النقل || hathi markabaat tamshi fi ash-shaari' wa-fi al-jaww w-hatta fi al-faDaa'.|هذي مركبات تمشي في الشارع وفي الجو وحتى في الفضاء.
+🚌 | el colectivo | the bus=the-bus | le bus=le-bus | l'autobus | baas|باص=baas|بَاص
+🚚 | el camión | the truck=the-truck | le camion=le-ca-mion | il camion | shaahina|شاحنة=shaa-hi-na|شَا-حِ-نَة
+🏍️ | la moto | the motorcycle=the-mo-tor-cy-cle | la moto=la-mo-to | la moto | daraaja naariya|دراجة نارية=da-raa-ja-naa-ri-ya|دَ-رَا-جَة-نَا-رِ-يَة
+🚁 | el helicóptero | the helicopter=the-hel-i-cop-ter | l'hélicoptère=l'hé-li-cop-tère | l'elicottero | hilikubtar|هليكوبتر=hi-li-kub-tar|هِ-لِي-كُبْ-تَر
+🚑 | la ambulancia | the ambulance=the-am-bu-lance | l'ambulance=l'am-bu-lan-ce | l'ambulanza | is'aaf|إسعاف=is-'aaf|إِسْ-عَاف
+🚀 | el cohete | the rocket=the-rock-et | la fusée=la-fu-sée | il razzo | saaruukh|صاروخ=saa-ruukh|صَا-رُوخ
+🚆 | el tren | the train=the-train | le train=le-train | il treno | qitaar|قطار=qi-taar|قِ-طَار
