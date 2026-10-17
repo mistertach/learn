@@ -24,6 +24,7 @@ http.createServer(async (req, res) => {
   fs.readFile(archivo, (err, buf) => {
     if(err){ res.statusCode = 404; return res.end('No existe'); }
     res.setHeader('Content-Type', TIPOS[path.extname(archivo)] || 'application/octet-stream');
+    res.setHeader('Cache-Control', 'no-store');   // en tu compu siempre la versión nueva
     res.end(buf);
   });
 }).listen(PUERTO, () => console.log(`Listo: http://localhost:${PUERTO}  (administración: http://localhost:${PUERTO}/admin.html)`));

@@ -3877,4 +3877,9 @@ Promise.all([cargarTodo(), nubeInit()]).then(async ()=>{
 });
 requestAnimationFrame(frame);
 
-if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+/* en tu compu (localhost) no se instala el service worker: guardaba versiones viejas del juego y no se veían los cambios */
+const ENLOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  if(ENLOCAL) navigator.serviceWorker.getRegistrations().then(rs=>{ if(rs.length){ rs.forEach(r=>r.unregister()); if(window.caches) caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))); } }).catch(()=>{});
+  else addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
