@@ -15,7 +15,7 @@ registrarIdioma({
     actividades: 'Activités', seccionAprender: 'Apprendre', seccionJugar: 'Jouer',
     charlas: 'Bavarder', charlasDi: 'Bavardons ! Avec qui veux-tu parler ?', charlaCerrada: "D'abord, fais connaissance avec cet ami dans son lieu.",
     charlaResponde: 'À toi de répondre !', charlaPregunta: 'Maintenant, pose une question !', charlaFin: 'Tu as fait durer la conversation ! Bravo !',
-    laberinto: 'Le labyrinthe magique', laberintoDi: "Le labyrinthe magique ! Va jusqu'à une salle qui brille et apprends de nouveaux mots. Ouvre toutes les portes !", salaCerrada: 'Cette salle est fermée. Termine d\'abord la précédente.', palabraDia: 'Le mot du jour !', palabraDiaHecha: "Tu as le mot d'aujourd'hui ! Reviens demain !",
+    laberinto: 'La tour magique', laberintoDi: 'La tour magique ! Choisis la porte que tu veux et apprends de nouveaux mots. Les portes dorées sont des bonus !', temas: ['Les mots du jeu', 'Les animaux', 'Le corps et les vêtements', 'La nourriture et la maison', 'Le monde autour de nous', 'Les gens et les actions', 'Phrases de tous les jours', 'Encore des phrases'], temaListo: 'Tu as fini cet étage !', torreFin: 'Tu as fini toute la tour ! Très bien !', salaCerrada: 'Cette salle est fermée. Termine d\'abord la précédente.', palabraDia: 'Le mot du jour !', palabraDiaHecha: "Tu as le mot d'aujourd'hui ! Reviens demain !",
     nivel0: 'Niveau 0', nivel0Titulo: 'Intro', nivel0Di: 'L\'intro ! La partie A, ce sont les mots du jeu. La partie B, ce sont les choses et les phrases de tous les jours. Choisis un groupe et répète avec moi.', nivel0Hecho: 'Tu connais tous ces mots ! Très bien !',
     nivel0Todas: 'Tous les mots', nivel0Grupo: 'Groupe terminé !',
     contarTitulo: "Comptons les petits poissons !", contar: "Compter",

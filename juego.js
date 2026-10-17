@@ -1640,9 +1640,9 @@ function construirCamino(box){
     const p=pos[i], b=document.createElement('button'); b.className='nodo'; b.style.left=`${p.x/W*100}%`; b.style.top=`${p.y/H*100}%`;
     let titulo, num, tile, estrellas, abierto, hecho;
     if(it.t==='n0'){
-      const g=n0Grupos(), hechos=g.filter(n0GrupoHecho).length;
-      titulo=T.laberinto; num='0'; abierto=true; hecho=hechos===g.length; tile=`<div class="loseta0">${img('consignas')}</div>`;
-      estrellas=[hechos>=Math.ceil(g.length/3), hechos>=Math.ceil(g.length*2/3), hechos===g.length].map(on=>estrellaHtml(on,'')).join('');
+      const hechos=window.torreTemasHechos?torreTemasHechos():0, total=window.torreTotalTemas?torreTotalTemas():8;
+      titulo=T.laberinto; num='0'; abierto=true; hecho=hechos===total; tile=`<div class="loseta0">${img('consignas')}</div>`;
+      estrellas=[hechos>=Math.ceil(total/3), hechos>=Math.ceil(total*2/3), hechos===total].map(on=>estrellaHtml(on,'')).join('');
       b.addEventListener('click',goLaberinto);
     } else {
       const c=it.c; abierto=capAbierto(c); const n=abierto?piezasDe(c):0, desde=abierto?(vistas[c.id]||0):0; hecho=abierto && capSave(c.id).final;

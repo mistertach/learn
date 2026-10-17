@@ -309,7 +309,7 @@ function extraerPrompts(capId, lang, datos) {
   const comunes = [
     'repeti', 'todoJunto', 'fraseAhora', 'estrella', 'estrellaGrande',
     'hola', 'intro1', 'casi', 'ascensor', 'queDecimos', 'todos',
-    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces', 'juegosDi', 'laberinto', 'laberintoDi', 'salaCerrada', 'palabraDia', 'palabraDiaHecha',
+    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces', 'juegosDi', 'laberinto', 'laberintoDi', 'salaCerrada', 'palabraDia', 'palabraDiaHecha', 'temaListo', 'torreFin',
     'unPececito', 'teToca', 'aQuePiso',
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
@@ -323,6 +323,7 @@ function extraerPrompts(capId, lang, datos) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
   }
 
+  for (const x of (T.temas || [])) add('tema', x);   // los nombres de los 8 pisos de la torre
   // frases con el nombre
   for (const f of ['holaX', 'holaDi']) if (T[f]) addN(f, T[f]('{N}'));
   for (const el of (T.elogios || [])) if (T.elogio) addN('elogio', T.elogio(el, '{N}'));

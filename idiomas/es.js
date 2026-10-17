@@ -18,7 +18,7 @@ registrarIdioma({
     actividades: 'Actividades', seccionAprender: 'Aprender', seccionJugar: 'Jugar',
     charlas: 'Charlar', charlasDi: '¡Charlemos! ¿Con quién querés hablar?', charlaCerrada: 'Primero conocé a este amigo en su lugar.',
     charlaResponde: '¡Te toca contestar!', charlaPregunta: '¡Ahora preguntá vos algo!', charlaFin: '¡Mantuviste la charla! ¡Muy bien!',
-    laberinto: 'El laberinto mágico', laberintoDi: '¡El laberinto mágico! Caminá hasta una sala que brilla y aprendé palabras nuevas. ¡Abrí todas las puertas!', salaCerrada: 'Esta sala está cerrada. Primero terminá la anterior.', palabraDia: '¡La palabra del día!', palabraDiaHecha: '¡Ya tenés la palabra de hoy! ¡Volvé mañana!',
+    laberinto: 'La torre mágica', laberintoDi: '¡La torre mágica! Elegí la puerta que quieras y aprendé palabras nuevas. ¡Las puertas doradas son extras!', temas: ['Palabras del juego', 'Animales', 'Cuerpo y ropa', 'Comida y casa', 'El mundo', 'Gente y acciones', 'Frases de todos los días', 'Más frases'], temaListo: '¡Terminaste este piso!', torreFin: '¡Terminaste toda la torre! ¡Muy bien!', salaCerrada: 'Esta sala está cerrada. Primero terminá la anterior.', palabraDia: '¡La palabra del día!', palabraDiaHecha: '¡Ya tenés la palabra de hoy! ¡Volvé mañana!',
     nivel0: 'Nivel 0', nivel0Titulo: 'Intro', nivel0Di: '¡La intro! En la parte A están las palabras del juego. En la parte B, las cosas y las frases de todos los días. Elegí un grupo y repetí conmigo.', nivel0Hecho: '¡Ya sabés todas estas palabras! ¡Muy bien!',
     nivel0Todas: 'Todas las palabras', nivel0Grupo: '¡Grupo completo!',
     contarTitulo: "¡Contemos los pececitos!", contar: "Contar",

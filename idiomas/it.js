@@ -16,7 +16,7 @@ registrarIdioma({
     actividades: 'Attività', seccionAprender: 'Imparare', seccionJugar: 'Giocare',
     charlas: 'Chiacchierare', charlasDi: 'Chiacchieriamo! Con chi vuoi parlare?', charlaCerrada: 'Prima conosci questo amico nel suo posto.',
     charlaResponde: 'Tocca a te rispondere!', charlaPregunta: 'Adesso fai tu una domanda!', charlaFin: 'Hai fatto andare avanti la conversazione! Bravo!',
-    laberinto: 'Il labirinto magico', laberintoDi: 'Il labirinto magico! Cammina fino a una stanza luminosa e impara parole nuove. Apri tutte le porte!', salaCerrada: 'Questa stanza è chiusa. Prima finisci la precedente.', palabraDia: 'La parola del giorno!', palabraDiaHecha: 'Hai la parola di oggi! Torna domani!',
+    laberinto: 'La torre magica', laberintoDi: 'La torre magica! Scegli la porta che vuoi e impara parole nuove. Le porte dorate sono extra!', temas: ['Le parole del gioco', 'Gli animali', 'Il corpo e i vestiti', 'Il cibo e la casa', 'Il mondo intorno a noi', 'Le persone e le azioni', 'Frasi di ogni giorno', 'Altre frasi'], temaListo: 'Hai finito questo piano!', torreFin: 'Hai finito tutta la torre! Molto bene!', salaCerrada: 'Questa stanza è chiusa. Prima finisci la precedente.', palabraDia: 'La parola del giorno!', palabraDiaHecha: 'Hai la parola di oggi! Torna domani!',
     nivel0: 'Livello 0', nivel0Titulo: 'Intro', nivel0Di: 'L\'intro! La parte A ha le parole del gioco. La parte B ha le cose e le frasi di ogni giorno. Scegli un gruppo e ripeti con me.', nivel0Hecho: 'Conosci tutte queste parole! Molto bene!',
     nivel0Todas: 'Tutte le parole', nivel0Grupo: 'Gruppo completato!',
     contarTitulo: "Contiamo i pesciolini!", contar: "Conta",
