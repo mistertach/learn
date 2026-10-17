@@ -1385,9 +1385,21 @@ function arrived(){
   const fz=fishes[cur];
   if(fz && fz.x===player.x && fz.y===player.y){ clearPath(); busy=true; runFish(); return; }
   const ch=tileAt(cur,player.x,player.y);
+  if(ch==='U' && CAP.niveles[cur].portal && !CAP.niveles[cur].agua && !pruebaTodo() && estacionesAqui().some(k=>!cs.sellos[k])){ clearPath(); busy=true; runMarCerrado(); return; }
   if(ch==='U'){ clearPath(); goFloor(cur+1,'D'); }
   else if(ch==='D'){ clearPath(); goFloor(cur-1,'U'); }
   else if(ch==='L'){ clearPath(); busy=true; runLift(); }
+}
+/* las estaciones de este piso (la entrada al mar se abre cuando están todas) */
+function estacionesAqui(){ const m=CAP.niveles[cur].mapa.join(''); return CAP.orden.filter(k=>m.includes(k)); }
+async function runMarCerrado(){
+  const tok=++flowTok, F=CAP.final, alive=()=>tok===flowTok, aqui=estacionesAqui();
+  openModal(shell({npc:F.npc,bubble:esc(T.antesDelMar),en:enT('antesDelMar'),
+    center:`<div class="slots" style="flex-wrap:wrap;justify-content:center;background:#1F3A7A;padding:10px;border-radius:18px">${aqui.map(k=>`<i class="slot ${cs.sellos[k]?'got':''}">${img(CAP.estaciones[k].item)}</i>`).join('')}</div>`,
+    actions:B('ok','next',T.bueno,'go')}));
+  liveNpc(F.npc);
+  narrar(()=>sayAll([T.todaviaNo, T.antesDelMar]));
+  await waitAct('ok'); if(!alive()) return; closeModal(); placePlayer(player.x,player.y+1);
 }
 async function goFloor(n, arriveAt){
   busy=true; inputLock=true; sfx.whoosh();

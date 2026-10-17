@@ -288,7 +288,7 @@ function extraerPrompts(capId, lang, datos) {
   const comunes = [
     'repeti', 'todoJunto', 'fraseAhora', 'estrella', 'estrellaGrande',
     'hola', 'intro1', 'casi', 'ascensor', 'queDecimos', 'todos',
-    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo',
+    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar',
     'unPececito', 'teToca', 'aQuePiso',
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',
@@ -369,7 +369,7 @@ function extraerPrompts(capId, lang, datos) {
     // microjuegos y finales: lo que dicen los textos sueltos (aviso, intro, preguntas, sonidos de los animales…)
     {
       const mj = tc.microjuego || {};
-      for (const k of ['titulo', 'intro', 'alimentar', 'libre', 'cosquillas', 'soplar', 'mas', 'listo', 'horno', 'burp', 'burpCorto']) if (typeof mj[k] === 'string' && !/\{n\}/.test(mj[k])) add(`mj-${cid}`, mj[k]);
+      for (const k of ['titulo', 'intro', 'alimentar', 'pescar', 'libre', 'cosquillas', 'soplar', 'mas', 'listo', 'horno', 'burp', 'burpCorto']) if (typeof mj[k] === 'string' && !/\{n\}/.test(mj[k])) add(`mj-${cid}`, mj[k]);
       for (const ing of (mj.ingredientes || [])) { if (typeof ing === 'string') continue; for (const f of ['texto', 'p', 'dale', 'sonido']) if (typeof ing[f] === 'string') add(`mj-${cid}`, ing[f]); }
       for (const s of ((tc.final || {}).sonidos || [])) if (typeof s === 'string') add('sonido', s);
     }

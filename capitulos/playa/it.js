@@ -156,6 +156,8 @@ registrarTextos('playa', 'it', {
     intro: "Ascolta e tocca la creatura del mare.",
     fin: "Hai trovato {n} creature!",
     alimentar: "Adesso dagli da mangiare! Tocca l'acqua.",
+    pescar: "Adesso si pesca! Tocca gli animali del mare con la rete: prendine più che puoi in un minuto!",
+    pescaFin: "Ne hai presi {n}!",
     ingredientes: [{texto:"il pesce", p:"Dov'è il pesce?"}, {texto:"il granchio", p:"Dov'è il granchio?"}, {texto:"la tartaruga", p:"Dov'è la tartaruga?"}, {texto:"la stella marina", p:"Dov'è la stella marina?"}, {texto:"la conchiglia", p:"Dov'è la conchiglia?"}, {texto:"il polpo", p:"Dov'è il polpo?"}]
   },
   palabrasExtra: [

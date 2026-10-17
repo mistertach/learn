@@ -34,6 +34,7 @@ registrarIdioma({
     todos: '¡Tenés todos los sellos! Buscá la puerta verde. ¡A volar!', cuentoQ: '¿Querés escuchar un cuento? Tocá el libro.',
     ascensor: '¡El ascensor! ¿A qué piso?', aQuePiso: '¿A qué piso?',
     pasaporte: 'Mi pasaporte', ppFinal: 'Juntá todos los sellos y después, ¡a volar!', ppFalta: 'Este sello todavía no lo tenés.',
+    antesDelMar: "Primero hacé todas las estaciones de la playa. ¡Después vas al mar!",
     todaviaNo: '¡Todavía no!', faltan: (h, n) => `Primero juntá todos los sellos. Tenés ${h}, y son ${n}. ¡Seguí la flecha amarilla!`,
     queDecimos: '¿Qué le decimos?', lograste: '¡Lo lograste! ¡Volaste en un avión de verdad!', otroViaje: '¡Otro viaje! Juntá los sellos otra vez.',
     conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,

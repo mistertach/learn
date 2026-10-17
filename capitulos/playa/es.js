@@ -156,6 +156,8 @@ registrarTextos('playa', 'es', {
     intro: "Escuchá y tocá la criatura del mar.",
     fin: "¡Encontraste {n} criaturas!",
     alimentar: "Ahora, ¡dales de comer! Tocá el agua.",
+    pescar: "¡Ahora a pescar! Tocá los peces con la red: ¡agarrá todos los que puedas en un minuto!",
+    pescaFin: "¡Pescaste {n}!",
     ingredientes: [{texto:"el pez", p:"¿Dónde está el pez?"}, {texto:"el cangrejo", p:"¿Dónde está el cangrejo?"}, {texto:"la tortuga", p:"¿Dónde está la tortuga?"}, {texto:"la estrella de mar", p:"¿Dónde está la estrella de mar?"}, {texto:"la concha", p:"¿Dónde está la concha?"}, {texto:"el pulpo", p:"¿Dónde está el pulpo?"}]
   },
   palabrasExtra: [

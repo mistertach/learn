@@ -32,6 +32,7 @@ registrarIdioma({
     todos: 'Hai tutti i timbri! Cerca la porta verde. Si vola!', cuentoQ: 'Vuoi ascoltare una storia? Tocca il libro.',
     ascensor: "L'ascensore! A che piano?", aQuePiso: 'A che piano?',
     pasaporte: 'Il mio passaporto', ppFinal: 'Prendi tutti i timbri e poi si vola!', ppFalta: "Questo timbro non ce l'hai ancora.",
+    antesDelMar: "Prima fai tutte le stazioni della spiaggia. Poi vai in mare!",
     todaviaNo: 'Non ancora!', faltan: (h, n) => `Prima prendi tutti i timbri. Ne hai ${h}, e sono ${n}. Segui la freccia gialla!`,
     queDecimos: 'Che cosa rispondiamo?', lograste: "Ce l'hai fatta! Hai volato su un aereo vero!", otroViaje: 'Un altro viaggio! Prendi di nuovo i timbri.',
     conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,

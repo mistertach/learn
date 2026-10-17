@@ -34,6 +34,7 @@ registrarIdioma({
     todos: 'You have all the stamps! Find the green door. Off we fly!', cuentoQ: 'Do you want to hear a story? Tap the book.',
     ascensor: 'The elevator! Which floor?', aQuePiso: 'Which floor?',
     pasaporte: 'My passport', ppFinal: 'Collect all the stamps, and then off we fly!', ppFalta: "You don't have this stamp yet.",
+    antesDelMar: "First do all the stations on the beach. Then off to the sea!",
     todaviaNo: 'Not yet!', faltan: (h, n) => `First collect all the stamps. You have ${h}, and there are ${n}. Follow the yellow arrow!`,
     queDecimos: 'What do we say?', lograste: 'You did it! You flew on a real plane!', otroViaje: 'Another trip! Collect the stamps again.',
     conNombre: (f, n) => f.replace(/!\s*$/, '') + `, ${n}!`,

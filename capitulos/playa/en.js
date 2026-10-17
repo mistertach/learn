@@ -156,6 +156,8 @@ registrarTextos('playa', 'en', {
     intro: "Listen, and touch the sea creature.",
     fin: "You found {n} creatures!",
     alimentar: "Now, feed them! Touch the water.",
+    pescar: "Now let's go fishing! Tap the sea creatures with your net: catch as many as you can in one minute!",
+    pescaFin: "You caught {n}!",
     ingredientes: [{texto:"the fish", p:"Where is the fish?"}, {texto:"the crab", p:"Where is the crab?"}, {texto:"the turtle", p:"Where is the turtle?"}, {texto:"the starfish", p:"Where is the starfish?"}, {texto:"the shell", p:"Where is the shell?"}, {texto:"the octopus", p:"Where is the octopus?"}]
   },
   palabrasExtra: [

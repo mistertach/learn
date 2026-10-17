@@ -31,6 +31,7 @@ registrarIdioma({
     todos: "Tu as tous les tampons ! Cherche la porte verte. On s'envole !", cuentoQ: 'Tu veux écouter une histoire ? Touche le livre.',
     ascensor: "L'ascenseur ! À quel étage ?", aQuePiso: 'À quel étage ?',
     pasaporte: 'Mon passeport', ppFinal: "Gagne tous les tampons, et après, on s'envole !", ppFalta: "Tu n'as pas encore ce tampon.",
+    antesDelMar: "D'abord, fais toutes les stations de la plage. Ensuite, direction la mer !",
     todaviaNo: 'Pas encore !', faltan: (h, n) => `D'abord, gagne tous les tampons. Tu en as ${h}, et il y en a ${n}. Suis la flèche jaune !`,
     queDecimos: "Qu'est-ce qu'on répond ?", lograste: 'Bravo ! Tu as volé dans un vrai avion !', otroViaje: 'Un nouveau voyage ! Gagne encore les tampons.',
     conNombre: (f, n) => f.replace(/\s*!\s*$/, '') + `, ${n} !`,

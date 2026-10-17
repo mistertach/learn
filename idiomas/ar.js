@@ -43,6 +43,7 @@ registrarIdioma({
     todos: '\'indak kil al-akhtam! dawwir al-bab al-akhdhar. yalla ntir!|عندك كل الأختام! دوّر الباب الأخضر. يلا نطير!', cuentoQ: 'tibi tisma\' gissa? ilmis al-kitab.|تبي تسمع قصة؟ المس الكتاب.',
     ascensor: 'al-mis\'ad! ay tabig?|المصعد! أي طابق؟', aQuePiso: 'ay tabig?|أي طابق؟',
     pasaporte: 'jawazi|جوازي', ppFinal: 'ijma\' kil al-akhtam, ba\'dain ntir!|اجمع كل الأختام، بعدين نطير!', ppFalta: 'ma \'indak hal khitm ba\'ad.|ما عندك هالختم بعد.',
+    antesDelMar: "awwal kammil kil al-mahattat fi ash-shaati'. ba'dein ruh al-bahar!|أول كمّل كل المحطات في الشاطئ. بعدين روح البحر!",
     todaviaNo: 'mub al-heen!|مب الحين!', faltan: (h, n) => U('awwal ijma\' kil al-akhtam. \'indak |أول اجمع كل الأختام. عندك ', String(h), ', w kilhum |، وكلهم ', String(n), '. itba\' as-sahm al-asfar!|. اتبع السهم الأصفر!'),
     queDecimos: 'shingool?|شنقول؟', lograste: 'sawwaitha! tirt fi tayyara sidg!|سويتها! طرت في طيارة صدق!', otroViaje: 'rihla thanya! ijma\' al-akhtam marra thanya.|رحلة ثانية! اجمع الأختام مرة ثانية.',
     conNombre: (f, n) => U(sinFin(f, /!\s*$/), ', |، ', n, '!|!'),

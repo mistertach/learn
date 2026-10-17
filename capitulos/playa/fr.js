@@ -156,6 +156,8 @@ registrarTextos('playa', 'fr', {
     intro: "Écoute et touche la créature de la mer.",
     fin: "Tu as trouvé {n} créatures !",
     alimentar: "Maintenant, donne-leur à manger ! Touche l'eau.",
+    pescar: "Maintenant, on va pêcher ! Touche les animaux de la mer avec ton filet : attrape-en le plus possible en une minute !",
+    pescaFin: "Tu en as attrapé {n} !",
     ingredientes: [{texto:"le poisson", p:"Où est le poisson ?"}, {texto:"le crabe", p:"Où est le crabe ?"}, {texto:"la tortue", p:"Où est la tortue ?"}, {texto:"l'étoile de mer", p:"Où est l'étoile de mer ?"}, {texto:"le coquillage", p:"Où est le coquillage ?"}, {texto:"la pieuvre", p:"Où est la pieuvre ?"}]
   },
   palabrasExtra: [

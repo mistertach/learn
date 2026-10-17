@@ -157,6 +157,8 @@ registrarTextos('playa', 'ar', {
     intro: "isma' w ilmis makhlooq al-bahar.|اسمع والمس مخلوق البحر.",
     fin: "lagait {n} makhlooqaat!|لقيت {n} مخلوقات!",
     alimentar: "al-heen, a'tihum akil! ilmis al-maay.|الحين، أعطهم أكل! المس المي.",
+    pescar: "al-heen n-sayyid! ilmis makhlooqaat al-bahar bi-ash-shabaka: imsik akthar ma tigdar fi daqeeqa!|الحين نصيد! المس مخلوقات البحر بالشبكة: امسك أكثر ما تقدر في دقيقة!",
+    pescaFin: "imsakt {n}!|مسكت {n}!",
     ingredientes: [{texto:"as-samaka|السمكة", p:"wain as-samaka?|وين السمكة؟"}, {texto:"as-sartaan|السرطان", p:"wain as-sartaan?|وين السرطان؟"}, {texto:"as-sulhufaat|السلحفاة", p:"wain as-sulhufaat?|وين السلحفاة؟"}, {texto:"najmat al-bahar|نجمة البحر", p:"wain najmat al-bahar?|وين نجمة البحر؟"}, {texto:"as-sadafa|الصدفة", p:"wain as-sadafa?|وين الصدفة؟"}, {texto:"al-okhtabuut|الأخطبوط", p:"wain al-okhtabuut?|وين الأخطبوط؟"}]
   },
   palabrasExtra: [
