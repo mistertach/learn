@@ -514,7 +514,8 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .priv-aviso h2{margin:0 0 6px}.priv-aviso p{margin:0 0 10px;font-size:16px;line-height:1.45;font-weight:600;color:var(--ink2)}
 /* nivel 0: lecciones por grupo */
 .lablab{padding-bottom:8px}
-.labcv{flex:1;min-height:0;width:100%;border-radius:22px;background:#1B1038;touch-action:none;box-shadow:0 6px 0 rgba(34,49,79,.25)}
+.labbox{position:relative;flex:1;min-height:0;min-width:0}
+.labcv{position:absolute;inset:0;width:100%;height:100%;border-radius:22px;background:#1B1038;touch-action:none;box-shadow:0 6px 0 rgba(34,49,79,.25)}
 .pdd{position:relative;display:flex;align-items:center;gap:14px;margin:6px auto 14px;padding:10px 20px 10px 12px;border:0;border-radius:26px;background:linear-gradient(135deg,#FFF3C4,#FFD6EC 55%,#D8CBFF);box-shadow:0 5px 0 rgba(139,111,232,.35);cursor:pointer;font:inherit;color:var(--ink);animation:pddBrilla 3s ease-in-out infinite}
 .pdd-art{width:76px;height:76px;border-radius:20px;background:#fff;display:grid;place-items:center;flex:none}
 .pdd-art svg{width:64px;height:64px}
@@ -794,7 +795,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
       <h2 id="labTitle"></h2>
       <button class="hbtn" id="labLista" aria-label="Lista"><span data-ico="book"></span></button>
     </div>
-    <canvas id="labCv" class="labcv"></canvas>
+    <div class="labbox"><canvas id="labCv" class="labcv"></canvas></div>
   </section>
 
   <section id="scr-lib" class="screen lib" hidden>
