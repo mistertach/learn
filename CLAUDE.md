@@ -76,6 +76,7 @@ Children's language-learning game for a 5-year-old who can't read. The game is p
 - `npm test` = `node scripts/check.js` (syntax of every .js) + `node scripts/lint.js` (content). GitHub Actions runs both on every push (`.github/workflows/check.yml`).
 - `scripts/lint.js` checks that every place has the same shape in all languages (es is the reference; `silabas`/`partes` may differ), no digits in spoken text, Arabic two-faced and the others never, `{n}` in the same spots, `{N}`/`{n}` on both Arabic faces, conversations with 4 steps and 2 options, every picture/scene (8 layers) exists, Level 0 lists and pictures line up, and that every conversation/Level 0 line has its recording. `--audio` also measures the syllable mp3s with ffmpeg. Fix what it reports before pushing; it exists because these slips were found by playing.
 - `node scripts/check.js` (runs `node --check` on every .js file).
+- `npm run cobertura -- --lang=es|en` measures how many of the 250 most frequent words (from film subtitles, `scripts/datos/`) the game teaches (child repeats), only says (narrator), or misses; the baseline and the remediation plan are in `docs/cobertura-top250.md`.
 - Load `index.html` in a browser and play through: language → name → character → place intro → a station → fish → shop.
 
 ## Audio (Google Chirp 3 HD Leda, pre-generated)
