@@ -527,13 +527,20 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .supcam{padding-bottom:8px}
 .camcv{background:#8FD3FF}
 .camherr{font-size:30px}
-.cammenu{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;border-radius:22px;background:linear-gradient(#BDE9FF,#E9F8FF)}
+.cammenu{position:absolute;inset:0;overflow:auto;display:flex;flex-direction:column;align-items:center;gap:14px;padding:14px 10px 20px;border-radius:22px;background:linear-gradient(#BDE9FF,#E9F8FF 60%,#CFF3C2)}
 .cammenu[hidden]{display:none}
-.camtit{font:800 clamp(26px,5vw,44px) 'Baloo 2',sans-serif;color:var(--ink)}
-.camst-fila{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;padding:0 12px}
-.camst{position:relative;width:clamp(86px,20vw,128px);aspect-ratio:1;border:0;border-radius:28px;background:var(--c);box-shadow:0 6px 0 rgba(34,49,79,.3);font:inherit;cursor:pointer;display:grid;place-items:center;color:#22314F}
-.camst-e{font-size:clamp(34px,7vw,56px);line-height:1}.camst b{position:absolute;left:10px;top:6px;font-size:20px}
-.camst.cerr{filter:grayscale(.8);opacity:.7}.camst-l,.camst-ok{position:absolute;right:8px;bottom:6px;font-style:normal;font-size:22px}
+.camtit{font:800 clamp(24px,4.5vw,40px) 'Baloo 2',sans-serif;color:var(--ink);display:flex;align-items:baseline;gap:14px}
+.camtit small{font-size:.5em;opacity:.7}
+.camgrid{width:100%;max-width:980px;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(120px,22vw,190px),1fr));gap:14px}
+.camst{position:relative;border:0;border-radius:26px;padding:8px 8px 10px;background:linear-gradient(var(--a),var(--b));box-shadow:0 6px 0 rgba(34,49,79,.3);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#22314F;transition:transform .12s}
+.camst:hover,.camst:focus-visible{transform:translateY(-3px) rotate(-1deg)}
+.camst-art{display:block;width:100%;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#fff}
+.camst-art svg{width:100%;height:100%;display:block}
+.camst b{position:absolute;left:12px;top:10px;min-width:30px;height:30px;border-radius:15px;background:#fff;display:grid;place-items:center;font-size:17px;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.camst-n{font-weight:800;font-size:clamp(13px,2.2vw,17px);line-height:1.1;text-align:center;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.3)}
+.camst.cerr .camst-art{filter:grayscale(.9) brightness(.85)}.camst.cerr{opacity:.8}
+.camst-l,.camst-ok{position:absolute;right:12px;top:10px;font-style:normal;font-size:26px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.3))}
+.camst.hecho{box-shadow:0 6px 0 rgba(34,49,79,.3),0 0 0 4px #FFC93C}
 .campad{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:8px 4px 0;user-select:none;-webkit-user-select:none;touch-action:none}
 .campad[hidden]{display:none}
 .campad-l,.campad-r{display:flex;gap:10px}
@@ -898,7 +905,6 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 <script src="torre-estilos.js"></script>
 <script src="torre-mapas.js"></script>
 <script src="torre.js"></script>
-<script src="camino-obstaculos.js"></script>
 <script src="supergame.js"></script>
 
 </body>

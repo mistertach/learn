@@ -323,7 +323,6 @@ function extraerPrompts(capId, lang, datos) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
   }
 
-  for (const x of (T.caminoFrases || [])) add('caminoFrase', x);
   for (const x of (T.caminoItems || [])) add('caminoItem', x);
   for (const x of (T.temas || [])) add('tema', x);   // los nombres de los 8 pisos de la torre
   // frases con el nombre
@@ -411,11 +410,6 @@ function extraerPrompts(capId, lang, datos) {
         add('n0g', gr.nombre); add('n0i', gr.intro);
         for (const w of gr.palabras) { if (T.cualEs) add('cualEs-n0', T.cualEs(w.texto)); }
       }
-      // El Camino: la frase "Mirá: <palabra>." de cada obstáculo sin frase propia
-      try {
-        const octx = { window: {} }; vm.runInContext(fs.readFileSync(path.join(RAIZ, 'camino-obstaculos.js'), 'utf8'), vm.createContext(octx));
-        for (const lista of Object.values(octx.window.CAMINO_OBS)) for (const [gi, wi, , fr] of lista) { const pw = d0 && d0.grupos[gi] && d0.grupos[gi].palabras[wi]; if (fr == null && pw && T.mira) add('caminoMira', T.mira(pw.texto)); }
-      } catch (e) { console.warn('camino-obstaculos:', e.message); }
     }
     // conversaciones (las líneas con el nombre del chico no se graban: las dice la voz del navegador)
     const cDatosBase = cDatos.base;

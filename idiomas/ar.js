@@ -59,7 +59,6 @@ registrarIdioma({
     repasoMerienda: 'al-kaskat|البسكويت', repasoMeriendaDi: 'taddarab ala al-kalimat wal-jumal litaksiba kaskat!|تدرب على الكلمات والجمل لتكسب بسكويتة!',
     unPececito: 'samaka lak!|سمكة لك!', ganasteCaballito: 'ribaht hsan al-bahar!|ربحت حصان البحر!', valeDos: 'yiswa samaktain.|يسوى سمكتين.',
     ganasteGalletita: 'ribaht kaskata!|ربحت بسكويتة!', animalesGalletita: 'al-hayawanat tuhibbu al-kaskat!|الحيوانات تحب البسكويت!', valeTres: 'yiswa thalathat asmak.|يسوى ثلاث سمكات.',
-    caminoFrases: ['an-naar haarra.|النار حارّة.', 'al-khanzeer yil\'ab fit-teen.|الخنزير يلعب في الطين.', 'al-asad ismah Teo.|الأسد اسمه تيو.', 'an-nahla tsawwi \'asal.|النحلة تسوّي عسل.'],
     caminoItems: ['as-samaka|السمكة','at-tuffaaha|التفاحة','al-karaza|الكرزة','an-najma|النجمة','al-jawhara|الجوهرة'],
     caminoJefe: 'raees! istakhdim adawaatak!|رئيس! استخدم أدواتك!', caminoJefeFin: 'hazamt ar-raees! shujaa\'!|هزمت الرئيس! شجاع!',
     camino: 'at-tareeq|الطريق', caminoDi: 'at-tareeq! rkud, nutt w isbah. ikhtar mustawa!|الطريق! اركض، انطّ واسبح. اختر مستوى!', caminoCerrado: 'hal mustawa yinfitih lamma titallam kalimat azyad.|هالمستوى ينفتح لمّا تتعلّم كلمات أكثر.', caminoAgua: 'istakhdim al-maay!|استخدم الماي!', caminoBurbujas: 'istakhdim al-fuqqa\'at!|استخدم الفقاعات!', caminoMusica: 'istakhdim al-museeqa!|استخدم الموسيقى!', caminoFin: 'wasalt an-nihaaya! hallaa qul hatha.|وصلت النهاية! هلأ قل هذا.',

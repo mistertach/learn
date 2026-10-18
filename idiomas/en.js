@@ -50,7 +50,6 @@ registrarIdioma({
     repasoMerienda: 'Snack Time', repasoMeriendaDi: 'Practice words and phrases to win a yummy biscuit!',
     unPececito: 'A little fish for you!', ganasteCaballito: 'You won a seahorse!', valeDos: "It's worth two little fish.",
     ganasteGalletita: 'You won a biscuit!', animalesGalletita: 'Animals love biscuits!', valeTres: "It's worth three little fish.",
-    caminoFrases: ['The fire is hot.', 'The pig plays in the mud.', 'The lion is called Theo.', 'The bee makes honey.'],
     caminoItems: ['the fish','the apple','the cherry','the star','the gem'],
     caminoJefe: 'A boss! Use your tools!', caminoJefeFin: 'You beat the boss! How brave!',
     camino: 'The Road', caminoDi: 'The Road! Run, jump and swim. Pick a level!', caminoCerrado: 'This level opens when you learn more words.', caminoAgua: 'Use the water!', caminoBurbujas: 'Use the bubbles!', caminoMusica: 'Use the music!', caminoFin: 'You reached the finish! Now say this.',
