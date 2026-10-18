@@ -309,7 +309,7 @@ function extraerPrompts(capId, lang, datos) {
   const comunes = [
     'repeti', 'todoJunto', 'fraseAhora', 'estrella', 'estrellaGrande',
     'hola', 'intro1', 'casi', 'ascensor', 'queDecimos', 'todos',
-    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces', 'juegosDi', 'laberinto', 'laberintoDi', 'salaCerrada', 'palabraDia', 'palabraDiaHecha', 'temaListo', 'torreFin', 'torreInvita',
+    'cuentoQ', 'pasaporte', 'ppFinal', 'ppFalta', 'todaviaNo', 'antesDelMar', 'sinPeces', 'juegosDi', 'camino', 'caminoDi', 'caminoCerrado', 'caminoAgua', 'caminoBurbujas', 'caminoMusica', 'caminoFin', 'laberinto', 'laberintoDi', 'salaCerrada', 'palabraDia', 'palabraDiaHecha', 'temaListo', 'torreFin', 'torreInvita',
     'unPececito', 'teToca', 'aQuePiso',
     'repasar', 'repasoDi', 'repasoPalabras', 'repasoFrases',
     'repasoPalabrasDi', 'repasoFrasesDi', 'repasoVacio',

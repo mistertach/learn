@@ -50,6 +50,7 @@ registrarIdioma({
     repasoMerienda: 'Snack Time', repasoMeriendaDi: 'Practice words and phrases to win a yummy biscuit!',
     unPececito: 'A little fish for you!', ganasteCaballito: 'You won a seahorse!', valeDos: "It's worth two little fish.",
     ganasteGalletita: 'You won a biscuit!', animalesGalletita: 'Animals love biscuits!', valeTres: "It's worth three little fish.",
+    camino: 'The Road', caminoDi: 'The Road! Run, jump and swim. Pick a level!', caminoCerrado: 'This level opens when you learn more words.', caminoAgua: 'Use the water!', caminoBurbujas: 'Use the bubbles!', caminoMusica: 'Use the music!', caminoFin: 'You reached the finish! Now say this.',
     juegos: 'Games!', juegosDi: 'The games. What shall we play?', juegoCerrado: w => `To open this game, finish ${w}.`, juegoNuevo: 'And you won a new game!', aJugar: "Let's play!", juegoGratis: 'This time it’s free!',
     tenesPeces: s => `You have ${s}.`, escapo: 'Oh! The little fish swam away. Another one will come!',
     cualEs: w => `Show me ${w}!`, si: w => `Yes! ${w}.`, color: c => `Which one is ${c}?`, cuantos: 'How many little fish are there?',

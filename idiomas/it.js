@@ -48,6 +48,7 @@ registrarIdioma({
     repasoMerienda: 'La Merenda', repasoMeriendaDi: 'Esercitati con parole e frasi per vincere un gustoso biscotto!',
     unPececito: 'Un pesciolino per te!', ganasteCaballito: 'Hai vinto un cavalluccio marino!', valeDos: 'Vale due pesciolini.',
     ganasteGalletita: 'Hai vinto un biscotto!', animalesGalletita: 'Gli animaletti adorano i biscotti!', valeTres: 'Vale tre pesciolini.',
+    camino: 'La Strada', caminoDi: 'La Strada! Corri, salta e nuota. Scegli un livello!', caminoCerrado: 'Questo livello si apre quando impari più parole.', caminoAgua: 'Usa l’acqua!', caminoBurbujas: 'Usa le bolle!', caminoMusica: 'Usa la musica!', caminoFin: 'Sei arrivato al traguardo! Ora di’ questo.',
     juegos: 'Giochi!', juegosDi: 'I giochi. A cosa giochiamo?', juegoCerrado: w => `Per aprire questo gioco, finisci ${w}.`, juegoNuevo: 'E hai vinto un gioco nuovo!', aJugar: 'Giochiamo!', juegoGratis: 'Questa volta è gratis!',
     tenesPeces: s => `Hai ${s}.`, escapo: 'Oh! Il pesciolino è scappato. Ne arriverà un altro!',
     cualEs: w => `Dov'è ${w}?`, si: w => `Sì! ${w}.`, color: c => `Qual è il ${c}?`, cuantos: 'Quanti pesciolini ci sono?',

@@ -1499,7 +1499,7 @@ async function goFloor(n, arriveAt){
 /* =========================================================
    PANTALLAS
    ========================================================= */
-const scr={lab:$('#scr-lab'),cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),informe:$('#scr-informe'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
+const scr={camino:$('#scr-camino'),lab:$('#scr-lab'),cuenta:$('#scr-cuenta'),alumnos:$('#scr-alumnos'),informe:$('#scr-informe'),start:$('#scr-start'),lang:$('#scr-lang'),name:$('#scr-name'),pick:$('#scr-pick'),home:$('#scr-home'),lib:$('#scr-lib'),shop:$('#scr-shop'),game:$('#scr-game')};
 function show(name){ for(const k in scr) scr[k].hidden = k!==name; if(name==='game') resizeWorld(); }
 const ptsHtml = () => `${img('pez')}<b>${save.puntos||0}</b>${save.caballitos?`<i class="cab">${img('caballito')}<b>${save.caballitos}</b></i>`:''}${save.galletitas?`<i class="gal">${img('galletita')}<b>${save.galletitas}</b></i>`:''}`;
 /* lo que tiene para gastar: cada caballito vale 2 pececitos, cada galletita vale 3 pececitos */
@@ -3883,6 +3883,7 @@ $('#btnTienda').addEventListener('click',()=>{ closeSidebar(); goShop(); });
 $('#btnCharlas').addEventListener('click',()=>{ closeSidebar(); goCharlas(); });
 $('#btnTorre').addEventListener('click',()=>{ closeSidebar(); goTorre(); });
 $('#btnJuegos').addEventListener('click',()=>{ closeSidebar(); goJuegos(); });
+$('#btnCamino').addEventListener('click',()=>{ closeSidebar(); goCamino(); });
 $('#btnRepaso').addEventListener('click',()=>{ closeSidebar(); goRepaso(); });
 $('#tourBtn').addEventListener('click',abrirTour);
 holdify($('#gearHome'),1500,puertaGrandes);

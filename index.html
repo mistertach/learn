@@ -515,6 +515,21 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 /* nivel 0: lecciones por grupo */
 .lablab{padding-bottom:8px}
 .labbox{position:relative;flex:1;min-height:0;min-width:0}
+.supcam{padding-bottom:8px}
+.camcv{background:#8FD3FF}
+.camherr{font-size:34px;min-width:52px;text-align:center}
+.cammenu{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;border-radius:22px;background:linear-gradient(#BDE9FF,#E9F8FF)}
+.cammenu[hidden]{display:none}
+.camtit{font:800 clamp(26px,5vw,44px) 'Baloo 2',sans-serif;color:var(--ink)}
+.camst-fila{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;padding:0 12px}
+.camst{position:relative;width:clamp(86px,20vw,128px);aspect-ratio:1;border:0;border-radius:28px;background:var(--c);box-shadow:0 6px 0 rgba(34,49,79,.3);font:inherit;cursor:pointer;display:grid;place-items:center;color:#22314F}
+.camst-e{font-size:clamp(34px,7vw,56px);line-height:1}.camst b{position:absolute;left:10px;top:6px;font-size:20px}
+.camst.cerr{filter:grayscale(.8);opacity:.7}.camst-l,.camst-ok{position:absolute;right:8px;bottom:6px;font-style:normal;font-size:22px}
+.campad{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:8px 4px 0;user-select:none;-webkit-user-select:none;touch-action:none}
+.campad[hidden]{display:none}
+.campad-l,.campad-r{display:flex;gap:10px}
+.campad button{width:clamp(58px,15vw,84px);height:clamp(58px,15vw,84px);border:0;border-radius:24px;background:#fff;box-shadow:0 5px 0 rgba(34,49,79,.3);font-size:28px;touch-action:none}
+.campad button.on{background:#FFE08A}.campad .usa{background:#BDE9FF}.campad .salto{background:#C8F0B0}
 .labcv{position:absolute;inset:0;width:100%;height:100%;border-radius:22px;background:#1B1038;touch-action:none;box-shadow:0 6px 0 rgba(34,49,79,.25)}
 .pdd{position:relative;display:flex;align-items:center;gap:14px;margin:6px auto 14px;padding:10px 20px 10px 12px;border:0;border-radius:26px;background:linear-gradient(135deg,#FFF3C4,#FFD6EC 55%,#D8CBFF);box-shadow:0 5px 0 rgba(139,111,232,.35);cursor:pointer;font:inherit;color:var(--ink);animation:pddBrilla 3s ease-in-out infinite}
 .pdd-art{width:76px;height:76px;border-radius:20px;background:#fff;display:grid;place-items:center;flex:none}
@@ -777,6 +792,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
           <div class="sidebar-group">
             <span class="sidebar-group-title" data-t="seccionJugar">Jugar</span>
             <button class="xcard narrow repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
+            <button class="xcard narrow juegos" id="btnCamino"><span data-ico="star"></span><span data-t="camino"></span></button>
             <button class="xcard narrow juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
           </div>
         </div>
@@ -786,6 +802,19 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
         <div class="weeks" id="weeks"></div>
         <p class="tag">Grandes: mantengan apretado el engranaje para la configuración y las grabaciones.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="scr-camino" class="screen supcam" hidden>
+    <div class="libhead">
+      <button class="hbtn" id="camBack" aria-label="Volver"><span data-ico="back"></span></button>
+      <h2 id="camTitle"></h2>
+      <span class="camherr" id="camHerr">💦</span>
+    </div>
+    <div class="labbox"><canvas id="camCv" class="labcv camcv"></canvas><div id="camMenu" class="cammenu"></div></div>
+    <div id="camPad" class="campad" hidden>
+      <div class="campad-l"><button data-k="izq" aria-label="←">◀</button><button data-k="der" aria-label="→">▶</button></div>
+      <div class="campad-r"><button data-k="corre" aria-label="run">💨</button><button data-k="cambia" aria-label="tool">🔄</button><button data-k="usa" class="usa" aria-label="use">✨</button><button data-k="salto" class="salto" aria-label="jump">⬆</button></div>
     </div>
   </section>
 
@@ -860,6 +889,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 <script src="torre-estilos.js"></script>
 <script src="torre-mapas.js"></script>
 <script src="torre.js"></script>
+<script src="supergame.js"></script>
 
 </body>
 </html>

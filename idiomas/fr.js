@@ -47,6 +47,7 @@ registrarIdioma({
     repasoMerienda: 'Le Goûter', repasoMeriendaDi: 'Pratique des mots et des phrases pour gagner un bon biscuit !',
     unPececito: 'Un petit poisson pour toi !', ganasteCaballito: 'Tu as gagné un hippocampe !', valeDos: 'Il vaut deux petits poissons.',
     ganasteGalletita: 'Tu as gagné un biscuit !', animalesGalletita: 'Les animaux adorent les biscuits !', valeTres: 'Il vaut trois petits poissons.',
+    camino: 'Le Chemin', caminoDi: 'Le Chemin ! Cours, saute et nage. Choisis un niveau !', caminoCerrado: 'Ce niveau s’ouvre quand tu apprends plus de mots.', caminoAgua: 'Utilise l’eau !', caminoBurbujas: 'Utilise les bulles !', caminoMusica: 'Utilise la musique !', caminoFin: 'Tu es arrivé au bout ! Maintenant, dis ça.',
     juegos: 'Jeux !', juegosDi: 'Les jeux. On joue à quoi ?', juegoCerrado: w => `Pour ouvrir ce jeu, termine ${w}.`, juegoNuevo: 'Et tu as gagné un nouveau jeu !', aJugar: 'On joue !', juegoGratis: 'Cette fois, c’est gratuit !',
     tenesPeces: s => `Tu as ${s}.`, escapo: "Oh ! Le petit poisson s'est sauvé. Un autre va arriver !",
     cualEs: w => `Montre-moi ${w} !`, si: w => `Oui ! ${w}.`, color: c => `Montre-moi le ${c} !`, cuantos: "Combien de petits poissons il y a ?",
