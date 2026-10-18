@@ -49,6 +49,7 @@ registrarIdioma({
     ganasteGalletita: 'Tu as gagné un biscuit !', animalesGalletita: 'Les animaux adorent les biscuits !', valeTres: 'Il vaut trois petits poissons.',
     caminoFrases: ['Le feu est chaud.', 'Le cochon joue dans la boue.', 'Le lion s’appelle Téo.', 'L’abeille fait du miel.'],
     caminoItems: ['le poisson','la pomme','la cerise','l’étoile','la gemme'],
+    caminoJefe: 'Un boss ! Utilise tes outils !', caminoJefeFin: 'Tu as battu le boss ! Quel courage !',
     camino: 'Le Chemin', caminoDi: 'Le Chemin ! Cours, saute et nage. Choisis un niveau !', caminoCerrado: 'Ce niveau s’ouvre quand tu apprends plus de mots.', caminoAgua: 'Utilise l’eau !', caminoBurbujas: 'Utilise les bulles !', caminoMusica: 'Utilise la musique !', caminoFin: 'Tu es arrivé au bout ! Maintenant, dis ça.',
     juegos: 'Jeux !', juegosDi: 'Les jeux. On joue à quoi ?', juegoCerrado: w => `Pour ouvrir ce jeu, termine ${w}.`, juegoNuevo: 'Et tu as gagné un nouveau jeu !', aJugar: 'On joue !', juegoGratis: 'Cette fois, c’est gratuit !',
     tenesPeces: s => `Tu as ${s}.`, escapo: "Oh ! Le petit poisson s'est sauvé. Un autre va arriver !",

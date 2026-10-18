@@ -52,6 +52,7 @@ registrarIdioma({
     ganasteGalletita: 'You won a biscuit!', animalesGalletita: 'Animals love biscuits!', valeTres: "It's worth three little fish.",
     caminoFrases: ['The fire is hot.', 'The pig plays in the mud.', 'The lion is called Theo.', 'The bee makes honey.'],
     caminoItems: ['the fish','the apple','the cherry','the star','the gem'],
+    caminoJefe: 'A boss! Use your tools!', caminoJefeFin: 'You beat the boss! How brave!',
     camino: 'The Road', caminoDi: 'The Road! Run, jump and swim. Pick a level!', caminoCerrado: 'This level opens when you learn more words.', caminoAgua: 'Use the water!', caminoBurbujas: 'Use the bubbles!', caminoMusica: 'Use the music!', caminoFin: 'You reached the finish! Now say this.',
     juegos: 'Games!', juegosDi: 'The games. What shall we play?', juegoCerrado: w => `To open this game, finish ${w}.`, juegoNuevo: 'And you won a new game!', aJugar: "Let's play!", juegoGratis: 'This time it’s free!',
     tenesPeces: s => `You have ${s}.`, escapo: 'Oh! The little fish swam away. Another one will come!',
