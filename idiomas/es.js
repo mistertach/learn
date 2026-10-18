@@ -50,6 +50,7 @@ registrarIdioma({
     repasoMerienda: 'La Merienda', repasoMeriendaDi: '¡A practicar palabras y frases para ganar una rica galletita!',
     unPececito: '¡Un pececito para vos!', ganasteCaballito: '¡Ganaste un caballito de mar!', valeDos: 'Vale dos pececitos.',
     ganasteGalletita: '¡Ganaste una galletita!', animalesGalletita: '¡A los animalitos les encantan las galletitas!', valeTres: 'Vale tres pececitos.',
+    caminoFrases: ['El fuego está caliente.', 'El cerdo juega en el barro.', 'El león se llama Teo.', 'La abeja hace miel.'],
     camino: 'El Camino', caminoDi: '¡El Camino! Corré, saltá y nadá. ¡Elegí un nivel!', caminoCerrado: 'Este nivel se abre cuando aprendas más palabras.', caminoAgua: '¡Usá el agua!', caminoBurbujas: '¡Usá las burbujas!', caminoMusica: '¡Usá la música!', caminoFin: '¡Llegaste a la meta! Ahora decí esto.',
     juegos: '¡Juegos!', juegosDi: 'Los juegos. ¿A qué jugamos?', juegoCerrado: w => `Para abrir este juego, terminá ${w}.`, juegoNuevo: '¡Y ganaste un juego nuevo!', aJugar: '¡A jugar!', juegoGratis: '¡Esta vez es gratis!',
     tenesPeces: s => `Tenés ${s}.`, escapo: '¡Uy! El pececito se escapó. ¡Ya va a venir otro!',

@@ -323,6 +323,7 @@ function extraerPrompts(capId, lang, datos) {
     if (T[k] && typeof T[k] === 'string') add(k, T[k]);
   }
 
+  for (const x of (T.caminoFrases || [])) add('caminoFrase', x);
   for (const x of (T.temas || [])) add('tema', x);   // los nombres de los 8 pisos de la torre
   // frases con el nombre
   for (const f of ['holaX', 'holaDi']) if (T[f]) addN(f, T[f]('{N}'));

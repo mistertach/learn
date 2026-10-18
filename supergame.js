@@ -10,10 +10,10 @@
 const FILAS=12, GRAV=36, ANCHO=.6, ALTO=.92;
 const UMBRALES=[0,15,35,60,90,130];                 // palabras sabidas para abrir cada nivel
 /* obstáculos: la palabra de la Intro [grupo, palabra] que hay que decir y la herramienta que lo resuelve */
-const OBS={ f:{emo:'🔥', gi:24, wi:5, herr:'agua'},        // el fuego
-            p:{emo:'🐖', gi:9,  wi:1, herr:'agua'},        // el cerdo, embarrado
-            z:{emo:'🦁', gi:10, wi:3, herr:'musica'},      // el león que ruge
-            b:{emo:'🐝', gi:11, wi:2, herr:'burbujas'} };  // la abeja
+const OBS={ f:{emo:'🔥', gi:24, wi:5, fr:0, herr:'agua'},        // el fuego
+            p:{emo:'🐖', gi:9,  wi:1, fr:1, herr:'agua'},        // el cerdo, embarrado
+            z:{emo:'🦁', gi:10, wi:3, fr:2, herr:'musica'},      // el león que ruge
+            b:{emo:'🐝', gi:11, wi:2, fr:3, herr:'burbujas'} };  // la abeja
 const HERR={agua:{emo:'💦', col:'#2E86DE'}, burbujas:{emo:'🫧', col:'#2FBF8F'}, musica:{emo:'🎵', col:'#E8483B'}};
 const ESTILOS=[ {cielo:['#8FD3FF','#E9F8FF'], colina:['#9BE08A','#79CC6A'], suelo:['#7ACB5B','#8B6B45'], emo:'🌼'},
                 {cielo:['#FFD9A0','#FFF3DC'], colina:['#C7DD7E','#A8C95F'], suelo:['#8DC258','#8A5E3B'], emo:'🐄'},
@@ -37,25 +37,31 @@ function armar(W,f){
     resorte:(x)=>set(x,9,'j') };
   f(api); return g.map(r=>r.join(''));
 }
+/* los tramos con que se arma cada nivel: cada uno recibe la x donde empieza y devuelve la x donde termina */
+const SEG={
+  llano:(a,x)=>{ a.fila(x+1,9,'carca'); return x+8; },
+  hueco:(a,x)=>{ a.hueco(x+1,x+3); a.fila(x,6,'cacac'); a.fila(x+1,5,'rgr'); return x+8; },
+  hueco4:(a,x)=>{ a.hueco(x+1,x+4); a.fila(x,5,'cscsc'); return x+9; },
+  escalera:(a,x)=>{ a.fila(x+1,9,'carcarca'); [[1,8],[5,6],[9,4],[13,2]].forEach(([dx,y],i)=>{ a.plataforma(x+dx,y,3); a.fila(x+dx,y-1,['car','sac','rsr','gsg'][i]); });
+    a.plataforma(x+17,4,2); a.fila(x+17,3,'cc'); a.plataforma(x+20,6,2); a.fila(x+20,5,'ar'); return x+24; },
+  torre:(a,x)=>{ a.plataforma(x,8,2); a.fila(x,7,'ca'); a.bloque(x+4,5,2,5); a.fila(x+4,4,'gsg'); a.plataforma(x+8,7,2); a.fila(x+8,6,'rc'); a.fila(x+11,9,'ca'); return x+13; },
+  resorte:(a,x)=>{ a.resorte(x+1); a.plataforma(x+3,3,5); a.fila(x+3,2,'gsgsg'); a.plataforma(x+9,6,2); a.fila(x+9,5,'rr'); return x+12; },
+  sorpresas:(a,x)=>{ a.plataforma(x+1,8,2); a.sorpresa(x+4,7); a.sorpresa(x+6,7); a.fila(x+4,6,'c c'); a.fila(x+8,9,'car'); return x+11; },
+  cima:(a,x)=>{ [[0,8],[3,6],[6,4],[9,2],[12,4],[15,6],[18,8]].forEach(([dx,y],i)=>{ a.plataforma(x+dx,y,2); a.fila(x+dx,y-1,['c','a','s','g','s','a','c'][i]); }); a.sorpresa(x+9,0); return x+21; },
+  bandera:(a,x)=>{ a.set(x+1,9,'K'); return x+3; },
+  pileta:(a,x)=>{ a.agua(x+1,x+24); a.fila(x+3,9,'c c c'); a.fila(x+4,10,'a a a'); a.fila(x+13,8,'rsg'); a.fila(x+16,10,'cac'); a.plataforma(x+8,5,4); a.fila(x+8,4,'sgsg'); return x+27; },
+  f:(a,x)=>{ a.fila(x,9,'c'); a.obstaculo(x+3,'f'); a.fila(x+7,9,'ca'); return x+10; },
+  b:(a,x)=>{ a.fila(x,9,'r'); a.obstaculo(x+3,'b'); a.fila(x+7,9,'cr'); return x+10; },
+  z:(a,x)=>{ a.fila(x,9,'c'); a.obstaculo(x+3,'z'); a.fila(x+7,9,'ac'); return x+10; },
+  p:(a,x)=>{ a.fila(x,9,'a'); a.obstaculo(x+3,'p'); a.fila(x+7,9,'rc'); return x+10; }
+};
+const nulo=new Proxy({},{get:()=>()=>{}});
+function nivelDe(seq){ let x=6; for(const k of seq) x=SEG[k](nulo,x); const W=x+8;
+  return armar(W,a=>{ a.suelo(0,W-1); a.set(2,9,'P'); let x=6; for(const k of seq) x=SEG[k](a,x); a.set(x+2,9,'F'); }); }
 const NIVELES=[
-  { id:'prado', herr:TODAS, mapa:armar(100,a=>{ a.suelo(0,99); a.set(2,9,'P');
-      a.fila(6,9,'carca'); a.hueco(16,18); a.fila(15,6,'cacac'); a.plataforma(24,8,3); a.fila(24,7,'rsr');
-      a.sorpresa(31,7); a.plataforma(30,4,4); a.fila(30,3,'agsg'); a.bloque(36,9,2); a.fila(36,8,'aa');
-      a.resorte(42); a.plataforma(44,6,4); a.fila(44,5,'gcsc'); a.plataforma(50,3,3); a.fila(50,2,'sgs'); a.set(56,9,'K');
-      a.obstaculo(60,'f'); a.fila(65,9,'cacar'); a.obstaculo(71,'b'); a.sorpresa(76,7); a.fila(76,6,'c');
-      a.hueco(80,82); a.fila(79,6,'carsc'); a.obstaculo(88,'z'); a.fila(93,9,'car'); a.set(97,9,'F'); }) },
-  { id:'granja', herr:TODAS, mapa:armar(116,a=>{ a.suelo(0,115); a.set(2,9,'P');
-      a.fila(6,9,'caracr'); a.hueco(14,16); a.fila(13,6,'cscsc'); a.plataforma(22,8,3); a.fila(22,7,'rar'); a.sorpresa(27,7); a.set(32,9,'K');
-      a.obstaculo(38,'p'); a.fila(43,9,'acarc'); a.plataforma(48,7,3); a.plataforma(53,4,4); a.fila(53,3,'sgsg'); a.bloque(60,9,3); a.fila(60,8,'rrr');
-      a.hueco(66,68); a.fila(65,6,'cacac'); a.sorpresa(73,7); a.plataforma(75,5,4); a.fila(75,4,'cscs'); a.set(82,9,'K');
-      a.obstaculo(86,'f'); a.fila(91,9,'carc'); a.obstaculo(96,'b'); a.sorpresa(101,7); a.hueco(104,106); a.fila(103,6,'rcsar');
-      a.obstaculo(108,'z'); a.set(113,9,'F'); }) },
-  { id:'playa', herr:TODAS, mapa:armar(124,a=>{ a.suelo(0,123); a.set(2,9,'P');
-      a.fila(6,9,'caarc'); a.hueco(14,16); a.fila(13,6,'cscsc'); a.plataforma(21,7,3); a.fila(21,6,'sgs'); a.sorpresa(27,7); a.set(30,9,'K');
-      a.obstaculo(34,'z'); a.fila(39,9,'carc');
-      a.agua(44,70); a.fila(46,9,'c c c'); a.fila(47,10,'a a a'); a.fila(58,8,'rsg'); a.fila(62,10,'cac'); a.plataforma(52,5,4); a.fila(52,4,'sgsg');
-      a.set(74,9,'K'); a.fila(76,9,'carc'); a.obstaculo(82,'f'); a.sorpresa(87,7); a.obstaculo(92,'b'); a.fila(97,9,'carc');
-      a.hueco(102,104); a.fila(101,6,'sgcgs'); a.plataforma(108,6,4); a.fila(108,5,'gsgs'); a.obstaculo(114,'p'); a.set(120,9,'F'); }) }
+  { id:'prado', herr:TODAS, mapa:nivelDe(['llano','hueco','escalera','sorpresas','bandera','f','llano','torre','hueco','b','resorte','bandera','cima','z','sorpresas','hueco4','llano','escalera','f','llano']) },
+  { id:'granja', herr:TODAS, mapa:nivelDe(['llano','p','hueco','torre','escalera','bandera','b','sorpresas','hueco4','cima','bandera','f','resorte','hueco','p','torre','bandera','z','escalera','sorpresas','b','hueco4','llano','f']) },
+  { id:'playa', herr:TODAS, mapa:nivelDe(['llano','z','hueco','escalera','bandera','pileta','llano','sorpresas','f','torre','bandera','b','cima','hueco4','resorte','bandera','pileta','p','escalera','z','sorpresas','hueco','b','torre','f','hueco4','llano']) }
 ];
 const ESTADO={ nivel:null, S:null, mapa:null, ents:[], parts:[], tok:0, teclas:new Set(), modo:'menu', t0:0, last:0, fish:0, spawn:null, herrIdx:0, ult:0, final:false, saltoPedido:0 };
 const cv=document.querySelector('#camCv'), menu=document.querySelector('#camMenu');
@@ -124,22 +130,25 @@ function objetivo(){ const S=ESTADO.S; const dx=S.mira; for(let d=1;d<=5;d++){ c
 function mancha(ch,x,y){ // todas las baldosas contiguas del mismo obstáculo
   const m=ESTADO.mapa, pila=[[x,y]], vis=new Set(), out=[];
   while(pila.length){ const [a,b]=pila.pop(), k=a+','+b; if(vis.has(k)||a<0||b<0||a>=W()||b>=FILAS||m[b][a]!==ch) continue; vis.add(k); out.push([a,b]); pila.push([a+1,b],[a-1,b],[a,b+1],[a,b-1]); } return out; }
+async function puerta(centro, dilo, tok){
+  openModal(shell({center:`<div class="stack">${centro}${turnHtml()}</div>`, actions:B('again','replay',T.otraVez)+B('star','star',T.loDije,'star go')}));
+  liveMe(); onAct('again',()=>narrar(dilo)); narrar(async()=>{ if(await dilo()) await sayAll([T.estrella]); });
+  await starPress(); return tok===flowTok;
+}
+const decirTexto=(txt,id)=>async()=>{ const my=++seqTok; mark('all'); if(!(await sayAll([{t:txt,id,sinTrad:true}]))) return false; if(!(await waitTurn(txt,my))) return false; mark('none'); return true; };
 async function usar(){
   const st=ESTADO, S=st.S, h=herramientas()[st.herrIdx], ob=objetivo(); if(st.modo!=='juego'||!modal.hidden) return;
-  disparo(h);
-  if(!ob) return;
+  if(!ob){ disparo(h,null); return; }
   const O=OBS[ob.c];
-  if(O.herr!==h){ sfx.oops(); sayAll([T[{agua:'caminoAgua',burbujas:'caminoBurbujas',musica:'caminoMusica'}[O.herr]]]); return; }
-  // el chico dice la palabra del obstáculo antes de que la herramienta funcione
-  const w=palabraDe(O.gi,O.wi); if(!w){ resolver(ob,O); return; }
-  st.modo='habla'; K.clear(); const tok=++flowTok, alive=()=>tok===flowTok; busy=true;
-  openModal(shell({center:`<div class="stack"><div class="n0-big" style="--ac:${NIVEL0_COLORES[O.gi]||'#2E86DE'}">${n0Dibujo(O.gi,O.wi)}</div>${chipsWord(w)}${turnHtml()}</div>`, actions:B('again','replay',T.otraVez)+B('star','star',T.loDije,'star go')}));
-  liveMe(); onAct('again',()=>narrar(()=>decir(w)));
-  narrar(async()=>{ if(await decir(w)) await sayAll([T.estrella]); });
-  await starPress(); if(!alive()) return;
-  closeModal(); busy=false; st.modo='juego'; st.last=performance.now(); resolver(ob,O); sayAll([praise()]);
+  if(O.herr!==h){ disparo(h,ob); sfx.oops(); sayAll([T[{agua:'caminoAgua',burbujas:'caminoBurbujas',musica:'caminoMusica'}[O.herr]]]); return; }
+  // primero el chico dice la palabra y después la frase; recién entonces la herramienta funciona
+  const w=palabraDe(O.gi,O.wi), frase=(T.caminoFrases||[])[O.fr];
+  st.modo='habla'; K.clear(); const tok=++flowTok; busy=true;
+  const pic=`<div class="n0-big" style="--ac:${NIVEL0_COLORES[O.gi]||'#2E86DE'}">${n0Dibujo(O.gi,O.wi)}</div>`;
+  if(w && !(await puerta(pic+chipsPhrase({texto:w.texto,partes:[w.texto]}), decirTexto(w.texto,w.id), tok))) return;
+  if(frase && !(await puerta(pic+chipsPhrase({texto:frase,partes:[frase]}), decirTexto(frase), tok))) return;
+  closeModal(); busy=false; st.last=performance.now(); st.modo='efecto'; st.efecto={ob,O,h,t:0,s:0};
 }
-const decir=w=>silabear(w,[]);
 function resolver(ob,O){
   const st=ESTADO; const tiles=mancha(ob.c,ob.x,ob.y); let cx=0, cy=0; tiles.forEach(([a,b])=>{ cx+=a+.5; cy+=b+.5; st.mapa[b][a]='.'; }); cx/=tiles.length; cy/=tiles.length;
   st.ents.push({tipo:ob.c,x:cx,y:cy,t:0,vx:0,vy:0});
@@ -147,12 +156,13 @@ function resolver(ob,O){
   for(let i=0;i<3;i++) st.mapa[Math.min(9,Math.floor(cy)+1)][Math.max(0,Math.floor(cx-1)+i)]==='.' && (st.mapa[Math.min(9,Math.floor(cy)+1)][Math.max(0,Math.floor(cx-1)+i)]='c');
   sfx.yay();
 }
-function disparo(h){
+function disparo(h,ob){
   const st=ESTADO, S=st.S, dir=S.mira; gadgetShootAnim=performance.now();
-  const n=h==='musica'?5:10;
-  for(let i=0;i<n;i++){ st.parts.push(h==='agua' ? {e:'💧',x:S.x+dir*.6,y:S.y-.6,vx:dir*(5+Math.random()*3),vy:-2.5-Math.random()*2,v:.9,g:true}
-    : h==='burbujas' ? {e:'🫧',x:S.x+dir*.6,y:S.y-.7,vx:dir*(2+Math.random()*2),vy:-.5-Math.random(),v:1.6}
-    : {e:['🎵','🎶'][i%2],x:S.x+dir*.5,y:S.y-1,vx:dir*(1.5+Math.random()*2.5),vy:-1-Math.random()*2,v:1.4}); }
+  const d=ob?Math.max(1.5,Math.abs(ob.x+.5-S.x)-.3):4, n=h==='musica'?3:6;
+  for(let i=0;i<n;i++){ const r=Math.random();
+    st.parts.push(h==='agua' ? {e:'💧',s:.7,x:S.x+dir*.6,y:S.y-.6,vx:dir*(d/.6)*(.85+r*.3),vy:-4-r*2,v:.75,g:true}
+    : h==='burbujas' ? {e:'🫧',s:.9+r*.5,x:S.x+dir*.6,y:S.y-.7,vx:dir*(d/1.2)*(.85+r*.3),vy:-.4-r,v:1.3}
+    : {e:['🎵','🎶'][i%2],s:1,x:S.x+dir*.5,y:S.y-1,vx:dir*(d/1.1)*(.85+r*.3),vy:-1.2-r,v:1.2}); }
   if(h==='agua') sfx.splash(); else if(h==='burbujas') sfx.bubble(); else sfx.music();
 }
 
@@ -184,7 +194,7 @@ function fisica(dt){
   else { if(S.vy>0){ S.y=Math.floor(ny); S.suelo=true; }
     else { const j=Math.floor(ny-ALTO), l=Math.floor(S.x-ANCHO/2+.001), r=Math.floor(S.x+ANCHO/2-.001); for(let i=l;i<=r;i++) if(solido(tile(i,j))) golpe(i,j,st); S.y=j+1+ALTO; }
     S.vy=0; }
-  if(S.suelo && tile(Math.floor(S.x),Math.floor(S.y-.1))==='j'){ S.vy=-18; S.suelo=false; S.saltos=1; tone(300,.15,'sine',.1,0,900); }
+  if(S.suelo && tile(Math.floor(S.x),Math.floor(S.y-.1))==='j'){ S.vy=-21; S.suelo=false; S.saltos=1; tone(300,.15,'sine',.1,0,900); }
   if(S.x<ANCHO/2) S.x=ANCHO/2;
   for(let j=Math.floor(S.y-ALTO);j<=Math.floor(S.y-.1);j++) for(let i=Math.floor(S.x-.4);i<=Math.floor(S.x+.4);i++){ const c=tile(i,j);
     if(ITEMS[c]) coger(i,j,st);
@@ -193,7 +203,8 @@ function fisica(dt){
   if(S.y>FILAS+3){ S.x=st.spawn.x; S.y=st.spawn.y; S.vx=S.vy=0; sfx.oops(); }
 }
 function entidades(dt){
-  const st=ESTADO;
+  const st=ESTADO, ef=st.efecto;
+  if(ef){ ef.t+=dt; ef.s-=dt; if(ef.s<=0){ disparo(ef.h,ef.ob); ef.s=.14; } if(ef.t>1.6){ st.efecto=null; st.modo='juego'; resolver(ef.ob,ef.O); sayAll([praise()]); } }
   for(const p of st.parts){ p.v-=dt; p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.g) p.vy+=18*dt; else p.vy*=1-dt*.6; }
   st.parts=st.parts.filter(p=>p.v>0);
   for(const e of st.ents){ e.t+=dt; if(e.tipo==='p'){ e.vx=3; e.x+=e.vx*dt; } else if(e.tipo==='z'){ e.x+=2*dt; } else if(e.tipo==='b'){ e.y-=1.8*dt; } else if(e.tipo==='f'){ e.y-=.5*dt; } }
@@ -242,7 +253,9 @@ function dibujar(c,w,h,t){
   for(let y=0;y<FILAS;y++) for(let x=i0;x<=i1;x++){ const ch=tile(x,y); if(!OBS[ch]||hechos.has(x+','+y)) continue; const ts=mancha(ch,x,y); ts.forEach(([a,b])=>hechos.add(a+','+b));
     const ys=ts.map(a=>a[1]), xs=ts.map(a=>a[0]), cx=(Math.min(...xs)+Math.max(...xs)+1)/2, cy=Math.max(...ys.filter(v=>v>=7))+1;
     const O=OBS[ch], mira=objetivo(), cerca=mira&&mira.c===ch, k=1+(cerca?.06*Math.sin(t*8):0);
-    c.font=`${Math.round(T*2.4*k)}px sans-serif`; c.fillStyle='#000'; c.fillText(O.emo,X(cx),Y(cy)-T*1.2+(ch==='f'?Math.sin(t*10)*T*.05:0));
+    const ef=st.efecto, mio=ef&&ts.some(a=>a[0]===ef.ob.x&&a[1]===ef.ob.y), tr=mio?Math.sin(t*45)*T*.08:0;
+    c.font=`${Math.round(T*2.4*k)}px sans-serif`; c.fillStyle='#000'; c.fillText(O.emo,X(cx)+tr,Y(cy)-T*1.2+(ch==='f'?Math.sin(t*10)*T*.05:0));
+    if(mio){ c.globalAlpha=Math.min(1,ef.t/1.2)*.85; c.font=`${Math.round(T*(1.2+ef.t))}px sans-serif`; c.fillText(HERR[ef.h].emo,X(cx),Y(cy)-T*1.4); c.globalAlpha=1; }
     if(cerca){ c.font=`${Math.round(T*.8)}px sans-serif`; c.fillText(HERR[O.herr].emo,X(cx),Y(cy)-T*3.1+Math.sin(t*5)*T*.1); } }
   // lo que ya se resolvió
   for(const e of st.ents){ const a=e.t; c.globalAlpha=Math.max(0,1-a/(e.tipo==='f'?1:4)); c.font=`${Math.round(T*2)}px sans-serif`;
@@ -251,7 +264,7 @@ function dibujar(c,w,h,t){
   const caminando=Math.abs(S.vx)>.5&&S.suelo;
   drawHero(c,X(S.x),Y(S.y),T*1.45,{t,walk:caminando||S.nada&&Math.abs(S.vx)>.3,facing:S.mira,nada:S.nada,accion:!S.suelo&&!S.nada?'saltar':(K.has('corre')&&caminando?'correr':null),backpack:true});
   // partículas
-  c.textAlign='center'; for(const p of st.parts){ c.globalAlpha=Math.min(1,p.v*2); c.font=`${Math.round(T*.5)}px sans-serif`; c.fillText(p.e,X(p.x),Y(p.y)); } c.globalAlpha=1;
+  c.textAlign='center'; for(const p of st.parts){ c.globalAlpha=Math.min(1,p.v*2); c.font=`${Math.round(T*(p.s||.5))}px sans-serif`; c.fillText(p.e,X(p.x),Y(p.y)); } c.globalAlpha=1;
   // marcador
   c.fillStyle='rgba(255,255,255,.88)'; rr(c,10,10,T*3,T*.9,T*.3); c.fill(); c.fillStyle='#22314F'; c.font=`800 ${Math.round(T*.55)}px 'Baloo 2',sans-serif`; c.textAlign='left'; c.fillText(`🐟 ${st.fish}`,10+T*.3,10+T*.47); c.textAlign='center';
   const prog=Math.min(1,S.x/W()); c.fillStyle='rgba(255,255,255,.7)'; rr(c,w-T*4-10,10,T*4,T*.3,T*.15); c.fill(); c.fillStyle='#2FBF8F'; rr(c,w-T*4-10,10,T*4*prog,T*.3,T*.15); c.fill();
@@ -259,7 +272,8 @@ function dibujar(c,w,h,t){
 live(cv,(c,w,h,t)=>{
   const st=ESTADO; if(scr.camino.hidden||st.modo==='menu'||!st.S) return;
   const ahora=performance.now(); let dt=Math.min(.033,(ahora-(st.last||ahora))/1000); st.last=ahora;
-  if(st.modo==='juego'&&modal.hidden){ fisica(dt/2); fisica(dt/2); entidades(dt); }
+  if(st.modo==='juego'&&modal.hidden){ fisica(dt/2); fisica(dt/2); }
+  if(st.modo==='juego'||st.modo==='efecto') entidades(dt);
   dibujar(c,w,h,t);
 });
 })();
