@@ -475,6 +475,15 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .uilang.on{border-color:var(--blue);color:var(--ink);background:#EAF4FC}
 #alumnosBox .addkid:only-child{grid-column:2}
 .xcard.juegos{background:#F2A007}
+.xcard.supergame{position:relative;overflow:hidden;background:linear-gradient(110deg,#FF5E7E,#FFB020 35%,#2FD6A3 65%,#3C8DFF);background-size:250% 100%;animation:sgFlow 4s linear infinite,sgPulse 1.6s ease-in-out infinite;color:#fff;font-weight:800;text-shadow:0 2px 0 rgba(0,0,0,.25);box-shadow:0 5px 0 rgba(34,49,79,.3),0 0 18px rgba(255,176,32,.8)}
+.xcard.supergame::after{content:'';position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);animation:sgShine 2.4s ease-in-out infinite}
+.sg-ico{font-size:28px;display:inline-block;animation:sgRun .7s ease-in-out infinite alternate}
+.sg-new{position:absolute;right:8px;top:4px;font-style:normal;font-size:18px;animation:sgSpin 3s linear infinite}
+@keyframes sgFlow{to{background-position:250% 0}}
+@keyframes sgPulse{50%{transform:scale(1.04)}}
+@keyframes sgShine{to{left:130%}}
+@keyframes sgRun{to{transform:translateX(5px) rotate(-8deg)}}
+@keyframes sgSpin{to{transform:rotate(360deg)}}
 .xcard.repaso{background:#2E86DE}
 
 
@@ -517,7 +526,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .labbox{position:relative;flex:1;min-height:0;min-width:0}
 .supcam{padding-bottom:8px}
 .camcv{background:#8FD3FF}
-.camherr{font-size:34px;min-width:52px;text-align:center}
+.camherr{font-size:30px}
 .cammenu{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;border-radius:22px;background:linear-gradient(#BDE9FF,#E9F8FF)}
 .cammenu[hidden]{display:none}
 .camtit{font:800 clamp(26px,5vw,44px) 'Baloo 2',sans-serif;color:var(--ink)}
@@ -529,7 +538,7 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
 .campad[hidden]{display:none}
 .campad-l,.campad-r{display:flex;gap:10px}
 .campad button{width:clamp(58px,15vw,84px);height:clamp(58px,15vw,84px);border:0;border-radius:24px;background:#fff;box-shadow:0 5px 0 rgba(34,49,79,.3);font-size:28px;touch-action:none}
-.campad button.on{background:#FFE08A}.campad .usa{background:#BDE9FF}.campad .salto{background:#C8F0B0}
+.campad button.on{background:#FFE08A}.campad .usa{background:#fff;box-shadow:0 5px 0 rgba(34,49,79,.3),inset 0 0 0 5px #2E86DE;font-size:34px}.campad .salto{background:#C8F0B0}
 .labcv{position:absolute;inset:0;width:100%;height:100%;border-radius:22px;background:#1B1038;touch-action:none;box-shadow:0 6px 0 rgba(34,49,79,.25)}
 .pdd{position:relative;display:flex;align-items:center;gap:14px;margin:6px auto 14px;padding:10px 20px 10px 12px;border:0;border-radius:26px;background:linear-gradient(135deg,#FFF3C4,#FFD6EC 55%,#D8CBFF);box-shadow:0 5px 0 rgba(139,111,232,.35);cursor:pointer;font:inherit;color:var(--ink);animation:pddBrilla 3s ease-in-out infinite}
 .pdd-art{width:76px;height:76px;border-radius:20px;background:#fff;display:grid;place-items:center;flex:none}
@@ -791,8 +800,8 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
           </div>
           <div class="sidebar-group">
             <span class="sidebar-group-title" data-t="seccionJugar">Jugar</span>
+            <button class="xcard narrow supergame" id="btnCamino"><span class="sg-ico">🏃</span><span data-t="camino"></span><i class="sg-new">★</i></button>
             <button class="xcard narrow repaso" id="btnRepaso"><span data-ico="replay"></span><span data-t="repasar"></span></button>
-            <button class="xcard narrow juegos" id="btnCamino"><span data-ico="star"></span><span data-t="camino"></span></button>
             <button class="xcard narrow juegos" id="btnJuegos"><span data-ico="star"></span><span data-t="juegos"></span></button>
           </div>
         </div>
@@ -809,12 +818,12 @@ a.pbtn{text-decoration:none;display:inline-flex;align-items:center}
     <div class="libhead">
       <button class="hbtn" id="camBack" aria-label="Volver"><span data-ico="back"></span></button>
       <h2 id="camTitle"></h2>
-      <span class="camherr" id="camHerr">💦</span>
+      <button class="hbtn camherr" id="camHerr" aria-label="tool">💦</button><button class="hbtn" id="camMus" aria-label="music">🎵</button>
     </div>
     <div class="labbox"><canvas id="camCv" class="labcv camcv"></canvas><div id="camMenu" class="cammenu"></div></div>
     <div id="camPad" class="campad" hidden>
       <div class="campad-l"><button data-k="izq" aria-label="←">◀</button><button data-k="der" aria-label="→">▶</button></div>
-      <div class="campad-r"><button data-k="corre" aria-label="run">💨</button><button data-k="cambia" aria-label="tool">🔄</button><button data-k="usa" class="usa" aria-label="use">✨</button><button data-k="salto" class="salto" aria-label="jump">⬆</button></div>
+      <div class="campad-r"><button data-k="corre" aria-label="run">💨</button><button data-k="cambia" aria-label="tool">🔄</button><button data-k="usa" class="usa" aria-label="use">💦</button><button data-k="salto" class="salto" aria-label="jump">⬆</button></div>
     </div>
   </section>
 
