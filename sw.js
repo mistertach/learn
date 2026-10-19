@@ -3,7 +3,7 @@
    · los audios (/audio/*.mp3): primero lo guardado, y si no está, la red y se guarda (cada audio se baja una sola vez);
    · /api/ y otros sitios: no se tocan.
    AUDIO_VERSION: subila cada vez que se vuelven a grabar audios con el mismo nombre (si no, los aparatos siguen con los viejos). */
-const AUDIO_VERSION = 'v3', JUEGO = 'juego-v1', AUDIO = 'audio-' + AUDIO_VERSION;
+const AUDIO_VERSION = 'v4', JUEGO = 'juego-v1', AUDIO = 'audio-' + AUDIO_VERSION;
 self.addEventListener('install', e => { self.skipWaiting(); });
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {

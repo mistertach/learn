@@ -2993,7 +2993,7 @@ async function descargarAudio(btn){
     btn.textContent=G.rc_dl_listo;
   }catch(e){ btn.textContent=G.rc_dl_fallo; btn.disabled=false; }
 }
-const AUDIO_VERSION_CLIENTE='v3';   // igual que AUDIO_VERSION en sw.js
+const AUDIO_VERSION_CLIENTE='v4';   // igual que AUDIO_VERSION en sw.js
 /* tocar los pececitos de arriba: cuenta cuántos pececitos tiene en total (cada caballito vale 2 y cada galletita 3), uno por uno */
 async function abrirCuentaPeces(){
   if(!modal.hidden) return;
