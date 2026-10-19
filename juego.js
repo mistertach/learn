@@ -3894,7 +3894,7 @@ live($('#shopCv'),(c,w,h,t)=>{
   const it=(window.TIENDA||[]).find(x=>x.id===shopSel);
   const S=Math.min(h*.9, w*.62);
   drawAnimal(c,SHOPKEEPER,w*.18,h*.96,S*.62,{t,hat:'#2FBF8F',facing:1});
-  drawHero(c,w*.62,h*.96,S,{t,probar:it,wave:!!it,facing:-1});
+  drawHero(c,w*.62,h*.96,S,{t,probar:it&&!save.armario.tiene[it.id]?it:null,wave:!!it,facing:-1});
 });
 live($('#meCv'),(c,w,h,t)=>drawHero(c,w/2,h*.98,h*.95,{t,backpack:true}));
 live($('#parade'),(c,w,h,t)=>{ const n=CHARACTERS.length, sz=Math.min(h*.88,w/n*1.05); CHARACTERS.forEach((ch,i)=>{ const x=w*(i+.5)/n; drawAnimal(c,ch,x,h*.96-Math.abs(Math.sin(t*3+i*.9))*h*.06,sz,{t,wave:i%2===0,backpack:true}); }); });
